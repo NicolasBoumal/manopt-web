@@ -5,3 +5,4 @@ This repository holds the website that goes with the Manopt toolbox, whose code 
 https://github.com/NicolasBoumal/manopt
 
 The website is accessible from http://www.manopt.org
+
