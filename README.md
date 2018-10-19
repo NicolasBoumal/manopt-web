@@ -6,3 +6,4 @@ https://github.com/NicolasBoumal/manopt
 
 The website is accessible from http://www.manopt.org
 
+The direct URL for webpages hosted here is: https://nicolasboumal.github.io/manopt-web/
