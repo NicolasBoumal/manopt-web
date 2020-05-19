@@ -59,13 +59,13 @@
  iterations:
    iter (integer)
        The iteration number. The initial guess is 0.
-    cost (double)
+   cost (double)
        The corresponding cost value.
-    gradnorm (double)
+   gradnorm (double)
        The (Riemannian) norm of the gradient.
-    time (double)
+   time (double)
        The total elapsed time in seconds to reach the corresponding cost.
-    stepsize (double)
+   stepsize (double)
        The size of the step from the previous to the new iterate.
    accepted (Boolean)
        true if step is accepted in the cautious update. 0 otherwise.
@@ -208,13 +208,13 @@ This function is called by:
 0031 <span class="comment">% iterations:</span>
 0032 <span class="comment">%   iter (integer)</span>
 0033 <span class="comment">%       The iteration number. The initial guess is 0.</span>
-0034 <span class="comment">%    cost (double)</span>
+0034 <span class="comment">%   cost (double)</span>
 0035 <span class="comment">%       The corresponding cost value.</span>
-0036 <span class="comment">%    gradnorm (double)</span>
+0036 <span class="comment">%   gradnorm (double)</span>
 0037 <span class="comment">%       The (Riemannian) norm of the gradient.</span>
-0038 <span class="comment">%    time (double)</span>
+0038 <span class="comment">%   time (double)</span>
 0039 <span class="comment">%       The total elapsed time in seconds to reach the corresponding cost.</span>
-0040 <span class="comment">%    stepsize (double)</span>
+0040 <span class="comment">%   stepsize (double)</span>
 0041 <span class="comment">%       The size of the step from the previous to the new iterate.</span>
 0042 <span class="comment">%   accepted (Boolean)</span>
 0043 <span class="comment">%       true if step is accepted in the cautious update. 0 otherwise.</span>
@@ -409,8 +409,8 @@ This function is called by:
 0232     <span class="comment">% vectors. However, the implementation below does not need step vectors</span>
 0233     <span class="comment">% in their respective tangent spaces at x_{t}'s. Rather, it requires</span>
 0234     <span class="comment">% them transported to the current point's tangent space by vector</span>
-0235     <span class="comment">% tranport. For details regarding the requirements on the the vector</span>
-0236     <span class="comment">% tranport, see the reference paper by Huang et al.</span>
+0235     <span class="comment">% transport. For details regarding the requirements on the the vector</span>
+0236     <span class="comment">% transport, see the reference paper by Huang et al.</span>
 0237     <span class="comment">% In this implementation, those step vectors are iteratively</span>
 0238     <span class="comment">% transported to the current point's tangent space after every</span>
 0239     <span class="comment">% iteration. Thus, at every iteration, vectors in sHistory are in the</span>
@@ -673,7 +673,7 @@ This function is called by:
 0496 
 0497 
 0498 
-0499 <span class="comment">% BFGS step, see Wen's paper for details. This functon takes in a tangent</span>
+0499 <span class="comment">% BFGS step, see Wen's paper for details. This function takes in a tangent</span>
 0500 <span class="comment">% vector g, and applies an approximate inverse Hessian P to it to get Pg.</span>
 0501 <span class="comment">% Then, -Pg is returned.</span>
 0502 <span class="comment">%</span>
@@ -707,6 +707,6 @@ This function is called by:
 0530     dir = M.lincomb(xCur, -1, r);
 0531     
 0532 <span class="keyword">end</span></pre></div>
-<hr><address>Generated on Mon 10-Sep-2018 11:48:06 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+<hr><address>Generated on Tue 19-May-2020 18:46:12 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
 </body>
 </html>

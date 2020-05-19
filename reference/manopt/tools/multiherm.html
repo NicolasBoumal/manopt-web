@@ -34,7 +34,7 @@
  Y is a 3D matrix the same size as X. Each slice Y(:, :, i) is the
  Hermitian part of the slice X(:, :, i).
 
- See also: <a href="multiprod.html" class="code" title="function c = multiprod(a, b, idA, idB)">multiprod</a> <a href="multitransp.html" class="code" title="function b = multitransp(a, dim)">multitransp</a> <a href="multihconj.html" class="code" title="function b = multihconj(a, dim)">multihconj</a> <a href="multiscale.html" class="code" title="function A = multiscale(scale, A)">multiscale</a> <a href="multiskew.html" class="code" title="function Y = multiskew(X)">multiskew</a></pre></div>
+ See also: <a href="multiprod.html" class="code" title="function c = multiprod(a, b, idA, idB)">multiprod</a> <a href="multitransp.html" class="code" title="function b = multitransp(a, dim)">multitransp</a> <a href="multihconj.html" class="code" title="function b = multihconj(a, dim)">multihconj</a> <a href="multiscale.html" class="code" title="function A = multiscale(scale, A)">multiscale</a> <a href="multiskew.html" class="code" title="function Y = multiskew(X)">multiskew</a> <a href="multiskewh.html" class="code" title="function Y = multiskewh(X)">multiskewh</a></pre></div>
 
 <!-- crossreference -->
 <h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
@@ -43,7 +43,7 @@ This function calls:
 <li><a href="multihconj.html" class="code" title="function b = multihconj(a, dim)">multihconj</a>	MULTIHCONJ  Hermitian conjugating arrays of matrices.</li></ul>
 This function is called by:
 <ul style="list-style-image:url(../../matlabicon.gif)">
-<li><a href="../../manopt/manifolds/stiefel/stiefelcomplexfactory.html" class="code" title="function M = stiefelcomplexfactory(n, p, k)">stiefelcomplexfactory</a>	Returns a manifold struct. to optimize over complex orthonormal matrices.</li></ul>
+<li><a href="../../manopt/manifolds/rotations/unitaryfactory.html" class="code" title="function M = unitaryfactory(n, k)">unitaryfactory</a>	Returns a manifold structure to optimize over unitary matrices.</li><li><a href="../../manopt/manifolds/stiefel/stiefelcomplexfactory.html" class="code" title="function M = stiefelcomplexfactory(n, p, k)">stiefelcomplexfactory</a>	Returns a manifold struct. to optimize over complex orthonormal matrices.</li></ul>
 <!-- crossreference -->
 
 
@@ -57,7 +57,7 @@ This function is called by:
 0006 <span class="comment">% Y is a 3D matrix the same size as X. Each slice Y(:, :, i) is the</span>
 0007 <span class="comment">% Hermitian part of the slice X(:, :, i).</span>
 0008 <span class="comment">%</span>
-0009 <span class="comment">% See also: multiprod multitransp multihconj multiscale multiskew</span>
+0009 <span class="comment">% See also: multiprod multitransp multihconj multiscale multiskew multiskewh</span>
 0010 
 0011 <span class="comment">% This file is part of Manopt: www.manopt.org.</span>
 0012 <span class="comment">% Original author: Hiroyuki Sato, April 27, 2015.</span>
@@ -67,6 +67,6 @@ This function is called by:
 0016     Y = .5*(X + <a href="multihconj.html" class="code" title="function b = multihconj(a, dim)">multihconj</a>(X));
 0017     
 0018 <span class="keyword">end</span></pre></div>
-<hr><address>Generated on Mon 10-Sep-2018 11:48:06 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+<hr><address>Generated on Tue 19-May-2020 18:46:12 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
 </body>
 </html>

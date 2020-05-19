@@ -51,7 +51,7 @@
 
 
  Note also that many of the functions involve solving linear systems in X
- (a point on the manifold), taking matrix exponentals and logarithms, etc.
+ (a point on the manifold), taking matrix exponential and logarithms, etc.
  It could therefore be beneficial to do some precomputation on X (an
  eigenvalue decomposition for example) and store both X and the
  preprocessing in a structure. This would require modifying the present
@@ -99,7 +99,7 @@ This function is called by:
 0023 <span class="comment">%</span>
 0024 <span class="comment">%</span>
 0025 <span class="comment">% Note also that many of the functions involve solving linear systems in X</span>
-0026 <span class="comment">% (a point on the manifold), taking matrix exponentals and logarithms, etc.</span>
+0026 <span class="comment">% (a point on the manifold), taking matrix exponential and logarithms, etc.</span>
 0027 <span class="comment">% It could therefore be beneficial to do some precomputation on X (an</span>
 0028 <span class="comment">% eigenvalue decomposition for example) and store both X and the</span>
 0029 <span class="comment">% preprocessing in a structure. This would require modifying the present</span>
@@ -149,25 +149,25 @@ This function is called by:
 0073     M.dim = @() n*(n+1)/2;
 0074     
 0075     <span class="comment">% Helpers to avoid computing full matrices simply to extract their trace</span>
-0076     vec     = @(A) A(:);
-0077     trinner = @(A, B) vec(A')'*vec(B);  <span class="comment">% = trace(A*B)</span>
-0078     trnorm  = @(A) sqrt(trinner(A, A)); <span class="comment">% = sqrt(trace(A^2))</span>
+0076     vec  = @(A) A(:);
+0077     trAB = @(A, B) vec(A')'*vec(B);  <span class="comment">% = trace(A*B)</span>
+0078     trAA = @(A) sqrt(trAB(A, A));    <span class="comment">% = sqrt(trace(A^2))</span>
 0079     
 0080     <span class="comment">% Choice of the metric on the orthonormal space is motivated by the</span>
 0081     <span class="comment">% symmetry present in the space. The metric on the positive definite</span>
 0082     <span class="comment">% cone is its natural bi-invariant metric.</span>
 0083     <span class="comment">% The result is equal to: trace( (X\eta) * (X\zeta) )</span>
-0084     M.inner = @(X, eta, zeta) trinner(X\eta, X\zeta);
+0084     M.inner = @(X, eta, zeta) trAB(X\eta, X\zeta);
 0085     
 0086     <span class="comment">% Notice that X\eta is *not* symmetric in general.</span>
 0087     <span class="comment">% The result is equal to: sqrt(trace((X\eta)^2))</span>
 0088     <span class="comment">% There should be no need to take the real part, but rounding errors</span>
 0089     <span class="comment">% may cause a small imaginary part to appear, so we discard it.</span>
-0090     M.norm = @(X, eta) real(trnorm(X\eta));
+0090     M.norm = @(X, eta) real(trAA(X\eta));
 0091     
 0092     <span class="comment">% Same here: X\Y is not symmetric in general.</span>
 0093     <span class="comment">% Same remark about taking the real part.</span>
-0094     M.dist = @(X, Y) real(trnorm(real(logm(X\Y))));
+0094     M.dist = @(X, Y) real(trAA(real(logm(X\Y))));
 0095     
 0096     
 0097     M.typicaldist = @() sqrt(n*(n+1)/2);
@@ -256,14 +256,14 @@ This function is called by:
 0180     
 0181     <span class="comment">% For reference, a proper vector transport is given here, following</span>
 0182     <span class="comment">% work by Sra and Hosseini: &quot;Conic geometric optimisation on the</span>
-0183     <span class="comment">% manifold of positive definite matrices&quot;, to appear in SIAM J. Optim.</span>
+0183     <span class="comment">% manifold of positive definite matrices&quot;, in SIAM J. Optim.</span>
 0184     <span class="comment">% in 2015; also available here: http://arxiv.org/abs/1312.1039</span>
 0185     <span class="comment">% This will not be used by default. To force the use of this transport,</span>
 0186     <span class="comment">% execute &quot;M.transp = M.paralleltransp;&quot; on your M returned by the</span>
 0187     <span class="comment">% present factory.</span>
 0188     M.paralleltransp = @<a href="#_sub8" class="code" title="subfunction zeta = parallel_transport(X, Y, eta)">parallel_transport</a>;
 0189     <a name="_sub8" href="#_subfunctions" class="code">function zeta = parallel_transport(X, Y, eta)</a>
-0190         E = sqrtm((Y/X));
+0190         E = sqrtm(Y/X);
 0191         zeta = E*eta*E';
 0192     <span class="keyword">end</span>
 0193     
@@ -273,6 +273,6 @@ This function is called by:
 0197     M.vecmatareisometries = @() false;
 0198     
 0199 <span class="keyword">end</span></pre></div>
-<hr><address>Generated on Mon 10-Sep-2018 11:48:06 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+<hr><address>Generated on Tue 19-May-2020 18:46:12 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
 </body>
 </html>

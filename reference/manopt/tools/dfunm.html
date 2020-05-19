@@ -24,12 +24,12 @@
 <div class="box"><strong>Fréchet derivative of matrix functions.</strong></div>
 
 <h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
-<div class="box"><strong>function D = dfunm(funm, X, H) </strong></div>
+<div class="box"><strong>function [D, fX] = dfunm(funm, X, H) </strong></div>
 
 <h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
 <div class="fragment"><pre class="comment"> Fréchet derivative of matrix functions.
 
- function D = dfunm(funm, X, H)
+ function [D, fX] = dfunm(funm, X, H)
 
  Computes the directional derivative (the Fréchet derivative) of a matrix
  function (such as @logm, @expm, ...) at X along H (square matrices),
@@ -42,11 +42,19 @@
 
  Thus, D = lim_(t -&gt; 0) (funm(X + tH) - funm(X)) / t.
 
+ The second output is fX = funm(X), which comes out as a by-product. It
+ may be less accurate than calling funm(X) directly.
+
+ Note: under mild conditions, the adjoint of dfunm(X, .) is dfunm(X', .),
+ which is a fact often useful to derive gradients of matrix functions
+ involving funm(X).
+ (This is wrt the inner product inner = @(A, B) real(trace(A'*B))).
+
  This code is simple, but may not be the most efficient. In particular, it
  requires computing the matrix function on matrices which are four times
  as big, and which may have lost important structure (such as symmetry).
  
- See also: <a href="dlogm.html" class="code" title="function D = dlogm(X, H)">dlogm</a> <a href="dexpm.html" class="code" title="function D = dexpm(X, H)">dexpm</a> <a href="dsqrtm.html" class="code" title="function D = dsqrtm(X, H)">dsqrtm</a></pre></div>
+ See also: <a href="dlogm.html" class="code" title="function [D, fX] = dlogm(X, H)">dlogm</a> <a href="dexpm.html" class="code" title="function [D, fX] = dexpm(X, H)">dexpm</a> <a href="dsqrtm.html" class="code" title="function [D, fX] = dsqrtm(X, H)">dsqrtm</a></pre></div>
 
 <!-- crossreference -->
 <h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
@@ -55,16 +63,16 @@ This function calls:
 </ul>
 This function is called by:
 <ul style="list-style-image:url(../../matlabicon.gif)">
-<li><a href="dexpm.html" class="code" title="function D = dexpm(X, H)">dexpm</a>	Fréchet derivative of the matrix exponential.</li><li><a href="dlogm.html" class="code" title="function D = dlogm(X, H)">dlogm</a>	Fréchet derivative of the matrix logarithm.</li><li><a href="dsqrtm.html" class="code" title="function D = dsqrtm(X, H)">dsqrtm</a>	Fréchet derivative of the matrix square root.</li></ul>
+<li><a href="dexpm.html" class="code" title="function [D, fX] = dexpm(X, H)">dexpm</a>	Fréchet derivative of the matrix exponential.</li><li><a href="dlogm.html" class="code" title="function [D, fX] = dlogm(X, H)">dlogm</a>	Fréchet derivative of the matrix logarithm.</li><li><a href="dsqrtm.html" class="code" title="function [D, fX] = dsqrtm(X, H)">dsqrtm</a>	Fréchet derivative of the matrix square root.</li></ul>
 <!-- crossreference -->
 
 
 
 <h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
-<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function D = dfunm(funm, X, H)</a>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [D, fX] = dfunm(funm, X, H)</a>
 0002 <span class="comment">% Fréchet derivative of matrix functions.</span>
 0003 <span class="comment">%</span>
-0004 <span class="comment">% function D = dfunm(funm, X, H)</span>
+0004 <span class="comment">% function [D, fX] = dfunm(funm, X, H)</span>
 0005 <span class="comment">%</span>
 0006 <span class="comment">% Computes the directional derivative (the Fréchet derivative) of a matrix</span>
 0007 <span class="comment">% function (such as @logm, @expm, ...) at X along H (square matrices),</span>
@@ -77,29 +85,40 @@ This function is called by:
 0014 <span class="comment">%</span>
 0015 <span class="comment">% Thus, D = lim_(t -&gt; 0) (funm(X + tH) - funm(X)) / t.</span>
 0016 <span class="comment">%</span>
-0017 <span class="comment">% This code is simple, but may not be the most efficient. In particular, it</span>
-0018 <span class="comment">% requires computing the matrix function on matrices which are four times</span>
-0019 <span class="comment">% as big, and which may have lost important structure (such as symmetry).</span>
-0020 <span class="comment">%</span>
-0021 <span class="comment">% See also: dlogm dexpm dsqrtm</span>
-0022 
-0023 <span class="comment">% This file is part of Manopt: www.manopt.org.</span>
-0024 <span class="comment">% Original author: Nicolas Boumal, July 3, 2015.</span>
-0025 <span class="comment">% Contributors:</span>
-0026 <span class="comment">% Change log:</span>
-0027     
-0028     n = size(X, 1);
-0029     
-0030     assert(length(size(X)) == 2,     <span class="string">'X and H must be square matrices.'</span>);
-0031     assert(length(size(H)) == 2,     <span class="string">'X and H must be square matrices.'</span>);
-0032     assert(size(X, 1) == size(X, 2), <span class="string">'X and H must be square matrices.'</span>);
-0033     assert(all(size(X) == size(H)),  <span class="string">'X and H must have the same size.'</span>);
-0034     
-0035     Z = zeros(n);
-0036     A = funm([X, H ; Z, X]);
-0037     D = A(1:n, (n+1):end);
-0038     
-0039 <span class="keyword">end</span></pre></div>
-<hr><address>Generated on Mon 10-Sep-2018 11:48:06 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+0017 <span class="comment">% The second output is fX = funm(X), which comes out as a by-product. It</span>
+0018 <span class="comment">% may be less accurate than calling funm(X) directly.</span>
+0019 <span class="comment">%</span>
+0020 <span class="comment">% Note: under mild conditions, the adjoint of dfunm(X, .) is dfunm(X', .),</span>
+0021 <span class="comment">% which is a fact often useful to derive gradients of matrix functions</span>
+0022 <span class="comment">% involving funm(X).</span>
+0023 <span class="comment">% (This is wrt the inner product inner = @(A, B) real(trace(A'*B))).</span>
+0024 <span class="comment">%</span>
+0025 <span class="comment">% This code is simple, but may not be the most efficient. In particular, it</span>
+0026 <span class="comment">% requires computing the matrix function on matrices which are four times</span>
+0027 <span class="comment">% as big, and which may have lost important structure (such as symmetry).</span>
+0028 <span class="comment">%</span>
+0029 <span class="comment">% See also: dlogm dexpm dsqrtm</span>
+0030 
+0031 <span class="comment">% This file is part of Manopt: www.manopt.org.</span>
+0032 <span class="comment">% Original author: Nicolas Boumal, July 3, 2015.</span>
+0033 <span class="comment">% Contributors:</span>
+0034 <span class="comment">% Change log:</span>
+0035 <span class="comment">%</span>
+0036 <span class="comment">%   June 14, 2019 (NB): now also outputs funm(X) as a by-product.</span>
+0037     
+0038     n = size(X, 1);
+0039     
+0040     assert(length(size(X)) == 2,     <span class="string">'X and H must be square matrices.'</span>);
+0041     assert(length(size(H)) == 2,     <span class="string">'X and H must be square matrices.'</span>);
+0042     assert(size(X, 1) == size(X, 2), <span class="string">'X and H must be square matrices.'</span>);
+0043     assert(all(size(X) == size(H)),  <span class="string">'X and H must have the same size.'</span>);
+0044     
+0045     Z = zeros(n);
+0046     A = funm([X, H ; Z, X]);
+0047     D = A(1:n, (n+1):end);
+0048     fX = A(1:n, 1:n);
+0049     
+0050 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Tue 19-May-2020 18:46:12 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
 </body>
 </html>

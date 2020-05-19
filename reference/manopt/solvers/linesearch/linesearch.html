@@ -145,7 +145,7 @@ This function is called by:
 0054 <span class="comment">% Contributors:</span>
 0055 <span class="comment">% Change log:</span>
 0056 <span class="comment">%</span>
-0057 <span class="comment">%    Sept. 13, 2013 (NB):</span>
+0057 <span class="comment">%   Sept. 13, 2013 (NB):</span>
 0058 <span class="comment">%       User control over the parameters of the linesearch via the options</span>
 0059 <span class="comment">%       ls_contraction_factor, ls_optimism, ls_suff_decr and ls_max_steps.</span>
 0060 <span class="comment">%       See in code for the effect of those.</span>
@@ -155,11 +155,11 @@ This function is called by:
 0064 <span class="comment">%       when df0 &gt; 0). Direction reversal is a decision that needs to be</span>
 0065 <span class="comment">%       made by the solver, so it can know about it.</span>
 0066 <span class="comment">%</span>
-0067 <span class="comment">%    Sept. 13, 2013 (NB):</span>
+0067 <span class="comment">%   Sept. 13, 2013 (NB):</span>
 0068 <span class="comment">%       The linesearch is now invariant under rescaling of the cost</span>
 0069 <span class="comment">%       function f. That is, if f is replaced by 8*f (and hence the</span>
 0070 <span class="comment">%       directional derivatives of f are scaled accordingly), the</span>
-0071 <span class="comment">%       stepsizes computed will not change.</span>
+0071 <span class="comment">%       computed stepsizes will not change.</span>
 0072 <span class="comment">%</span>
 0073 <span class="comment">%   Nov. 7, 2013 (NB):</span>
 0074 <span class="comment">%       The linesearch is now invariant under rescaling of the search</span>
@@ -284,7 +284,7 @@ This function is called by:
 0193     <span class="comment">% retract to make the step from x to newx. Since the step is alpha*d:</span>
 0194     stepsize = alpha * norm_d;
 0195 
-0196     <span class="comment">% Save the situtation faced now so that, at the next iteration,</span>
+0196     <span class="comment">% Save the situation faced now so that, at the next iteration,</span>
 0197     <span class="comment">% we will know something about the previous decision.</span>
 0198     storedb.internal.lsmem.f0 = f0;
 0199     storedb.internal.lsmem.df0 = df0;
@@ -296,6 +296,6 @@ This function is called by:
 0205     lsstats.alpha = alpha;
 0206     
 0207 <span class="keyword">end</span></pre></div>
-<hr><address>Generated on Mon 10-Sep-2018 11:48:06 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+<hr><address>Generated on Tue 19-May-2020 18:46:12 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
 </body>
 </html>

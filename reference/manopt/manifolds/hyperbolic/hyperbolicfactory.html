@@ -1,0 +1,367 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of hyperbolicfactory</title>
+  <meta name="keywords" content="hyperbolicfactory">
+  <meta name="description" content="Factory for matrices whose columns live on the hyperbolic manifold">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../index.html">Home</a> &gt;  <a href="#">manopt</a> &gt; <a href="#">manifolds</a> &gt; <a href="index.html">hyperbolic</a> &gt; hyperbolicfactory.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../index.html"><img alt="<" border="0" src="../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for manopt\manifolds\hyperbolic&nbsp;<img alt=">" border="0" src="../../../right.png"></a></td></tr></table>-->
+
+<h1>hyperbolicfactory
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>Factory for matrices whose columns live on the hyperbolic manifold</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function M = hyperbolicfactory(n, m, transposed) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> Factory for matrices whose columns live on the hyperbolic manifold
+
+ function M = hyperbolicfactory(n)
+ function M = hyperbolicfactory(n, m)
+ function M = hyperbolicfactory(n, m, transposed)
+
+ Returns a structure M which describes the hyperbolic manifold in Manopt.
+ A point on the manifold is a matrix X of size (n+1)-by-m whose columns
+ live on the hyperbolic manifold, that is, for each column x of X, we have
+
+   -x(1)^2 + x(2)^2 + x(3)^2 + ... + x(n+1)^2 = -1.
+
+ The positive branch is selected by M.rand(), that is, x(1) &gt; 0, but all
+ tools work on the negative branch as well.
+
+ Equivalently, defining the Minkowski (semi) inner product
+
+   &lt;x, y&gt; = -x(1)y(1) + x(2)y(2) + x(3)y(3) + ... + x(n+1)y(n+1)
+
+ and the induced Minkowski (semi) norm ||x||^2 = &lt;x, x&gt;, we can write
+ compactly that each column of X has squared Minkowski norm equal to -1.
+
+ The set of matrices X that satisfy this constraint is a smooth manifold.
+ Tangent vectors at X are matrices U of the same size as X. If x and u are
+ the kth columns of X and U respectively, then &lt;x, u&gt; = 0.
+
+ This manifold is turned into a Riemannian manifold by restricting the
+ Minkowski inner product to each tangent space (a simple calculation
+ confirms that this metric is indeed Riemannian and not just semi
+ Riemannian, that is, it is positive definite when restricted to each
+ tangent space). This is the hyperbolic manifold: for m = 1, all of its
+ sectional curvatures are equal to -1. This is called the hyperboloid or
+ the Lorentz geometry.
+
+ This manifold is an embedded submanifold of Euclidean space (the set of
+ matrices of size (n+1)-by-m equipped with the usual trace inner product).
+ Thus, when defining the Euclidean gradient for example (problem.egrad),
+ it should be specified as if the function were defined in Euclidean space
+ directly. The tool M.egrad2rgrad will automatically convert that gradient
+ to the correct Riemannian gradient, as needed to satisfy the metric. The
+ same is true for the Euclidean Hessian and other tools that manipulate
+ elements in the embedding space.
+
+ Importantly, the resulting manifold is /not/ a Riemannian submanifold of
+ Euclidean space, because its metric is not obtained simply by restricting
+ the Euclidean metric to the tangent spaces. However, it is a
+ semi-Riemannian submanifold of Minkowski space, that is, the set of
+ matrices of size (n+1)-by-m equipped with the Minkowski inner product.
+ Minkowski space itself can be seen as a (linear) semi-Riemannian manifold
+ embedded in Euclidean space. This view is entirely equivalent to the one
+ described above (the Riemannian structure of the resulting manifold is
+ exactly the same), and it is useful to derive some of the tools this
+ factory provides.
+
+ If transposed is set to true (it is false by default), then the matrices
+ are transposed: a point X on the manifold is a matrix of size m-by-(n+1)
+ and each row is an element in hyperbolic space. It is the same geometry,
+ just a different representation.
+
+
+ Resources:
+
+ 1. Nickel and Kiela, &quot;Learning Continuous Hierarchies in the Lorentz
+    Model of Hyperbolic Geometry&quot;, ICML, 2018.
+
+ 2. Wilson and Leimeister, &quot;Gradient descent in hyperbolic space&quot;,
+    arXiv preprint arXiv:1805.08207 (2018).
+ 
+ 3. Pennec, &quot;Hessian of the Riemannian squared distance&quot;, HAL INRIA, 2017.
+
+ Ported primarily from the McTorch toolbox at
+ https://github.com/mctorch/mctorch.
+
+ See also: spherefactory obliquefactory obliquecomplexfactory</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="../../../manopt/tools/hashmd5.html" class="code" title="function h = hashmd5(inp)">hashmd5</a>	Computes the MD5 hash of input data.</li><li><a href="../../../manopt/tools/matrixlincomb.html" class="code" title="function v = matrixlincomb(x, a1, d1, a2, d2) %#ok<INUSL>">matrixlincomb</a>	Linear combination function for tangent vectors represented as matrices.</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+</ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function q = inner_minkowski_columns(U, V)</a></li><li><a href="#_sub2" class="code">function d = dists(X, Y)</a></li><li><a href="#_sub3" class="code">function PU = projection(X, U)</a></li><li><a href="#_sub4" class="code">function rgrad = egrad2rgrad(X, egrad)</a></li><li><a href="#_sub5" class="code">function rhess = ehess2rhess(X, egrad, ehess, U)</a></li><li><a href="#_sub6" class="code">function Y = exponential(X, U, t)</a></li><li><a href="#_sub7" class="code">function U = logarithm(X, Y)</a></li><li><a href="#_sub8" class="code">function X = myrand()</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function M = hyperbolicfactory(n, m, transposed)</a>
+0002 <span class="comment">% Factory for matrices whose columns live on the hyperbolic manifold</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">% function M = hyperbolicfactory(n)</span>
+0005 <span class="comment">% function M = hyperbolicfactory(n, m)</span>
+0006 <span class="comment">% function M = hyperbolicfactory(n, m, transposed)</span>
+0007 <span class="comment">%</span>
+0008 <span class="comment">% Returns a structure M which describes the hyperbolic manifold in Manopt.</span>
+0009 <span class="comment">% A point on the manifold is a matrix X of size (n+1)-by-m whose columns</span>
+0010 <span class="comment">% live on the hyperbolic manifold, that is, for each column x of X, we have</span>
+0011 <span class="comment">%</span>
+0012 <span class="comment">%   -x(1)^2 + x(2)^2 + x(3)^2 + ... + x(n+1)^2 = -1.</span>
+0013 <span class="comment">%</span>
+0014 <span class="comment">% The positive branch is selected by M.rand(), that is, x(1) &gt; 0, but all</span>
+0015 <span class="comment">% tools work on the negative branch as well.</span>
+0016 <span class="comment">%</span>
+0017 <span class="comment">% Equivalently, defining the Minkowski (semi) inner product</span>
+0018 <span class="comment">%</span>
+0019 <span class="comment">%   &lt;x, y&gt; = -x(1)y(1) + x(2)y(2) + x(3)y(3) + ... + x(n+1)y(n+1)</span>
+0020 <span class="comment">%</span>
+0021 <span class="comment">% and the induced Minkowski (semi) norm ||x||^2 = &lt;x, x&gt;, we can write</span>
+0022 <span class="comment">% compactly that each column of X has squared Minkowski norm equal to -1.</span>
+0023 <span class="comment">%</span>
+0024 <span class="comment">% The set of matrices X that satisfy this constraint is a smooth manifold.</span>
+0025 <span class="comment">% Tangent vectors at X are matrices U of the same size as X. If x and u are</span>
+0026 <span class="comment">% the kth columns of X and U respectively, then &lt;x, u&gt; = 0.</span>
+0027 <span class="comment">%</span>
+0028 <span class="comment">% This manifold is turned into a Riemannian manifold by restricting the</span>
+0029 <span class="comment">% Minkowski inner product to each tangent space (a simple calculation</span>
+0030 <span class="comment">% confirms that this metric is indeed Riemannian and not just semi</span>
+0031 <span class="comment">% Riemannian, that is, it is positive definite when restricted to each</span>
+0032 <span class="comment">% tangent space). This is the hyperbolic manifold: for m = 1, all of its</span>
+0033 <span class="comment">% sectional curvatures are equal to -1. This is called the hyperboloid or</span>
+0034 <span class="comment">% the Lorentz geometry.</span>
+0035 <span class="comment">%</span>
+0036 <span class="comment">% This manifold is an embedded submanifold of Euclidean space (the set of</span>
+0037 <span class="comment">% matrices of size (n+1)-by-m equipped with the usual trace inner product).</span>
+0038 <span class="comment">% Thus, when defining the Euclidean gradient for example (problem.egrad),</span>
+0039 <span class="comment">% it should be specified as if the function were defined in Euclidean space</span>
+0040 <span class="comment">% directly. The tool M.egrad2rgrad will automatically convert that gradient</span>
+0041 <span class="comment">% to the correct Riemannian gradient, as needed to satisfy the metric. The</span>
+0042 <span class="comment">% same is true for the Euclidean Hessian and other tools that manipulate</span>
+0043 <span class="comment">% elements in the embedding space.</span>
+0044 <span class="comment">%</span>
+0045 <span class="comment">% Importantly, the resulting manifold is /not/ a Riemannian submanifold of</span>
+0046 <span class="comment">% Euclidean space, because its metric is not obtained simply by restricting</span>
+0047 <span class="comment">% the Euclidean metric to the tangent spaces. However, it is a</span>
+0048 <span class="comment">% semi-Riemannian submanifold of Minkowski space, that is, the set of</span>
+0049 <span class="comment">% matrices of size (n+1)-by-m equipped with the Minkowski inner product.</span>
+0050 <span class="comment">% Minkowski space itself can be seen as a (linear) semi-Riemannian manifold</span>
+0051 <span class="comment">% embedded in Euclidean space. This view is entirely equivalent to the one</span>
+0052 <span class="comment">% described above (the Riemannian structure of the resulting manifold is</span>
+0053 <span class="comment">% exactly the same), and it is useful to derive some of the tools this</span>
+0054 <span class="comment">% factory provides.</span>
+0055 <span class="comment">%</span>
+0056 <span class="comment">% If transposed is set to true (it is false by default), then the matrices</span>
+0057 <span class="comment">% are transposed: a point X on the manifold is a matrix of size m-by-(n+1)</span>
+0058 <span class="comment">% and each row is an element in hyperbolic space. It is the same geometry,</span>
+0059 <span class="comment">% just a different representation.</span>
+0060 <span class="comment">%</span>
+0061 <span class="comment">%</span>
+0062 <span class="comment">% Resources:</span>
+0063 <span class="comment">%</span>
+0064 <span class="comment">% 1. Nickel and Kiela, &quot;Learning Continuous Hierarchies in the Lorentz</span>
+0065 <span class="comment">%    Model of Hyperbolic Geometry&quot;, ICML, 2018.</span>
+0066 <span class="comment">%</span>
+0067 <span class="comment">% 2. Wilson and Leimeister, &quot;Gradient descent in hyperbolic space&quot;,</span>
+0068 <span class="comment">%    arXiv preprint arXiv:1805.08207 (2018).</span>
+0069 <span class="comment">%</span>
+0070 <span class="comment">% 3. Pennec, &quot;Hessian of the Riemannian squared distance&quot;, HAL INRIA, 2017.</span>
+0071 <span class="comment">%</span>
+0072 <span class="comment">% Ported primarily from the McTorch toolbox at</span>
+0073 <span class="comment">% https://github.com/mctorch/mctorch.</span>
+0074 <span class="comment">%</span>
+0075 <span class="comment">% See also: spherefactory obliquefactory obliquecomplexfactory</span>
+0076 
+0077 
+0078 <span class="comment">% This file is part of Manopt: www.manopt.org.</span>
+0079 <span class="comment">% Original authors: Bamdev Mishra &lt;bamdevm@gmail.com&gt;, Mayank Meghwanshi,</span>
+0080 <span class="comment">% Pratik Jawanpuria, Anoop Kunchukuttan, and Hiroyuki Kasai Oct 28, 2018.</span>
+0081 <span class="comment">% Contributors: Nicolas Boumal</span>
+0082 <span class="comment">% Change log:</span>
+0083 <span class="comment">%   May 14, 2020 (NB):</span>
+0084 <span class="comment">%       Clarified comments about distance computation.</span>
+0085 
+0086     <span class="comment">% Design note: all functions that are defined here but not exposed</span>
+0087     <span class="comment">% outside work for non-transposed representations. Only the wrappers</span>
+0088     <span class="comment">% that eventually expose functionalities handle transposition. This</span>
+0089     <span class="comment">% makes it easier to compose functions internally.</span>
+0090 
+0091     <span class="keyword">if</span> ~exist(<span class="string">'m'</span>, <span class="string">'var'</span>) || isempty(m)
+0092         m = 1;
+0093     <span class="keyword">end</span> 
+0094     
+0095     <span class="keyword">if</span> ~exist(<span class="string">'transposed'</span>, <span class="string">'var'</span>) || isempty(transposed)
+0096         transposed = false;
+0097     <span class="keyword">end</span>
+0098     
+0099     <span class="keyword">if</span> transposed
+0100         trnsp = @(X) X';
+0101         trnspstr = <span class="string">', transposed'</span>;
+0102     <span class="keyword">else</span>
+0103         trnsp = @(X) X;
+0104         trnspstr = <span class="string">''</span>;
+0105     <span class="keyword">end</span>
+0106 
+0107     M.name = @() sprintf(<span class="string">'Hyperbolic manifold H(%d, %d)%s'</span>, n, m, trnspstr);
+0108     
+0109     M.dim = @() n*m;
+0110     
+0111     M.typicaldist = @() sqrt(n*m);
+0112 
+0113     <span class="comment">% Returns a row vector q such that q(k) is the Minkowski inner product</span>
+0114     <span class="comment">% of columns U(:, k) and V(:, k). This is defined in all of Minkowski</span>
+0115     <span class="comment">% space, not only on tangent spaces. In particular, if X is a point on</span>
+0116     <span class="comment">% the manifold, then inner_minkowski_columns(X, X) should return a</span>
+0117     <span class="comment">% vector of all -1's.</span>
+0118     <a name="_sub1" href="#_subfunctions" class="code">function q = inner_minkowski_columns(U, V)</a>
+0119         q = -U(1, :).*V(1, :) + sum(U(2:<span class="keyword">end</span>, :).*V(2:<span class="keyword">end</span>, :), 1);
+0120     <span class="keyword">end</span>
+0121     
+0122     <span class="comment">% Riemannian metric: we sum over the m copies of the hyperbolic</span>
+0123     <span class="comment">% manifold, each equipped with a restriction of the Minkowski metric.</span>
+0124     M.inner = @(X, U, V) sum(<a href="#_sub1" class="code" title="subfunction q = inner_minkowski_columns(U, V)">inner_minkowski_columns</a>(trnsp(U), trnsp(V)));
+0125     
+0126     <span class="comment">% Mathematically, the Riemannian metric is positive definite, hence</span>
+0127     <span class="comment">% M.inner always returns a nonnegative number when U is tangent at X.</span>
+0128     <span class="comment">% Numerically, because the inner product involves a difference of</span>
+0129     <span class="comment">% positive numbers, round-off may result in a small negative number.</span>
+0130     <span class="comment">% Taking the max against 0 avoids imaginary results.</span>
+0131     M.norm = @(X, U) sqrt(max(M.inner(X, U, U), 0));
+0132     
+0133     M.dist = @(X, Y) norm(<a href="#_sub2" class="code" title="subfunction d = dists(X, Y)">dists</a>(trnsp(X), trnsp(Y)));
+0134     <span class="comment">% This function returns a row vector of length m such that d(k) is the</span>
+0135     <span class="comment">% geodesic distance between X(:, k) and Y(:, k).</span>
+0136     <a name="_sub2" href="#_subfunctions" class="code">function d = dists(X, Y)</a>
+0137         <span class="comment">% Mathematically, each column of U = X-Y has nonnegative squared</span>
+0138         <span class="comment">% Minkowski norm. To avoid potentially imaginary results due to</span>
+0139         <span class="comment">% round-off errors, we take the max against 0.</span>
+0140         U = X-Y;
+0141         mink_sqnorms = max(0, <a href="#_sub1" class="code" title="subfunction q = inner_minkowski_columns(U, V)">inner_minkowski_columns</a>(U, U));
+0142         mink_norms = sqrt(mink_sqnorms);
+0143         d = 2*asinh(.5*mink_norms);
+0144         <span class="comment">% The formula above is equivalent to</span>
+0145         <span class="comment">% d = max(0, real(acosh(-inner_minkowski_columns(X, Y))));</span>
+0146         <span class="comment">% but is numerically more accurate when distances are small.</span>
+0147         <span class="comment">% When distances are large, it is better to use the acosh formula.</span>
+0148     <span class="keyword">end</span>
+0149     
+0150     M.proj = @(X, U) trnsp(<a href="#_sub3" class="code" title="subfunction PU = projection(X, U)">projection</a>(trnsp(X), trnsp(U)));
+0151     <a name="_sub3" href="#_subfunctions" class="code">function PU = projection(X, U)</a>
+0152         inners = <a href="#_sub1" class="code" title="subfunction q = inner_minkowski_columns(U, V)">inner_minkowski_columns</a>(X, U);
+0153         PU = U + bsxfun(@times, X, inners);
+0154     <span class="keyword">end</span>
+0155     
+0156     M.tangent = M.proj;
+0157     
+0158     <span class="comment">% For Riemannian submanifolds, converting the Euclidean gradient into</span>
+0159     <span class="comment">% the Riemannian gradient amounts to an orthogonal projection. Here</span>
+0160     <span class="comment">% however, the manifold is not a Riemannian submanifold of Euclidean</span>
+0161     <span class="comment">% space, hence extra corrections are required to account for the change</span>
+0162     <span class="comment">% of metric.</span>
+0163     M.egrad2rgrad = @(X, egrad) trnsp(<a href="#_sub4" class="code" title="subfunction rgrad = egrad2rgrad(X, egrad)">egrad2rgrad</a>(trnsp(X), trnsp(egrad)));
+0164     <a name="_sub4" href="#_subfunctions" class="code">function rgrad = egrad2rgrad(X, egrad)</a>
+0165         egrad(1, :) = -egrad(1, :);
+0166         rgrad = <a href="#_sub3" class="code" title="subfunction PU = projection(X, U)">projection</a>(X, egrad);
+0167     <span class="keyword">end</span>
+0168     
+0169     M.ehess2rhess = @(X, egrad, ehess, U) <span class="keyword">...</span>
+0170         trnsp(<a href="#_sub5" class="code" title="subfunction rhess = ehess2rhess(X, egrad, ehess, U)">ehess2rhess</a>(trnsp(X), trnsp(egrad), trnsp(ehess), trnsp(U)));
+0171     <a name="_sub5" href="#_subfunctions" class="code">function rhess = ehess2rhess(X, egrad, ehess, U)</a>
+0172         egrad(1, :) = -egrad(1, :);
+0173         ehess(1, :) = -ehess(1, :);
+0174         inners = <a href="#_sub1" class="code" title="subfunction q = inner_minkowski_columns(U, V)">inner_minkowski_columns</a>(X, egrad);
+0175         rhess = <a href="#_sub3" class="code" title="subfunction PU = projection(X, U)">projection</a>(X, bsxfun(@times, U, inners) + ehess);
+0176     <span class="keyword">end</span>
+0177     
+0178     <span class="comment">% For the exponential, we cannot separate trnsp() nicely from the main</span>
+0179     <span class="comment">% function because the third input, t, is optional.</span>
+0180     M.exp = @<a href="#_sub6" class="code" title="subfunction Y = exponential(X, U, t)">exponential</a>;
+0181     <a name="_sub6" href="#_subfunctions" class="code">function Y = exponential(X, U, t)</a>
+0182         X = trnsp(X);
+0183         U = trnsp(U);
+0184         
+0185         <span class="keyword">if</span> nargin &lt; 3
+0186             tU = U;   <span class="comment">% corresponds to t = 1</span>
+0187         <span class="keyword">else</span>
+0188             tU = t*U;
+0189         <span class="keyword">end</span>
+0190         
+0191         <span class="comment">% Compute the individual Minkowski norms of the columns of U.</span>
+0192         mink_inners = <a href="#_sub1" class="code" title="subfunction q = inner_minkowski_columns(U, V)">inner_minkowski_columns</a>(tU, tU);
+0193         mink_norms = sqrt(max(0, mink_inners));
+0194         
+0195         <span class="comment">% Coefficients for the exponential. For b, note that NaN's appear</span>
+0196         <span class="comment">% when an element of mink_norms is zero, in which case the correct</span>
+0197         <span class="comment">% convention is to define sinh(0)/0 = 1.</span>
+0198         a = cosh(mink_norms);
+0199         b = sinh(mink_norms)./mink_norms;
+0200         b(isnan(b)) = 1;
+0201         
+0202         Y = bsxfun(@times, X, a) + bsxfun(@times, tU, b);
+0203 
+0204         Y = trnsp(Y);
+0205     <span class="keyword">end</span>
+0206     
+0207     M.retr = M.exp;
+0208     
+0209     M.log = @(X, Y) trnsp(<a href="#_sub7" class="code" title="subfunction U = logarithm(X, Y)">logarithm</a>(trnsp(X), trnsp(Y)));
+0210     <a name="_sub7" href="#_subfunctions" class="code">function U = logarithm(X, Y)</a>
+0211         d = <a href="#_sub2" class="code" title="subfunction d = dists(X, Y)">dists</a>(X, Y);
+0212         a = d./sinh(d);
+0213         a(isnan(a)) = 1;
+0214         U = <a href="#_sub3" class="code" title="subfunction PU = projection(X, U)">projection</a>(X, bsxfun(@times, Y, a));
+0215     <span class="keyword">end</span>
+0216 
+0217     M.hash = @(X) [<span class="string">'z'</span> <a href="../../../manopt/tools/hashmd5.html" class="code" title="function h = hashmd5(inp)">hashmd5</a>(X(:))];
+0218     
+0219     M.rand = @() trnsp(<a href="#_sub8" class="code" title="subfunction X = myrand()">myrand</a>());
+0220     <a name="_sub8" href="#_subfunctions" class="code">function X = myrand()</a>
+0221         X1 = randn(n, m);
+0222         x0 = sqrt(1 + sum(X1.^2, 1)); <span class="comment">% selects positive branch</span>
+0223         X = [x0; X1];
+0224     <span class="keyword">end</span>
+0225     
+0226     M.normalize = @(X, U) U / M.norm(X, U);
+0227     M.randvec = @(X) M.normalize(X, M.proj(X, randn(size(X))));
+0228     
+0229     M.lincomb = @<a href="../../../manopt/tools/matrixlincomb.html" class="code" title="function v = matrixlincomb(x, a1, d1, a2, d2) %#ok<INUSL>">matrixlincomb</a>;
+0230     
+0231     M.zerovec = @(X) zeros(size(X));
+0232     
+0233     M.transp = @(X1, X2, U) M.proj(X2, U);
+0234     
+0235    
+0236     <span class="comment">% vec returns a vector representation of an input tangent vector which</span>
+0237     <span class="comment">% is represented as a matrix; mat returns the original matrix</span>
+0238     <span class="comment">% representation of the input vector representation of a tangent</span>
+0239     <span class="comment">% vector; vec and mat are thus inverse of each other.</span>
+0240     vect = @(X) X(:);
+0241     M.vec = @(X, U_mat) vect(trnsp(U_mat));
+0242     M.mat = @(X, U_vec) trnsp(reshape(U_vec, [n+1, m]));
+0243     M.vecmatareisometries = @() false;
+0244 
+0245 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Tue 19-May-2020 18:46:12 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

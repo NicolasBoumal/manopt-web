@@ -161,7 +161,7 @@ This function is called by:
 0065     <span class="comment">% This is for illustration purposes only.</span>
 0066     <span class="keyword">if</span> ~exist(<span class="string">'L'</span>, <span class="string">'var'</span>) || isempty(L)
 0067         n = 20;
-0068         A = triu(randn(n) &lt;= .4, 1);
+0068         A = triu(rand(n) &lt;= .4, 1);
 0069         A = A+A';
 0070         D = diag(sum(A, 2));
 0071         L = D-A;
@@ -402,6 +402,6 @@ This function is called by:
 0306     fprintf(<span class="string">'Products with L: %d\n'</span>, max([info.Lproducts]));
 0307 
 0308 <span class="keyword">end</span></pre></div>
-<hr><address>Generated on Mon 10-Sep-2018 11:48:06 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+<hr><address>Generated on Tue 19-May-2020 18:46:12 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
 </body>
 </html>

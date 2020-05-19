@@ -45,6 +45,13 @@
  i = 1 : k if k &gt; 1. Tangent vectors are represented as matrices the same
  size as points.
 
+ The default retraction is QR-based: it is only a first-order retraction.
+ To use the polar retraction (which is second order), run
+    M.retr = M.retr_polar;
+ after creating M with this factory. This can be reverted with
+    M.retr = M.retr_qr;
+ If used, you may also want to update M.invretr similarly.
+
  Set gpuflag = true to have points, tangent vectors and ambient vectors
  stored on the GPU. If so, computations can be done on the GPU directly.
 
@@ -56,7 +63,7 @@
 <h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
 This function calls:
 <ul style="list-style-image:url(../../../matlabicon.gif)">
-<li><a href="solve_for_triu.html" class="code" title="function X = solve_for_triu(A, H)">solve_for_triu</a>	Solve the linear matrix equation AX + X'A' = H for X upper triangular.</li><li><a href="../../../manopt/tools/factorygpuhelper.html" class="code" title="function M = factorygpuhelper(M)">factorygpuhelper</a>	Returns a manifold struct to optimize over unit-norm vectors or matrices.</li><li><a href="../../../manopt/tools/hashmd5.html" class="code" title="function h = hashmd5(inp)">hashmd5</a>	Computes the MD5 hash of input data.</li><li><a href="../../../manopt/tools/matrixlincomb.html" class="code" title="function v = matrixlincomb(x, a1, d1, a2, d2) %#ok<INUSL>">matrixlincomb</a>	Linear combination function for tangent vectors represented as matrices.</li><li><a href="../../../manopt/tools/multiprod.html" class="code" title="function c = multiprod(a, b, idA, idB)">multiprod</a>	Multiplying 1-D or 2-D subarrays contained in two N-D arrays.</li><li><a href="../../../manopt/tools/multisym.html" class="code" title="function Y = multisym(X)">multisym</a>	Returns the symmetric parts of the matrices in the 3D matrix X</li><li><a href="../../../manopt/tools/multitransp.html" class="code" title="function b = multitransp(a, dim)">multitransp</a>	Transposing arrays of matrices.</li><li><a href="../../../manopt/tools/sylvester_nochecks.html" class="code" title="function [X, unique] = sylvester_nochecks(A, B, C)">sylvester_nochecks</a>	Solve Sylvester equation without input checks.</li></ul>
+<li><a href="solve_for_triu.html" class="code" title="function X = solve_for_triu(A, H)">solve_for_triu</a>	Solve the linear matrix equation AX + X'A' = H for X upper triangular.</li><li><a href="../../../manopt/tools/factorygpuhelper.html" class="code" title="function M = factorygpuhelper(M)">factorygpuhelper</a>	Returns a manifold struct to optimize over unit-norm vectors or matrices.</li><li><a href="../../../manopt/tools/hashmd5.html" class="code" title="function h = hashmd5(inp)">hashmd5</a>	Computes the MD5 hash of input data.</li><li><a href="../../../manopt/tools/matrixlincomb.html" class="code" title="function v = matrixlincomb(x, a1, d1, a2, d2) %#ok<INUSL>">matrixlincomb</a>	Linear combination function for tangent vectors represented as matrices.</li><li><a href="../../../manopt/tools/multiprod.html" class="code" title="function c = multiprod(a, b, idA, idB)">multiprod</a>	Multiplying 1-D or 2-D subarrays contained in two N-D arrays.</li><li><a href="../../../manopt/tools/multisym.html" class="code" title="function Y = multisym(X)">multisym</a>	Returns the symmetric parts of the matrices in the 3D matrix X</li><li><a href="../../../manopt/tools/multitransp.html" class="code" title="function b = multitransp(a, dim)">multitransp</a>	Transposing arrays of matrices.</li><li><a href="../../../manopt/tools/qr_unique.html" class="code" title="function [Q, R] = qr_unique(A)">qr_unique</a>	Thin QR factorization ensuring diagonal of R is real, positive if possible.</li><li><a href="../../../manopt/tools/sylvester_nochecks.html" class="code" title="function [X, unique] = sylvester_nochecks(A, B, C)">sylvester_nochecks</a>	Solve Sylvester equation without input checks.</li></ul>
 This function is called by:
 <ul style="list-style-image:url(../../../matlabicon.gif)">
 <li><a href="../../../examples/PCA_stochastic.html" class="code" title="function [X, A] = PCA_stochastic(A, k)">PCA_stochastic</a>	Example of stochastic gradient algorithm in Manopt on a PCA problem.</li><li><a href="../../../examples/sparse_pca.html" class="code" title="function [Z, P, X, A] = sparse_pca(A, m, gamma)">sparse_pca</a>	Sparse principal component analysis based on optimization over Stiefel.</li><li><a href="../../../manopt/manifolds/fixedrank/fixedrankMNquotientfactory.html" class="code" title="function M = fixedrankMNquotientfactory(m, n, k)">fixedrankMNquotientfactory</a>	Manifold of m-by-n matrices of rank k with two factor quotient geometry.</li><li><a href="../../../manopt/manifolds/fixedrank/fixedrankembeddedfactory.html" class="code" title="function M = fixedrankembeddedfactory(m, n, k)">fixedrankembeddedfactory</a>	Manifold struct to optimize fixed-rank matrices w/ an embedded geometry.</li><li><a href="../../../manopt/manifolds/fixedrank/fixedrankfactory_2factors_subspace_projection.html" class="code" title="function M = fixedrankfactory_2factors_subspace_projection(m, n, k)">fixedrankfactory_2factors_subspace_projection</a>	Manifold of m-by-n matrices of rank k with two factor quotient geometry.</li><li><a href="../../../manopt/manifolds/fixedrank/fixedrankfactory_3factors.html" class="code" title="function M = fixedrankfactory_3factors(m, n, k)">fixedrankfactory_3factors</a>	Manifold of m-by-n matrices of rank k with polar quotient geometry.</li><li><a href="../../../manopt/manifolds/fixedrank/fixedrankfactory_3factors_preconditioned.html" class="code" title="function M = fixedrankfactory_3factors_preconditioned(m, n, k)">fixedrankfactory_3factors_preconditioned</a>	Manifold of m-by-n matrices of rank k with three factor quotient geometry.</li></ul>
@@ -64,7 +71,7 @@ This function is called by:
 
 <h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
 <ul style="list-style-image:url(../../../matlabicon.gif)">
-<li><a href="#_sub1" class="code">function Up = projection(X, U)</a></li><li><a href="#_sub2" class="code">function rhess = ehess2rhess(X, egrad, ehess, H)</a></li><li><a href="#_sub3" class="code">function Y = retraction_qr(X, U, t)</a></li><li><a href="#_sub4" class="code">function U = invretr_qr(X, Y)</a></li><li><a href="#_sub5" class="code">function Y = retraction_polar(X, U, t)</a></li><li><a href="#_sub6" class="code">function U = invretr_polar(X, Y)</a></li><li><a href="#_sub7" class="code">function Y = exponential(X, U, t)</a></li><li><a href="#_sub8" class="code">function X = random()</a></li><li><a href="#_sub9" class="code">function U = randomvec(X)</a></li></ul>
+<li><a href="#_sub1" class="code">function Up = projection(X, U)</a></li><li><a href="#_sub2" class="code">function rhess = ehess2rhess(X, egrad, ehess, H)</a></li><li><a href="#_sub3" class="code">function Y = retraction_qr(X, U, t)</a></li><li><a href="#_sub4" class="code">function U = invretr_qr(X, Y)</a></li><li><a href="#_sub5" class="code">function Y = retraction_polar(X, U, t)</a></li><li><a href="#_sub6" class="code">function U = invretr_polar(X, Y)</a></li><li><a href="#_sub7" class="code">function Y = exponential(X, U, t)</a></li><li><a href="#_sub8" class="code">function U = randomvec(X)</a></li></ul>
 
 <h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
 <div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function M = stiefelfactory(n, p, k, gpuflag)</a>
@@ -86,241 +93,235 @@ This function is called by:
 0017 <span class="comment">% i = 1 : k if k &gt; 1. Tangent vectors are represented as matrices the same</span>
 0018 <span class="comment">% size as points.</span>
 0019 <span class="comment">%</span>
-0020 <span class="comment">% Set gpuflag = true to have points, tangent vectors and ambient vectors</span>
-0021 <span class="comment">% stored on the GPU. If so, computations can be done on the GPU directly.</span>
-0022 <span class="comment">%</span>
-0023 <span class="comment">% By default, k = 1 and gpuflag = false.</span>
-0024 <span class="comment">%</span>
-0025 <span class="comment">% See also: grassmannfactory rotationsfactory</span>
-0026 
-0027 <span class="comment">% This file is part of Manopt: www.manopt.org.</span>
-0028 <span class="comment">% Original author: Nicolas Boumal, Dec. 30, 2012.</span>
-0029 <span class="comment">% Contributors:</span>
-0030 <span class="comment">% Change log:</span>
-0031 <span class="comment">%  July  5, 2013 (NB) : Added ehess2rhess.</span>
-0032 <span class="comment">%  Jan. 27, 2014 (BM) : Bug in ehess2rhess corrected.</span>
-0033 <span class="comment">%  June 24, 2014 (NB) : Added true exponential map and changed the randvec</span>
-0034 <span class="comment">%                       function so that it now returns a globally</span>
-0035 <span class="comment">%                       normalized vector, not a vector where each</span>
-0036 <span class="comment">%                       component is normalized (this only matters if k&gt;1).</span>
-0037 <span class="comment">%  July 17, 2018 (NB) : Now both QR (default) and polar retractions are</span>
-0038 <span class="comment">%                       directly accessible, and their inverses are also</span>
-0039 <span class="comment">%                       implemented.</span>
-0040 <span class="comment">%  Aug.  2, 2018 (NB) : Added GPU support: just set gpuflag = true.</span>
-0041 
-0042     assert(n &gt;= p, <span class="string">'The dimension n must be larger than the dimension p.'</span>);
-0043     
-0044     <span class="keyword">if</span> ~exist(<span class="string">'k'</span>, <span class="string">'var'</span>) || isempty(k)
-0045         k = 1;
-0046     <span class="keyword">end</span>
-0047     <span class="keyword">if</span> ~exist(<span class="string">'gpuflag'</span>, <span class="string">'var'</span>) || isempty(gpuflag)
-0048         gpuflag = false;
-0049     <span class="keyword">end</span>
-0050     
-0051     <span class="comment">% If gpuflag is active, new arrays (e.g., via rand, randn, zeros, ones)</span>
-0052     <span class="comment">% are created directly on the GPU; otherwise, they are created in the</span>
-0053     <span class="comment">% usual way (in double precision).</span>
-0054     <span class="keyword">if</span> gpuflag
-0055         array_type = <span class="string">'gpuArray'</span>;
-0056     <span class="keyword">else</span>
-0057         array_type = <span class="string">'double'</span>;
-0058     <span class="keyword">end</span>
-0059     
-0060     <span class="keyword">if</span> k == 1
-0061         M.name = @() sprintf(<span class="string">'Stiefel manifold St(%d, %d)'</span>, n, p);
-0062     <span class="keyword">elseif</span> k &gt; 1
-0063         M.name = @() sprintf(<span class="string">'Product Stiefel manifold St(%d, %d)^%d'</span>, n, p, k);
-0064     <span class="keyword">else</span>
-0065         error(<span class="string">'k must be an integer no less than 1.'</span>);
-0066     <span class="keyword">end</span>
-0067     
-0068     M.dim = @() k*(n*p - .5*p*(p+1));
+0020 <span class="comment">% The default retraction is QR-based: it is only a first-order retraction.</span>
+0021 <span class="comment">% To use the polar retraction (which is second order), run</span>
+0022 <span class="comment">%    M.retr = M.retr_polar;</span>
+0023 <span class="comment">% after creating M with this factory. This can be reverted with</span>
+0024 <span class="comment">%    M.retr = M.retr_qr;</span>
+0025 <span class="comment">% If used, you may also want to update M.invretr similarly.</span>
+0026 <span class="comment">%</span>
+0027 <span class="comment">% Set gpuflag = true to have points, tangent vectors and ambient vectors</span>
+0028 <span class="comment">% stored on the GPU. If so, computations can be done on the GPU directly.</span>
+0029 <span class="comment">%</span>
+0030 <span class="comment">% By default, k = 1 and gpuflag = false.</span>
+0031 <span class="comment">%</span>
+0032 <span class="comment">% See also: grassmannfactory rotationsfactory</span>
+0033 
+0034 <span class="comment">% This file is part of Manopt: www.manopt.org.</span>
+0035 <span class="comment">% Original author: Nicolas Boumal, Dec. 30, 2012.</span>
+0036 <span class="comment">% Contributors:</span>
+0037 <span class="comment">% Change log:</span>
+0038 <span class="comment">%  July  5, 2013 (NB) : Added ehess2rhess.</span>
+0039 <span class="comment">%  Jan. 27, 2014 (BM) : Bug in ehess2rhess corrected.</span>
+0040 <span class="comment">%  June 24, 2014 (NB) : Added true exponential map and changed the randvec</span>
+0041 <span class="comment">%                       function so that it now returns a globally</span>
+0042 <span class="comment">%                       normalized vector, not a vector where each</span>
+0043 <span class="comment">%                       component is normalized (this only matters if k&gt;1).</span>
+0044 <span class="comment">%  July 17, 2018 (NB) : Now both QR (default) and polar retractions are</span>
+0045 <span class="comment">%                       directly accessible, and their inverses are also</span>
+0046 <span class="comment">%                       implemented.</span>
+0047 <span class="comment">%  Aug.  2, 2018 (NB) : Added GPU support: just set gpuflag = true.</span>
+0048 <span class="comment">%  June 18, 2019 (NB) : Using qr_unique for retr and rand.</span>
+0049 <span class="comment">%  July  9, 2019 (NB) : Added a comment about QR retraction being first</span>
+0050 <span class="comment">%                       order only.</span>
+0051 
+0052     assert(n &gt;= p, <span class="string">'The dimension n must be larger than the dimension p.'</span>);
+0053     
+0054     <span class="keyword">if</span> ~exist(<span class="string">'k'</span>, <span class="string">'var'</span>) || isempty(k)
+0055         k = 1;
+0056     <span class="keyword">end</span>
+0057     <span class="keyword">if</span> ~exist(<span class="string">'gpuflag'</span>, <span class="string">'var'</span>) || isempty(gpuflag)
+0058         gpuflag = false;
+0059     <span class="keyword">end</span>
+0060     
+0061     <span class="comment">% If gpuflag is active, new arrays (e.g., via rand, randn, zeros, ones)</span>
+0062     <span class="comment">% are created directly on the GPU; otherwise, they are created in the</span>
+0063     <span class="comment">% usual way (in double precision).</span>
+0064     <span class="keyword">if</span> gpuflag
+0065         array_type = <span class="string">'gpuArray'</span>;
+0066     <span class="keyword">else</span>
+0067         array_type = <span class="string">'double'</span>;
+0068     <span class="keyword">end</span>
 0069     
-0070     M.inner = @(x, d1, d2) d1(:).'*d2(:);
-0071     
-0072     M.norm = @(x, d) norm(d(:));
-0073     
-0074     M.dist = @(x, y) error(<span class="string">'stiefel.dist not implemented yet.'</span>);
-0075     
-0076     M.typicaldist = @() sqrt(p*k);
+0070     <span class="keyword">if</span> k == 1
+0071         M.name = @() sprintf(<span class="string">'Stiefel manifold St(%d, %d)'</span>, n, p);
+0072     <span class="keyword">elseif</span> k &gt; 1
+0073         M.name = @() sprintf(<span class="string">'Product Stiefel manifold St(%d, %d)^%d'</span>, n, p, k);
+0074     <span class="keyword">else</span>
+0075         error(<span class="string">'k must be an integer no less than 1.'</span>);
+0076     <span class="keyword">end</span>
 0077     
-0078     M.proj = @<a href="#_sub1" class="code" title="subfunction Up = projection(X, U)">projection</a>;
-0079     <a name="_sub1" href="#_subfunctions" class="code">function Up = projection(X, U)</a>
-0080         
-0081         XtU = <a href="../../../manopt/tools/multiprod.html" class="code" title="function c = multiprod(a, b, idA, idB)">multiprod</a>(<a href="../../../manopt/tools/multitransp.html" class="code" title="function b = multitransp(a, dim)">multitransp</a>(X), U);
-0082         symXtU = <a href="../../../manopt/tools/multisym.html" class="code" title="function Y = multisym(X)">multisym</a>(XtU);
-0083         Up = U - <a href="../../../manopt/tools/multiprod.html" class="code" title="function c = multiprod(a, b, idA, idB)">multiprod</a>(X, symXtU);
-0084         
-0085 <span class="comment">% The code above is equivalent to, but much faster than, the code below.</span>
-0086 <span class="comment">%</span>
-0087 <span class="comment">%     Up = zeros(size(U));</span>
-0088 <span class="comment">%     function A = sym(A), A = .5*(A+A'); end</span>
-0089 <span class="comment">%     for i = 1 : k</span>
-0090 <span class="comment">%         Xi = X(:, :, i);</span>
-0091 <span class="comment">%         Ui = U(:, :, i);</span>
-0092 <span class="comment">%         Up(:, :, i) = Ui - Xi*sym(Xi'*Ui);</span>
-0093 <span class="comment">%     end</span>
-0094 
-0095     <span class="keyword">end</span>
-0096     
-0097     M.tangent = M.proj;
-0098     
-0099     <span class="comment">% For Riemannian submanifolds, converting a Euclidean gradient into a</span>
-0100     <span class="comment">% Riemannian gradient amounts to an orthogonal projection.</span>
-0101     M.egrad2rgrad = M.proj;
-0102     
-0103     M.ehess2rhess = @<a href="#_sub2" class="code" title="subfunction rhess = ehess2rhess(X, egrad, ehess, H)">ehess2rhess</a>;
-0104     <a name="_sub2" href="#_subfunctions" class="code">function rhess = ehess2rhess(X, egrad, ehess, H)</a>
-0105         XtG = <a href="../../../manopt/tools/multiprod.html" class="code" title="function c = multiprod(a, b, idA, idB)">multiprod</a>(<a href="../../../manopt/tools/multitransp.html" class="code" title="function b = multitransp(a, dim)">multitransp</a>(X), egrad);
-0106         symXtG = <a href="../../../manopt/tools/multisym.html" class="code" title="function Y = multisym(X)">multisym</a>(XtG);
-0107         HsymXtG = <a href="../../../manopt/tools/multiprod.html" class="code" title="function c = multiprod(a, b, idA, idB)">multiprod</a>(H, symXtG);
-0108         rhess = <a href="#_sub1" class="code" title="subfunction Up = projection(X, U)">projection</a>(X, ehess - HsymXtG);
-0109     <span class="keyword">end</span>
-0110     
-0111     M.retr_qr = @<a href="#_sub3" class="code" title="subfunction Y = retraction_qr(X, U, t)">retraction_qr</a>;
-0112     <a name="_sub3" href="#_subfunctions" class="code">function Y = retraction_qr(X, U, t)</a>
-0113         <span class="keyword">if</span> nargin &lt; 3
-0114             Y = X + U;
-0115         <span class="keyword">else</span>
-0116             Y = X + t*U;
-0117         <span class="keyword">end</span>
-0118         <span class="keyword">for</span> kk = 1 : k
-0119             [Q, R] = qr(Y(:, :, kk), 0);
-0120             <span class="comment">% The instruction with R ensures we are not flipping signs</span>
-0121             <span class="comment">% of some columns, which should never happen in modern Matlab</span>
-0122             <span class="comment">% versions but may be an issue with older versions.</span>
-0123             Y(:, :, kk) = Q * diag(sign(sign(diag(R))+.5));
-0124         <span class="keyword">end</span>
-0125     <span class="keyword">end</span>
-0126 
-0127     <span class="comment">% This inverse retraction is valid for both the QR retraction and the</span>
-0128     <span class="comment">% polar retraction.</span>
-0129     M.invretr_qr = @<a href="#_sub4" class="code" title="subfunction U = invretr_qr(X, Y)">invretr_qr</a>;
-0130     <a name="_sub4" href="#_subfunctions" class="code">function U = invretr_qr(X, Y)</a>
-0131         XtY = <a href="../../../manopt/tools/multiprod.html" class="code" title="function c = multiprod(a, b, idA, idB)">multiprod</a>(<a href="../../../manopt/tools/multitransp.html" class="code" title="function b = multitransp(a, dim)">multitransp</a>(X), Y);
-0132         R = zeros(p, p, k, array_type);
-0133         H = 2*eye(p, array_type);
-0134         <span class="keyword">for</span> kk = 1 : k
-0135             <span class="comment">% For each slice, assuming the inverse retraction is well</span>
-0136             <span class="comment">% defined for the given inputs, we have:</span>
-0137             <span class="comment">%   X + U = YR</span>
-0138             <span class="comment">% Left multiply with X' to get</span>
-0139             <span class="comment">%   I + X'U = X'Y M</span>
-0140             <span class="comment">% Since X'U is skew symmetric for a tangent vector U at X, add</span>
-0141             <span class="comment">% up this equation with its transpose to get:</span>
-0142             <span class="comment">%   2I = (X'Y) R + R' (X'Y)'</span>
-0143             <span class="comment">% Contrary to the polar factorization, here R is not symmetric</span>
-0144             <span class="comment">% but it is upper triangular. As a result, this is not a</span>
-0145             <span class="comment">% Sylvester equation and we must solve it differently.</span>
-0146             R(:, :, kk) = <a href="solve_for_triu.html" class="code" title="function X = solve_for_triu(A, H)">solve_for_triu</a>(XtY(:, :, kk), H);
-0147             <span class="comment">% Then,</span>
-0148             <span class="comment">%   U = YR - X</span>
-0149             <span class="comment">% which is what we compute below.</span>
-0150         <span class="keyword">end</span>
-0151         U = <a href="../../../manopt/tools/multiprod.html" class="code" title="function c = multiprod(a, b, idA, idB)">multiprod</a>(Y, R) - X;
-0152     <span class="keyword">end</span>
-0153     
-0154     M.retr_polar = @<a href="#_sub5" class="code" title="subfunction Y = retraction_polar(X, U, t)">retraction_polar</a>;
-0155     <a name="_sub5" href="#_subfunctions" class="code">function Y = retraction_polar(X, U, t)</a>
-0156         <span class="keyword">if</span> nargin &lt; 3
-0157             Y = X + U;
-0158         <span class="keyword">else</span>
-0159             Y = X + t*U;
-0160         <span class="keyword">end</span>
-0161         <span class="keyword">for</span> kk = 1 : k
-0162             [u, s, v] = svd(Y(:, :, kk), <span class="string">'econ'</span>); <span class="comment">%#ok</span>
-0163             Y(:, :, kk) = u*v';
-0164         <span class="keyword">end</span>
-0165     <span class="keyword">end</span>
-0166     
-0167     <span class="comment">% This inverse retraction is valid for both the QR retraction and the</span>
-0168     <span class="comment">% polar retraction.</span>
-0169     M.invretr_polar = @<a href="#_sub6" class="code" title="subfunction U = invretr_polar(X, Y)">invretr_polar</a>;
-0170     <a name="_sub6" href="#_subfunctions" class="code">function U = invretr_polar(X, Y)</a>
-0171         XtY = <a href="../../../manopt/tools/multiprod.html" class="code" title="function c = multiprod(a, b, idA, idB)">multiprod</a>(<a href="../../../manopt/tools/multitransp.html" class="code" title="function b = multitransp(a, dim)">multitransp</a>(X), Y);
-0172         MM = zeros(p, p, k, array_type);
-0173         H = 2*eye(p, array_type);
-0174         <span class="keyword">for</span> kk = 1 : k
-0175             <span class="comment">% For each slice, assuming the inverse retraction is well</span>
-0176             <span class="comment">% defined for the given inputs, we have:</span>
-0177             <span class="comment">%   X + U = YM</span>
-0178             <span class="comment">% Left multiply with X' to get</span>
-0179             <span class="comment">%   I + X'U = X'Y M</span>
-0180             <span class="comment">% Since X'U is skew symmetric for a tangent vector U at X, add</span>
-0181             <span class="comment">% up this equation with its transpose to get:</span>
-0182             <span class="comment">%   2I = (X'Y) M + M' (X'Y)'</span>
-0183             <span class="comment">%      = (X'Y) M + M (X'Y)'   since M is symmetric.</span>
-0184             <span class="comment">% Solve for M symmetric with a call to sylvester:</span>
-0185             MM(:, :, kk) = <a href="../../../manopt/tools/sylvester_nochecks.html" class="code" title="function [X, unique] = sylvester_nochecks(A, B, C)">sylvester_nochecks</a>(XtY(:, :, kk), XtY(:, :, kk)', H);
-0186             <span class="comment">% Note that the above is really a Lyapunov equation: it could</span>
-0187             <span class="comment">% be solved faster by exploiting the fact the same matrix</span>
-0188             <span class="comment">% appears twice on the left, with one the transpose of the</span>
-0189             <span class="comment">% other. Then,</span>
-0190             <span class="comment">%   U = YM - X</span>
-0191             <span class="comment">% which is what we compute below.</span>
-0192         <span class="keyword">end</span>
-0193         U = <a href="../../../manopt/tools/multiprod.html" class="code" title="function c = multiprod(a, b, idA, idB)">multiprod</a>(Y, MM) - X;
-0194     <span class="keyword">end</span>
-0195     
-0196     <span class="comment">% By default, we use the QR retraction</span>
-0197     M.retr = M.retr_qr;
-0198     M.invretr = M.invretr_qr;
-0199 
-0200     M.exp = @<a href="#_sub7" class="code" title="subfunction Y = exponential(X, U, t)">exponential</a>;
-0201     <a name="_sub7" href="#_subfunctions" class="code">function Y = exponential(X, U, t)</a>
-0202         <span class="keyword">if</span> nargin == 2
-0203             tU = U;
-0204         <span class="keyword">else</span>
-0205             tU = t*U;
-0206         <span class="keyword">end</span>
-0207         Y = zeros(size(X), array_type);
-0208         I = eye(p, array_type);
-0209         Z = zeros(p, array_type);
-0210         <span class="keyword">for</span> kk = 1 : k
-0211             <span class="comment">% From a formula by Ross Lippert, Example 5.4.2 in AMS08.</span>
-0212             Xkk = X(:, :, kk);
-0213             Ukk = tU(:, :, kk);
-0214             Y(:, :, kk) = [Xkk Ukk] * <span class="keyword">...</span>
-0215                          expm([Xkk'*Ukk , -Ukk'*Ukk ; I , Xkk'*Ukk]) * <span class="keyword">...</span>
-0216                          [ expm(-Xkk'*Ukk) ; Z ];
-0217         <span class="keyword">end</span>
-0218         
-0219     <span class="keyword">end</span>
-0220 
-0221     M.hash = @(X) [<span class="string">'z'</span> <a href="../../../manopt/tools/hashmd5.html" class="code" title="function h = hashmd5(inp)">hashmd5</a>(X(:))];
-0222     
-0223     M.rand = @<a href="#_sub8" class="code" title="subfunction X = random()">random</a>;
-0224     <a name="_sub8" href="#_subfunctions" class="code">function X = random()</a>
-0225         X = randn(n, p, k, array_type);
-0226         <span class="keyword">for</span> kk = 1 : k
-0227             [Q, unused] = qr(X(:, :, kk), 0);  <span class="comment">%#ok&lt;ASGLU&gt;</span>
-0228             X(:, :, kk) = Q;
-0229         <span class="keyword">end</span>
+0078     M.dim = @() k*(n*p - .5*p*(p+1));
+0079     
+0080     M.inner = @(x, d1, d2) d1(:).'*d2(:);
+0081     
+0082     M.norm = @(x, d) norm(d(:));
+0083     
+0084     M.dist = @(x, y) error(<span class="string">'stiefel.dist not implemented yet.'</span>);
+0085     
+0086     M.typicaldist = @() sqrt(p*k);
+0087     
+0088     M.proj = @<a href="#_sub1" class="code" title="subfunction Up = projection(X, U)">projection</a>;
+0089     <a name="_sub1" href="#_subfunctions" class="code">function Up = projection(X, U)</a>
+0090         
+0091         XtU = <a href="../../../manopt/tools/multiprod.html" class="code" title="function c = multiprod(a, b, idA, idB)">multiprod</a>(<a href="../../../manopt/tools/multitransp.html" class="code" title="function b = multitransp(a, dim)">multitransp</a>(X), U);
+0092         symXtU = <a href="../../../manopt/tools/multisym.html" class="code" title="function Y = multisym(X)">multisym</a>(XtU);
+0093         Up = U - <a href="../../../manopt/tools/multiprod.html" class="code" title="function c = multiprod(a, b, idA, idB)">multiprod</a>(X, symXtU);
+0094         
+0095 <span class="comment">% The code above is equivalent to, but faster than, the code below.</span>
+0096 <span class="comment">%</span>
+0097 <span class="comment">%     Up = zeros(size(U));</span>
+0098 <span class="comment">%     function A = sym(A), A = .5*(A+A'); end</span>
+0099 <span class="comment">%     for i = 1 : k</span>
+0100 <span class="comment">%         Xi = X(:, :, i);</span>
+0101 <span class="comment">%         Ui = U(:, :, i);</span>
+0102 <span class="comment">%         Up(:, :, i) = Ui - Xi*sym(Xi'*Ui);</span>
+0103 <span class="comment">%     end</span>
+0104 
+0105     <span class="keyword">end</span>
+0106     
+0107     M.tangent = M.proj;
+0108     
+0109     <span class="comment">% For Riemannian submanifolds, converting a Euclidean gradient into a</span>
+0110     <span class="comment">% Riemannian gradient amounts to an orthogonal projection.</span>
+0111     M.egrad2rgrad = M.proj;
+0112     
+0113     M.ehess2rhess = @<a href="#_sub2" class="code" title="subfunction rhess = ehess2rhess(X, egrad, ehess, H)">ehess2rhess</a>;
+0114     <a name="_sub2" href="#_subfunctions" class="code">function rhess = ehess2rhess(X, egrad, ehess, H)</a>
+0115         XtG = <a href="../../../manopt/tools/multiprod.html" class="code" title="function c = multiprod(a, b, idA, idB)">multiprod</a>(<a href="../../../manopt/tools/multitransp.html" class="code" title="function b = multitransp(a, dim)">multitransp</a>(X), egrad);
+0116         symXtG = <a href="../../../manopt/tools/multisym.html" class="code" title="function Y = multisym(X)">multisym</a>(XtG);
+0117         HsymXtG = <a href="../../../manopt/tools/multiprod.html" class="code" title="function c = multiprod(a, b, idA, idB)">multiprod</a>(H, symXtG);
+0118         rhess = <a href="#_sub1" class="code" title="subfunction Up = projection(X, U)">projection</a>(X, ehess - HsymXtG);
+0119     <span class="keyword">end</span>
+0120     
+0121     M.retr_qr = @<a href="#_sub3" class="code" title="subfunction Y = retraction_qr(X, U, t)">retraction_qr</a>;
+0122     <a name="_sub3" href="#_subfunctions" class="code">function Y = retraction_qr(X, U, t)</a>
+0123         <span class="comment">% It is necessary to call qr_unique rather than simply qr to ensure</span>
+0124         <span class="comment">% this is a retraction, to avoid spurious column sign flips.</span>
+0125         <span class="keyword">if</span> nargin &lt; 3
+0126             Y = <a href="../../../manopt/tools/qr_unique.html" class="code" title="function [Q, R] = qr_unique(A)">qr_unique</a>(X + U);
+0127         <span class="keyword">else</span>
+0128             Y = <a href="../../../manopt/tools/qr_unique.html" class="code" title="function [Q, R] = qr_unique(A)">qr_unique</a>(X + t*U);
+0129         <span class="keyword">end</span>
+0130     <span class="keyword">end</span>
+0131 
+0132     M.invretr_qr = @<a href="#_sub4" class="code" title="subfunction U = invretr_qr(X, Y)">invretr_qr</a>;
+0133     <a name="_sub4" href="#_subfunctions" class="code">function U = invretr_qr(X, Y)</a>
+0134         XtY = <a href="../../../manopt/tools/multiprod.html" class="code" title="function c = multiprod(a, b, idA, idB)">multiprod</a>(<a href="../../../manopt/tools/multitransp.html" class="code" title="function b = multitransp(a, dim)">multitransp</a>(X), Y);
+0135         R = zeros(p, p, k, array_type);
+0136         H = 2*eye(p, array_type);
+0137         <span class="keyword">for</span> kk = 1 : k
+0138             <span class="comment">% For each slice, assuming the inverse retraction is well</span>
+0139             <span class="comment">% defined for the given inputs, we have:</span>
+0140             <span class="comment">%   X + U = YR</span>
+0141             <span class="comment">% Left multiply with X' to get</span>
+0142             <span class="comment">%   I + X'U = X'Y M</span>
+0143             <span class="comment">% Since X'U is skew symmetric for a tangent vector U at X, add</span>
+0144             <span class="comment">% up this equation with its transpose to get:</span>
+0145             <span class="comment">%   2I = (X'Y) R + R' (X'Y)'</span>
+0146             <span class="comment">% Contrary to the polar factorization, here R is not symmetric</span>
+0147             <span class="comment">% but it is upper triangular. As a result, this is not a</span>
+0148             <span class="comment">% Sylvester equation and we must solve it differently.</span>
+0149             R(:, :, kk) = <a href="solve_for_triu.html" class="code" title="function X = solve_for_triu(A, H)">solve_for_triu</a>(XtY(:, :, kk), H);
+0150             <span class="comment">% Then,</span>
+0151             <span class="comment">%   U = YR - X</span>
+0152             <span class="comment">% which is what we compute below.</span>
+0153         <span class="keyword">end</span>
+0154         U = <a href="../../../manopt/tools/multiprod.html" class="code" title="function c = multiprod(a, b, idA, idB)">multiprod</a>(Y, R) - X;
+0155     <span class="keyword">end</span>
+0156     
+0157     M.retr_polar = @<a href="#_sub5" class="code" title="subfunction Y = retraction_polar(X, U, t)">retraction_polar</a>;
+0158     <a name="_sub5" href="#_subfunctions" class="code">function Y = retraction_polar(X, U, t)</a>
+0159         <span class="keyword">if</span> nargin &lt; 3
+0160             Y = X + U;
+0161         <span class="keyword">else</span>
+0162             Y = X + t*U;
+0163         <span class="keyword">end</span>
+0164         <span class="keyword">for</span> kk = 1 : k
+0165             [u, s, v] = svd(Y(:, :, kk), <span class="string">'econ'</span>); <span class="comment">%#ok</span>
+0166             Y(:, :, kk) = u*v';
+0167         <span class="keyword">end</span>
+0168     <span class="keyword">end</span>
+0169     
+0170     M.invretr_polar = @<a href="#_sub6" class="code" title="subfunction U = invretr_polar(X, Y)">invretr_polar</a>;
+0171     <a name="_sub6" href="#_subfunctions" class="code">function U = invretr_polar(X, Y)</a>
+0172         XtY = <a href="../../../manopt/tools/multiprod.html" class="code" title="function c = multiprod(a, b, idA, idB)">multiprod</a>(<a href="../../../manopt/tools/multitransp.html" class="code" title="function b = multitransp(a, dim)">multitransp</a>(X), Y);
+0173         MM = zeros(p, p, k, array_type);
+0174         H = 2*eye(p, array_type);
+0175         <span class="keyword">for</span> kk = 1 : k
+0176             <span class="comment">% For each slice, assuming the inverse retraction is well</span>
+0177             <span class="comment">% defined for the given inputs, we have:</span>
+0178             <span class="comment">%   X + U = YM</span>
+0179             <span class="comment">% Left multiply with X' to get</span>
+0180             <span class="comment">%   I + X'U = X'Y M</span>
+0181             <span class="comment">% Since X'U is skew symmetric for a tangent vector U at X, add</span>
+0182             <span class="comment">% up this equation with its transpose to get:</span>
+0183             <span class="comment">%   2I = (X'Y) M + M' (X'Y)'</span>
+0184             <span class="comment">%      = (X'Y) M + M (X'Y)'   since M is symmetric.</span>
+0185             <span class="comment">% Solve for M symmetric with a call to sylvester:</span>
+0186             MM(:, :, kk) = <a href="../../../manopt/tools/sylvester_nochecks.html" class="code" title="function [X, unique] = sylvester_nochecks(A, B, C)">sylvester_nochecks</a>(XtY(:, :, kk), XtY(:, :, kk)', H);
+0187             <span class="comment">% Note that the above is really a Lyapunov equation: it could</span>
+0188             <span class="comment">% be solved faster by exploiting the fact the same matrix</span>
+0189             <span class="comment">% appears twice on the left, with one the transpose of the</span>
+0190             <span class="comment">% other. Then,</span>
+0191             <span class="comment">%   U = YM - X</span>
+0192             <span class="comment">% which is what we compute below.</span>
+0193         <span class="keyword">end</span>
+0194         U = <a href="../../../manopt/tools/multiprod.html" class="code" title="function c = multiprod(a, b, idA, idB)">multiprod</a>(Y, MM) - X;
+0195     <span class="keyword">end</span>
+0196     
+0197     <span class="comment">% By default, we use the QR retraction</span>
+0198     M.retr = M.retr_qr;
+0199     M.invretr = M.invretr_qr;
+0200 
+0201     M.exp = @<a href="#_sub7" class="code" title="subfunction Y = exponential(X, U, t)">exponential</a>;
+0202     <a name="_sub7" href="#_subfunctions" class="code">function Y = exponential(X, U, t)</a>
+0203         <span class="keyword">if</span> nargin == 2
+0204             tU = U;
+0205         <span class="keyword">else</span>
+0206             tU = t*U;
+0207         <span class="keyword">end</span>
+0208         Y = zeros(size(X), array_type);
+0209         I = eye(p, array_type);
+0210         Z = zeros(p, array_type);
+0211         <span class="keyword">for</span> kk = 1 : k
+0212             <span class="comment">% From a formula by Ross Lippert, Example 5.4.2 in AMS08.</span>
+0213             Xkk = X(:, :, kk);
+0214             Ukk = tU(:, :, kk);
+0215             Y(:, :, kk) = [Xkk Ukk] * <span class="keyword">...</span>
+0216                          expm([Xkk'*Ukk , -Ukk'*Ukk ; I , Xkk'*Ukk]) * <span class="keyword">...</span>
+0217                          [ expm(-Xkk'*Ukk) ; Z ];
+0218         <span class="keyword">end</span>
+0219         
+0220     <span class="keyword">end</span>
+0221 
+0222     M.hash = @(X) [<span class="string">'z'</span> <a href="../../../manopt/tools/hashmd5.html" class="code" title="function h = hashmd5(inp)">hashmd5</a>(X(:))];
+0223     
+0224     M.rand = @() <a href="../../../manopt/tools/qr_unique.html" class="code" title="function [Q, R] = qr_unique(A)">qr_unique</a>(randn(n, p, k, array_type));
+0225     
+0226     M.randvec = @<a href="#_sub8" class="code" title="subfunction U = randomvec(X)">randomvec</a>;
+0227     <a name="_sub8" href="#_subfunctions" class="code">function U = randomvec(X)</a>
+0228         U = <a href="#_sub1" class="code" title="subfunction Up = projection(X, U)">projection</a>(X, randn(n, p, k, array_type));
+0229         U = U / norm(U(:));
 0230     <span class="keyword">end</span>
 0231     
-0232     M.randvec = @<a href="#_sub9" class="code" title="subfunction U = randomvec(X)">randomvec</a>;
-0233     <a name="_sub9" href="#_subfunctions" class="code">function U = randomvec(X)</a>
-0234         U = <a href="#_sub1" class="code" title="subfunction Up = projection(X, U)">projection</a>(X, randn(n, p, k, array_type));
-0235         U = U / norm(U(:));
-0236     <span class="keyword">end</span>
+0232     M.lincomb = @<a href="../../../manopt/tools/matrixlincomb.html" class="code" title="function v = matrixlincomb(x, a1, d1, a2, d2) %#ok<INUSL>">matrixlincomb</a>;
+0233     
+0234     M.zerovec = @(x) zeros(n, p, k, array_type);
+0235     
+0236     M.transp = @(x1, x2, d) <a href="#_sub1" class="code" title="subfunction Up = projection(X, U)">projection</a>(x2, d);
 0237     
-0238     M.lincomb = @<a href="../../../manopt/tools/matrixlincomb.html" class="code" title="function v = matrixlincomb(x, a1, d1, a2, d2) %#ok<INUSL>">matrixlincomb</a>;
-0239     
-0240     M.zerovec = @(x) zeros(n, p, k, array_type);
-0241     
-0242     M.transp = @(x1, x2, d) <a href="#_sub1" class="code" title="subfunction Up = projection(X, U)">projection</a>(x2, d);
-0243     
-0244     M.vec = @(x, u_mat) u_mat(:);
-0245     M.mat = @(x, u_vec) reshape(u_vec, [n, p, k]);
-0246     M.vecmatareisometries = @() true;
-0247 
-0248     
-0249     <span class="comment">% Automatically convert a number of tools to support GPU.</span>
-0250     <span class="keyword">if</span> gpuflag
-0251         M = <a href="../../../manopt/tools/factorygpuhelper.html" class="code" title="function M = factorygpuhelper(M)">factorygpuhelper</a>(M);
-0252     <span class="keyword">end</span>
-0253     
-0254 <span class="keyword">end</span></pre></div>
-<hr><address>Generated on Mon 10-Sep-2018 11:48:06 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+0238     M.vec = @(x, u_mat) u_mat(:);
+0239     M.mat = @(x, u_vec) reshape(u_vec, [n, p, k]);
+0240     M.vecmatareisometries = @() true;
+0241 
+0242     
+0243     <span class="comment">% Automatically convert a number of tools to support GPU.</span>
+0244     <span class="keyword">if</span> gpuflag
+0245         M = <a href="../../../manopt/tools/factorygpuhelper.html" class="code" title="function M = factorygpuhelper(M)">factorygpuhelper</a>(M);
+0246     <span class="keyword">end</span>
+0247     
+0248 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Tue 19-May-2020 18:46:12 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
 </body>
 </html>

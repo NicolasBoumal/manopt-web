@@ -1,0 +1,86 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of randskewh</title>
+  <meta name="keywords" content="randskewh">
+  <meta name="description" content="Generates random skew Hermitian matrices with normal entries.">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../index.html">Home</a> &gt;  <a href="#">manopt</a> &gt; <a href="#">manifolds</a> &gt; <a href="index.html">rotations</a> &gt; randskewh.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../index.html"><img alt="<" border="0" src="../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for manopt\manifolds\rotations&nbsp;<img alt=">" border="0" src="../../../right.png"></a></td></tr></table>-->
+
+<h1>randskewh
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>Generates random skew Hermitian matrices with normal entries.</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function S = randskewh(n, N) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> Generates random skew Hermitian matrices with normal entries.
+ 
+ function S = randskewh(n)
+ function S = randskewh(n, N)
+
+ S is an n-by-n-by-N array where each slice S(:, :, i) for i = 1..N is a
+ random skew-Hermitian matrix formed by
+
+   S = (randskew(n, N) + 1i*randsym(n, N))/sqrt(2);
+
+ By default, N = 1.
+
+ See also: <a href="randherm.html" class="code" title="function S = randherm(n, N)">randherm</a> <a href="randskew.html" class="code" title="function S = randskew(n, N)">randskew</a> <a href="randunitary.html" class="code" title="function U = randunitary(n, N)">randunitary</a> <a href="randrot.html" class="code" title="function Q = randrot(n, N)">randrot</a> <a href="randsym.html" class="code" title="function S = randsym(n, N)">randsym</a></pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="randskew.html" class="code" title="function S = randskew(n, N)">randskew</a>	Generates random skew symmetric matrices with normal entries.</li><li><a href="randsym.html" class="code" title="function S = randsym(n, N)">randsym</a>	Generates random symmetric matrices with normal entries.</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="unitaryfactory.html" class="code" title="function M = unitaryfactory(n, k)">unitaryfactory</a>	Returns a manifold structure to optimize over unitary matrices.</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function S = randskewh(n, N)</a>
+0002 <span class="comment">% Generates random skew Hermitian matrices with normal entries.</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">% function S = randskewh(n)</span>
+0005 <span class="comment">% function S = randskewh(n, N)</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">% S is an n-by-n-by-N array where each slice S(:, :, i) for i = 1..N is a</span>
+0008 <span class="comment">% random skew-Hermitian matrix formed by</span>
+0009 <span class="comment">%</span>
+0010 <span class="comment">%   S = (randskew(n, N) + 1i*randsym(n, N))/sqrt(2);</span>
+0011 <span class="comment">%</span>
+0012 <span class="comment">% By default, N = 1.</span>
+0013 <span class="comment">%</span>
+0014 <span class="comment">% See also: randherm randskew randunitary randrot randsym</span>
+0015 
+0016 <span class="comment">% This file is part of Manopt: www.manopt.org.</span>
+0017 <span class="comment">% Original author: Nicolas Boumal, June 18, 2019.</span>
+0018 <span class="comment">% Contributors:</span>
+0019 <span class="comment">% Change log:</span>
+0020 
+0021     <span class="keyword">if</span> nargin &lt; 2
+0022         N = 1;
+0023     <span class="keyword">end</span>
+0024 
+0025     S = (<a href="randskew.html" class="code" title="function S = randskew(n, N)">randskew</a>(n, N) + 1i*<a href="randsym.html" class="code" title="function S = randsym(n, N)">randsym</a>(n, N))/sqrt(2);
+0026 
+0027 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Tue 19-May-2020 18:46:12 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

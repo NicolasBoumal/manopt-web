@@ -84,27 +84,27 @@ This function is called by:
 0022 <span class="comment">% Contributors:</span>
 0023 <span class="comment">% Change log:</span>
 0024 <span class="comment">%</span>
-0025 <span class="comment">%    July 16, 2013 (NB)</span>
+0025 <span class="comment">%   July 16, 2013 (NB)</span>
 0026 <span class="comment">%       Added 'transposed' option, mainly for ease of comparison with the</span>
 0027 <span class="comment">%       elliptope geometry.</span>
 0028 <span class="comment">%</span>
-0029 <span class="comment">%    Nov. 29, 2013 (NB)</span>
+0029 <span class="comment">%   Nov. 29, 2013 (NB)</span>
 0030 <span class="comment">%       Added normalize_columns function to make it easier to exploit the</span>
 0031 <span class="comment">%       bsxfun formulation of column normalization, which avoids using for</span>
 0032 <span class="comment">%       loops and provides performance gains. The exponential still uses a</span>
 0033 <span class="comment">%       for loop.</span>
 0034 <span class="comment">%</span>
-0035 <span class="comment">%    April 4, 2015 (NB)</span>
+0035 <span class="comment">%   April 4, 2015 (NB)</span>
 0036 <span class="comment">%       Log function modified to avoid NaN's appearing for close by points.</span>
 0037 <span class="comment">%</span>
-0038 <span class="comment">%    April 13, 2015 (NB)</span>
+0038 <span class="comment">%   April 13, 2015 (NB)</span>
 0039 <span class="comment">%       Exponential now without for-loops.</span>
 0040 <span class="comment">%</span>
 0041 <span class="comment">%   Oct. 8, 2016 (NB)</span>
 0042 <span class="comment">%       Code for exponential was simplified to only treat the zero vector</span>
 0043 <span class="comment">%       as a particular case.</span>
 0044 <span class="comment">%</span>
-0045 <span class="comment">%  Oct. 21, 2016 (NB)</span>
+0045 <span class="comment">%   Oct. 21, 2016 (NB)</span>
 0046 <span class="comment">%       Bug caught in M.log: the function called v = M.proj(x1, x2 - x1),</span>
 0047 <span class="comment">%       which internally applies transp to inputs and outputs. But since</span>
 0048 <span class="comment">%       M.log had already taken care of transposing things, this introduced</span>
@@ -312,6 +312,6 @@ This function is called by:
 0250     d = d / norm(d(:));
 0251 
 0252 <span class="keyword">end</span></pre></div>
-<hr><address>Generated on Mon 10-Sep-2018 11:48:06 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+<hr><address>Generated on Tue 19-May-2020 18:46:12 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
 </body>
 </html>

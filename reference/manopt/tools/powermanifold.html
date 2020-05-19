@@ -89,225 +89,241 @@ This function is called by:
 0024 <span class="comment">% Original author: Nicolas Boumal, Dec. 30, 2012.</span>
 0025 <span class="comment">% Contributors:</span>
 0026 <span class="comment">% Change log:</span>
-0027 <span class="comment">%   NB, July 4, 2013: Added support for vec, mat, tangent.</span>
-0028 <span class="comment">%                     Added support for egrad2rgrad and ehess2rhess.</span>
-0029 
-0030     
-0031     assert(n &gt;= 1, <span class="string">'n must be an integer larger than or equal to 1.'</span>);
-0032     
-0033     Mn.name = @() sprintf(<span class="string">'[%s]^%d'</span>, M.name(), n);
-0034     
-0035     Mn.dim = @() n*M.dim();
+0027 <span class="comment">%</span>
+0028 <span class="comment">%   July  4, 2013 (NB):</span>
+0029 <span class="comment">%       Added support for vec, mat, tangent.</span>
+0030 <span class="comment">%       Added support for egrad2rgrad and ehess2rhess.</span>
+0031 <span class="comment">%</span>
+0032 <span class="comment">%   Feb. 10, 2020 (NB):</span>
+0033 <span class="comment">%       Added warnings about calling egrad2rgrad and ehess2rhess without</span>
+0034 <span class="comment">%       storedb and key, even if the base manifold allows them.</span>
+0035 
 0036     
-0037     Mn.inner = @<a href="#_sub1" class="code" title="subfunction val = inner(x, u, v)">inner</a>;
-0038     <a name="_sub1" href="#_subfunctions" class="code">function val = inner(x, u, v)</a>
-0039         val = 0;
-0040         <span class="keyword">for</span> i = 1 : n
-0041             val = val + M.inner(x{i}, u{i}, v{i});
-0042         <span class="keyword">end</span>
-0043     <span class="keyword">end</span>
-0044 
-0045     Mn.norm = @(x, d) sqrt(Mn.inner(x, d, d));
-0046 
-0047     Mn.dist = @<a href="#_sub2" class="code" title="subfunction d = dist(x, y)">dist</a>;
-0048     <a name="_sub2" href="#_subfunctions" class="code">function d = dist(x, y)</a>
-0049         sqd = 0;
-0050         <span class="keyword">for</span> i = 1 : n
-0051             sqd = sqd + M.dist(x{i}, y{i})^2;
-0052         <span class="keyword">end</span>
-0053         d = sqrt(sqd);
-0054     <span class="keyword">end</span>
-0055 
-0056     Mn.typicaldist = @<a href="#_sub3" class="code" title="subfunction d = typicaldist()">typicaldist</a>;
-0057     <a name="_sub3" href="#_subfunctions" class="code">function d = typicaldist()</a>
-0058         sqd = 0;
-0059         <span class="keyword">for</span> i = 1 : n
-0060             sqd = sqd + M.typicaldist()^2;
-0061         <span class="keyword">end</span>
-0062         d = sqrt(sqd);
-0063     <span class="keyword">end</span>
-0064     
-0065     Mn.proj = @<a href="#_sub4" class="code" title="subfunction u = proj(x, u)">proj</a>;
-0066     <a name="_sub4" href="#_subfunctions" class="code">function u = proj(x, u)</a>
-0067         <span class="keyword">for</span> i = 1 : n
-0068             u{i} = M.proj(x{i}, u{i});
-0069         <span class="keyword">end</span>
-0070     <span class="keyword">end</span>
-0071     
-0072     Mn.tangent = @<a href="#_sub5" class="code" title="subfunction u = tangent(x, u)">tangent</a>;
-0073     <a name="_sub5" href="#_subfunctions" class="code">function u = tangent(x, u)</a>
-0074         <span class="keyword">for</span> i = 1 : n
-0075             u{i} = M.tangent(x{i}, u{i});
-0076         <span class="keyword">end</span>
-0077     <span class="keyword">end</span>
-0078     
-0079     <span class="keyword">if</span> isfield(M, <span class="string">'tangent2ambient_is_identity'</span>)
-0080         Mn.tangent2ambient_is_identity = M.tangent2ambient_is_identity;
-0081     <span class="keyword">else</span>
-0082         Mn.tangent2ambient_is_identity = true;
+0037     assert(n &gt;= 1, <span class="string">'n must be an integer larger than or equal to 1.'</span>);
+0038     
+0039     Mn.name = @() sprintf(<span class="string">'[%s]^%d'</span>, M.name(), n);
+0040     
+0041     Mn.dim = @() n*M.dim();
+0042     
+0043     Mn.inner = @<a href="#_sub1" class="code" title="subfunction val = inner(x, u, v)">inner</a>;
+0044     <a name="_sub1" href="#_subfunctions" class="code">function val = inner(x, u, v)</a>
+0045         val = 0;
+0046         <span class="keyword">for</span> i = 1 : n
+0047             val = val + M.inner(x{i}, u{i}, v{i});
+0048         <span class="keyword">end</span>
+0049     <span class="keyword">end</span>
+0050 
+0051     Mn.norm = @(x, d) sqrt(Mn.inner(x, d, d));
+0052 
+0053     Mn.dist = @<a href="#_sub2" class="code" title="subfunction d = dist(x, y)">dist</a>;
+0054     <a name="_sub2" href="#_subfunctions" class="code">function d = dist(x, y)</a>
+0055         sqd = 0;
+0056         <span class="keyword">for</span> i = 1 : n
+0057             sqd = sqd + M.dist(x{i}, y{i})^2;
+0058         <span class="keyword">end</span>
+0059         d = sqrt(sqd);
+0060     <span class="keyword">end</span>
+0061 
+0062     Mn.typicaldist = @<a href="#_sub3" class="code" title="subfunction d = typicaldist()">typicaldist</a>;
+0063     <a name="_sub3" href="#_subfunctions" class="code">function d = typicaldist()</a>
+0064         sqd = 0;
+0065         <span class="keyword">for</span> i = 1 : n
+0066             sqd = sqd + M.typicaldist()^2;
+0067         <span class="keyword">end</span>
+0068         d = sqrt(sqd);
+0069     <span class="keyword">end</span>
+0070     
+0071     Mn.proj = @<a href="#_sub4" class="code" title="subfunction u = proj(x, u)">proj</a>;
+0072     <a name="_sub4" href="#_subfunctions" class="code">function u = proj(x, u)</a>
+0073         <span class="keyword">for</span> i = 1 : n
+0074             u{i} = M.proj(x{i}, u{i});
+0075         <span class="keyword">end</span>
+0076     <span class="keyword">end</span>
+0077     
+0078     Mn.tangent = @<a href="#_sub5" class="code" title="subfunction u = tangent(x, u)">tangent</a>;
+0079     <a name="_sub5" href="#_subfunctions" class="code">function u = tangent(x, u)</a>
+0080         <span class="keyword">for</span> i = 1 : n
+0081             u{i} = M.tangent(x{i}, u{i});
+0082         <span class="keyword">end</span>
 0083     <span class="keyword">end</span>
 0084     
-0085     <span class="keyword">if</span> isfield(M, <span class="string">'tangent2ambient'</span>)
-0086         Mn.tangent2ambient = @<a href="#_sub6" class="code" title="subfunction u = tangent2ambient(x, u)">tangent2ambient</a>;
+0085     <span class="keyword">if</span> isfield(M, <span class="string">'tangent2ambient_is_identity'</span>)
+0086         Mn.tangent2ambient_is_identity = M.tangent2ambient_is_identity;
 0087     <span class="keyword">else</span>
-0088         Mn.tangent2ambient = @(x, u) u;
+0088         Mn.tangent2ambient_is_identity = true;
 0089     <span class="keyword">end</span>
-0090     <a name="_sub6" href="#_subfunctions" class="code">function u = tangent2ambient(x, u)</a>
-0091         <span class="keyword">for</span> i = 1 : n
-0092             u{i} = M.tangent2ambient(x{i}, u{i});
-0093         <span class="keyword">end</span>
-0094     <span class="keyword">end</span>
-0095     
-0096     Mn.egrad2rgrad = @<a href="#_sub7" class="code" title="subfunction g = egrad2rgrad(x, g)">egrad2rgrad</a>;
-0097     <a name="_sub7" href="#_subfunctions" class="code">function g = egrad2rgrad(x, g)</a>
-0098         <span class="keyword">for</span> i = 1 : n
-0099             g{i} = M.egrad2rgrad(x{i}, g{i});
-0100         <span class="keyword">end</span>
-0101     <span class="keyword">end</span>
-0102     
-0103     Mn.ehess2rhess = @<a href="#_sub8" class="code" title="subfunction h = ehess2rhess(x, eg, eh, h)">ehess2rhess</a>;
-0104     <a name="_sub8" href="#_subfunctions" class="code">function h = ehess2rhess(x, eg, eh, h)</a>
-0105         <span class="keyword">for</span> i = 1 : n
-0106             h{i} = M.ehess2rhess(x{i}, eg{i}, eh{i}, h{i});
-0107         <span class="keyword">end</span>
-0108     <span class="keyword">end</span>
-0109     
-0110     Mn.exp = @<a href="#_sub9" class="code" title="subfunction x = expo(x, u, t)">expo</a>;
-0111     <a name="_sub9" href="#_subfunctions" class="code">function x = expo(x, u, t)</a>
-0112         <span class="keyword">if</span> nargin &lt; 3
-0113             t = 1.0;
-0114         <span class="keyword">end</span>
-0115         <span class="keyword">for</span> i = 1 : n
-0116             x{i} = M.exp(x{i}, u{i}, t);
-0117         <span class="keyword">end</span>
+0090     
+0091     <span class="keyword">if</span> isfield(M, <span class="string">'tangent2ambient'</span>)
+0092         Mn.tangent2ambient = @<a href="#_sub6" class="code" title="subfunction u = tangent2ambient(x, u)">tangent2ambient</a>;
+0093     <span class="keyword">else</span>
+0094         Mn.tangent2ambient = @(x, u) u;
+0095     <span class="keyword">end</span>
+0096     <a name="_sub6" href="#_subfunctions" class="code">function u = tangent2ambient(x, u)</a>
+0097         <span class="keyword">for</span> i = 1 : n
+0098             u{i} = M.tangent2ambient(x{i}, u{i});
+0099         <span class="keyword">end</span>
+0100     <span class="keyword">end</span>
+0101     
+0102     <span class="keyword">if</span> nargin(M.egrad2rgrad) &gt; 2
+0103         warning(<span class="string">'manopt:powermanifold:egrad2rgrad'</span>, <span class="keyword">...</span>
+0104                [<span class="string">'Power manifolds call M.egrad2rgrad with only two '</span>, <span class="keyword">...</span>
+0105                 <span class="string">'inputs:\nstoredb and key won''t be available.'</span>]);
+0106     <span class="keyword">end</span>
+0107     Mn.egrad2rgrad = @<a href="#_sub7" class="code" title="subfunction g = egrad2rgrad(x, g)">egrad2rgrad</a>;
+0108     <a name="_sub7" href="#_subfunctions" class="code">function g = egrad2rgrad(x, g)</a>
+0109         <span class="keyword">for</span> i = 1 : n
+0110             g{i} = M.egrad2rgrad(x{i}, g{i});
+0111         <span class="keyword">end</span>
+0112     <span class="keyword">end</span>
+0113     
+0114     <span class="keyword">if</span> nargin(M.ehess2rhess) &gt; 4
+0115         warning(<span class="string">'manopt:powermanifold:ehess2rhess'</span>, <span class="keyword">...</span>
+0116                [<span class="string">'Power manifolds call M.ehess2rhess with only four '</span>, <span class="keyword">...</span>
+0117                 <span class="string">'inputs:\nstoredb and key won''t be available.'</span>]);
 0118     <span class="keyword">end</span>
-0119     
-0120     Mn.retr = @<a href="#_sub10" class="code" title="subfunction x = retr(x, u, t)">retr</a>;
-0121     <a name="_sub10" href="#_subfunctions" class="code">function x = retr(x, u, t)</a>
-0122         <span class="keyword">if</span> nargin &lt; 3
-0123             t = 1.0;
-0124         <span class="keyword">end</span>
-0125         <span class="keyword">for</span> i = 1 : n
-0126             x{i} = M.retr(x{i}, u{i}, t);
-0127         <span class="keyword">end</span>
-0128     <span class="keyword">end</span>
-0129     
-0130     <span class="keyword">if</span> isfield(M, <span class="string">'log'</span>)
-0131         Mn.log = @<a href="#_sub11" class="code" title="subfunction u = loga(x, y)">loga</a>;
-0132     <span class="keyword">end</span>
-0133     <a name="_sub11" href="#_subfunctions" class="code">function u = loga(x, y)</a>
-0134         u = cell(n, 1);
-0135         <span class="keyword">for</span> i = 1 : n
-0136             u{i} = M.log(x{i}, y{i});
-0137         <span class="keyword">end</span>
-0138     <span class="keyword">end</span>
-0139     
-0140     Mn.hash = @<a href="#_sub12" class="code" title="subfunction str = hash(x)">hash</a>;
-0141     <a name="_sub12" href="#_subfunctions" class="code">function str = hash(x)</a>
-0142         str = <span class="string">''</span>;
-0143         <span class="keyword">for</span> i = 1 : n
-0144             str = [str M.hash(x{i})]; <span class="comment">%#ok&lt;AGROW&gt;</span>
-0145         <span class="keyword">end</span>
-0146         str = [<span class="string">'z'</span> <a href="hashmd5.html" class="code" title="function h = hashmd5(inp)">hashmd5</a>(str)];
-0147     <span class="keyword">end</span>
-0148 
-0149     Mn.lincomb = @<a href="lincomb.html" class="code" title="function vec = lincomb(M, x, vecs, coeffs)">lincomb</a>;
-0150     <a name="_sub13" href="#_subfunctions" class="code">function x = lincomb(x, a1, u1, a2, u2)</a>
-0151         <span class="keyword">if</span> nargin == 3
-0152             <span class="keyword">for</span> i = 1 : n
-0153                 x{i} = M.lincomb(x{i}, a1, u1{i});
-0154             <span class="keyword">end</span>
-0155         <span class="keyword">elseif</span> nargin == 5
-0156             <span class="keyword">for</span> i = 1 : n
-0157                 x{i} = M.lincomb(x{i}, a1, u1{i}, a2, u2{i});
-0158             <span class="keyword">end</span>
-0159         <span class="keyword">else</span>
-0160             error(<span class="string">'Bad usage of powermanifold.lincomb'</span>);
+0119     Mn.ehess2rhess = @<a href="#_sub8" class="code" title="subfunction h = ehess2rhess(x, eg, eh, h)">ehess2rhess</a>;
+0120     <a name="_sub8" href="#_subfunctions" class="code">function h = ehess2rhess(x, eg, eh, h)</a>
+0121         <span class="keyword">for</span> i = 1 : n
+0122             h{i} = M.ehess2rhess(x{i}, eg{i}, eh{i}, h{i});
+0123         <span class="keyword">end</span>
+0124     <span class="keyword">end</span>
+0125     
+0126     Mn.exp = @<a href="#_sub9" class="code" title="subfunction x = expo(x, u, t)">expo</a>;
+0127     <a name="_sub9" href="#_subfunctions" class="code">function x = expo(x, u, t)</a>
+0128         <span class="keyword">if</span> nargin &lt; 3
+0129             t = 1.0;
+0130         <span class="keyword">end</span>
+0131         <span class="keyword">for</span> i = 1 : n
+0132             x{i} = M.exp(x{i}, u{i}, t);
+0133         <span class="keyword">end</span>
+0134     <span class="keyword">end</span>
+0135     
+0136     Mn.retr = @<a href="#_sub10" class="code" title="subfunction x = retr(x, u, t)">retr</a>;
+0137     <a name="_sub10" href="#_subfunctions" class="code">function x = retr(x, u, t)</a>
+0138         <span class="keyword">if</span> nargin &lt; 3
+0139             t = 1.0;
+0140         <span class="keyword">end</span>
+0141         <span class="keyword">for</span> i = 1 : n
+0142             x{i} = M.retr(x{i}, u{i}, t);
+0143         <span class="keyword">end</span>
+0144     <span class="keyword">end</span>
+0145     
+0146     <span class="keyword">if</span> isfield(M, <span class="string">'log'</span>)
+0147         Mn.log = @<a href="#_sub11" class="code" title="subfunction u = loga(x, y)">loga</a>;
+0148     <span class="keyword">end</span>
+0149     <a name="_sub11" href="#_subfunctions" class="code">function u = loga(x, y)</a>
+0150         u = cell(n, 1);
+0151         <span class="keyword">for</span> i = 1 : n
+0152             u{i} = M.log(x{i}, y{i});
+0153         <span class="keyword">end</span>
+0154     <span class="keyword">end</span>
+0155     
+0156     Mn.hash = @<a href="#_sub12" class="code" title="subfunction str = hash(x)">hash</a>;
+0157     <a name="_sub12" href="#_subfunctions" class="code">function str = hash(x)</a>
+0158         str = <span class="string">''</span>;
+0159         <span class="keyword">for</span> i = 1 : n
+0160             str = [str M.hash(x{i})]; <span class="comment">%#ok&lt;AGROW&gt;</span>
 0161         <span class="keyword">end</span>
-0162     <span class="keyword">end</span>
-0163 
-0164     Mn.rand = @<a href="#_sub14" class="code" title="subfunction x = rand()">rand</a>;
-0165     <a name="_sub14" href="#_subfunctions" class="code">function x = rand()</a>
-0166         x = cell(n, 1);
-0167         <span class="keyword">for</span> i = 1 : n
-0168             x{i} = M.rand();
-0169         <span class="keyword">end</span>
-0170     <span class="keyword">end</span>
-0171 
-0172     Mn.randvec = @<a href="#_sub15" class="code" title="subfunction u = randvec(x)">randvec</a>;
-0173     <a name="_sub15" href="#_subfunctions" class="code">function u = randvec(x)</a>
-0174         u = cell(n, 1);
-0175         <span class="keyword">for</span> i = 1 : n
-0176             u{i} = M.randvec(x{i});
+0162         str = [<span class="string">'z'</span> <a href="hashmd5.html" class="code" title="function h = hashmd5(inp)">hashmd5</a>(str)];
+0163     <span class="keyword">end</span>
+0164 
+0165     Mn.lincomb = @<a href="lincomb.html" class="code" title="function vec = lincomb(M, x, vecs, coeffs)">lincomb</a>;
+0166     <a name="_sub13" href="#_subfunctions" class="code">function x = lincomb(x, a1, u1, a2, u2)</a>
+0167         <span class="keyword">if</span> nargin == 3
+0168             <span class="keyword">for</span> i = 1 : n
+0169                 x{i} = M.lincomb(x{i}, a1, u1{i});
+0170             <span class="keyword">end</span>
+0171         <span class="keyword">elseif</span> nargin == 5
+0172             <span class="keyword">for</span> i = 1 : n
+0173                 x{i} = M.lincomb(x{i}, a1, u1{i}, a2, u2{i});
+0174             <span class="keyword">end</span>
+0175         <span class="keyword">else</span>
+0176             error(<span class="string">'Bad usage of powermanifold.lincomb'</span>);
 0177         <span class="keyword">end</span>
-0178         u = Mn.lincomb(x, 1/sqrt(n), u);
-0179     <span class="keyword">end</span>
-0180 
-0181     Mn.zerovec = @<a href="#_sub16" class="code" title="subfunction u = zerovec(x)">zerovec</a>;
-0182     <a name="_sub16" href="#_subfunctions" class="code">function u = zerovec(x)</a>
-0183         u = cell(n, 1);
-0184         <span class="keyword">for</span> i = 1 : n
-0185             u{i} = M.zerovec(x{i});
-0186         <span class="keyword">end</span>
-0187     <span class="keyword">end</span>
-0188 
-0189     <span class="keyword">if</span> isfield(M, <span class="string">'transp'</span>)
-0190         Mn.transp = @<a href="#_sub17" class="code" title="subfunction u = transp(x1, x2, u)">transp</a>;
-0191     <span class="keyword">end</span>
-0192     <a name="_sub17" href="#_subfunctions" class="code">function u = transp(x1, x2, u)</a>
-0193         <span class="keyword">for</span> i = 1 : n
-0194             u{i} = M.transp(x1{i}, x2{i}, u{i});
-0195         <span class="keyword">end</span>
-0196     <span class="keyword">end</span>
-0197 
-0198     <span class="keyword">if</span> isfield(M, <span class="string">'pairmean'</span>)
-0199         Mn.pairmean = @<a href="#_sub18" class="code" title="subfunction y = pairmean(x1, x2)">pairmean</a>;
-0200     <span class="keyword">end</span>
-0201     <a name="_sub18" href="#_subfunctions" class="code">function y = pairmean(x1, x2)</a>
-0202         y = cell(n, 1);
-0203         <span class="keyword">for</span> i = 1 : n
-0204             y{i} = M.pairmean(x1{i}, x2{i});
-0205         <span class="keyword">end</span>
-0206     <span class="keyword">end</span>
-0207 
-0208     <span class="comment">% Compute the length of a vectorized tangent vector of M at x, assuming</span>
-0209     <span class="comment">% this length is independent of the point x (that should be fine).</span>
-0210     <span class="keyword">if</span> isfield(M, <span class="string">'vec'</span>)
-0211         rand_x = M.rand();
-0212         zero_u = M.zerovec(rand_x);
-0213         len_vec = length(M.vec(rand_x, zero_u));
-0214 
-0215         Mn.vec = @<a href="#_sub19" class="code" title="subfunction u_vec = vec(x, u_mat)">vec</a>;
-0216         
-0217         <span class="keyword">if</span> isfield(M, <span class="string">'mat'</span>)
-0218             Mn.mat = @<a href="#_sub20" class="code" title="subfunction u_mat = mat(x, u_vec)">mat</a>;
-0219         <span class="keyword">end</span>
-0220         
-0221     <span class="keyword">end</span>
-0222     
-0223     <a name="_sub19" href="#_subfunctions" class="code">function u_vec = vec(x, u_mat)</a>
-0224         u_vec = zeros(len_vec, n);
-0225         <span class="keyword">for</span> i = 1 : n
-0226             u_vec(:, i) = M.vec(x{i}, u_mat{i});
-0227         <span class="keyword">end</span>
-0228         u_vec = u_vec(:);
-0229     <span class="keyword">end</span>
+0178     <span class="keyword">end</span>
+0179 
+0180     Mn.rand = @<a href="#_sub14" class="code" title="subfunction x = rand()">rand</a>;
+0181     <a name="_sub14" href="#_subfunctions" class="code">function x = rand()</a>
+0182         x = cell(n, 1);
+0183         <span class="keyword">for</span> i = 1 : n
+0184             x{i} = M.rand();
+0185         <span class="keyword">end</span>
+0186     <span class="keyword">end</span>
+0187 
+0188     Mn.randvec = @<a href="#_sub15" class="code" title="subfunction u = randvec(x)">randvec</a>;
+0189     <a name="_sub15" href="#_subfunctions" class="code">function u = randvec(x)</a>
+0190         u = cell(n, 1);
+0191         <span class="keyword">for</span> i = 1 : n
+0192             u{i} = M.randvec(x{i});
+0193         <span class="keyword">end</span>
+0194         u = Mn.lincomb(x, 1/sqrt(n), u);
+0195     <span class="keyword">end</span>
+0196 
+0197     Mn.zerovec = @<a href="#_sub16" class="code" title="subfunction u = zerovec(x)">zerovec</a>;
+0198     <a name="_sub16" href="#_subfunctions" class="code">function u = zerovec(x)</a>
+0199         u = cell(n, 1);
+0200         <span class="keyword">for</span> i = 1 : n
+0201             u{i} = M.zerovec(x{i});
+0202         <span class="keyword">end</span>
+0203     <span class="keyword">end</span>
+0204 
+0205     <span class="keyword">if</span> isfield(M, <span class="string">'transp'</span>)
+0206         Mn.transp = @<a href="#_sub17" class="code" title="subfunction u = transp(x1, x2, u)">transp</a>;
+0207     <span class="keyword">end</span>
+0208     <a name="_sub17" href="#_subfunctions" class="code">function u = transp(x1, x2, u)</a>
+0209         <span class="keyword">for</span> i = 1 : n
+0210             u{i} = M.transp(x1{i}, x2{i}, u{i});
+0211         <span class="keyword">end</span>
+0212     <span class="keyword">end</span>
+0213 
+0214     <span class="keyword">if</span> isfield(M, <span class="string">'pairmean'</span>)
+0215         Mn.pairmean = @<a href="#_sub18" class="code" title="subfunction y = pairmean(x1, x2)">pairmean</a>;
+0216     <span class="keyword">end</span>
+0217     <a name="_sub18" href="#_subfunctions" class="code">function y = pairmean(x1, x2)</a>
+0218         y = cell(n, 1);
+0219         <span class="keyword">for</span> i = 1 : n
+0220             y{i} = M.pairmean(x1{i}, x2{i});
+0221         <span class="keyword">end</span>
+0222     <span class="keyword">end</span>
+0223 
+0224     <span class="comment">% Compute the length of a vectorized tangent vector of M at x, assuming</span>
+0225     <span class="comment">% this length is independent of the point x (that should be fine).</span>
+0226     <span class="keyword">if</span> isfield(M, <span class="string">'vec'</span>)
+0227         rand_x = M.rand();
+0228         zero_u = M.zerovec(rand_x);
+0229         len_vec = length(M.vec(rand_x, zero_u));
 0230 
-0231     <a name="_sub20" href="#_subfunctions" class="code">function u_mat = mat(x, u_vec)</a>
-0232         u_mat = cell(n, 1);
-0233         u_vec = reshape(u_vec, len_vec, n);
-0234         <span class="keyword">for</span> i = 1 : n
-0235             u_mat{i} = M.mat(x{i}, u_vec(:, i));
-0236         <span class="keyword">end</span>
+0231         Mn.vec = @<a href="#_sub19" class="code" title="subfunction u_vec = vec(x, u_mat)">vec</a>;
+0232         
+0233         <span class="keyword">if</span> isfield(M, <span class="string">'mat'</span>)
+0234             Mn.mat = @<a href="#_sub20" class="code" title="subfunction u_mat = mat(x, u_vec)">mat</a>;
+0235         <span class="keyword">end</span>
+0236         
 0237     <span class="keyword">end</span>
-0238 
-0239     <span class="keyword">if</span> isfield(M, <span class="string">'vecmatareisometries'</span>)
-0240         Mn.vecmatareisometries = M.vecmatareisometries;
-0241     <span class="keyword">else</span>
-0242         Mn.vecmatareisometries = @() false;
-0243     <span class="keyword">end</span>
-0244 
-0245 <span class="keyword">end</span></pre></div>
-<hr><address>Generated on Mon 10-Sep-2018 11:48:06 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+0238     
+0239     <a name="_sub19" href="#_subfunctions" class="code">function u_vec = vec(x, u_mat)</a>
+0240         u_vec = zeros(len_vec, n);
+0241         <span class="keyword">for</span> i = 1 : n
+0242             u_vec(:, i) = M.vec(x{i}, u_mat{i});
+0243         <span class="keyword">end</span>
+0244         u_vec = u_vec(:);
+0245     <span class="keyword">end</span>
+0246 
+0247     <a name="_sub20" href="#_subfunctions" class="code">function u_mat = mat(x, u_vec)</a>
+0248         u_mat = cell(n, 1);
+0249         u_vec = reshape(u_vec, len_vec, n);
+0250         <span class="keyword">for</span> i = 1 : n
+0251             u_mat{i} = M.mat(x{i}, u_vec(:, i));
+0252         <span class="keyword">end</span>
+0253     <span class="keyword">end</span>
+0254 
+0255     <span class="keyword">if</span> isfield(M, <span class="string">'vecmatareisometries'</span>)
+0256         Mn.vecmatareisometries = M.vecmatareisometries;
+0257     <span class="keyword">else</span>
+0258         Mn.vecmatareisometries = @() false;
+0259     <span class="keyword">end</span>
+0260 
+0261 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Tue 19-May-2020 18:46:12 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
 </body>
 </html>

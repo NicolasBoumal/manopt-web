@@ -94,10 +94,10 @@ This function is called by:
 0029 <span class="comment">%</span>
 0030     
 0031     <span class="comment">% Random data generation. First, choose the size of the problem.</span>
-0032     <span class="comment">% We will complete a matrix of size mxn of rank k:</span>
+0032     <span class="comment">% We will complete a matrix of size mxn of rank k.</span>
 0033     m = 200;
-0034     n = 500;
-0035     k = 10;
+0034     n = 200;
+0035     k = 5;
 0036     <span class="comment">% Generate a random mxn matrix A of rank k</span>
 0037     L = randn(m, k);
 0038     R = randn(n, k);
@@ -272,26 +272,29 @@ This function is called by:
 0207     
 0208     
 0209     
-0210     
-0211     
-0212 
-0213     <span class="comment">% If the problem has a small enough dimension, we may (for analysis</span>
-0214     <span class="comment">% purposes) compute the spectrum of the Hessian at a point X. This may</span>
-0215     <span class="comment">% help in studying the conditioning of a problem. If you don't provide</span>
-0216     <span class="comment">% the Hessian, Manopt will approximate the Hessian with finite</span>
-0217     <span class="comment">% differences of the gradient and try to estimate its &quot;spectrum&quot; (it's</span>
-0218     <span class="comment">% not a proper linear operator). This can give some intuition, but</span>
-0219     <span class="comment">% should not be relied upon.</span>
-0220     <span class="keyword">if</span> problem.M.dim() &lt; 100
-0221         fprintf(<span class="string">'Computing the spectrum of the Hessian...'</span>);
-0222         s = <a href="../manopt/tools/hessianspectrum.html" class="code" title="function lambdas = hessianspectrum(problem, x, usepreconstr, storedb, key)">hessianspectrum</a>(problem, X);
-0223         hist(s);
-0224     <span class="keyword">end</span>
-0225     
-0226     
-0227     
+0210 
+0211     <span class="comment">% If the problem has a small enough dimension, we may (for analysis</span>
+0212     <span class="comment">% purposes) compute the spectrum of the Hessian at a point X. This may</span>
+0213     <span class="comment">% help in studying the conditioning of a problem. If you don't provide</span>
+0214     <span class="comment">% the Hessian, Manopt will approximate the Hessian with finite</span>
+0215     <span class="comment">% differences of the gradient and try to estimate its &quot;spectrum&quot; (it's</span>
+0216     <span class="comment">% not a proper linear operator). This can give some intuition, but</span>
+0217     <span class="comment">% should not be relied upon.</span>
+0218     <span class="keyword">if</span> problem.M.dim() &lt; 2000
+0219         fprintf(<span class="string">'Computing the spectrum of the Hessian...\n'</span>);
+0220         s = <a href="../manopt/tools/hessianspectrum.html" class="code" title="function lambdas = hessianspectrum(problem, x, usepreconstr, storedb, key)">hessianspectrum</a>(problem, X);
+0221         subplot(1, 2, 1);
+0222         histogram(s);
+0223         title(<span class="string">'Histogram of eigenvalues of the Hessian at the solution'</span>);
+0224         subplot(1, 2, 2);
+0225         histogram(log10(abs(s)));
+0226         title(<span class="string">'Histogram of log_{10}(|eigenvalues|) of the Hessian at the solution'</span>);
+0227     <span class="keyword">end</span>
 0228     
-0229 <span class="keyword">end</span></pre></div>
-<hr><address>Generated on Mon 10-Sep-2018 11:48:06 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+0229     
+0230     
+0231     
+0232 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Tue 19-May-2020 18:46:12 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
 </body>
 </html>

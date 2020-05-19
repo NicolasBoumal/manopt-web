@@ -130,10 +130,10 @@ This function is called by:
 0045 <span class="comment">% is available in this paper:</span>
 0046 <span class="comment">%</span>
 0047 <span class="comment">% @incollection{boumal2015rtrfd</span>
-0048 <span class="comment">%     author={Boumal, N.},</span>
-0049 <span class="comment">%     title={Riemannian trust regions with finite-difference Hessian approximations are globally convergent},</span>
-0050 <span class="comment">%     year={2015},</span>
-0051 <span class="comment">%     booktitle={Geometric Science of Information}</span>
+0048 <span class="comment">%   author={Boumal, N.},</span>
+0049 <span class="comment">%   title={Riemannian trust regions with finite-difference Hessian approximations are globally convergent},</span>
+0050 <span class="comment">%   year={2015},</span>
+0051 <span class="comment">%   booktitle={Geometric Science of Information}</span>
 0052 <span class="comment">% }</span>
 0053 
 0054 <span class="comment">% This file is part of Manopt: www.manopt.org.</span>
@@ -159,76 +159,90 @@ This function is called by:
 0074 <span class="comment">%       aligned with the other Hessian approximations to come (which may</span>
 0075 <span class="comment">%       want to use storedb.internal), and now allows specifying the step</span>
 0076 <span class="comment">%       size.</span>
-0077 
-0078     <span class="comment">% This Hessian approximation is based on the gradient:</span>
-0079     <span class="comment">% check availability.</span>
-0080     <span class="keyword">if</span> ~<a href="../../../manopt/core/canGetGradient.html" class="code" title="function candoit = canGetGradient(problem)">canGetGradient</a>(problem) &amp;&amp; ~<a href="../../../manopt/core/canGetApproxGradient.html" class="code" title="function candoit = canGetApproxGradient(problem)">canGetApproxGradient</a>(problem)
-0081         warning(<span class="string">'manopt:approxhessianFD:nogradient'</span>, <span class="keyword">...</span>
-0082                 <span class="string">'approxhessianFD requires the gradient to be computable.'</span>);
-0083     <span class="keyword">end</span>
-0084 
-0085     <span class="comment">% Set local defaults here, and merge with user options, if any.</span>
-0086     localdefaults.stepsize = 2^-14;
-0087     <span class="keyword">if</span> ~exist(<span class="string">'options'</span>, <span class="string">'var'</span>) || isempty(options)
-0088         options = struct();
-0089     <span class="keyword">end</span>
-0090     options = <a href="../../../manopt/core/mergeOptions.html" class="code" title="function opts = mergeOptions(opts_sub, opts_master)">mergeOptions</a>(localdefaults, options);
-0091     
-0092     <span class="comment">% Finite-difference parameter: how far do we look?</span>
-0093     stepsize = options.stepsize;
-0094                    
-0095     <span class="comment">% Build and return the function handle here. This extra construct via</span>
-0096     <span class="comment">% funhandle makes it possible to make storedb and key optional.</span>
-0097     hessfun = @<a href="#_sub1" class="code" title="subfunction hessfd = funhandle(x, xdot, storedb, key)">funhandle</a>;
-0098     <a name="_sub1" href="#_subfunctions" class="code">function hessfd = funhandle(x, xdot, storedb, key)</a>
-0099         <span class="comment">% Allow omission of the key, and even of storedb.</span>
-0100         <span class="keyword">if</span> ~exist(<span class="string">'key'</span>, <span class="string">'var'</span>)
-0101             <span class="keyword">if</span> ~exist(<span class="string">'storedb'</span>, <span class="string">'var'</span>)
-0102                 storedb = <a href="../../../manopt/core/StoreDB.html" class="code" title="">StoreDB</a>();
-0103             <span class="keyword">end</span>
-0104             key = storedb.getNewKey();
-0105         <span class="keyword">end</span> 
-0106         hessfd = <a href="#_sub2" class="code" title="subfunction hessfd = hessianFD(stepsize, problem, x, xdot, storedb, key)">hessianFD</a>(stepsize, problem, x, xdot, storedb, key);
-0107     <span class="keyword">end</span>
-0108     
-0109 <span class="keyword">end</span>
-0110 
-0111 
-0112 <a name="_sub2" href="#_subfunctions" class="code">function hessfd = hessianFD(stepsize, problem, x, xdot, storedb, key)</a>
-0113 <span class="comment">% This function does the actual work.</span>
-0114 <span class="comment">%</span>
-0115 <span class="comment">% Original code: Dec. 30, 2012 (NB).</span>
-0116     
-0117     <span class="comment">% Extract the input vector norm.</span>
-0118     norm_xdot = problem.M.norm(x, xdot);
-0119     
-0120     <span class="comment">% First, check whether the step xdot is not too small.</span>
-0121     <span class="keyword">if</span> norm_xdot &lt; eps
-0122         hessfd = problem.M.zerovec(x);
-0123         <span class="keyword">return</span>;
-0124     <span class="keyword">end</span>
-0125     
-0126     <span class="comment">% Determine how far to retract xdot, so that the point reached does not</span>
-0127     <span class="comment">% depend on the norm of xdot. This is what ensures radial linearity of</span>
-0128     <span class="comment">% this present Hessian approximation.</span>
-0129     c = stepsize / norm_xdot;
-0130     
-0131     <span class="comment">% Compute the gradient at the current point.</span>
-0132     grad = <a href="../../../manopt/core/getGradient.html" class="code" title="function grad = getGradient(problem, x, storedb, key)">getGradient</a>(problem, x, storedb, key);
-0133     
-0134     <span class="comment">% Compute a point a little further along xdot, and the gradient there.</span>
-0135     <span class="comment">% Since this is a new point, we need a new key for it, for storedb.</span>
-0136     x1 = problem.M.retr(x, xdot, c);
-0137     key1 = storedb.getNewKey();
-0138     grad1 = <a href="../../../manopt/core/getGradient.html" class="code" title="function grad = getGradient(problem, x, storedb, key)">getGradient</a>(problem, x1, storedb, key1);
-0139     
-0140     <span class="comment">% Transport grad1 back from x1 to x.</span>
-0141     grad1 = problem.M.transp(x1, x, grad1);
-0142     
-0143     <span class="comment">% Return the finite difference of them: (grad1 - grad)/c.</span>
-0144     hessfd = problem.M.lincomb(x, 1/c, grad1, -1/c, grad);
-0145     
-0146 <span class="keyword">end</span></pre></div>
-<hr><address>Generated on Mon 10-Sep-2018 11:48:06 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+0077 <span class="comment">%</span>
+0078 <span class="comment">%   March 17, 2020 (NB):</span>
+0079 <span class="comment">%       Following a bug report by Marco Sutti, added the instruction</span>
+0080 <span class="comment">%           storedb.remove(key1);</span>
+0081 <span class="comment">%       to avoid memory usage ramping up when many inner iterations are</span>
+0082 <span class="comment">%       needed inside of tCG for trustregions. The deciding factor is that</span>
+0083 <span class="comment">%       there is no need to cache the gradient at the artificially produced</span>
+0084 <span class="comment">%       point used here for finite differencing, as this point is not</span>
+0085 <span class="comment">%       visible outside of this function: there is no reason we would visit</span>
+0086 <span class="comment">%       it again.</span>
+0087 
+0088     <span class="comment">% This Hessian approximation is based on the gradient:</span>
+0089     <span class="comment">% check availability.</span>
+0090     <span class="keyword">if</span> ~<a href="../../../manopt/core/canGetGradient.html" class="code" title="function candoit = canGetGradient(problem)">canGetGradient</a>(problem) &amp;&amp; ~<a href="../../../manopt/core/canGetApproxGradient.html" class="code" title="function candoit = canGetApproxGradient(problem)">canGetApproxGradient</a>(problem)
+0091         warning(<span class="string">'manopt:approxhessianFD:nogradient'</span>, <span class="keyword">...</span>
+0092                 <span class="string">'approxhessianFD requires the gradient to be computable.'</span>);
+0093     <span class="keyword">end</span>
+0094 
+0095     <span class="comment">% Set local defaults here, and merge with user options, if any.</span>
+0096     localdefaults.stepsize = 2^-14;
+0097     <span class="keyword">if</span> ~exist(<span class="string">'options'</span>, <span class="string">'var'</span>) || isempty(options)
+0098         options = struct();
+0099     <span class="keyword">end</span>
+0100     options = <a href="../../../manopt/core/mergeOptions.html" class="code" title="function opts = mergeOptions(opts_sub, opts_master)">mergeOptions</a>(localdefaults, options);
+0101     
+0102     <span class="comment">% Finite-difference parameter: how far do we look?</span>
+0103     stepsize = options.stepsize;
+0104                    
+0105     <span class="comment">% Build and return the function handle here. This extra construct via</span>
+0106     <span class="comment">% funhandle makes it possible to make storedb and key optional.</span>
+0107     hessfun = @<a href="#_sub1" class="code" title="subfunction hessfd = funhandle(x, xdot, storedb, key)">funhandle</a>;
+0108     <a name="_sub1" href="#_subfunctions" class="code">function hessfd = funhandle(x, xdot, storedb, key)</a>
+0109         <span class="comment">% Allow omission of the key, and even of storedb.</span>
+0110         <span class="keyword">if</span> ~exist(<span class="string">'key'</span>, <span class="string">'var'</span>)
+0111             <span class="keyword">if</span> ~exist(<span class="string">'storedb'</span>, <span class="string">'var'</span>)
+0112                 storedb = <a href="../../../manopt/core/StoreDB.html" class="code" title="">StoreDB</a>();
+0113             <span class="keyword">end</span>
+0114             key = storedb.getNewKey();
+0115         <span class="keyword">end</span> 
+0116         hessfd = <a href="#_sub2" class="code" title="subfunction hessfd = hessianFD(stepsize, problem, x, xdot, storedb, key)">hessianFD</a>(stepsize, problem, x, xdot, storedb, key);
+0117     <span class="keyword">end</span>
+0118     
+0119 <span class="keyword">end</span>
+0120 
+0121 
+0122 <a name="_sub2" href="#_subfunctions" class="code">function hessfd = hessianFD(stepsize, problem, x, xdot, storedb, key)</a>
+0123 <span class="comment">% This function does the actual work.</span>
+0124 <span class="comment">%</span>
+0125 <span class="comment">% Original code: Dec. 30, 2012 (NB).</span>
+0126     
+0127     <span class="comment">% Extract the input vector norm.</span>
+0128     norm_xdot = problem.M.norm(x, xdot);
+0129     
+0130     <span class="comment">% First, check whether the step xdot is not too small.</span>
+0131     <span class="keyword">if</span> norm_xdot &lt; eps
+0132         hessfd = problem.M.zerovec(x);
+0133         <span class="keyword">return</span>;
+0134     <span class="keyword">end</span>
+0135     
+0136     <span class="comment">% Determine how far to retract xdot, so that the point reached does not</span>
+0137     <span class="comment">% depend on the norm of xdot. This is what ensures radial linearity of</span>
+0138     <span class="comment">% this present Hessian approximation.</span>
+0139     c = stepsize / norm_xdot;
+0140     
+0141     <span class="comment">% Compute the gradient at the current point.</span>
+0142     grad = <a href="../../../manopt/core/getGradient.html" class="code" title="function grad = getGradient(problem, x, storedb, key)">getGradient</a>(problem, x, storedb, key);
+0143     
+0144     <span class="comment">% Compute a point a little further along xdot, and the gradient there.</span>
+0145     <span class="comment">% Since this is a new point, we need a new key for it, for storedb.</span>
+0146     x1 = problem.M.retr(x, xdot, c);
+0147     key1 = storedb.getNewKey();
+0148     grad1 = <a href="../../../manopt/core/getGradient.html" class="code" title="function grad = getGradient(problem, x, storedb, key)">getGradient</a>(problem, x1, storedb, key1);
+0149     
+0150     <span class="comment">% Remove any caching associated to that new point, since there is no</span>
+0151     <span class="comment">% reason we would be visiting it again.</span>
+0152     storedb.remove(key1);
+0153     
+0154     <span class="comment">% Transport grad1 back from x1 to x.</span>
+0155     grad1 = problem.M.transp(x1, x, grad1);
+0156     
+0157     <span class="comment">% Return the finite difference of them: (grad1 - grad)/c.</span>
+0158     hessfd = problem.M.lincomb(x, 1/c, grad1, -1/c, grad);
+0159     
+0160 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Tue 19-May-2020 18:46:12 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
 </body>
 </html>

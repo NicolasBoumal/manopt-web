@@ -115,7 +115,7 @@ This function is called by:
 0058     M.retr = M.exp;
 0059     
 0060     M.log = @(x, y) y-x;
-0061 
+0061     
 0062     M.hash = @(x) [<span class="string">'z'</span> <a href="../../../manopt/tools/hashmd5.html" class="code" title="function h = hashmd5(inp)">hashmd5</a>(x(:))];
 0063     
 0064     M.rand = @() <a href="../../../manopt/tools/multisym.html" class="code" title="function Y = multisym(X)">multisym</a>(randn(n, n, k));
@@ -166,10 +166,10 @@ This function is called by:
 0109 <span class="keyword">end</span>
 0110 
 0111 <span class="comment">% Former, easier versions for vec / mat. They had the disadvantage of</span>
-0112 <span class="comment">% giving vector representations of length k*n^2, instead of k*n*(n+1).</span>
+0112 <span class="comment">% giving vector representations of length k*n^2, instead of k*n*(n+1)/2.</span>
 0113 <span class="comment">% M.vec = @(x, u_mat) u_mat(:);</span>
 0114 <span class="comment">% M.mat = @(x, u_vec) reshape(u_vec, [m, n]);</span>
 0115 <span class="comment">% M.vecmatareisometries = @() true;</span></pre></div>
-<hr><address>Generated on Mon 10-Sep-2018 11:48:06 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+<hr><address>Generated on Tue 19-May-2020 18:46:12 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
 </body>
 </html>

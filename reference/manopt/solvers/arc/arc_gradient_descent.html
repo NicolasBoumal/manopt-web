@@ -1,0 +1,254 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of arc_gradient_descent</title>
+  <meta name="keywords" content="arc_gradient_descent">
+  <meta name="description" content="Subproblem solver for ARC based on gradient descent.">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../index.html">Home</a> &gt;  <a href="#">manopt</a> &gt; <a href="#">solvers</a> &gt; <a href="index.html">arc</a> &gt; arc_gradient_descent.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../index.html"><img alt="<" border="0" src="../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for manopt\solvers\arc&nbsp;<img alt=">" border="0" src="../../../right.png"></a></td></tr></table>-->
+
+<h1>arc_gradient_descent
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>Subproblem solver for ARC based on gradient descent.</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function [eta, Heta, hesscalls, stop_str, stats] = arc_gradient_descent(problem, x, grad, gradnorm, sigma, options, storedb, key) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> Subproblem solver for ARC based on gradient descent.
+
+ [eta, Heta, hesscalls, stop_str, stats] = 
+     arc_gradient_descent(problem, x, grad, gradnorm, sigma, options, storedb, key)
+
+ This routine approximately solves the following problem:
+
+   min_{eta in T_x M}  m(eta),  where
+
+       m(eta) = &lt;eta, g&gt; + .5 &lt;eta, H[eta]&gt; + (sigma/3) ||eta||^3
+
+ where eta is a tangent vector at x on the manifold given by problem.M,
+ g = grad is a tangent vector at x, H[eta] is the result of applying the
+ Hessian of the problem at x along eta and the inner product and norm
+ are those from the Riemannian structure on the tangent space T_x M.
+
+ The solve is approximate in the sense that the returned eta only ought
+ to satisfy the following conditions:
+
+   ||gradient of m at eta|| &lt;= theta*||eta||^2   and   m(eta) &lt;= m(0),
+
+ where theta is specified in options.theta (see below for default value.)
+ Since the gradient of the model at 0 is g, if it is zero, then eta = 0
+ is returned. This is the only scenario where eta = 0 is returned.
+
+ Numerical errors can perturb the described expected behavior.
+
+ Inputs:
+     problem: Manopt optimization problem structure
+     x: point on the manifold problem.M
+     grad: gradient of the cost function of the problem at x
+     gradnorm: norm of the gradient, often available to the caller
+     sigma: cubic regularization parameter (positive scalar)
+     options: structure containing options for the subproblem solver
+     storedb, key: caching data for problem at x
+
+ Options specific to this subproblem solver:
+   theta (0.5)
+     Stopping criterion parameter for subproblem solver: the gradient of
+     the model at the returned step should have norm no more than theta
+     times the squared norm of the step.
+   maxinner (100)
+     Maximum number of iterations of the gradient descent algorithm.
+
+ Outputs:
+     eta: approximate solution to the cubic regularized subproblem at x
+     Heta: Hess f(x)[eta] -- this is necessary in the outer loop, and it
+           is often naturally available to the subproblem solver at the
+           end of execution, so that it may be cheaper to return it here.
+     hesscalls: number of Hessian calls during execution
+     stop_str: string describing why the subsolver stopped
+     stats: a structure specifying some statistics about inner work - 
+            we record the model cost value and model gradient norm at each
+            inner iteration.</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="../../../manopt/core/getHessian.html" class="code" title="function hess = getHessian(problem, x, d, storedb, key)">getHessian</a>	Computes the Hessian of the cost function at x along d.</li><li><a href="../../../manopt/core/mergeOptions.html" class="code" title="function opts = mergeOptions(opts_sub, opts_master)">mergeOptions</a>	Merges two options structures with one having precedence over the other.</li><li><a href="solve_along_line.html" class="code" title="function eta = solve_along_line(M, point, x, y, g, Hy, sigma)">solve_along_line</a>	Minimize the function h(eta) = f(x + eta*y) where</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+</ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [eta, Heta, hesscalls, stop_str, stats] = arc_gradient_descent(problem, x, grad, gradnorm, sigma, options, storedb, key)</a>
+0002 <span class="comment">% Subproblem solver for ARC based on gradient descent.</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">% [eta, Heta, hesscalls, stop_str, stats] =</span>
+0005 <span class="comment">%     arc_gradient_descent(problem, x, grad, gradnorm, sigma, options, storedb, key)</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">% This routine approximately solves the following problem:</span>
+0008 <span class="comment">%</span>
+0009 <span class="comment">%   min_{eta in T_x M}  m(eta),  where</span>
+0010 <span class="comment">%</span>
+0011 <span class="comment">%       m(eta) = &lt;eta, g&gt; + .5 &lt;eta, H[eta]&gt; + (sigma/3) ||eta||^3</span>
+0012 <span class="comment">%</span>
+0013 <span class="comment">% where eta is a tangent vector at x on the manifold given by problem.M,</span>
+0014 <span class="comment">% g = grad is a tangent vector at x, H[eta] is the result of applying the</span>
+0015 <span class="comment">% Hessian of the problem at x along eta and the inner product and norm</span>
+0016 <span class="comment">% are those from the Riemannian structure on the tangent space T_x M.</span>
+0017 <span class="comment">%</span>
+0018 <span class="comment">% The solve is approximate in the sense that the returned eta only ought</span>
+0019 <span class="comment">% to satisfy the following conditions:</span>
+0020 <span class="comment">%</span>
+0021 <span class="comment">%   ||gradient of m at eta|| &lt;= theta*||eta||^2   and   m(eta) &lt;= m(0),</span>
+0022 <span class="comment">%</span>
+0023 <span class="comment">% where theta is specified in options.theta (see below for default value.)</span>
+0024 <span class="comment">% Since the gradient of the model at 0 is g, if it is zero, then eta = 0</span>
+0025 <span class="comment">% is returned. This is the only scenario where eta = 0 is returned.</span>
+0026 <span class="comment">%</span>
+0027 <span class="comment">% Numerical errors can perturb the described expected behavior.</span>
+0028 <span class="comment">%</span>
+0029 <span class="comment">% Inputs:</span>
+0030 <span class="comment">%     problem: Manopt optimization problem structure</span>
+0031 <span class="comment">%     x: point on the manifold problem.M</span>
+0032 <span class="comment">%     grad: gradient of the cost function of the problem at x</span>
+0033 <span class="comment">%     gradnorm: norm of the gradient, often available to the caller</span>
+0034 <span class="comment">%     sigma: cubic regularization parameter (positive scalar)</span>
+0035 <span class="comment">%     options: structure containing options for the subproblem solver</span>
+0036 <span class="comment">%     storedb, key: caching data for problem at x</span>
+0037 <span class="comment">%</span>
+0038 <span class="comment">% Options specific to this subproblem solver:</span>
+0039 <span class="comment">%   theta (0.5)</span>
+0040 <span class="comment">%     Stopping criterion parameter for subproblem solver: the gradient of</span>
+0041 <span class="comment">%     the model at the returned step should have norm no more than theta</span>
+0042 <span class="comment">%     times the squared norm of the step.</span>
+0043 <span class="comment">%   maxinner (100)</span>
+0044 <span class="comment">%     Maximum number of iterations of the gradient descent algorithm.</span>
+0045 <span class="comment">%</span>
+0046 <span class="comment">% Outputs:</span>
+0047 <span class="comment">%     eta: approximate solution to the cubic regularized subproblem at x</span>
+0048 <span class="comment">%     Heta: Hess f(x)[eta] -- this is necessary in the outer loop, and it</span>
+0049 <span class="comment">%           is often naturally available to the subproblem solver at the</span>
+0050 <span class="comment">%           end of execution, so that it may be cheaper to return it here.</span>
+0051 <span class="comment">%     hesscalls: number of Hessian calls during execution</span>
+0052 <span class="comment">%     stop_str: string describing why the subsolver stopped</span>
+0053 <span class="comment">%     stats: a structure specifying some statistics about inner work -</span>
+0054 <span class="comment">%            we record the model cost value and model gradient norm at each</span>
+0055 <span class="comment">%            inner iteration.</span>
+0056 
+0057 <span class="comment">% This file is part of Manopt: www.manopt.org.</span>
+0058 <span class="comment">% Original authors: May 2, 2019,</span>
+0059 <span class="comment">%    Bryan Zhu, Nicolas Boumal.</span>
+0060 <span class="comment">% Contributors:</span>
+0061 <span class="comment">% Change log:</span>
+0062 <span class="comment">%</span>
+0063 <span class="comment">%   Aug. 19, 2019 (NB):</span>
+0064 <span class="comment">%       Option maxiter_gradient renamed to maxinner to match trustregions.</span>
+0065 
+0066     <span class="comment">% Some shortcuts</span>
+0067     M = problem.M;
+0068     inner = @(u, v) M.inner(x, u, v);
+0069     rnorm = @(u) M.norm(x, u);
+0070     tangent = @(u) problem.M.tangent(x, u);
+0071     Hess = @(u) <a href="../../../manopt/core/getHessian.html" class="code" title="function hess = getHessian(problem, x, d, storedb, key)">getHessian</a>(problem, x, u, storedb, key);
+0072     
+0073     <span class="comment">% Counter for Hessian calls issued</span>
+0074     hesscalls = 0;
+0075     
+0076     <span class="comment">% If the gradient has norm zero, return a zero step</span>
+0077     <span class="keyword">if</span> gradnorm == 0
+0078         eta = M.zerovec(x);
+0079         Heta = eta;
+0080         stop_str = <span class="string">'Cost gradient is zero'</span>;
+0081         stats = struct(<span class="string">'gradnorms'</span>, 0, <span class="string">'func_values'</span>, 0);
+0082         <span class="keyword">return</span>;
+0083     <span class="keyword">end</span>
+0084     
+0085     <span class="comment">% Set local defaults here</span>
+0086     localdefaults.theta = 0.5;
+0087     localdefaults.maxinner = 100;
+0088     
+0089     <span class="comment">% Merge local defaults with user options, if any</span>
+0090     <span class="keyword">if</span> ~exist(<span class="string">'options'</span>, <span class="string">'var'</span>) || isempty(options)
+0091         options = struct();
+0092     <span class="keyword">end</span>
+0093     options = <a href="../../../manopt/core/mergeOptions.html" class="code" title="function opts = mergeOptions(opts_sub, opts_master)">mergeOptions</a>(localdefaults, options);
+0094     
+0095     <span class="comment">% Calculate the Cauchy point as our initial step</span>
+0096     hess_grad = Hess(grad);
+0097     hesscalls = hesscalls + 1;
+0098     temp = inner(grad, hess_grad) / (2 * sigma * gradnorm * gradnorm);    
+0099     R_c = -temp + sqrt(temp * temp + gradnorm / sigma);
+0100     eta = M.lincomb(x, -R_c / (1 * gradnorm), grad);
+0101     Heta = M.lincomb(x, -R_c / (1 * gradnorm), hess_grad);
+0102     
+0103     <span class="comment">% Main gradient descent iteration</span>
+0104     gradnorms = zeros(options.maxinner, 1);
+0105     func_values = zeros(options.maxinner, 1);
+0106     gradnorm_reached = false;
+0107     j = 1;
+0108     <span class="keyword">while</span> j &lt; options.maxinner
+0109         <span class="comment">% Calculate the gradient of the model</span>
+0110         eta_norm = rnorm(eta);
+0111         neg_mgrad = M.lincomb(x, 1, Heta, 1, grad);
+0112         neg_mgrad = M.lincomb(x, -1, neg_mgrad, -sigma * eta_norm, eta);
+0113         neg_mgrad = tangent(neg_mgrad);
+0114         
+0115         <span class="comment">% Compute some statistics</span>
+0116         gradnorms(j) = rnorm(neg_mgrad);
+0117         func_values(j) = inner(grad, eta) + 0.5 * inner(eta, Heta) + (sigma/3) * eta_norm^3;
+0118 
+0119         <span class="comment">% Check termination condition</span>
+0120         <span class="keyword">if</span> rnorm(neg_mgrad) &lt;= options.theta * eta_norm^2
+0121             stop_str = <span class="string">'Model grad norm condition satisfied'</span>;
+0122             gradnorm_reached = true;
+0123             <span class="keyword">break</span>;
+0124         <span class="keyword">end</span>
+0125         
+0126         <span class="comment">% Find the optimal step in the negative direction of the gradient</span>
+0127         Hnmgrad = Hess(neg_mgrad);
+0128         hesscalls = hesscalls + 1;
+0129         step = <a href="solve_along_line.html" class="code" title="function eta = solve_along_line(M, point, x, y, g, Hy, sigma)">solve_along_line</a>(M, x, eta, neg_mgrad, grad, Hnmgrad, sigma);
+0130         <span class="keyword">if</span> step == 0
+0131             stop_str = <span class="string">'Failed optimal increase'</span>;
+0132             gradnorm_reached = true;
+0133             <span class="keyword">break</span>;
+0134         <span class="keyword">end</span>
+0135         eta = M.lincomb(x, 1, eta, step, neg_mgrad);
+0136         Heta = M.lincomb(x, 1, Heta, step, Hnmgrad);
+0137         j = j + 1;
+0138     <span class="keyword">end</span>
+0139     
+0140     <span class="comment">% Check why we stopped iterating</span>
+0141     <span class="keyword">if</span> ~gradnorm_reached
+0142         stop_str = sprintf([<span class="string">'Reached max number of gradient descent iterations '</span> <span class="keyword">...</span>
+0143                <span class="string">'(options.maxinner = %d)'</span>], options.maxinner);
+0144         j = j - 1;
+0145     <span class="keyword">end</span>
+0146     
+0147     <span class="comment">% Return the point we ended on</span>
+0148     eta = tangent(eta);
+0149     stats = struct(<span class="string">'gradnorms'</span>, gradnorms(1:j), <span class="string">'func_values'</span>, func_values(1:j));    
+0150     <span class="keyword">if</span> options.verbosity &gt;= 4
+0151         fprintf(<span class="string">'\n'</span>);
+0152     <span class="keyword">end</span>
+0153         
+0154 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Tue 19-May-2020 18:46:12 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

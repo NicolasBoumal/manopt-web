@@ -36,7 +36,7 @@
  indeed a valid description of a Riemannian manifold.
 
  This tool is work in progress: your suggestions for additional tests are
- welcome on our forum.
+ welcome on our forum or as pull requests on GitHub.
 
  See also: <a href="checkretraction.html" class="code" title="function checkretraction(M, x, v)">checkretraction</a></pre></div>
 
@@ -44,7 +44,7 @@
 <h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
 This function calls:
 <ul style="list-style-image:url(../../matlabicon.gif)">
-</ul>
+<li><a href="grammatrix.html" class="code" title="function G = grammatrix(M, x, vectors)">grammatrix</a>	Computes the Gram matrix of tangent vectors in the Manopt framework.</li></ul>
 This function is called by:
 <ul style="list-style-image:url(../../matlabicon.gif)">
 </ul>
@@ -63,7 +63,7 @@ This function is called by:
 0008 <span class="comment">% indeed a valid description of a Riemannian manifold.</span>
 0009 <span class="comment">%</span>
 0010 <span class="comment">% This tool is work in progress: your suggestions for additional tests are</span>
-0011 <span class="comment">% welcome on our forum.</span>
+0011 <span class="comment">% welcome on our forum or as pull requests on GitHub.</span>
 0012 <span class="comment">%</span>
 0013 <span class="comment">% See also: checkretraction</span>
 0014 
@@ -71,46 +71,122 @@ This function is called by:
 0016 <span class="comment">% Original author: Nicolas Boumal, Aug. 31, 2018.</span>
 0017 <span class="comment">% Contributors:</span>
 0018 <span class="comment">% Change log:</span>
-0019 
-0020     assert(isstruct(M), <span class="string">'M must be a structure.'</span>);
-0021     
-0022     <span class="comment">%% List required fields that must be function handles here</span>
-0023     list_of_functions = {<span class="string">'name'</span>, <span class="string">'dim'</span>, <span class="string">'inner'</span>, <span class="string">'norm'</span>, <span class="string">'typicaldist'</span>, <span class="keyword">...</span>
-0024                          <span class="string">'proj'</span>, <span class="string">'tangent'</span>, <span class="string">'egrad2rgrad'</span>, <span class="string">'retr'</span>, <span class="keyword">...</span>
-0025                          <span class="string">'rand'</span>, <span class="string">'randvec'</span>, <span class="string">'zerovec'</span>, <span class="string">'lincomb'</span>};
-0026     <span class="keyword">for</span> k = 1 : numel(list_of_functions)
-0027         field = list_of_functions{k};
-0028         <span class="keyword">if</span> ~(isfield(M, field) &amp;&amp; isa(M.(field), <span class="string">'function_handle'</span>))
-0029             fprintf(<span class="string">'M.%s must be a function handle.\n'</span>, field);
-0030         <span class="keyword">end</span>
-0031     <span class="keyword">end</span>
-0032     
-0033     <span class="comment">%% List recommended fields that should be function handles here</span>
-0034     list_of_functions = {<span class="string">'dist'</span>, <span class="string">'ehess2rhess'</span>, <span class="string">'exp'</span>, <span class="string">'log'</span>, <span class="string">'hash'</span>, <span class="keyword">...</span>
-0035                          <span class="string">'transp'</span>, <span class="string">'pairmean'</span>, <span class="string">'vec'</span>, <span class="string">'mat'</span>, <span class="keyword">...</span>
-0036                          <span class="string">'vecmatareisometries'</span>};
-0037     <span class="keyword">for</span> k = 1 : numel(list_of_functions)
-0038         field = list_of_functions{k};
-0039         <span class="keyword">if</span> ~(isfield(M, field) &amp;&amp; isa(M.(field), <span class="string">'function_handle'</span>))
-0040             fprintf(<span class="string">'M.%s should be a function handle.\n'</span>, field);
-0041         <span class="keyword">end</span>
-0042     <span class="keyword">end</span>
-0043     
-0044     <span class="comment">%% Checking exp and dist</span>
-0045     <span class="keyword">try</span>
-0046         x = M.rand();
-0047         v = M.randvec(x);
-0048         t = randn(1);
-0049         y = M.exp(x, v, t);
-0050         d = M.dist(x, y);
-0051         fprintf(<span class="string">'dist(x, M.exp(x, v, t)) - abs(t)*M.norm(x, v) = %g (should be zero)\n'</span>, d - abs(t)*M.norm(x, v));
-0052     <span class="keyword">catch</span> up <span class="comment">%#ok&lt;NASGU&gt;</span>
-0053         fprintf(<span class="string">'Couldn''t check exp and dist.\n'</span>);
-0054         <span class="comment">% Perhaps we want to rethrow(up) ?</span>
-0055     <span class="keyword">end</span>
-0056 
-0057 <span class="keyword">end</span>
-0058</pre></div>
-<hr><address>Generated on Mon 10-Sep-2018 11:48:06 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+0019 <span class="comment">%   April 12, 2020 (NB):</span>
+0020 <span class="comment">%       Now checking M.dist(x, M.exp(x, v, t)) for several values of t</span>
+0021 <span class="comment">%       because this test is only valid for norm(x, tv) &lt;= inj(x).</span>
+0022 <span class="comment">%   May 19, 2020 (NB):</span>
+0023 <span class="comment">%       Now checking M.dim().</span>
+0024 
+0025     assert(isstruct(M), <span class="string">'M must be a structure.'</span>);
+0026     
+0027     <span class="comment">%% List required fields that must be function handles here</span>
+0028     list_of_functions = {<span class="string">'name'</span>, <span class="string">'dim'</span>, <span class="string">'inner'</span>, <span class="string">'norm'</span>, <span class="string">'typicaldist'</span>, <span class="keyword">...</span>
+0029                          <span class="string">'proj'</span>, <span class="string">'tangent'</span>, <span class="string">'egrad2rgrad'</span>, <span class="string">'retr'</span>, <span class="keyword">...</span>
+0030                          <span class="string">'rand'</span>, <span class="string">'randvec'</span>, <span class="string">'zerovec'</span>, <span class="string">'lincomb'</span>};
+0031     <span class="keyword">for</span> k = 1 : numel(list_of_functions)
+0032         field = list_of_functions{k};
+0033         <span class="keyword">if</span> ~(isfield(M, field) &amp;&amp; isa(M.(field), <span class="string">'function_handle'</span>))
+0034             fprintf(<span class="string">'M.%s must be a function handle.\n'</span>, field);
+0035         <span class="keyword">end</span>
+0036     <span class="keyword">end</span>
+0037     
+0038     <span class="comment">%% List recommended fields that should be function handles here</span>
+0039     list_of_functions = {<span class="string">'dist'</span>, <span class="string">'ehess2rhess'</span>, <span class="string">'exp'</span>, <span class="string">'log'</span>, <span class="string">'hash'</span>, <span class="keyword">...</span>
+0040                          <span class="string">'transp'</span>, <span class="string">'pairmean'</span>, <span class="string">'vec'</span>, <span class="string">'mat'</span>, <span class="keyword">...</span>
+0041                          <span class="string">'vecmatareisometries'</span>};
+0042     <span class="keyword">for</span> k = 1 : numel(list_of_functions)
+0043         field = list_of_functions{k};
+0044         <span class="keyword">if</span> ~(isfield(M, field) &amp;&amp; isa(M.(field), <span class="string">'function_handle'</span>))
+0045             fprintf([<span class="string">'M.%s should ideally (but does not have to) be '</span> <span class="keyword">...</span>
+0046                      <span class="string">'a function handle.\n'</span>], field);
+0047         <span class="keyword">end</span>
+0048     <span class="keyword">end</span>
+0049     
+0050     <span class="comment">%% Check random generators</span>
+0051     <span class="keyword">try</span>
+0052         x = M.rand();
+0053         v = M.randvec(x);
+0054         fprintf(<span class="string">'Random tangent vector norm: %g (should be 1).\n'</span>, <span class="keyword">...</span>
+0055                 M.norm(x, v));
+0056     <span class="keyword">catch</span> up <span class="comment">%#ok&lt;NASGU&gt;</span>
+0057         fprintf(<span class="string">'Couldn''t check rand, randvec.\n'</span>);
+0058     <span class="keyword">end</span>
+0059     
+0060     <span class="comment">%% Checking exp and dist</span>
+0061     <span class="keyword">try</span>
+0062         x = M.rand();
+0063         v = M.randvec(x);
+0064         <span class="keyword">for</span> t = logspace(-8, 1, 10)
+0065             y = M.exp(x, v, t);
+0066             d = M.dist(x, y);
+0067             err = d - abs(t)*M.norm(x, v);
+0068             fprintf([<span class="string">'dist(x, M.exp(x, v, t)) - abs(t)*M.norm(x, v) = '</span> <span class="keyword">...</span>
+0069                      <span class="string">'%g (t = %.1e; should be zero for small enough t).\n'</span>], <span class="keyword">...</span>
+0070                      err, t);
+0071         <span class="keyword">end</span>
+0072     <span class="keyword">catch</span> up <span class="comment">%#ok&lt;NASGU&gt;</span>
+0073         fprintf(<span class="string">'Couldn''t check exp and dist.\n'</span>);
+0074         <span class="comment">% Perhaps we want to rethrow(up) ?</span>
+0075         <span class="comment">% Alternatively, we could check if exp and dist are available and</span>
+0076         <span class="comment">% silently pass this test if not, but this way is more informative.</span>
+0077     <span class="keyword">end</span>
+0078     
+0079     <span class="comment">%% Checking mat, vec, vecmatareisometries</span>
+0080     <span class="keyword">try</span>
+0081         x = M.rand();
+0082         u = M.randvec(x);
+0083         v = M.randvec(x);
+0084         U = M.vec(x, u);
+0085         V = M.vec(x, v);
+0086         <span class="keyword">if</span> ~iscolumn(U) || ~iscolumn(V)
+0087             fprintf(<span class="string">'M.vec should return column vectors: they are not.\n'</span>);
+0088         <span class="keyword">end</span>
+0089         <span class="keyword">if</span> ~isreal(U) || ~isreal(V)
+0090             fprintf(<span class="string">'M.vec should return real vectors: they are not real.\n'</span>);
+0091         <span class="keyword">end</span>
+0092         fprintf(<span class="string">'M.vec seems to return real column vectors, as intended.\n'</span>);
+0093         ru = M.norm(x, M.lincomb(x, 1, M.mat(x, U), -1, u));
+0094         rv = M.norm(x, M.lincomb(x, 1, M.mat(x, V), -1, v));
+0095         fprintf([<span class="string">'Checking mat/vec are inverse pairs: '</span> <span class="keyword">...</span>
+0096                  <span class="string">'%g, %g (should be two zeros).\n'</span>], ru, rv);
+0097         a = randn(1);
+0098         b = randn(1);
+0099         fprintf(<span class="string">'Checking if vec is linear: %g (should be zero).\n'</span>, <span class="keyword">...</span>
+0100                 norm(M.vec(x, M.lincomb(x, a, u, b, v)) - (a*U + b*V)));
+0101         <span class="keyword">if</span> M.vecmatareisometries()
+0102             fprintf(<span class="string">'M.vecmatareisometries says true.\n'</span>);
+0103         <span class="keyword">else</span>
+0104             fprintf(<span class="string">'M.vecmatareisometries says false.\n'</span>);
+0105         <span class="keyword">end</span>
+0106         fprintf(<span class="string">'If true, this should be zero: %g.\n'</span>, <span class="keyword">...</span>
+0107                     U(:).'*V(:) - M.inner(x, u, v));
+0108     <span class="keyword">catch</span> up <span class="comment">%#ok&lt;NASGU&gt;</span>
+0109         fprintf(<span class="string">'Couldn''t check mat, vec, vecmatareisometries.\n'</span>);
+0110     <span class="keyword">end</span>
+0111     
+0112     <span class="comment">%% Checking dim</span>
+0113     dim_threshold = 200;
+0114     <span class="keyword">if</span> M.dim() &lt;= dim_threshold
+0115         x = M.rand();
+0116         n = M.dim() + 1;
+0117         B = cell(n, 1);
+0118         <span class="keyword">for</span> k = 1 : n
+0119             B{k} = M.randvec(x);
+0120         <span class="keyword">end</span>
+0121         G = <a href="grammatrix.html" class="code" title="function G = grammatrix(M, x, vectors)">grammatrix</a>(M, x, B);
+0122         eigG = sort(real(eig(G)), <span class="string">'descend'</span>);
+0123         fprintf(<span class="string">'Testing M.dim() (works best when dimension is small):\n'</span>);
+0124         fprintf(<span class="string">'\tIf this number is machine-precision zero, then M.dim() may be too large: %g\n'</span>, eigG(n-1));
+0125         fprintf(<span class="string">'\tIf this number is not machine-precision zero, then M.dim() may be too small: %g\n'</span>, eigG(n));
+0126     <span class="keyword">else</span>
+0127         fprintf(<span class="string">'M.dim() not tested because it is &gt; %d.\n'</span>, dim_threshold);
+0128     <span class="keyword">end</span>
+0129     
+0130     <span class="comment">%% Recommend calling checkretraction</span>
+0131     fprintf(<span class="string">'It is recommended also to call checkretraction.\n'</span>);
+0132 
+0133 <span class="keyword">end</span>
+0134</pre></div>
+<hr><address>Generated on Tue 19-May-2020 18:46:12 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
 </body>
 </html>

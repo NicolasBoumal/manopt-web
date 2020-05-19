@@ -211,7 +211,7 @@ This function is called by:
 0141         Hess.S = Hess.S - symm(rgrad.L'*eta.L)*X.S - X.S*symm(rgrad.R'*eta.R);
 0142         
 0143         <span class="comment">% The Riemannian connection on the quotient space is the</span>
-0144         <span class="comment">% projection of the Riemmian connection in the ambient space onto the tangent space of the total space and</span>
+0144         <span class="comment">% projection of the Riemannian connection in the ambient space onto the tangent space of the total space and</span>
 0145         <span class="comment">% then onto the horizontal space.</span>
 0146         <span class="comment">% This is accomplished by the following operation.</span>
 0147         Hess = M.proj(X, Hess);
@@ -353,7 +353,7 @@ This function is called by:
 0283     <span class="comment">%</span>
 0284     <span class="comment">% This can be solved using two calls to the Matlab's lyap.</span>
 0285     <span class="comment">% However, we can still have a more efficient implementation</span>
-0286     <span class="comment">% that does not require the full functionaliyt of Matlab's lyap.</span>
+0286     <span class="comment">% that does not require the full functionality of Matlab's lyap.</span>
 0287     
 0288     [U, Sigma, V] = svd(R);
 0289     E_mod = U'*E*U;
@@ -452,6 +452,6 @@ This function is called by:
 0382     <span class="comment">% norm(R*R'*Omega1 + Omega1*R*R'  - R*Omega2*R' - E, 'fro')</span>
 0383     <span class="comment">% norm(R'*R*Omega2 + Omega2*R'*R  - R'*Omega1*R - F, 'fro')</span>
 0384 <span class="keyword">end</span></pre></div>
-<hr><address>Generated on Mon 10-Sep-2018 11:48:06 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+<hr><address>Generated on Tue 19-May-2020 18:46:12 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
 </body>
 </html>

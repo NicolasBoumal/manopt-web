@@ -185,65 +185,61 @@ This function is called by:
 0111             <span class="comment">% Orthonormalize the rows of Y3(:, :, i):</span>
 0112             [u, s, v] = svd(Y3(:, :, i), <span class="string">'econ'</span>); <span class="comment">%#ok&lt;ASGLU&gt;</span>
 0113             Y3(:, :, i) = u*v';
-0114             <span class="comment">% Alternative code if one desires to use QR instead of SVD.</span>
-0115             <span class="comment">% The instruction with the signs of R assures we are not</span>
-0116             <span class="comment">% flipping signs of some columns.</span>
-0117             <span class="comment">% [Q, R] = qr(Y3(:, :, i)', 0);</span>
-0118             <span class="comment">% Y3(:, :, i) = (Q * diag(sign(sign(diag(R))+.5)))';</span>
-0119         <span class="keyword">end</span>
-0120         Y = <a href="#_sub1" class="code" title="subfunction A2 = to2D(A3)">to2D</a>(Y3);
-0121     <span class="keyword">end</span>
-0122     
-0123     M.exp = @<a href="#_sub7" class="code" title="subfunction Y = exponential(Y, U, t)">exponential</a>;
-0124     <a name="_sub7" href="#_subfunctions" class="code">function Y = exponential(Y, U, t)</a>
-0125         <span class="keyword">if</span> nargin == 2
-0126             t = 1;
-0127         <span class="keyword">end</span>
-0128         tU3 = <a href="../../../manopt/tools/multitransp.html" class="code" title="function b = multitransp(a, dim)">multitransp</a>(<a href="#_sub2" class="code" title="subfunction A3 = to3D(A2)">to3D</a>(t*U));
-0129         Y3 = <a href="../../../manopt/tools/multitransp.html" class="code" title="function b = multitransp(a, dim)">multitransp</a>(<a href="#_sub2" class="code" title="subfunction A3 = to3D(A2)">to3D</a>(Y));
-0130         <span class="comment">% From a formula by Ross Lippert, Example 5.4.2 in AMS08.</span>
-0131         <span class="keyword">for</span> i = 1 : m
-0132             X = Y3(:, :, i);
-0133             Z = tU3(:, :, i);
-0134             Y3(:, :, i) = [X, Z] * <span class="keyword">...</span>
-0135                           expm([  X'*Z , -Z'*Z ; eye(d) , X'*Z]) * <span class="keyword">...</span>
-0136                           [ expm(-X'*Z) ; zeros(d) ];
-0137             <span class="comment">% We may loose orthonormality here. Just to be sure:</span>
-0138             [u, s, v] = svd(Y3(:, :, i), <span class="string">'econ'</span>); <span class="comment">%#ok&lt;ASGLU&gt;</span>
-0139             Y3(:, :, i) = u*v';
-0140         <span class="keyword">end</span>
-0141         Y = <a href="#_sub1" class="code" title="subfunction A2 = to2D(A3)">to2D</a>(<a href="../../../manopt/tools/multitransp.html" class="code" title="function b = multitransp(a, dim)">multitransp</a>(Y3));
-0142     <span class="keyword">end</span>
-0143 
-0144     M.hash = @(Y) [<span class="string">'z'</span> <a href="../../../manopt/tools/hashmd5.html" class="code" title="function h = hashmd5(inp)">hashmd5</a>(Y(:))];
-0145     
-0146     M.rand = @<a href="#_sub8" class="code" title="subfunction Y = random()">random</a>;
-0147     <a name="_sub8" href="#_subfunctions" class="code">function Y = random()</a>
-0148         Y3 = zeros(d, k, m);
-0149         <span class="keyword">for</span> i = 1 : m
-0150             [Q, unused] = qr(randn(k, d), 0); <span class="comment">%#ok&lt;NASGU&gt;</span>
-0151             Y3(:, :, i) = Q';
-0152         <span class="keyword">end</span>
-0153         Y = <a href="#_sub1" class="code" title="subfunction A2 = to2D(A3)">to2D</a>(Y3);
-0154     <span class="keyword">end</span>
-0155     
-0156     M.randvec = @<a href="#_sub9" class="code" title="subfunction U = randomvec(Y)">randomvec</a>;
-0157     <a name="_sub9" href="#_subfunctions" class="code">function U = randomvec(Y)</a>
-0158         U = <a href="#_sub4" class="code" title="subfunction Zt = projection(Y, Z)">projection</a>(Y, randn(n, k));
-0159         U = U / M.norm(Y, U);
-0160     <span class="keyword">end</span>
+0114             <span class="comment">% Alternatively, one could also use qr_unique as retraction.</span>
+0115         <span class="keyword">end</span>
+0116         Y = <a href="#_sub1" class="code" title="subfunction A2 = to2D(A3)">to2D</a>(Y3);
+0117     <span class="keyword">end</span>
+0118     
+0119     M.exp = @<a href="#_sub7" class="code" title="subfunction Y = exponential(Y, U, t)">exponential</a>;
+0120     <a name="_sub7" href="#_subfunctions" class="code">function Y = exponential(Y, U, t)</a>
+0121         <span class="keyword">if</span> nargin == 2
+0122             t = 1;
+0123         <span class="keyword">end</span>
+0124         tU3 = <a href="../../../manopt/tools/multitransp.html" class="code" title="function b = multitransp(a, dim)">multitransp</a>(<a href="#_sub2" class="code" title="subfunction A3 = to3D(A2)">to3D</a>(t*U));
+0125         Y3 = <a href="../../../manopt/tools/multitransp.html" class="code" title="function b = multitransp(a, dim)">multitransp</a>(<a href="#_sub2" class="code" title="subfunction A3 = to3D(A2)">to3D</a>(Y));
+0126         <span class="comment">% From a formula by Ross Lippert, Example 5.4.2 in AMS08.</span>
+0127         <span class="keyword">for</span> i = 1 : m
+0128             X = Y3(:, :, i);
+0129             Z = tU3(:, :, i);
+0130             Y3(:, :, i) = [X, Z] * <span class="keyword">...</span>
+0131                           expm([  X'*Z , -Z'*Z ; eye(d) , X'*Z]) * <span class="keyword">...</span>
+0132                           [ expm(-X'*Z) ; zeros(d) ];
+0133             <span class="comment">% We may loose orthonormality here. Just to be sure:</span>
+0134             [u, s, v] = svd(Y3(:, :, i), <span class="string">'econ'</span>); <span class="comment">%#ok&lt;ASGLU&gt;</span>
+0135             Y3(:, :, i) = u*v';
+0136         <span class="keyword">end</span>
+0137         Y = <a href="#_sub1" class="code" title="subfunction A2 = to2D(A3)">to2D</a>(<a href="../../../manopt/tools/multitransp.html" class="code" title="function b = multitransp(a, dim)">multitransp</a>(Y3));
+0138     <span class="keyword">end</span>
+0139 
+0140     M.hash = @(Y) [<span class="string">'z'</span> <a href="../../../manopt/tools/hashmd5.html" class="code" title="function h = hashmd5(inp)">hashmd5</a>(Y(:))];
+0141     
+0142     M.rand = @<a href="#_sub8" class="code" title="subfunction Y = random()">random</a>;
+0143     <a name="_sub8" href="#_subfunctions" class="code">function Y = random()</a>
+0144         Y3 = zeros(d, k, m);
+0145         <span class="keyword">for</span> i = 1 : m
+0146             [Q, unused] = qr(randn(k, d), 0); <span class="comment">%#ok&lt;ASGLU&gt;</span>
+0147             Y3(:, :, i) = Q';
+0148         <span class="keyword">end</span>
+0149         Y = <a href="#_sub1" class="code" title="subfunction A2 = to2D(A3)">to2D</a>(Y3);
+0150     <span class="keyword">end</span>
+0151     
+0152     M.randvec = @<a href="#_sub9" class="code" title="subfunction U = randomvec(Y)">randomvec</a>;
+0153     <a name="_sub9" href="#_subfunctions" class="code">function U = randomvec(Y)</a>
+0154         U = <a href="#_sub4" class="code" title="subfunction Zt = projection(Y, Z)">projection</a>(Y, randn(n, k));
+0155         U = U / M.norm(Y, U);
+0156     <span class="keyword">end</span>
+0157     
+0158     M.lincomb = @<a href="../../../manopt/tools/matrixlincomb.html" class="code" title="function v = matrixlincomb(x, a1, d1, a2, d2) %#ok<INUSL>">matrixlincomb</a>;
+0159     
+0160     M.zerovec = @(x) zeros(n, k);
 0161     
-0162     M.lincomb = @<a href="../../../manopt/tools/matrixlincomb.html" class="code" title="function v = matrixlincomb(x, a1, d1, a2, d2) %#ok<INUSL>">matrixlincomb</a>;
+0162     M.transp = @(x1, x2, u) <a href="#_sub4" class="code" title="subfunction Zt = projection(Y, Z)">projection</a>(x2, u);
 0163     
-0164     M.zerovec = @(x) zeros(n, k);
-0165     
-0166     M.transp = @(x1, x2, u) <a href="#_sub4" class="code" title="subfunction Zt = projection(Y, Z)">projection</a>(x2, u);
-0167     
-0168     M.vec = @(x, u_mat) u_mat(:);
-0169     M.mat = @(x, u_vec) reshape(u_vec, [n, k]);
-0170     M.vecmatareisometries = @() true;
-0171 
-0172 <span class="keyword">end</span></pre></div>
-<hr><address>Generated on Mon 10-Sep-2018 11:48:06 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+0164     M.vec = @(x, u_mat) u_mat(:);
+0165     M.mat = @(x, u_vec) reshape(u_vec, [n, k]);
+0166     M.vecmatareisometries = @() true;
+0167 
+0168 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Tue 19-May-2020 18:46:12 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
 </body>
 </html>

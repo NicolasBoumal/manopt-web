@@ -67,7 +67,7 @@
 <h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
 This function calls:
 <ul style="list-style-image:url(../../../matlabicon.gif)">
-<li><a href="doubly_stochastic.html" class="code" title="function B = doubly_stochastic(A, maxiter, mode)">doubly_stochastic</a>	Project a matrix to the doubly stochastic matrices (Sinkhorn's algorithm)</li><li><a href="../../../manopt/tools/hashmd5.html" class="code" title="function h = hashmd5(inp)">hashmd5</a>	Computes the MD5 hash of input data.</li><li><a href="../../../manopt/tools/matrixlincomb.html" class="code" title="function v = matrixlincomb(x, a1, d1, a2, d2) %#ok<INUSL>">matrixlincomb</a>	Linear combination function for tangent vectors represented as matrices.</li></ul>
+<li><a href="doubly_stochastic.html" class="code" title="function B = doubly_stochastic(A, maxiter, mode, checkperiod)">doubly_stochastic</a>	Project a matrix to the doubly stochastic matrices (Sinkhorn's algorithm)</li><li><a href="../../../manopt/tools/hashmd5.html" class="code" title="function h = hashmd5(inp)">hashmd5</a>	Computes the MD5 hash of input data.</li><li><a href="../../../manopt/tools/matrixlincomb.html" class="code" title="function v = matrixlincomb(x, a1, d1, a2, d2) %#ok<INUSL>">matrixlincomb</a>	Linear combination function for tangent vectors represented as matrices.</li></ul>
 This function is called by:
 <ul style="list-style-image:url(../../../matlabicon.gif)">
 <li><a href="../../../examples/doubly_stochastic_denoising.html" class="code" title="function doubly_stochastic_denoising()">doubly_stochastic_denoising</a>	Find a doubly stochastic matrix closest to a given matrix, in Frobenius norm.</li></ul>
@@ -126,112 +126,113 @@ This function is called by:
 0046     <span class="comment">% Helpers</span>
 0047     e = ones(n, 1);
 0048     symm = @(X) .5*(X+X');
-0049 
-0050     M.name = @() sprintf(<span class="string">'%dx%d symmetric doubly-stochastic matrices with positive entries'</span>, n, n);
-0051 
-0052     M.dim = @() n*(n-1)/2;
-0053 
-0054     <span class="comment">% Fisher metric</span>
-0055     M.inner = @<a href="#_sub1" class="code" title="subfunction ip = iproduct(X, eta, zeta)">iproduct</a>;
-0056     <a name="_sub1" href="#_subfunctions" class="code">function ip = iproduct(X, eta, zeta)</a>
-0057         ip = sum((eta(:).*zeta(:))./X(:));
-0058     <span class="keyword">end</span>
-0059 
-0060     M.norm = @(X, eta) sqrt(M.inner(X, eta, eta));
-0061 
-0062     M.dist = @(X, Y) error(<span class="string">'multinomialsymmetricfactory.dist not implemented yet.'</span>);
-0063 
-0064     <span class="comment">% The manifold is not compact as a result of the choice of the metric,</span>
-0065     <span class="comment">% thus any choice here is arbitrary. This is notably used to pick</span>
-0066     <span class="comment">% default values of initial and maximal trust-region radius in the</span>
-0067     <span class="comment">% trustregions solver.</span>
-0068     M.typicaldist = @() n;
-0069    
-0070     <span class="comment">% Pick a random point on the manifold</span>
-0071     M.rand = @<a href="#_sub2" class="code" title="subfunction X = random()">random</a>;
-0072     <a name="_sub2" href="#_subfunctions" class="code">function X = random()</a>
-0073         Z = symm(abs(randn(n, n)));     <span class="comment">% Random point in the ambient space</span>
-0074         X = symm(<a href="doubly_stochastic.html" class="code" title="function B = doubly_stochastic(A, maxiter, mode)">doubly_stochastic</a>(Z)); <span class="comment">% Projection on the manifold</span>
-0075     <span class="keyword">end</span>
-0076 
-0077     <span class="comment">% Pick a random vector in the tangent space at X, of norm 1</span>
-0078     M.randvec = @<a href="#_sub3" class="code" title="subfunction eta = randomvec(X)">randomvec</a>;
-0079     <a name="_sub3" href="#_subfunctions" class="code">function eta = randomvec(X)</a>
-0080         <span class="comment">% A random vector in the ambient space</span>
-0081         Z = symm(randn(n, n)) ; 
-0082         <span class="comment">% Projection to the tangent space</span>
-0083         alpha = sum((eye(n) + X)\(Z),2) ;
-0084         eta = Z - (alpha*e' + e*alpha').*X ;
-0085         <span class="comment">% Normalizing the vector</span>
-0086         nrm = M.norm(X, eta);
-0087         eta = eta / nrm;
-0088     <span class="keyword">end</span>
-0089 
-0090     <span class="comment">% Orthogonal projection of the vector eta in the ambient space to the</span>
-0091     <span class="comment">% tangent space.</span>
-0092     M.proj = @<a href="#_sub4" class="code" title="subfunction etaproj = projection(X, eta)">projection</a>; 
-0093     <a name="_sub4" href="#_subfunctions" class="code">function etaproj = projection(X, eta)</a>
-0094         alpha = sum((eye(n) + X)\(eta), 2);
-0095         etaproj = eta - (alpha*e' + e*alpha').*X;
-0096     <span class="keyword">end</span>
-0097 
-0098     M.tangent = M.proj;
-0099     M.tangent2ambient = @(X, eta) eta;
-0100 
-0101     <span class="comment">% Conversion of Euclidean to Riemannian gradient</span>
-0102     M.egrad2rgrad = @<a href="#_sub5" class="code" title="subfunction rgrad = egrad2rgrad(X, egrad)">egrad2rgrad</a>;
-0103     <a name="_sub5" href="#_subfunctions" class="code">function rgrad = egrad2rgrad(X, egrad)</a>
-0104         mu = sum((X.*egrad), 2);
-0105         alpha = (eye(n) + X)\mu;
-0106         rgrad = (egrad - alpha*e' - e*alpha').*X; 
-0107     <span class="keyword">end</span>
-0108 
-0109     <span class="comment">% First-order retraction</span>
-0110     M.retr = @<a href="#_sub6" class="code" title="subfunction Y = retraction(X, eta, t)">retraction</a>;
-0111     <a name="_sub6" href="#_subfunctions" class="code">function Y = retraction(X, eta, t)</a>
-0112         <span class="keyword">if</span> nargin &lt; 3
-0113             t = 1.0;
-0114         <span class="keyword">end</span>
-0115         Y = X.*exp(t*(eta./X));
-0116         Y = symm(<a href="doubly_stochastic.html" class="code" title="function B = doubly_stochastic(A, maxiter, mode)">doubly_stochastic</a>(Y));
-0117         Y = max(Y, eps);
-0118     <span class="keyword">end</span>
-0119 
-0120     <span class="comment">% Conversion of Euclidean to Riemannian Hessian</span>
-0121     M.ehess2rhess = @<a href="#_sub7" class="code" title="subfunction rhess = ehess2rhess(X, egrad, ehess, eta)">ehess2rhess</a>;
-0122     <a name="_sub7" href="#_subfunctions" class="code">function rhess = ehess2rhess(X, egrad, ehess, eta)</a>
-0123 
-0124         <span class="comment">% Computing the direcitonal derivative of the riemannian</span>
-0125         <span class="comment">% gradient</span>
-0126         gamma = egrad.*X ;
-0127         gammadot = ehess.*X + egrad.*eta;
-0128         alpha = sum((eye(n) + X)\(gamma), 2);
-0129         m = (eye(n)+X)\eta;
-0130         alphadot = sum((eye(n) + X)\(gammadot - m*gamma), 2);
-0131         S = (alpha*e' + e*alpha');
-0132         deltadot = gammadot - (alphadot*e' + e*alphadot').*X - S.*eta;
-0133 
-0134         <span class="comment">% Projecting gamma</span>
-0135         delta = gamma - S.*X; 
-0136 
-0137         <span class="comment">% Computing and projecting nabla</span>
-0138         nabla = deltadot - 0.5*(delta.*eta)./X;
-0139         w = sum((eye(n) + X)\(nabla), 2);
-0140         rhess = nabla - (w*e' + e*w').*X; 
-0141         
-0142     <span class="keyword">end</span>
-0143 
-0144     
-0145     <span class="comment">% Miscellaneous manifold functions</span>
-0146     M.hash = @(X) [<span class="string">'z'</span> <a href="../../../manopt/tools/hashmd5.html" class="code" title="function h = hashmd5(inp)">hashmd5</a>(X(:))];
-0147     M.lincomb = @<a href="../../../manopt/tools/matrixlincomb.html" class="code" title="function v = matrixlincomb(x, a1, d1, a2, d2) %#ok<INUSL>">matrixlincomb</a>;
-0148     M.zerovec = @(X) zeros(n, n);
-0149     M.transp = @(X1, X2, d) <a href="#_sub4" class="code" title="subfunction etaproj = projection(X, eta)">projection</a>(X2, d);
-0150     M.vec = @(X, U) U(:);
-0151     M.mat = @(X, u) reshape(u, n, n);
-0152     M.vecmatareisometries = @() false;
-0153         
-0154 <span class="keyword">end</span></pre></div>
-<hr><address>Generated on Mon 10-Sep-2018 11:48:06 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+0049     maxDSiters = 100 + 2*n;
+0050 
+0051     M.name = @() sprintf(<span class="string">'%dx%d symmetric doubly-stochastic matrices with positive entries'</span>, n, n);
+0052 
+0053     M.dim = @() n*(n-1)/2;
+0054 
+0055     <span class="comment">% Fisher metric</span>
+0056     M.inner = @<a href="#_sub1" class="code" title="subfunction ip = iproduct(X, eta, zeta)">iproduct</a>;
+0057     <a name="_sub1" href="#_subfunctions" class="code">function ip = iproduct(X, eta, zeta)</a>
+0058         ip = sum((eta(:).*zeta(:))./X(:));
+0059     <span class="keyword">end</span>
+0060 
+0061     M.norm = @(X, eta) sqrt(M.inner(X, eta, eta));
+0062 
+0063     M.dist = @(X, Y) error(<span class="string">'multinomialsymmetricfactory.dist not implemented yet.'</span>);
+0064 
+0065     <span class="comment">% The manifold is not compact as a result of the choice of the metric,</span>
+0066     <span class="comment">% thus any choice here is arbitrary. This is notably used to pick</span>
+0067     <span class="comment">% default values of initial and maximal trust-region radius in the</span>
+0068     <span class="comment">% trustregions solver.</span>
+0069     M.typicaldist = @() n;
+0070    
+0071     <span class="comment">% Pick a random point on the manifold</span>
+0072     M.rand = @<a href="#_sub2" class="code" title="subfunction X = random()">random</a>;
+0073     <a name="_sub2" href="#_subfunctions" class="code">function X = random()</a>
+0074         Z = symm(abs(randn(n, n)));     <span class="comment">% Random point in the ambient space</span>
+0075         X = symm(<a href="doubly_stochastic.html" class="code" title="function B = doubly_stochastic(A, maxiter, mode, checkperiod)">doubly_stochastic</a>(Z, maxDSiters)); <span class="comment">% Projection on the manifold</span>
+0076     <span class="keyword">end</span>
+0077 
+0078     <span class="comment">% Pick a random vector in the tangent space at X, of norm 1</span>
+0079     M.randvec = @<a href="#_sub3" class="code" title="subfunction eta = randomvec(X)">randomvec</a>;
+0080     <a name="_sub3" href="#_subfunctions" class="code">function eta = randomvec(X)</a>
+0081         <span class="comment">% A random vector in the ambient space</span>
+0082         Z = symm(randn(n, n)) ; 
+0083         <span class="comment">% Projection to the tangent space</span>
+0084         alpha = sum((eye(n) + X)\(Z),2) ;
+0085         eta = Z - (alpha*e' + e*alpha').*X ;
+0086         <span class="comment">% Normalizing the vector</span>
+0087         nrm = M.norm(X, eta);
+0088         eta = eta / nrm;
+0089     <span class="keyword">end</span>
+0090 
+0091     <span class="comment">% Orthogonal projection of the vector eta in the ambient space to the</span>
+0092     <span class="comment">% tangent space.</span>
+0093     M.proj = @<a href="#_sub4" class="code" title="subfunction etaproj = projection(X, eta)">projection</a>; 
+0094     <a name="_sub4" href="#_subfunctions" class="code">function etaproj = projection(X, eta)</a>
+0095         alpha = sum((eye(n) + X)\(eta), 2);
+0096         etaproj = eta - (alpha*e' + e*alpha').*X;
+0097     <span class="keyword">end</span>
+0098 
+0099     M.tangent = M.proj;
+0100     M.tangent2ambient = @(X, eta) eta;
+0101 
+0102     <span class="comment">% Conversion of Euclidean to Riemannian gradient</span>
+0103     M.egrad2rgrad = @<a href="#_sub5" class="code" title="subfunction rgrad = egrad2rgrad(X, egrad)">egrad2rgrad</a>;
+0104     <a name="_sub5" href="#_subfunctions" class="code">function rgrad = egrad2rgrad(X, egrad)</a>
+0105         mu = sum((X.*egrad), 2);
+0106         alpha = (eye(n) + X)\mu;
+0107         rgrad = (egrad - alpha*e' - e*alpha').*X; 
+0108     <span class="keyword">end</span>
+0109 
+0110     <span class="comment">% First-order retraction</span>
+0111     M.retr = @<a href="#_sub6" class="code" title="subfunction Y = retraction(X, eta, t)">retraction</a>;
+0112     <a name="_sub6" href="#_subfunctions" class="code">function Y = retraction(X, eta, t)</a>
+0113         <span class="keyword">if</span> nargin &lt; 3
+0114             t = 1.0;
+0115         <span class="keyword">end</span>
+0116         Y = X.*exp(t*(eta./X));
+0117         Y = symm(<a href="doubly_stochastic.html" class="code" title="function B = doubly_stochastic(A, maxiter, mode, checkperiod)">doubly_stochastic</a>(Y, maxDSiters));
+0118         Y = max(Y, eps);
+0119     <span class="keyword">end</span>
+0120 
+0121     <span class="comment">% Conversion of Euclidean to Riemannian Hessian</span>
+0122     M.ehess2rhess = @<a href="#_sub7" class="code" title="subfunction rhess = ehess2rhess(X, egrad, ehess, eta)">ehess2rhess</a>;
+0123     <a name="_sub7" href="#_subfunctions" class="code">function rhess = ehess2rhess(X, egrad, ehess, eta)</a>
+0124 
+0125         <span class="comment">% Computing the directional derivative of the Riemannian</span>
+0126         <span class="comment">% gradient</span>
+0127         gamma = egrad.*X ;
+0128         gammadot = ehess.*X + egrad.*eta;
+0129         alpha = sum((eye(n) + X)\(gamma), 2);
+0130         m = (eye(n)+X)\eta;
+0131         alphadot = sum((eye(n) + X)\(gammadot - m*gamma), 2);
+0132         S = (alpha*e' + e*alpha');
+0133         deltadot = gammadot - (alphadot*e' + e*alphadot').*X - S.*eta;
+0134 
+0135         <span class="comment">% Projecting gamma</span>
+0136         delta = gamma - S.*X; 
+0137 
+0138         <span class="comment">% Computing and projecting nabla</span>
+0139         nabla = deltadot - 0.5*(delta.*eta)./X;
+0140         w = sum((eye(n) + X)\(nabla), 2);
+0141         rhess = nabla - (w*e' + e*w').*X; 
+0142         
+0143     <span class="keyword">end</span>
+0144 
+0145     
+0146     <span class="comment">% Miscellaneous manifold functions</span>
+0147     M.hash = @(X) [<span class="string">'z'</span> <a href="../../../manopt/tools/hashmd5.html" class="code" title="function h = hashmd5(inp)">hashmd5</a>(X(:))];
+0148     M.lincomb = @<a href="../../../manopt/tools/matrixlincomb.html" class="code" title="function v = matrixlincomb(x, a1, d1, a2, d2) %#ok<INUSL>">matrixlincomb</a>;
+0149     M.zerovec = @(X) zeros(n, n);
+0150     M.transp = @(X1, X2, d) <a href="#_sub4" class="code" title="subfunction etaproj = projection(X, eta)">projection</a>(X2, d);
+0151     M.vec = @(X, U) U(:);
+0152     M.mat = @(X, u) reshape(u, n, n);
+0153     M.vecmatareisometries = @() false;
+0154         
+0155 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Tue 19-May-2020 18:46:12 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
 </body>
 </html>
