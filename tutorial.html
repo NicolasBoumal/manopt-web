@@ -257,6 +257,12 @@ problem.egrad = @(x) -2*A*x;
                   <td><code>centeredmatrixfactory(m, n)</code></td>
                 </tr>
                 <tr>
+                  <td><a href="https://github.com/NicolasBoumal/manopt/blob/master/manopt/manifolds/euclidean/euclideansubspacefactory.m"
+                      target="_blank">Linear subspaces of linear spaces</a></td>
+                  <td>$\{ x \in E : x = \mathrm{proj}(x) \}$ where $E$ is a linear space and $\mathrm{proj}$ is an orthogonal projector to a subspace.</td>
+                  <td><code>euclideansubspacefactory(E, proj, dim)</code></td>
+                </tr>
+                <tr>
                   <td><a href="manifold_documentation_sphere.html">Sphere</a> </td>
                   <td>$\{X\in\mathbb{R}^{n\times m} : \|X\|_\mathrm{F} = 1\}$ </td>
                   <td><code>spherefactory(n, m)</code> </td>
@@ -337,6 +343,18 @@ problem.egrad = @(x) -2*A*x;
                   <td><code>specialeuclideanfactory(n, k)</code></td>
                 </tr>
                 <tr>
+                  <td><a href="https://github.com/NicolasBoumal/manopt/blob/master/manopt/manifolds/rotations/unitaryfactory.m"
+                      target="_blank">Unitary matrices</a></td>
+                  <td>$\{ U \in \mathbb{C}^{n \times n} : U^*U = I_n \}^k$</td>
+                  <td><code>unitaryfactory(n, k)</code></td>
+                </tr>
+                <tr>
+                  <td><a href="https://github.com/NicolasBoumal/manopt/blob/master/manopt/manifolds/hyperbolic/hyperbolicfactory.m"
+                      target="_blank">Hyperbolic manifold<span style="color: rgb(42, 44, 49); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;"></span></a></td>
+                  <td>$\{ x \in \mathbb{R}^{n+1} : x_0^2 = x_1^2 + \cdots + x_n^2 + 1 \}^m$ with Minkowski metric</td>
+                  <td><code>hyperbolicfactory(n, m)</code></td>
+                </tr>
+                <tr>
                   <td><a target="_blank" href="reference/manopt/manifolds/essential/essentialfactory.html">Essential manifold</a></td>
                   <td>Epipolar constraint between projected points in two perspective views, see <a
                       target="_blank" href="https://fling.seas.upenn.edu/%7Etron">Roberto Tron</a>'s page</td>
@@ -359,9 +377,13 @@ problem.egrad = @(x) -2*A*x;
                       target="_blank" href="reference/manopt/manifolds/fixedrank/fixedrankMNquotientfactory.html">(ref)</a></td>
                 </tr>
                 <tr>
-                  <td><a target="_blank" href="reference/manopt/manifolds/fixedranktensors/fixedrankfactory_tucker_preconditioned.html">Fixed-rank tensor</a></td>
+                  <td>Fixed-rank tensor, Tucker</td>
                   <td>Tensors of fixed multilinear rank in Tucker format</td>
-                  <td><code>fixedrankfactory_tucker_preconditioned</code></td>
+                  <td><code>fixedranktensorembeddedfactory</code> <a href="https://github.com/NicolasBoumal/manopt/blob/master/manopt/manifolds/fixedranktensors/fixedranktensorembeddedfactory.m"
+                      target="_blank">(ref)</a><br>
+                    <code>fixedrankfactory_tucker_preconditioned</code> <a
+                      href="https://github.com/NicolasBoumal/manopt/blob/master/manopt/manifolds/fixedranktensors/fixedrankfactory_tucker_preconditioned.m"
+                      target="_blank">(ref)</a></td>
                 </tr>
                 <tr>
                   <td><a target="_blank" href="reference/manopt/manifolds/positive/positivefactory.html">Matrices with strictly positive entries</a></td>
@@ -404,6 +426,24 @@ problem.egrad = @(x) -2*A*x;
                   <td><a target="_blank" href="manifold_documentation_multinomialsymmetric.html">Multinomial symmetric and stochastic manifold</a></td>
                   <td>$\{ X \in \mathbb{R}^{n\times n} : X_{ij} &gt; 0 \forall i,j \textrm{ and } X \mathbf{1}_n = \mathbf{1}_n, X = X^T \}$</td>
                   <td><code>multinomialsymmetricfactory(n)</code></td>
+                </tr>
+                <tr>
+                  <td><a href="https://github.com/NicolasBoumal/manopt/blob/master/manopt/manifolds/symfixedrank/sympositivedefinitesimplexfactory.m"
+                      target="_blank">Positive definite simplex</a></td>
+                  <td>$\{ (X_1, \ldots, X_k) \in (\mathbb{R}^{n \times n})^k : X_i \succ 0 \forall i \textrm{ and } X_1 + \cdots + X_k = I_n \}$</td>
+                  <td><code>sympositivedefinitesimplexfactory(n, k)</code></td>
+                </tr>
+                <tr>
+                  <td><a href="https://github.com/NicolasBoumal/manopt/blob/master/manopt/manifolds/symfixedrank/sympositivedefinitesimplexcomplexfactory.m"
+                      target="_blank">Positive definite simplex, complex</a></td>
+                  <td>$\{ (X_1, \ldots, X_k) \in (\mathbb{C}^{n \times n})^k : X_i \succ 0 \forall i \textrm{ and } X_1 + \cdots + X_k = I_n \}$</td>
+                  <td><code>sympositivedefinitesimplexcomplexfactory(n, k)</code></td>
+                </tr>
+                <tr>
+                  <td><a href="https://github.com/NicolasBoumal/manopt/blob/master/manopt/manifolds/euclidean/euclideansparsefactory.m"
+                      target="_blank">Sparse matrices with fixed sparsity pattern</a></td>
+                  <td>$\{ X \in \mathbb{R}^{m \times n} : X_{ij} = 0 \Leftrightarrow A_{ij} = 0 \}$</td>
+                  <td><code>euclideansparsefactory(A)</code> (inefficient implementation)</td>
                 </tr>
                 <tr>
                   <td><a target="_blank" href="reference/manopt/manifolds/euclidean/constantfactory.html">Constant manifold (singleton)</a></td>
@@ -464,12 +504,12 @@ problem.egrad = @(x) -2*A*x;
                 <tr>
                   <td>Euclidean to Riemannian gradient</td>
                   <td><nobr><code>M.egrad2rgrad(x, egrad)</code></nobr></td>
-                  <td>For manifolds embedded in a Euclidean space, converts the gradient of $f$ at $x$ seen as a function in that Euclidean space to the Riemannian gradient of $f$ on the manifold.</td>
+                  <td>For manifolds embedded in a Euclidean space, converts the gradient of $f$ at $x$ seen as a function in that Euclidean space to the Riemannian gradient of $f$ on the manifold. Allowed to take <code>(storedb, key)</code> as input for caching, but must also allow to be called without it.</td>
                 </tr>
                 <tr>
                   <td>Euclidean to Riemannian Hessian</td>
                   <td><code>M.ehess2rhess(x, egrad, ehess, u)</code> </td>
-                  <td>Similarly to <code>egrad2rgrad</code>, converts the Euclidean gradient and Hessian of $f$ at $x$ along a tangent vector $u$ to the Riemannian Hessian of $f$ at $x$ along $u$ on the manifold. </td>
+                  <td>Similarly to <code>egrad2rgrad</code>, converts the Euclidean gradient and Hessian of $f$ at $x$ along a tangent vector $u$ to the Riemannian Hessian of $f$ at $x$ along $u$ on the manifold. Allowed to take <code>(storedb, key)</code> as input for caching, but must also allow to be called without it.</td>
                 </tr>
                 <tr>
                   <td>Tangentialize</td>
@@ -628,7 +668,7 @@ problem.egrad = @(x) -2*A*x;
                 </tr>
                 <tr>
                   <td><a target="_blank" href="https://github.com/NicolasBoumal/manopt/blob/master/manopt/solvers/stochasticgradient/stochasticgradient.m">SGD</a></td>
-                  <td>Partial gradient (no cost)</td>
+                  <td>Partial gradient (preconditioner) [no cost needed]</td>
                   <td>Stochastic gradient algorithm for optimization of large sums.</td>
                   <td><code>stochasticgradient(...)</code></td>
                 </tr>
@@ -1095,6 +1135,12 @@ end
                   <td>For manifolds <code>M</code> which have a correct exponential map <code>M.exp</code> implemented, this tool allows to check the order of agreement of the retraction <code>M.retr</code> with the exponential. A slope of 2 indicates the retraction is a first-order approximation of the exponential (which is necessary for most (all?) convergence theorems to hold.) A slope of 3 indicates the retraction is second-order, which may be necessary theoretically to prove convergence to second-order KKT points. In practice, this may have little impact. The check is conducted at point <code>x</code> along direction <code>v</code>; these are generated at random if omitted.</td>
                 </tr>
                 <tr>
+                  <td style="text-align: center;"><a href="reference/manopt/tools/checkmanifold.html"><i
+                        class="icon-book">&#160;</i></a></td>
+                  <td><code>checkmanifold(M)</code></td>
+                  <td>Runs a collection of tests on a manifold structure produced by a factory.</td>
+                </tr>
+                <tr>
                   <td style="text-align: center;"><a href="reference/manopt/tools/plotprofile.html"><i
                         class="icon-book">&#160;</i></a></td>
                   <td><code>plotprofile(problem, x, d, t)</code></td>
@@ -1196,7 +1242,13 @@ end
                   <td style="text-align: center;"><a href="reference/manopt/tools/multiskew.html"><i
                         class="icon-book">&#160;</i></a></td>
                   <td><code>B = multiskew(A)</code></td>
-                  <td>For a 3D matrix <code>A</code> of size <tt>nxnxN</tt>, returns a 3D matrix <code>B</code> the same size as <code>A</code> such that each slice <code>B(:, :, i)</code> is the skew-symmetric part of the slice <code>A(:, :, i)</code>, that is, <code>(A(:, :, i)-A(:, :, i)')/2</code>.</td>
+                  <td>For a 3D matrix <code>A</code> of size <tt>nxnxN</tt>, returns a 3D matrix <code>B</code> the same size as <code>A</code> such that each slice <code>B(:, :, i)</code> is the skew-symmetric part of the slice <code>A(:, :, i)</code>, that is, <code>(A(:, :, i)-A(:, :, i).')/2</code>.</td>
+                </tr>
+                <tr>
+                  <td style="text-align: center;"><a href="reference/manopt/tools/multiskewh.html"><i
+                        class="icon-book">&#160;</i></a></td>
+                  <td><code>B = multiskewh(A)</code></td>
+                  <td>For a 3D matrix <code>A</code> of size <tt>nxnxN</tt>, returns a 3D matrix <code>B</code> the same size as <code>A</code> such that each slice <code>B(:, :, i)</code> is the Hermitian skew-symmetric part of the slice <code>A(:, :, i)</code>, that is, <code>(A(:, :, i)-A(:, :, i)')/2</code>.</td>
                 </tr>
                 <tr>
                   <td style="text-align: center;"><a href="reference/manopt/tools/multisym.html"><i
@@ -1214,7 +1266,7 @@ end
                   <td style="text-align: center;"><a href="reference/manopt/tools/dfunm.html"><i
                         class="icon-book">&#160;</i></a></td>
                   <td><code>dfunm</code>, <code>dlogm</code>, <code>dexpm</code>, <code>dsqrtm</code></td>
-                  <td>Fr&#233;chet derivatives of the (built-in) matrix functions <code>logm</code>, <code>expm</code> and <code>sqrtm</code>.</td>
+                  <td>Fr&#233;chet derivatives of the (built-in) matrix functions <code>logm</code>, <code>expm</code> and <code>sqrtm</code>. They return both $\mathrm{fun}(A)$ and $\mathrm{D}\mathrm{fun}(A)[\dot A]$.</td>
                 </tr>
                 <tr>
                   <td style="text-align: center;"><a href="https://github.com/NicolasBoumal/manopt/blob/master/manopt/tools/lyapunov_symmetric.m"><i
@@ -1233,6 +1285,12 @@ end
                         class="icon-book">&#160;</i></a></td>
                   <td><code>sylvester_nochecks</code></td>
                   <td>Solves the Sylvester equation $AX + XB = C$, where $A$ is an m-by-m matrix, $B$ is an n-by-n matrix, and $X$ and $C$ are two m-by-n matrices. This is a stripped-down version of Matlab's own <code>sylvester</code> function that bypasses any input checks. This is significantly faster for small m and n, which is often useful in Manopt.</td>
+                </tr>
+                <tr>
+                  <td style="text-align: center;"><a href="https://github.com/NicolasBoumal/manopt/blob/master/manopt/tools/qr_unique.m"><i
+                        class="icon-book">&#160;</i></a></td>
+                  <td><code>Q = qr_unique(A)</code></td>
+                  <td>Given $A$ with full columns rank, this computes $Q$ of the same size as $A$ such that $A = QR$, $Q$ has orthonormal columns and $R$ is upper triangular with positive diagonal entries. This fully specifies $Q$. (Matlab's <code>[Q, ~] = qr(A, 0)</code> does not enforce positive diagonal entries of $R$ by default, losing the uniqueness property). This Q-factor is exactly what one would compute through Gram-Schmidt orthonormalization of the columns of $A$, but it is computed differently. Works with 3D arrays (on each slice separately) and with both real and complex matrices.</td>
                 </tr>
                 <tr>
                   <td style="text-align: center;"> <br>
@@ -1309,10 +1367,10 @@ end
                   <td>Computes <code>u</code>, a tangent vector to <code>M</code> at <code>x</code> contained in the convex hull spanned by the $n$ vectors in the cell <code>U</code>, with minimal norm (according to the Riemannian metric on <code>M</code>). This is obtained by solving a convex quadratic program involving the Gram matrix of the given tangent vectors. The quadratic program is solved using Matlab's built-in <code>quadprog</code>, which requires the optimization toolbox.</td>
                 </tr>
                 <tr>
-                  <td style="text-align: center;"><a href="reference/manopt/tools/checkmanifold.html"><i
+                  <td style="text-align: center;"><a href="reference/manopt/tools/operator2matrix.html"><i
                         class="icon-book">&#160;</i></a></td>
-                  <td><code>checkmanifold(M)</code></td>
-                  <td>Tool to run a collection of tests on a manifold structure produced by a factory. (This is in development.)</td>
+                  <td><code>[A, B1, B2] = operator2matrix(M1, x, y, F, B1, B2, M2)</code></td>
+                  <td>Given manifold structures <code>M1</code> and <code>M2</code>, two points <code>x</code> and <code>y</code> on these manifolds, and a function <code>F</code> encoding a linear operator from the tangent space $T_x M_1$ to the tangent space $T_y M_2$, this tool uses two orthonormal bases <code>B1</code> and <code>B2</code> (one for $T_x M_1$, and one for $T_y M_2$; generated at random if omitted), and forms the matrix <code>A</code> which represents the operator <code>F</code> in those bases. In particular, the singular values of <code>A</code> are equal to the singular values of <code>F</code>. If <code>M2</code> is omitted, then <code>M2 = M1</code>. See the code for more usage modes.</td>
                 </tr>
                 <tr>
                   <td style="text-align: center;"> <br>
