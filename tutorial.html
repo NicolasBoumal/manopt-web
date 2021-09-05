@@ -266,6 +266,19 @@ problem.egrad = @(x) -2*A*x;
               the correct name is <code>problem.egrad</code>, with an "e". For
               day to day use, <code>egrad</code> is often the preferred way to
               go.</p>
+            <p>With Manopt 7.0 and Matlab R2021a or later, if you have the Deep
+              Learning Toolbox, then you can also use <strong>automatic
+                differentiation</strong> (AD) instead of defining the gradient
+              (and even the Hessian) yourself:</p>
+            <pre class="prettyprint lang-matlab linenumsoffset linenums:12">problem = manoptAD(problem);
+</pre>
+            <p>See <code>manoptAD</code> and <code>manoptADhelp</code> for
+              more information about how this works, and about what to do when
+              it does not work. It is important to keep in mind that, while AD
+              is convenient and quite efficient to save human time, it is
+              somewhat inefficient in terms of computation time. Indeed, it is
+              typical for AD to slow-down optimization by about a factor of
+              five. Still, for prototyping, this is often a comfortable option.</p>
             <div class="alert alert-info"><strong>Tip!</strong> <a href="http://www.matrixcalculus.org/"
                 target="_blank">This website</a> can be helpful in figuring out
               a formula for the Euclidean gradient of your cost function.</div>
@@ -1767,20 +1780,31 @@ end
             approximation. This finite difference approximation is also covered
             by the analysis in <a href="https://academic.oup.com/imajna/advance-article/doi/10.1093/imanum/drx080/4836777"
               target="_blank">that paper</a>.<br>
-            <ul>
-            </ul>
-          </section>
+            <h3><a id="AD" name="AD"></a>Automatic differentiation (AD)</h3>
+            See the help of <code>manoptAD</code> and <code>manoptADhelp</code>
+            for information about how to use automatic differentiation starting
+            with Manopt 7.0. Here is a simple example:<br>
+            <br>
+            <pre class="prettyprint lang-matlab linenums">n = 5;
+A = randn(n);
+A = A+A';
+problem.M = spherefactory(n);
+problem.cost = @(x) x'*A*x;
+problem = manoptAD(problem);
+x = trustregions(problem);</pre>
+            AD is slower than (good) hand-written code for gradients and
+            Hessian, but it is great to save human time when prototyping.</section>
           <section id="tools">
             <div class="page-header">
               <h1>Helpful tools</h1>
             </div>
             <p>A number of generically useful tools in the context of using
               Manopt are available in <a href="https://github.com/NicolasBoumal/manopt/tree/master/manopt/tools"
-                target="_blank">/<tt>manopt/tools</tt></a>. The <code>multitransp</code>
-              / <code>multiprod</code> pair is code by <a target="_blank" href="http://www.mathworks.com/matlabcentral/fileexchange/8773-multiple-matrix-multiplications-with-array-expansion-enabled">Paolo
-                de Leva</a> ; <code>multitrace</code> is a wrapper around <code>diagsum</code>,
-              which is code by <a target="_blank" href="http://www.mathworks.com/matlabcentral/fileexchange/10062-multi-dimensional-matrix-product-outer-product-and-partial-trace">Wynton
-                Moore</a>. </p>
+                target="_blank">/<tt>manopt/tools</tt></a>. The <code>multitrace</code>
+              tool is a wrapper around <code>diagsum</code>, which is code by <a
+                target="_blank" href="http://www.mathworks.com/matlabcentral/fileexchange/10062-multi-dimensional-matrix-product-outer-product-and-partial-trace">Wynton
+                Moore</a>; <code>multiprod</code> is a wrapper around <a href="https://ch.mathworks.com/help/matlab/ref/pagemtimes.html"
+                target="_blank">pagemtimes</a>.</p>
             <table style="width: 100%;" class="table table-striped table-bordered">
               <thead>
                 <tr>
@@ -1908,7 +1932,21 @@ end
                 <tr>
                   <td style="text-align: center;"> <br>
                   </td>
-                  <td colspan="2" rowspan="1"><strong>Cost analysis</strong></td>
+                  <td colspan="2" rowspan="1"><strong>Cost utilities</strong></td>
+                </tr>
+                <tr>
+                  <td style="text-align: center;"><a href="reference/manopt/tools/hessianspectrum.html"><i
+                        class="icon-book">&nbsp;</i></a></td>
+                  <td><code>problem = manoptAD(problem)<br>
+                    </code></td>
+                  <td>Automatic differentiation tool: given a problem which
+                    contains a manifold structure in <code>problem.M</code> and
+                    a cost function handle in <code>problem.cost</code>, the
+                    tool <code>manoptAD</code> attempts to add function handles
+                    for the gradient and possibly also the Hessian of the cost
+                    function. There are limitations: type <code>help manoptAD</code>
+                    and <code>help manoptADhelp</code> for more information.<br>
+                  </td>
                 </tr>
                 <tr>
                   <td style="text-align: center;"><a href="reference/manopt/tools/hessianspectrum.html"><i
