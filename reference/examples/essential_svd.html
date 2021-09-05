@@ -48,7 +48,7 @@
 <h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
 This function calls:
 <ul style="list-style-image:url(../matlabicon.gif)">
-<li><a href="../manopt/manifolds/essential/essential_costE2cost.html" class="code" title="function val = essential_costE2cost(X, costE)">essential_costE2cost</a>	Cost evaluation at X given function handle in the Essential matrix E.</li><li><a href="../manopt/manifolds/essential/essential_egradE2egrad.html" class="code" title="function egrad = essential_egradE2egrad(X, egradE)">essential_egradE2egrad</a>	Converts the gradient in essential matrix E to the gradient in X.</li><li><a href="../manopt/manifolds/essential/essential_ehessE2ehess.html" class="code" title="function ehess = essential_ehessE2ehess(X, egradE, ehessE, S)">essential_ehessE2ehess</a>	Converts the Hessian in essential matrix E to the Hessian in X.</li><li><a href="../manopt/manifolds/essential/essential_hat3.html" class="code" title="function [V, vShift] = essential_hat3(v)">essential_hat3</a>	Compute the matrix representation of the cross product</li><li><a href="../manopt/manifolds/essential/essentialfactory.html" class="code" title="function M = essentialfactory(k, strSigned)">essentialfactory</a>	Manifold structure to optimize over the space of essential matrices.</li><li><a href="../manopt/manifolds/rotations/randrot.html" class="code" title="function Q = randrot(n, N)">randrot</a>	Generates uniformly random rotation matrices.</li><li><a href="../manopt/solvers/trustregions/trustregions.html" class="code" title="function [x, cost, info, options] = trustregions(problem, x, options)">trustregions</a>	Riemannian trust-regions solver for optimization on manifolds.</li><li><a href="../manopt/tools/multiprod.html" class="code" title="function c = multiprod(a, b, idA, idB)">multiprod</a>	Multiplying 1-D or 2-D subarrays contained in two N-D arrays.</li><li><a href="../manopt/tools/multisqnorm.html" class="code" title="function sqnorm = multisqnorm(A)">multisqnorm</a>	Returns the squared Frobenius norms of the slices of a 3D matrix.</li></ul>
+<li><a href="../manopt/manifolds/essential/essential_costE2cost.html" class="code" title="function val = essential_costE2cost(X, costE)">essential_costE2cost</a>	Cost evaluation at X given function handle in the Essential matrix E.</li><li><a href="../manopt/manifolds/essential/essential_egradE2egrad.html" class="code" title="function egrad = essential_egradE2egrad(X, egradE)">essential_egradE2egrad</a>	Converts the gradient in essential matrix E to the gradient in X.</li><li><a href="../manopt/manifolds/essential/essential_ehessE2ehess.html" class="code" title="function ehess = essential_ehessE2ehess(X, egradE, ehessE, S)">essential_ehessE2ehess</a>	Converts the Hessian in essential matrix E to the Hessian in X.</li><li><a href="../manopt/manifolds/essential/essential_hat3.html" class="code" title="function [V, vShift] = essential_hat3(v)">essential_hat3</a>	Compute the matrix representation of the cross product</li><li><a href="../manopt/manifolds/essential/essentialfactory.html" class="code" title="function M = essentialfactory(k, strSigned)">essentialfactory</a>	Manifold structure to optimize over the space of essential matrices.</li><li><a href="../manopt/manifolds/rotations/randrot.html" class="code" title="function Q = randrot(n, N)">randrot</a>	Generates uniformly random rotation matrices.</li><li><a href="../manopt/solvers/trustregions/trustregions.html" class="code" title="function [x, cost, info, options] = trustregions(problem, x, options)">trustregions</a>	Riemannian trust-regions solver for optimization on manifolds.</li><li><a href="../manopt/tools/multiprod.html" class="code" title="function C = multiprod(A, B, unused1, unused2) %#ok<INUSD>">multiprod</a>	Matrix multiply 2-D slices of N-D arrays</li><li><a href="../manopt/tools/multisqnorm.html" class="code" title="function sqnorm = multisqnorm(A)">multisqnorm</a>	Returns the squared Frobenius norms of the slices of a 3D matrix.</li></ul>
 This function is called by:
 <ul style="list-style-image:url(../matlabicon.gif)">
 </ul>
@@ -80,51 +80,58 @@ This function is called by:
 0019 <span class="comment">% This file is part of Manopt: www.manopt.org.</span>
 0020 <span class="comment">% Original author: Roberto Tron, Aug. 8, 2014</span>
 0021 <span class="comment">% Contributors: Bamdev Mishra, May 15, 2015.</span>
-0022 
-0023 
-0024     <span class="comment">% Make data for the test</span>
-0025     N = 2;    <span class="comment">% Number of matrices to process in parallel.</span>
-0026     A = <a href="../manopt/tools/multiprod.html" class="code" title="function c = multiprod(a, b, idA, idB)">multiprod</a>(<a href="../manopt/tools/multiprod.html" class="code" title="function c = multiprod(a, b, idA, idB)">multiprod</a>(<a href="../manopt/manifolds/rotations/randrot.html" class="code" title="function Q = randrot(n, N)">randrot</a>(3, N), <a href="../manopt/manifolds/essential/essential_hat3.html" class="code" title="function [V, vShift] = essential_hat3(v)">essential_hat3</a>([0; 0; 1])), <a href="../manopt/manifolds/rotations/randrot.html" class="code" title="function Q = randrot(n, N)">randrot</a>(3, N));
-0027     
-0028     <span class="comment">% The essential manifold</span>
-0029     M = <a href="../manopt/manifolds/essential/essentialfactory.html" class="code" title="function M = essentialfactory(k, strSigned)">essentialfactory</a>(N);
-0030     problem.M = M;
-0031     
-0032     <span class="comment">% Function handles of the essential matrix E and Euclidean gradient and Hessian</span>
-0033     costE  = @(E) 0.5*sum(<a href="../manopt/tools/multisqnorm.html" class="code" title="function sqnorm = multisqnorm(A)">multisqnorm</a>(E-A));
-0034     egradE = @(E) E - A;
-0035     ehessE = @(E, U) U;
-0036 
-0037     
-0038     <span class="comment">% Manopt descriptions</span>
-0039     problem.cost = @<a href="#_sub1" class="code" title="subfunction val = cost(X)">cost</a>;
-0040     <a name="_sub1" href="#_subfunctions" class="code">function val = cost(X)</a>
-0041         val = <a href="../manopt/manifolds/essential/essential_costE2cost.html" class="code" title="function val = essential_costE2cost(X, costE)">essential_costE2cost</a>(X, costE); <span class="comment">% Cost</span>
-0042     <span class="keyword">end</span>
-0043     
-0044     problem.egrad = @<a href="#_sub2" class="code" title="subfunction g = egrad(X)">egrad</a>;
-0045     <a name="_sub2" href="#_subfunctions" class="code">function g = egrad(X)</a>
-0046         g = <a href="../manopt/manifolds/essential/essential_egradE2egrad.html" class="code" title="function egrad = essential_egradE2egrad(X, egradE)">essential_egradE2egrad</a>(X, egradE); <span class="comment">% Converts gradient in E to X.</span>
-0047     <span class="keyword">end</span>
-0048     
-0049     problem.ehess = @<a href="#_sub3" class="code" title="subfunction gdot = ehess(X, S)">ehess</a>;
-0050     <a name="_sub3" href="#_subfunctions" class="code">function gdot = ehess(X, S)</a>
-0051         gdot = <a href="../manopt/manifolds/essential/essential_ehessE2ehess.html" class="code" title="function ehess = essential_ehessE2ehess(X, egradE, ehessE, S)">essential_ehessE2ehess</a>(X, egradE, ehessE, S); <span class="comment">% Converts Hessian in E to X.</span>
-0052     <span class="keyword">end</span>
-0053     
-0054     
-0055     <span class="comment">% Numerically check the differentials.</span>
-0056     <span class="comment">% checkgradient(problem); pause;</span>
-0057     <span class="comment">% checkhessian(problem); pause;</span>
-0058     
-0059     <span class="comment">%Solve the problem</span>
-0060     Xsol = <a href="../manopt/solvers/trustregions/trustregions.html" class="code" title="function [x, cost, info, options] = trustregions(problem, x, options)">trustregions</a>(problem);
+0022 <span class="comment">% Change log:</span>
+0023 <span class="comment">%</span>
+0024 <span class="comment">%    Xiaowen Jiang Aug. 20, 2021</span>
+0025 <span class="comment">%       Added AD to compute the egrad and the ehess</span>
+0026 
+0027     <span class="comment">% Make data for the test</span>
+0028     N = 2;    <span class="comment">% Number of matrices to process in parallel.</span>
+0029     A = <a href="../manopt/tools/multiprod.html" class="code" title="function C = multiprod(A, B, unused1, unused2) %#ok<INUSD>">multiprod</a>(<a href="../manopt/tools/multiprod.html" class="code" title="function C = multiprod(A, B, unused1, unused2) %#ok<INUSD>">multiprod</a>(<a href="../manopt/manifolds/rotations/randrot.html" class="code" title="function Q = randrot(n, N)">randrot</a>(3, N), <a href="../manopt/manifolds/essential/essential_hat3.html" class="code" title="function [V, vShift] = essential_hat3(v)">essential_hat3</a>([0; 0; 1])), <a href="../manopt/manifolds/rotations/randrot.html" class="code" title="function Q = randrot(n, N)">randrot</a>(3, N));
+0030     
+0031     <span class="comment">% The essential manifold</span>
+0032     M = <a href="../manopt/manifolds/essential/essentialfactory.html" class="code" title="function M = essentialfactory(k, strSigned)">essentialfactory</a>(N);
+0033     problem.M = M;
+0034     
+0035     <span class="comment">% Function handles of the essential matrix E and Euclidean gradient and Hessian</span>
+0036     costE  = @(E) 0.5*sum(<a href="../manopt/tools/multisqnorm.html" class="code" title="function sqnorm = multisqnorm(A)">multisqnorm</a>(E-A));
+0037     egradE = @(E) E - A;
+0038     ehessE = @(E, U) U;
+0039 
+0040     
+0041     <span class="comment">% Manopt descriptions</span>
+0042     problem.cost = @<a href="#_sub1" class="code" title="subfunction val = cost(X)">cost</a>;
+0043     <a name="_sub1" href="#_subfunctions" class="code">function val = cost(X)</a>
+0044         val = <a href="../manopt/manifolds/essential/essential_costE2cost.html" class="code" title="function val = essential_costE2cost(X, costE)">essential_costE2cost</a>(X, costE); <span class="comment">% Cost</span>
+0045     <span class="keyword">end</span>
+0046     
+0047     problem.egrad = @<a href="#_sub2" class="code" title="subfunction g = egrad(X)">egrad</a>;
+0048     <a name="_sub2" href="#_subfunctions" class="code">function g = egrad(X)</a>
+0049         g = <a href="../manopt/manifolds/essential/essential_egradE2egrad.html" class="code" title="function egrad = essential_egradE2egrad(X, egradE)">essential_egradE2egrad</a>(X, egradE); <span class="comment">% Converts gradient in E to X.</span>
+0050     <span class="keyword">end</span>
+0051     
+0052     problem.ehess = @<a href="#_sub3" class="code" title="subfunction gdot = ehess(X, S)">ehess</a>;
+0053     <a name="_sub3" href="#_subfunctions" class="code">function gdot = ehess(X, S)</a>
+0054         gdot = <a href="../manopt/manifolds/essential/essential_ehessE2ehess.html" class="code" title="function ehess = essential_ehessE2ehess(X, egradE, ehessE, S)">essential_ehessE2ehess</a>(X, egradE, ehessE, S); <span class="comment">% Converts Hessian in E to X.</span>
+0055     <span class="keyword">end</span>
+0056     
+0057     <span class="comment">% An alternative way to compute the egrad and the ehess is to use</span>
+0058     <span class="comment">% automatic differentiation provided in the deep learning toolbox (slower)</span>
+0059     <span class="comment">% call manoptAD to automatically obtain the egrad and the ehess</span>
+0060     <span class="comment">% problem = manoptAD(problem);</span>
 0061     
-0062     <span class="comment">% Distance between original matrices and decompositions</span>
-0063     val = <a href="../manopt/manifolds/essential/essential_costE2cost.html" class="code" title="function val = essential_costE2cost(X, costE)">essential_costE2cost</a>(Xsol, costE);
-0064     fprintf(<span class="string">'Distance between original matrices and decompositions is %e \n'</span>, val);
-0065 
-0066 <span class="keyword">end</span></pre></div>
-<hr><address>Generated on Tue 19-May-2020 18:46:12 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+0062     <span class="comment">% Numerically check the differentials.</span>
+0063     <span class="comment">% checkgradient(problem); pause;</span>
+0064     <span class="comment">% checkhessian(problem); pause;</span>
+0065     
+0066     <span class="comment">%Solve the problem</span>
+0067     Xsol = <a href="../manopt/solvers/trustregions/trustregions.html" class="code" title="function [x, cost, info, options] = trustregions(problem, x, options)">trustregions</a>(problem);
+0068     
+0069     <span class="comment">% Distance between original matrices and decompositions</span>
+0070     val = <a href="../manopt/manifolds/essential/essential_costE2cost.html" class="code" title="function val = essential_costE2cost(X, costE)">essential_costE2cost</a>(Xsol, costE);
+0071     fprintf(<span class="string">'Distance between original matrices and decompositions is %e \n'</span>, val);
+0072 
+0073 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Sun 05-Sep-2021 17:57:00 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
 </body>
 </html>

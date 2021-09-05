@@ -1,0 +1,220 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of sympositivedefiniteBWfactory</title>
+  <meta name="keywords" content="sympositivedefiniteBWfactory">
+  <meta name="description" content="Manifold of n-by-n symmetric positive definite matrices with the">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../index.html">Home</a> &gt;  <a href="#">manopt</a> &gt; <a href="#">manifolds</a> &gt; <a href="index.html">symfixedrank</a> &gt; sympositivedefiniteBWfactory.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../index.html"><img alt="<" border="0" src="../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for manopt\manifolds\symfixedrank&nbsp;<img alt=">" border="0" src="../../../right.png"></a></td></tr></table>-->
+
+<h1>sympositivedefiniteBWfactory
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>Manifold of n-by-n symmetric positive definite matrices with the</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function M = sympositivedefiniteBWfactory(n) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> Manifold of n-by-n symmetric positive definite matrices with the
+ Bures-Wassterstein geometry.
+
+ function M = sympositivedefiniteBWfactory(n)
+
+ A point X on the manifold is represented as a symmetric positive definite
+ matrix X (nxn). Tangent vectors are symmetric matrices of the same size
+ (but not necessarily definite).
+
+ The Euclidean embedding space is the set of symmetric matrices of size n
+ with their usual trace inner product (Frobenius norm). In particular,
+ this means egrad and ehess (for Euclidean gradients and Hessians), if
+ implemented, must return symmetric matrices.
+
+
+ Please cite the Manopt paper as well as the research paper:
+ @article{malago2018wasserstein,
+  title={Wasserstein Riemannian geometry of Gaussian densities},
+  author={Malag{\`o}, Luigi and Montrucchio, Luigi and Pistone, Giovanni},
+  journal={Information Geometry},
+  volume={1},
+  number={2},
+  pages={137--179},
+  year={2018},
+  publisher={Springer}
+  }</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="../../../manopt/tools/hashmd5.html" class="code" title="function h = hashmd5(inp)">hashmd5</a>	Computes the MD5 hash of input data.</li><li><a href="../../../manopt/tools/lyapunov_symmetric.html" class="code" title="function X = lyapunov_symmetric(A, C, tol)">lyapunov_symmetric</a>	Solves AX + XA = C when A = A', as a pseudo-inverse.</li><li><a href="../../../manopt/tools/matrixlincomb.html" class="code" title="function v = matrixlincomb(x, a1, d1, a2, d2) %#ok<INUSL>">matrixlincomb</a>	Linear combination function for tangent vectors represented as matrices.</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+</ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function ip = myinner(X, eta, zeta)</a></li><li><a href="#_sub2" class="code">function d = mydist(X, Y)</a></li><li><a href="#_sub3" class="code">function eta = egrad2rgrad(X, eta)</a></li><li><a href="#_sub4" class="code">function Hess = ehess2rhess(X, egrad, ehess, eta)</a></li><li><a href="#_sub5" class="code">function Y = exponential(X, eta, t)</a></li><li><a href="#_sub6" class="code">function ABhalf = myhalf(A, B)</a></li><li><a href="#_sub7" class="code">function H = logarithm(X, Y)</a></li><li><a href="#_sub8" class="code">function X = random()</a></li><li><a href="#_sub9" class="code">function eta = randomvec(X)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function M = sympositivedefiniteBWfactory(n)</a>
+0002 <span class="comment">% Manifold of n-by-n symmetric positive definite matrices with the</span>
+0003 <span class="comment">% Bures-Wassterstein geometry.</span>
+0004 <span class="comment">%</span>
+0005 <span class="comment">% function M = sympositivedefiniteBWfactory(n)</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">% A point X on the manifold is represented as a symmetric positive definite</span>
+0008 <span class="comment">% matrix X (nxn). Tangent vectors are symmetric matrices of the same size</span>
+0009 <span class="comment">% (but not necessarily definite).</span>
+0010 <span class="comment">%</span>
+0011 <span class="comment">% The Euclidean embedding space is the set of symmetric matrices of size n</span>
+0012 <span class="comment">% with their usual trace inner product (Frobenius norm). In particular,</span>
+0013 <span class="comment">% this means egrad and ehess (for Euclidean gradients and Hessians), if</span>
+0014 <span class="comment">% implemented, must return symmetric matrices.</span>
+0015 <span class="comment">%</span>
+0016 <span class="comment">%</span>
+0017 <span class="comment">% Please cite the Manopt paper as well as the research paper:</span>
+0018 <span class="comment">% @article{malago2018wasserstein,</span>
+0019 <span class="comment">%  title={Wasserstein Riemannian geometry of Gaussian densities},</span>
+0020 <span class="comment">%  author={Malag{\`o}, Luigi and Montrucchio, Luigi and Pistone, Giovanni},</span>
+0021 <span class="comment">%  journal={Information Geometry},</span>
+0022 <span class="comment">%  volume={1},</span>
+0023 <span class="comment">%  number={2},</span>
+0024 <span class="comment">%  pages={137--179},</span>
+0025 <span class="comment">%  year={2018},</span>
+0026 <span class="comment">%  publisher={Springer}</span>
+0027 <span class="comment">%  }</span>
+0028 
+0029 <span class="comment">% This file is part of Manopt: www.manopt.org.</span>
+0030 <span class="comment">% Original author: Bamdev Mishra, January 23, 2020.</span>
+0031 <span class="comment">% Contributors:</span>
+0032 <span class="comment">% Change log:</span>
+0033     
+0034     symm = @(X) .5*(X+X');
+0035     
+0036     M.name = @() sprintf(<span class="string">'Symmetric positive definite geometry of %dx%d matrices with the Bures-Wasserstein metric'</span>, n, n);
+0037     
+0038     M.dim = @() n*(n+1)/2;
+0039     
+0040     <span class="comment">% Helpers to avoid computing full matrices simply to extract their trace</span>
+0041     vec  = @(A) A(:);
+0042     trAB = @(A, B) vec(A')'*vec(B);  <span class="comment">% = trace(A*B)</span>
+0043     
+0044     <span class="comment">% Choice of the metric on the orthonormal space is motivated by the</span>
+0045     <span class="comment">% symmetry present in the space. The metric on the positive definite</span>
+0046     <span class="comment">% cone is the Bures-Wasserstein metric.</span>
+0047     M.inner = @<a href="#_sub1" class="code" title="subfunction ip = myinner(X, eta, zeta)">myinner</a>;
+0048     <a name="_sub1" href="#_subfunctions" class="code">function ip = myinner(X, eta, zeta)</a>
+0049         ip = 0.5*trAB(symm(<a href="../../../manopt/tools/lyapunov_symmetric.html" class="code" title="function X = lyapunov_symmetric(A, C, tol)">lyapunov_symmetric</a>(X, eta)), zeta); <span class="comment">% BM: okay</span>
+0050     <span class="keyword">end</span>
+0051     
+0052     M.norm = @(X, eta) real(sqrt(<a href="#_sub1" class="code" title="subfunction ip = myinner(X, eta, zeta)">myinner</a>(X, eta, eta)));
+0053     
+0054     M.dist = @<a href="#_sub2" class="code" title="subfunction d = mydist(X, Y)">mydist</a>;
+0055     <a name="_sub2" href="#_subfunctions" class="code">function d = mydist(X, Y)</a>
+0056         Xhalf = sqrtm(X);
+0057         d = real(sqrt(trace(X) + trace(Y) - 2*trace(symm(sqrtm(Xhalf*Y*Xhalf)))));
+0058     <span class="keyword">end</span>
+0059     
+0060     M.typicaldist = @() sqrt(n*(n+1)/2); <span class="comment">% BM: okay</span>
+0061     
+0062     M.egrad2rgrad = @<a href="#_sub3" class="code" title="subfunction eta = egrad2rgrad(X, eta)">egrad2rgrad</a>;
+0063     <a name="_sub3" href="#_subfunctions" class="code">function eta = egrad2rgrad(X, eta)</a>
+0064         eta = 4*symm(eta*X);
+0065     <span class="keyword">end</span>
+0066     
+0067     M.ehess2rhess = @<a href="#_sub4" class="code" title="subfunction Hess = ehess2rhess(X, egrad, ehess, eta)">ehess2rhess</a>;
+0068     <a name="_sub4" href="#_subfunctions" class="code">function Hess = ehess2rhess(X, egrad, ehess, eta)</a>
+0069         <span class="comment">% Directional derivatives of the Riemannian gradient</span>
+0070         Hess = 4*symm(ehess*X) + 4*symm(egrad*eta);
+0071         
+0072         <span class="comment">% Correction factor for the non-constant BW metric</span>
+0073         rgrad = <a href="#_sub3" class="code" title="subfunction eta = egrad2rgrad(X, eta)">egrad2rgrad</a>(X, egrad);
+0074         rgrad1 = <a href="../../../manopt/tools/lyapunov_symmetric.html" class="code" title="function X = lyapunov_symmetric(A, C, tol)">lyapunov_symmetric</a>(X, rgrad);
+0075         eta1 = <a href="../../../manopt/tools/lyapunov_symmetric.html" class="code" title="function X = lyapunov_symmetric(A, C, tol)">lyapunov_symmetric</a>(X, eta);
+0076         Hess = Hess <span class="keyword">...</span>
+0077             - symm(rgrad1 * eta) <span class="keyword">...</span>
+0078             - symm(rgrad * eta1) <span class="keyword">...</span>
+0079             + 2*symm(X*symm(rgrad1 * eta1));
+0080     <span class="keyword">end</span>
+0081     
+0082     M.proj = @(X, eta) symm(eta);
+0083     
+0084     M.tangent = M.proj;
+0085     M.tangent2ambient = @(X, eta) eta;
+0086     
+0087     M.exp = @<a href="#_sub5" class="code" title="subfunction Y = exponential(X, eta, t)">exponential</a>;
+0088     <a name="_sub5" href="#_subfunctions" class="code">function Y = exponential(X, eta, t)</a>
+0089         <span class="keyword">if</span> nargin &lt; 3
+0090             t = 1.0;
+0091         <span class="keyword">end</span>
+0092         teta = t*eta;
+0093         teta1 = symm(<a href="../../../manopt/tools/lyapunov_symmetric.html" class="code" title="function X = lyapunov_symmetric(A, C, tol)">lyapunov_symmetric</a>(X, teta));
+0094         Y = X + teta + teta1*X*teta1;
+0095     <span class="keyword">end</span>
+0096     
+0097     M.retr = @<a href="#_sub5" class="code" title="subfunction Y = exponential(X, eta, t)">exponential</a>;
+0098     
+0099     <a name="_sub6" href="#_subfunctions" class="code">function ABhalf = myhalf(A, B)</a>
+0100         Ahalf = sqrtm(A);
+0101         ABhalf = (Ahalf*symm(sqrtm(Ahalf*B*Ahalf)))/Ahalf;
+0102     <span class="keyword">end</span>
+0103     
+0104     M.log = @<a href="#_sub7" class="code" title="subfunction H = logarithm(X, Y)">logarithm</a>;
+0105     <a name="_sub7" href="#_subfunctions" class="code">function H = logarithm(X, Y)</a>
+0106         H = symm(<a href="#_sub6" class="code" title="subfunction ABhalf = myhalf(A, B)">myhalf</a>(X, Y) + <a href="#_sub6" class="code" title="subfunction ABhalf = myhalf(A, B)">myhalf</a>(Y, X) - 2*X);
+0107     <span class="keyword">end</span>
+0108     
+0109     M.hash = @(X) [<span class="string">'z'</span> <a href="../../../manopt/tools/hashmd5.html" class="code" title="function h = hashmd5(inp)">hashmd5</a>(X(:))];
+0110     
+0111     <span class="comment">% Generate a random symmetric positive definite matrix following a</span>
+0112     <span class="comment">% certain distribution. The particular choice of a distribution is of</span>
+0113     <span class="comment">% course arbitrary, and specific applications might require different</span>
+0114     <span class="comment">% ones.</span>
+0115     M.rand = @<a href="#_sub8" class="code" title="subfunction X = random()">random</a>;
+0116     <a name="_sub8" href="#_subfunctions" class="code">function X = random()</a>
+0117         D = diag(1+rand(n, 1));
+0118         [Q, R] = qr(randn(n)); <span class="comment">%#ok</span>
+0119         X = Q*D*Q';
+0120     <span class="keyword">end</span>
+0121     
+0122     <span class="comment">% Generate a uniformly random unit-norm tangent vector at X.</span>
+0123     M.randvec = @<a href="#_sub9" class="code" title="subfunction eta = randomvec(X)">randomvec</a>;
+0124     <a name="_sub9" href="#_subfunctions" class="code">function eta = randomvec(X)</a>
+0125         eta = symm(randn(n));
+0126         nrm = M.norm(X, eta);
+0127         eta = eta / nrm;
+0128     <span class="keyword">end</span>
+0129     
+0130     M.lincomb = @<a href="../../../manopt/tools/matrixlincomb.html" class="code" title="function v = matrixlincomb(x, a1, d1, a2, d2) %#ok<INUSL>">matrixlincomb</a>;
+0131     
+0132     M.zerovec = @(X) zeros(n);
+0133     
+0134     <span class="comment">% Poor man's vector transport: exploit the fact that all tangent spaces</span>
+0135     <span class="comment">% are the set of symmetric matrices, so that the identity is a sort of</span>
+0136     <span class="comment">% vector transport. It may perform poorly if the origin and target (X1</span>
+0137     <span class="comment">% and X2) are far apart though. This should not be the case for typical</span>
+0138     <span class="comment">% optimization algorithms, which perform small steps.</span>
+0139     M.transp = @(X1, X2, eta) eta;
+0140     
+0141     <span class="comment">% vec and mat are not isometries, because of the unusual inner metric.</span>
+0142     M.vec = @(X, U) U(:);
+0143     M.mat = @(X, u) reshape(u, n, n);
+0144     M.vecmatareisometries = @() false;
+0145     
+0146 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Sun 05-Sep-2021 17:57:00 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

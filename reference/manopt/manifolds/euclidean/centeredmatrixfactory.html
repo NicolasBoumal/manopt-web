@@ -47,7 +47,7 @@
 <h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
 This function calls:
 <ul style="list-style-image:url(../../../matlabicon.gif)">
-<li><a href="../../../manopt/tools/hashmd5.html" class="code" title="function h = hashmd5(inp)">hashmd5</a>	Computes the MD5 hash of input data.</li><li><a href="../../../manopt/tools/matrixlincomb.html" class="code" title="function v = matrixlincomb(x, a1, d1, a2, d2) %#ok<INUSL>">matrixlincomb</a>	Linear combination function for tangent vectors represented as matrices.</li></ul>
+<li><a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/minus.html" class="code" title="function z = minus( x, y )">minus</a>	MINUS Substraction of two TT/MPS tensors.</li><li><a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>	NORM Norm of a TT/MPS tensor.</li><li><a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_block/minus.html" class="code" title="function z = minus( x, y )">minus</a>	MINUS Substraction of two TT/MPS block-mu tensors.</li><li><a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_block/norm.html" class="code" title="function res = norm( x )">norm</a>	NORM Norm of a TT/MPS block-mu tensor.</li><li><a href="../../../manopt/tools/hashmd5.html" class="code" title="function h = hashmd5(inp)">hashmd5</a>	Computes the MD5 hash of input data.</li><li><a href="../../../manopt/tools/matrixlincomb.html" class="code" title="function v = matrixlincomb(x, a1, d1, a2, d2) %#ok<INUSL>">matrixlincomb</a>	Linear combination function for tangent vectors represented as matrices.</li></ul>
 This function is called by:
 <ul style="list-style-image:url(../../../matlabicon.gif)">
 </ul>
@@ -92,10 +92,10 @@ This function is called by:
 0032     <span class="comment">% Define a centering operator: it subtracts the mean column or row.</span>
 0033     <span class="keyword">switch</span> lower(rows_or_cols)
 0034         <span class="keyword">case</span> <span class="string">'cols'</span>
-0035             center = @(X) bsxfun(@minus, X, mean(X, 2));
+0035             center = @(X) bsxfun(@<a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/minus.html" class="code" title="function z = minus( x, y )">minus</a>, X, mean(X, 2));
 0036             M.dim = @() m*n - m;
 0037         <span class="keyword">case</span> <span class="string">'rows'</span>
-0038             center = @(X) bsxfun(@minus, X, mean(X, 1));
+0038             center = @(X) bsxfun(@<a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/minus.html" class="code" title="function z = minus( x, y )">minus</a>, X, mean(X, 1));
 0039             M.dim = @() m*n - n;
 0040         <span class="keyword">otherwise</span>
 0041             error(<span class="string">'The third input must be either ''rows'' or ''cols''.'</span>);
@@ -110,9 +110,9 @@ This function is called by:
 0050     
 0051     M.inner = @(x, d1, d2) d1(:).'*d2(:);
 0052     
-0053     M.norm = @(x, d) norm(d, <span class="string">'fro'</span>);
+0053     M.norm = @(x, d) <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>(d, <span class="string">'fro'</span>);
 0054     
-0055     M.dist = @(x, y) norm(x-y, <span class="string">'fro'</span>);
+0055     M.dist = @(x, y) <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>(x-y, <span class="string">'fro'</span>);
 0056     
 0057     M.typicaldist = @() sqrt(M.dim());
 0058     
@@ -142,7 +142,7 @@ This function is called by:
 0082     M.randvec = @(X) <a href="#_sub2" class="code" title="subfunction U = randvec()">randvec</a>();
 0083     <a name="_sub2" href="#_subfunctions" class="code">function U = randvec()</a>
 0084         U = center(randn(m, n));
-0085         U = U / norm(U, <span class="string">'fro'</span>);
+0085         U = U / <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>(U, <span class="string">'fro'</span>);
 0086     <span class="keyword">end</span>
 0087     
 0088     M.rand = @() center(randn(m, n));
@@ -160,6 +160,6 @@ This function is called by:
 0100     M.vecmatareisometries = @() true;
 0101 
 0102 <span class="keyword">end</span></pre></div>
-<hr><address>Generated on Tue 19-May-2020 18:46:12 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+<hr><address>Generated on Sun 05-Sep-2021 17:57:00 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
 </body>
 </html>

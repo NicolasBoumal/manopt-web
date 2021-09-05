@@ -1,0 +1,180 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of amen</title>
+  <meta name="keywords" content="amen">
+  <meta name="description" content="TTeMPS Toolbox.">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../index.html">Home</a> &gt;  <a href="#">manopt</a> &gt; <a href="#">manifolds</a> &gt; <a href="../../../index.html">ttfixedrank</a> &gt; <a href="../../index.html">TTeMPS_1.1</a> &gt; <a href="../index.html">algorithms</a> &gt; <a href="index.html">linearsystem</a> &gt; amen.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../index.html"><img alt="<" border="0" src="../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for manopt\manifolds\ttfixedrank\TTeMPS_1.1\algorithms\linearsystem&nbsp;<img alt=">" border="0" src="../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>amen
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="box"><strong>TTeMPS Toolbox.</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="box"><strong>function [X, residual, cost] = amen( L, F, X, opts ) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">   TTeMPS Toolbox. 
+   Michael Steinlechner, 2013-2016
+   Questions and contact: michael.steinlechner@epfl.ch
+   BSD 2-clause license, see LICENSE.txt</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../matlabicon.gif)">
+<li><a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/cat.html" class="code" title="function z = cat( mu, x, y )">cat</a>	CAT concatenation of two TT/MPS tensors.</li><li><a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/contract.html" class="code" title="function res = contract( x, y, idx )">contract</a>	CONTRACT Contraction of two TT/MPS tensors.</li><li><a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/disp.html" class="code" title="function disp( x, name )">disp</a>	DISP Display TT/MPS tensor.</li><li><a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/innerprod.html" class="code" title="function res = innerprod( x, y, dir, upto, storeParts )">innerprod</a>	INNERPROD Inner product between two TT/MPS tensors.</li><li><a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>	NORM Norm of a TT/MPS tensor.</li><li><a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/orthogonalize.html" class="code" title="function x = orthogonalize( x, pos )">orthogonalize</a>	ORTHOGONALIZE Orthogonalize tensor.</li><li><a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_block/disp.html" class="code" title="function disp( x, name )">disp</a>	DISP Display TT/MPS block-mu tensor.</li><li><a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_block/innerprod.html" class="code" title="function res = innerprod( x, y, dir, upto )">innerprod</a>	INNERPROD Inner product between two TT/MPS tensors.</li><li><a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_block/norm.html" class="code" title="function res = norm( x )">norm</a>	NORM Norm of a TT/MPS block-mu tensor.</li><li><a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_block/orthogonalize.html" class="code" title="function res = orthogonalize( x )">orthogonalize</a>	ORTHOGONALIZE Orthogonalize TT/MPS Block-mu tensor.</li><li><a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_op/apply.html" class="code" title="function y = apply( A, x, idx )">apply</a>	APPLY Application of TT/MPS operator to a TT/MPS tensor</li><li><a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_op/contract.html" class="code" title="function res = contract( A, X, mu )">contract</a>	CONTRACT Contraction of two TT/MPS tensors with inner TT/MPS operator.</li><li><a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_op/disp.html" class="code" title="function disp( x, name )">disp</a>	DISP Display TT/MPS operator.</li><li><a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_op_laplace/apply.html" class="code" title="function y = apply( A, x, idx )">apply</a>	APPLY Application of TT/MPS Laplace-like operator to a TT/MPS tensor</li><li><a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_op_laplace/contract.html" class="code" title="function res = contract( A, X, mu )">contract</a>	CONTRACT Contraction of two TT/MPS tensors with inner TT/MPS Laplace operator.</li><li><a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_op_laplace/disp.html" class="code" title="function disp( x, name )">disp</a>	DISP Display TT/MPS operator.</li><li><a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/unfold.html" class="code" title="function W = unfold( U, dir )">unfold</a>	UNFOLD Left/right-unfold a 3D array.</li><li><a href="../../../../../../manopt/tools/orthogonalize.html" class="code" title="function [Q, R] = orthogonalize(M, x, A)">orthogonalize</a>	Orthonormalizes a basis of tangent vectors in the Manopt framework.</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../matlabicon.gif)">
+</ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function res = cost_function( L, X, F )</a></li><li><a href="#_sub2" class="code">function res = euclid_grad( L, X, F )</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">%   TTeMPS Toolbox.</span>
+0002 <span class="comment">%   Michael Steinlechner, 2013-2016</span>
+0003 <span class="comment">%   Questions and contact: michael.steinlechner@epfl.ch</span>
+0004 <span class="comment">%   BSD 2-clause license, see LICENSE.txt</span>
+0005 
+0006 <a name="_sub0" href="#_subfunctions" class="code">function [X, residual, cost] = amen( L, F, X, opts )</a>
+0007 
+0008 <span class="comment">% set default opts</span>
+0009 <span class="keyword">if</span> ~exist( <span class="string">'opts'</span>, <span class="string">'var'</span>);        opts = struct();     <span class="keyword">end</span>
+0010 <span class="keyword">if</span> ~isfield( opts, <span class="string">'nSweeps'</span>);    opts.nSweeps = 4;    <span class="keyword">end</span>
+0011 <span class="keyword">if</span> ~isfield( opts, <span class="string">'maxrank'</span>);    opts.maxrank = 20;   <span class="keyword">end</span>
+0012 <span class="keyword">if</span> ~isfield( opts, <span class="string">'maxrankRes'</span>); opts.maxrankRes = 4; <span class="keyword">end</span>
+0013 <span class="keyword">if</span> ~isfield( opts, <span class="string">'tolRes'</span>);     opts.tolRes = 1e-13;  <span class="keyword">end</span>
+0014 <span class="keyword">if</span> ~isfield( opts, <span class="string">'tol'</span>);        opts.tol = 1e-13;     <span class="keyword">end</span>
+0015 
+0016 d = X.order;
+0017 n = X.size;
+0018 
+0019 
+0020 normF = <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>(F);
+0021 cost = <a href="#_sub1" class="code" title="subfunction res = cost_function( L, X, F )">cost_function</a>( L, X, F );
+0022 residual = <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>( <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_op/apply.html" class="code" title="function y = apply( A, x, idx )">apply</a>(L, X) - F ) / normF;
+0023 
+0024 <span class="keyword">for</span> sweep = 1:opts.nSweeps
+0025     X = <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/orthogonalize.html" class="code" title="function x = orthogonalize( x, pos )">orthogonalize</a>(X, 1);
+0026     <span class="keyword">for</span> mu = 1:d-1
+0027         <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/disp.html" class="code" title="function disp( x, name )">disp</a>( [<span class="string">'Current core: '</span>, num2str(mu)] )
+0028 
+0029         <span class="comment">% STEP 1: Solve mu-th core opimization</span>
+0030         L_mu = <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/contract.html" class="code" title="function res = contract( x, y, idx )">contract</a>( L, X, mu );
+0031         F_mu = <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/contract.html" class="code" title="function res = contract( x, y, idx )">contract</a>( X, F, mu );
+0032         
+0033         U_mu = L_mu \ F_mu(:);
+0034         X.U{mu} = reshape( U_mu, size(X.U{mu}) );
+0035         
+0036         <span class="comment">% STEP 2: Calculate current residual and cost function</span>
+0037         res =  F - <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_op/apply.html" class="code" title="function y = apply( A, x, idx )">apply</a>(L, X);
+0038         residual = [residual; <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>( res ) / normF];
+0039         cost = [cost; <a href="#_sub1" class="code" title="subfunction res = cost_function( L, X, F )">cost_function</a>( L, X, F )];
+0040         <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/disp.html" class="code" title="function disp( x, name )">disp</a>([<span class="string">'Rel. residual: '</span> num2str(residual(end)) <span class="string">', Current rank: '</span> num2str(X.rank) ]);
+0041 
+0042         <span class="comment">% STEP 3: Augment mu-th and (mu+1)-th core with (truncated) residual</span>
+0043         R = <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/contract.html" class="code" title="function res = contract( x, y, idx )">contract</a>( X, res, [mu, mu+1] );
+0044         R_combined = <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/unfold.html" class="code" title="function W = unfold( U, dir )">unfold</a>(R{1},<span class="string">'left'</span>) * <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/unfold.html" class="code" title="function W = unfold( U, dir )">unfold</a>(R{2},<span class="string">'right'</span>); 
+0045 
+0046         [uu,ss,~] = svd( R_combined, <span class="string">'econ'</span>);  
+0047         s = find( diag(ss) &gt; opts.tolRes*<a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>(diag(ss)), 1, <span class="string">'last'</span> );
+0048         <span class="keyword">if</span> opts.maxrankRes ~= 0 
+0049             s = min( s, opts.maxrankRes );
+0050         <span class="keyword">end</span>
+0051         R{1} = reshape( uu(:,1:s)*ss(1:s,1:s), [X.rank(mu), n(mu), s]);
+0052         <span class="comment">%R{2} = reshape( vv(:,1:s)', [s, n(mu+1), X.rank(mu+2)]);</span>
+0053 
+0054         left = <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/cat.html" class="code" title="function z = cat( mu, x, y )">cat</a>(3, X.U{mu}, R{1});
+0055         <span class="comment">%right = cat(1, X.U{mu+1}, R{2});</span>
+0056 
+0057         <span class="comment">% STEP 4: Move orthogonality to (mu+1)-th core while performing rank truncation</span>
+0058         [U,S,~] = svd( <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/unfold.html" class="code" title="function W = unfold( U, dir )">unfold</a>(left,<span class="string">'left'</span>), <span class="string">'econ'</span> );
+0059         t = find( diag(S) &gt; opts.tol*<a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>(diag(S)), 1, <span class="string">'last'</span> );
+0060         t = min( t, opts.maxrank );
+0061         X.U{mu} = reshape( U(:,1:t), [X.rank(mu), n(mu), t] );
+0062         <span class="comment">%X.U{mu+1} = tensorprod( right, S(1:t,1:t)*V(:,1:t)', 1);</span>
+0063         X.U{mu+1} = rand( t, n(mu+1), X.rank(mu+2));
+0064 
+0065     <span class="keyword">end</span>
+0066     <span class="keyword">for</span> mu = d:-1:2
+0067         <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/disp.html" class="code" title="function disp( x, name )">disp</a>( [<span class="string">'Current core: '</span>, num2str(mu)] )
+0068 
+0069         <span class="comment">% STEP 1: Solve mu-th core opimization</span>
+0070         L_mu = <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/contract.html" class="code" title="function res = contract( x, y, idx )">contract</a>( L, X, mu );
+0071         F_mu = <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/contract.html" class="code" title="function res = contract( x, y, idx )">contract</a>( X, F, mu );
+0072         
+0073         U_mu = L_mu \ F_mu(:);
+0074         X.U{mu} = reshape( U_mu, size(X.U{mu}) );
+0075         
+0076         <span class="comment">% STEP 2: Calculate current residual and cost function</span>
+0077         res =  F - <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_op/apply.html" class="code" title="function y = apply( A, x, idx )">apply</a>(L, X);
+0078         residual = [residual; <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>( res ) / normF];
+0079         <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/disp.html" class="code" title="function disp( x, name )">disp</a>([<span class="string">'Rel. residual: '</span> num2str(residual(end)) <span class="string">', Current rank: '</span> num2str(X.rank) ]);
+0080         cost = [cost; <a href="#_sub1" class="code" title="subfunction res = cost_function( L, X, F )">cost_function</a>( L, X, F )];
+0081 
+0082         <span class="comment">% STEP 3: Augment mu-th and (mu+1)-th core with (truncated) residual</span>
+0083         R = <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/contract.html" class="code" title="function res = contract( x, y, idx )">contract</a>( X, res, [mu-1, mu] );
+0084         R_combined = <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/unfold.html" class="code" title="function W = unfold( U, dir )">unfold</a>(R{1},<span class="string">'left'</span>) * <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/unfold.html" class="code" title="function W = unfold( U, dir )">unfold</a>(R{2},<span class="string">'right'</span>); 
+0085 
+0086         [~,ss,vv] = svd( R_combined, <span class="string">'econ'</span>);  
+0087         s = find( diag(ss) &gt; opts.tolRes*<a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>(diag(ss)), 1, <span class="string">'last'</span> );
+0088         <span class="keyword">if</span> opts.maxrankRes ~= 0 
+0089             s = min( s, opts.maxrankRes );
+0090         <span class="keyword">end</span>
+0091         R{2} = reshape( ss(1:s,1:s)*vv(:,1:s)', [s, n(mu), X.rank(mu+1)]);
+0092 
+0093         right = <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/cat.html" class="code" title="function z = cat( mu, x, y )">cat</a>(1, X.U{mu}, R{2});
+0094 
+0095         <span class="comment">% STEP 4: Move orthogonality to (mu+1)-th core while performing rank truncation</span>
+0096         [~,S,V] = svd( <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/unfold.html" class="code" title="function W = unfold( U, dir )">unfold</a>(right,<span class="string">'right'</span>), <span class="string">'econ'</span> );
+0097         t = find( diag(S) &gt; opts.tol*<a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>(diag(S)), 1, <span class="string">'last'</span> );
+0098         t = min( t, opts.maxrank );
+0099         X.U{mu} = reshape( V(:,1:t)', [t, n(mu), X.rank(mu+1)] );
+0100         <span class="comment">%X.U{mu+1} = tensorprod( right, S(1:t,1:t)*V(:,1:t)', 1);</span>
+0101         X.U{mu-1} = rand( X.rank(mu-1), n(mu-1), t);
+0102 
+0103         <span class="comment">%residuum = [residuum; norm( apply(L, X) - F ) / normF];</span>
+0104 
+0105         <span class="comment">%L_mu = contract( L, X, mu );</span>
+0106         <span class="comment">%F_mu = contract( X, F, mu );</span>
+0107 
+0108         <span class="comment">%U_mu = L_mu \ F_mu(:);</span>
+0109         <span class="comment">%X.U{mu} = reshape( U_mu, size(X.U{mu}) );</span>
+0110         <span class="comment">%X = orth_at( X, mu, 'right', true );</span>
+0111         <span class="comment">%residuum = [residuum; norm( apply(L, X) - F ) / normF];</span>
+0112         <span class="comment">%cost = [cost; cost_function( L, X, F )];</span>
+0113         <span class="comment">%disp(['Rel. residual: ' num2str(residuum(end)) ', Current rank: ' num2str(X.rank) ]);</span>
+0114     <span class="keyword">end</span>
+0115 
+0116 <span class="keyword">end</span>
+0117 
+0118 
+0119 <span class="keyword">end</span>
+0120 
+0121 <a name="_sub1" href="#_subfunctions" class="code">function res = cost_function( L, X, F )</a>
+0122 res = 0.5*<a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/innerprod.html" class="code" title="function res = innerprod( x, y, dir, upto, storeParts )">innerprod</a>( X, <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_op/apply.html" class="code" title="function y = apply( A, x, idx )">apply</a>(L, X) ) - <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/innerprod.html" class="code" title="function res = innerprod( x, y, dir, upto, storeParts )">innerprod</a>( X, F );
+0123 <span class="keyword">end</span>
+0124 
+0125 <a name="_sub2" href="#_subfunctions" class="code">function res = euclid_grad( L, X, F )</a>
+0126 res = <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_op/apply.html" class="code" title="function y = apply( A, x, idx )">apply</a>(L, X) - F;
+0127 <span class="keyword">end</span>
+0128</pre></div>
+<hr><address>Generated on Sun 05-Sep-2021 17:57:00 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

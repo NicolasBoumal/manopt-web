@@ -65,7 +65,7 @@
 <h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
 This function calls:
 <ul style="list-style-image:url(../../../matlabicon.gif)">
-<li><a href="randrot.html" class="code" title="function Q = randrot(n, N)">randrot</a>	Generates uniformly random rotation matrices.</li><li><a href="randskew.html" class="code" title="function S = randskew(n, N)">randskew</a>	Generates random skew symmetric matrices with normal entries.</li><li><a href="../../../manopt/manifolds/stiefel/solve_for_triu.html" class="code" title="function X = solve_for_triu(A, H)">solve_for_triu</a>	Solve the linear matrix equation AX + X'A' = H for X upper triangular.</li><li><a href="../../../manopt/tools/hashmd5.html" class="code" title="function h = hashmd5(inp)">hashmd5</a>	Computes the MD5 hash of input data.</li><li><a href="../../../manopt/tools/matrixlincomb.html" class="code" title="function v = matrixlincomb(x, a1, d1, a2, d2) %#ok<INUSL>">matrixlincomb</a>	Linear combination function for tangent vectors represented as matrices.</li><li><a href="../../../manopt/tools/multiprod.html" class="code" title="function c = multiprod(a, b, idA, idB)">multiprod</a>	Multiplying 1-D or 2-D subarrays contained in two N-D arrays.</li><li><a href="../../../manopt/tools/multiskew.html" class="code" title="function Y = multiskew(X)">multiskew</a>	Returns the skew-symmetric parts of the matrices in the 3D matrix X.</li><li><a href="../../../manopt/tools/multisym.html" class="code" title="function Y = multisym(X)">multisym</a>	Returns the symmetric parts of the matrices in the 3D matrix X</li><li><a href="../../../manopt/tools/multitransp.html" class="code" title="function b = multitransp(a, dim)">multitransp</a>	Transposing arrays of matrices.</li><li><a href="../../../manopt/tools/qr_unique.html" class="code" title="function [Q, R] = qr_unique(A)">qr_unique</a>	Thin QR factorization ensuring diagonal of R is real, positive if possible.</li><li><a href="../../../manopt/tools/sylvester_nochecks.html" class="code" title="function [X, unique] = sylvester_nochecks(A, B, C)">sylvester_nochecks</a>	Solve Sylvester equation without input checks.</li></ul>
+<li><a href="randrot.html" class="code" title="function Q = randrot(n, N)">randrot</a>	Generates uniformly random rotation matrices.</li><li><a href="randskew.html" class="code" title="function S = randskew(n, N)">randskew</a>	Generates random skew symmetric matrices with normal entries.</li><li><a href="../../../manopt/manifolds/stiefel/solve_for_triu.html" class="code" title="function X = solve_for_triu(A, H)">solve_for_triu</a>	Solve the linear matrix equation AX + X'A' = H for X upper triangular.</li><li><a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>	NORM Norm of a TT/MPS tensor.</li><li><a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_block/norm.html" class="code" title="function res = norm( x )">norm</a>	NORM Norm of a TT/MPS block-mu tensor.</li><li><a href="../../../manopt/tools/hashmd5.html" class="code" title="function h = hashmd5(inp)">hashmd5</a>	Computes the MD5 hash of input data.</li><li><a href="../../../manopt/tools/matrixlincomb.html" class="code" title="function v = matrixlincomb(x, a1, d1, a2, d2) %#ok<INUSL>">matrixlincomb</a>	Linear combination function for tangent vectors represented as matrices.</li><li><a href="../../../manopt/tools/multiprod.html" class="code" title="function C = multiprod(A, B, unused1, unused2) %#ok<INUSD>">multiprod</a>	Matrix multiply 2-D slices of N-D arrays</li><li><a href="../../../manopt/tools/multiskew.html" class="code" title="function Y = multiskew(X)">multiskew</a>	Returns the skew-symmetric parts of the matrices in the 3D matrix X.</li><li><a href="../../../manopt/tools/multisym.html" class="code" title="function Y = multisym(X)">multisym</a>	Returns the symmetric parts of the matrices in a 3D array</li><li><a href="../../../manopt/tools/multitransp.html" class="code" title="function B = multitransp(A, unused) %#ok<INUSD>">multitransp</a>	Transpose the matrix slices of an N-D array (no complex conjugate)</li><li><a href="../../../manopt/tools/qr_unique.html" class="code" title="function [Q, R] = qr_unique(A)">qr_unique</a>	Thin QR factorization ensuring diagonal of R is real, positive if possible.</li><li><a href="../../../manopt/tools/sylvester_nochecks.html" class="code" title="function X = sylvester_nochecks(A, B, C)">sylvester_nochecks</a>	Solve Sylvester equation without input checks.</li></ul>
 This function is called by:
 <ul style="list-style-image:url(../../../matlabicon.gif)">
 <li><a href="../../../examples/generalized_procrustes.html" class="code" title="function [A, R] = generalized_procrustes(A_measure)">generalized_procrustes</a>	Rotationally align clouds of points (generalized Procrustes problem)</li><li><a href="../../../manopt/manifolds/specialeuclidean/specialeuclideanfactory.html" class="code" title="function M = specialeuclideanfactory(n, k)">specialeuclideanfactory</a>	Returns a manifold structure to optimize over the special Euclidean group</li></ul>
@@ -152,16 +152,16 @@ This function is called by:
 0074     
 0075     M.inner = @(x, d1, d2) d1(:).'*d2(:);
 0076     
-0077     M.norm = @(x, d) norm(d(:));
+0077     M.norm = @(x, d) <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>(d(:));
 0078     
 0079     M.typicaldist = @() pi*sqrt(n*k);
 0080     
-0081     M.proj = @(X, H) <a href="../../../manopt/tools/multiskew.html" class="code" title="function Y = multiskew(X)">multiskew</a>(<a href="../../../manopt/tools/multiprod.html" class="code" title="function c = multiprod(a, b, idA, idB)">multiprod</a>(<a href="../../../manopt/tools/multitransp.html" class="code" title="function b = multitransp(a, dim)">multitransp</a>(X), H));
+0081     M.proj = @(X, H) <a href="../../../manopt/tools/multiskew.html" class="code" title="function Y = multiskew(X)">multiskew</a>(<a href="../../../manopt/tools/multiprod.html" class="code" title="function C = multiprod(A, B, unused1, unused2) %#ok<INUSD>">multiprod</a>(<a href="../../../manopt/tools/multitransp.html" class="code" title="function B = multitransp(A, unused) %#ok<INUSD>">multitransp</a>(X), H));
 0082     
 0083     M.tangent = @(X, H) <a href="../../../manopt/tools/multiskew.html" class="code" title="function Y = multiskew(X)">multiskew</a>(H);
 0084     
 0085     M.tangent2ambient_is_identity = false;
-0086     M.tangent2ambient = @(X, U) <a href="../../../manopt/tools/multiprod.html" class="code" title="function c = multiprod(a, b, idA, idB)">multiprod</a>(X, U);
+0086     M.tangent2ambient = @(X, U) <a href="../../../manopt/tools/multiprod.html" class="code" title="function C = multiprod(A, B, unused1, unused2) %#ok<INUSD>">multiprod</a>(X, U);
 0087     
 0088     M.egrad2rgrad = M.proj;
 0089     
@@ -169,11 +169,11 @@ This function is called by:
 0091     <a name="_sub1" href="#_subfunctions" class="code">function Rhess = ehess2rhess(X, Egrad, Ehess, H)</a>
 0092         <span class="comment">% Reminder : H contains skew-symmeric matrices. The actual</span>
 0093         <span class="comment">% direction that the point X is moved along is X*H.</span>
-0094         Xt = <a href="../../../manopt/tools/multitransp.html" class="code" title="function b = multitransp(a, dim)">multitransp</a>(X);
-0095         XtEgrad = <a href="../../../manopt/tools/multiprod.html" class="code" title="function c = multiprod(a, b, idA, idB)">multiprod</a>(Xt, Egrad);
+0094         Xt = <a href="../../../manopt/tools/multitransp.html" class="code" title="function B = multitransp(A, unused) %#ok<INUSD>">multitransp</a>(X);
+0095         XtEgrad = <a href="../../../manopt/tools/multiprod.html" class="code" title="function C = multiprod(A, B, unused1, unused2) %#ok<INUSD>">multiprod</a>(Xt, Egrad);
 0096         symXtEgrad = <a href="../../../manopt/tools/multisym.html" class="code" title="function Y = multisym(X)">multisym</a>(XtEgrad);
-0097         XtEhess = <a href="../../../manopt/tools/multiprod.html" class="code" title="function c = multiprod(a, b, idA, idB)">multiprod</a>(Xt, Ehess);
-0098         Rhess = <a href="../../../manopt/tools/multiskew.html" class="code" title="function Y = multiskew(X)">multiskew</a>( XtEhess - <a href="../../../manopt/tools/multiprod.html" class="code" title="function c = multiprod(a, b, idA, idB)">multiprod</a>(H, symXtEgrad) );
+0097         XtEhess = <a href="../../../manopt/tools/multiprod.html" class="code" title="function C = multiprod(A, B, unused1, unused2) %#ok<INUSD>">multiprod</a>(Xt, Ehess);
+0098         Rhess = <a href="../../../manopt/tools/multiskew.html" class="code" title="function Y = multiskew(X)">multiskew</a>( XtEhess - <a href="../../../manopt/tools/multiprod.html" class="code" title="function C = multiprod(A, B, unused1, unused2) %#ok<INUSD>">multiprod</a>(H, symXtEgrad) );
 0099     <span class="keyword">end</span>
 0100     
 0101     <span class="comment">% This QR-based retraction is only a first-order approximation</span>
@@ -182,7 +182,7 @@ This function is called by:
 0104     <a name="_sub2" href="#_subfunctions" class="code">function Y = retraction_qr(X, U, t)</a>
 0105         <span class="comment">% It is necessary to call qr_unique rather than simply qr to ensure</span>
 0106         <span class="comment">% this is a retraction, to avoid spurious column sign flips.</span>
-0107         XU = <a href="../../../manopt/tools/multiprod.html" class="code" title="function c = multiprod(a, b, idA, idB)">multiprod</a>(X, U);
+0107         XU = <a href="../../../manopt/tools/multiprod.html" class="code" title="function C = multiprod(A, B, unused1, unused2) %#ok<INUSD>">multiprod</a>(X, U);
 0108         <span class="keyword">if</span> nargin &lt; 3
 0109             Y = <a href="../../../manopt/tools/qr_unique.html" class="code" title="function [Q, R] = qr_unique(A)">qr_unique</a>(X + XU);
 0110         <span class="keyword">else</span>
@@ -208,7 +208,7 @@ This function is called by:
 0130         <span class="comment">% We can solve for R by calling solve_for_triu, then solve for S</span>
 0131         <span class="comment">% using equation (*).</span>
 0132         R = zeros(n, n, k);
-0133         XtY = <a href="../../../manopt/tools/multiprod.html" class="code" title="function c = multiprod(a, b, idA, idB)">multiprod</a>(<a href="../../../manopt/tools/multitransp.html" class="code" title="function b = multitransp(a, dim)">multitransp</a>(X), Y);
+0133         XtY = <a href="../../../manopt/tools/multiprod.html" class="code" title="function C = multiprod(A, B, unused1, unused2) %#ok<INUSD>">multiprod</a>(<a href="../../../manopt/tools/multitransp.html" class="code" title="function B = multitransp(A, unused) %#ok<INUSD>">multitransp</a>(X), Y);
 0134         H = 2*eye(n);
 0135         <span class="keyword">for</span> kk = 1 : k
 0136             R(:, :, kk) = <a href="../../../manopt/manifolds/stiefel/solve_for_triu.html" class="code" title="function X = solve_for_triu(A, H)">solve_for_triu</a>(XtY(:, :, kk), H);
@@ -217,7 +217,7 @@ This function is called by:
 0139         <span class="comment">% effect of subtracting the identity from each slice; in inexact</span>
 0140         <span class="comment">% arithmetic, taking the skew-symmetric part is beneficial to</span>
 0141         <span class="comment">% further enforce tangency.</span>
-0142         S = <a href="../../../manopt/tools/multiskew.html" class="code" title="function Y = multiskew(X)">multiskew</a>(<a href="../../../manopt/tools/multiprod.html" class="code" title="function c = multiprod(a, b, idA, idB)">multiprod</a>(XtY, R));
+0142         S = <a href="../../../manopt/tools/multiskew.html" class="code" title="function Y = multiskew(X)">multiskew</a>(<a href="../../../manopt/tools/multiprod.html" class="code" title="function C = multiprod(A, B, unused1, unused2) %#ok<INUSD>">multiprod</a>(XtY, R));
 0143         
 0144     <span class="keyword">end</span>
 0145     
@@ -230,7 +230,7 @@ This function is called by:
 0152         <span class="keyword">else</span>
 0153             tU = U;
 0154         <span class="keyword">end</span>
-0155         Y = X + <a href="../../../manopt/tools/multiprod.html" class="code" title="function c = multiprod(a, b, idA, idB)">multiprod</a>(X, tU);
+0155         Y = X + <a href="../../../manopt/tools/multiprod.html" class="code" title="function C = multiprod(A, B, unused1, unused2) %#ok<INUSD>">multiprod</a>(X, tU);
 0156         <span class="keyword">for</span> kk = 1 : k
 0157             [Uk, ~, Vk] = svd(Y(:, :, kk));
 0158             Y(:, :, kk) = Uk*Vk';
@@ -250,16 +250,16 @@ This function is called by:
 0172         <span class="comment">% We can solve for M by calling sylvester, then solve for S</span>
 0173         <span class="comment">% using equation (*).</span>
 0174         MM = zeros(n, n, k);
-0175         XtY = <a href="../../../manopt/tools/multiprod.html" class="code" title="function c = multiprod(a, b, idA, idB)">multiprod</a>(<a href="../../../manopt/tools/multitransp.html" class="code" title="function b = multitransp(a, dim)">multitransp</a>(X), Y);
+0175         XtY = <a href="../../../manopt/tools/multiprod.html" class="code" title="function C = multiprod(A, B, unused1, unused2) %#ok<INUSD>">multiprod</a>(<a href="../../../manopt/tools/multitransp.html" class="code" title="function B = multitransp(A, unused) %#ok<INUSD>">multitransp</a>(X), Y);
 0176         H = 2*eye(n);
 0177         <span class="keyword">for</span> kk = 1 : k
-0178             MM(:, :, kk) = <a href="../../../manopt/tools/sylvester_nochecks.html" class="code" title="function [X, unique] = sylvester_nochecks(A, B, C)">sylvester_nochecks</a>(XtY(:, :, kk), XtY(:, :, kk)', H);
+0178             MM(:, :, kk) = <a href="../../../manopt/tools/sylvester_nochecks.html" class="code" title="function X = sylvester_nochecks(A, B, C)">sylvester_nochecks</a>(XtY(:, :, kk), XtY(:, :, kk)', H);
 0179         <span class="keyword">end</span>
 0180         <span class="comment">% In exact arithmetic, taking the skew-symmetric part has the</span>
 0181         <span class="comment">% effect of subtracting the identity from each slice; in inexact</span>
 0182         <span class="comment">% arithmetic, taking the skew-symmetric part is beneficial to</span>
 0183         <span class="comment">% further enforce tangency.</span>
-0184         S = <a href="../../../manopt/tools/multiskew.html" class="code" title="function Y = multiskew(X)">multiskew</a>(<a href="../../../manopt/tools/multiprod.html" class="code" title="function c = multiprod(a, b, idA, idB)">multiprod</a>(XtY, MM));
+0184         S = <a href="../../../manopt/tools/multiskew.html" class="code" title="function Y = multiskew(X)">multiskew</a>(<a href="../../../manopt/tools/multiprod.html" class="code" title="function C = multiprod(A, B, unused1, unused2) %#ok<INUSD>">multiprod</a>(XtY, MM));
 0185         
 0186     <span class="keyword">end</span>
 0187 
@@ -280,12 +280,12 @@ This function is called by:
 0202         <span class="keyword">for</span> kk = 1 : k
 0203             exptU(:, :, kk) = expm(exptU(:, :, kk));
 0204         <span class="keyword">end</span>
-0205         Y = <a href="../../../manopt/tools/multiprod.html" class="code" title="function c = multiprod(a, b, idA, idB)">multiprod</a>(X, exptU);
+0205         Y = <a href="../../../manopt/tools/multiprod.html" class="code" title="function C = multiprod(A, B, unused1, unused2) %#ok<INUSD>">multiprod</a>(X, exptU);
 0206     <span class="keyword">end</span>
 0207     
 0208     M.log = @<a href="#_sub7" class="code" title="subfunction U = logarithm(X, Y)">logarithm</a>;
 0209     <a name="_sub7" href="#_subfunctions" class="code">function U = logarithm(X, Y)</a>
-0210         U = <a href="../../../manopt/tools/multiprod.html" class="code" title="function c = multiprod(a, b, idA, idB)">multiprod</a>(<a href="../../../manopt/tools/multitransp.html" class="code" title="function b = multitransp(a, dim)">multitransp</a>(X), Y);
+0210         U = <a href="../../../manopt/tools/multiprod.html" class="code" title="function C = multiprod(A, B, unused1, unused2) %#ok<INUSD>">multiprod</a>(<a href="../../../manopt/tools/multitransp.html" class="code" title="function B = multitransp(A, unused) %#ok<INUSD>">multitransp</a>(X), Y);
 0211         <span class="keyword">for</span> kk = 1 : k
 0212             <span class="comment">% The result of logm should be real in theory, but it is</span>
 0213             <span class="comment">% numerically useful to force it.</span>
@@ -329,6 +329,6 @@ This function is called by:
 0251     M.vecmatareisometries = @() true;
 0252 
 0253 <span class="keyword">end</span></pre></div>
-<hr><address>Generated on Tue 19-May-2020 18:46:12 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+<hr><address>Generated on Sun 05-Sep-2021 17:57:00 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
 </body>
 </html>

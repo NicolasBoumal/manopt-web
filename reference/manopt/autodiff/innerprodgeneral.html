@@ -1,0 +1,162 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of innerprodgeneral</title>
+  <meta name="keywords" content="innerprodgeneral">
+  <meta name="description" content="Compute the Euclidean inner product between x and y">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../index.html">Home</a> &gt;  <a href="#">manopt</a> &gt; <a href="index.html">autodiff</a> &gt; innerprodgeneral.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../index.html"><img alt="<" border="0" src="../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for manopt\autodiff&nbsp;<img alt=">" border="0" src="../../right.png"></a></td></tr></table>-->
+
+<h1>innerprodgeneral
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+<div class="box"><strong>Compute the Euclidean inner product between x and y</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+<div class="box"><strong>function innerpro = innerprodgeneral(x,y) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> Compute the Euclidean inner product between x and y
+
+ function innerpro = innerprodgeneral(x,y)
+
+ The input x and y are numeric data structures which can be defined  
+ recursively by arrays, structs and cells. For the real case, the 
+ inner product is defined as the sum of the hadamard product. For the
+ complex case, the inner product between x and y is defined as 
+ sum(real(conj(x(:)).*y(:))). The return is the sum of the inner products
+ over each part of x and y. In case that x and y are structs with
+ different fields, the inner product are computed only for the common fields.
+
+ Note: Operations between dlarrays containing complex numbers are only
+ introduced in Matlab R2021b or later. For Matlab R2021a or earlier, try 
+ cinnerprodgeneral as an alternative way to deal with complex numbers
+ stored in dlarrays. 
+
+ See also: cinnerprodgeneral</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../../matlabicon.gif)">
+<li><a href="ehesscompute.html" class="code" title="function [ehess,store] = ehesscompute(problem, x, xdot, store, complexflag)">ehesscompute</a>	Computes the Euclidean Hessian of the cost function at x along xdot via AD.</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+<ul style="list-style-image:url(../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function innerpro = innerprodgeneral_struct(x,y)</a></li><li><a href="#_sub2" class="code">function innerpro = innerprodgeneral_cell(x,y)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function innerpro = innerprodgeneral(x,y)</a>
+0002 <span class="comment">% Compute the Euclidean inner product between x and y</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">% function innerpro = innerprodgeneral(x,y)</span>
+0005 <span class="comment">%</span>
+0006 <span class="comment">% The input x and y are numeric data structures which can be defined</span>
+0007 <span class="comment">% recursively by arrays, structs and cells. For the real case, the</span>
+0008 <span class="comment">% inner product is defined as the sum of the hadamard product. For the</span>
+0009 <span class="comment">% complex case, the inner product between x and y is defined as</span>
+0010 <span class="comment">% sum(real(conj(x(:)).*y(:))). The return is the sum of the inner products</span>
+0011 <span class="comment">% over each part of x and y. In case that x and y are structs with</span>
+0012 <span class="comment">% different fields, the inner product are computed only for the common fields.</span>
+0013 <span class="comment">%</span>
+0014 <span class="comment">% Note: Operations between dlarrays containing complex numbers are only</span>
+0015 <span class="comment">% introduced in Matlab R2021b or later. For Matlab R2021a or earlier, try</span>
+0016 <span class="comment">% cinnerprodgeneral as an alternative way to deal with complex numbers</span>
+0017 <span class="comment">% stored in dlarrays.</span>
+0018 <span class="comment">%</span>
+0019 <span class="comment">% See also: cinnerprodgeneral</span>
+0020 
+0021 <span class="comment">% This file is part of Manopt: www.manopt.org.</span>
+0022 <span class="comment">% Original author: Xiaowen Jiang, Aug. 31, 2021.</span>
+0023 <span class="comment">% Contributors: Nicolas Boumal</span>
+0024 <span class="comment">% Change log:</span>
+0025 
+0026     <span class="keyword">if</span> ~((isstruct(x) &amp;&amp; isstruct(y)) || (iscell(x) &amp;&amp; iscell(y))<span class="keyword">...</span><span class="comment">,</span>
+0027             || (isnumeric(x) &amp;&amp; isnumeric(y)))
+0028         up = MException(<span class="string">'manopt:autodiff:innerprodgeneral'</span> ,<span class="keyword">...</span>
+0029             <span class="string">'innerprodgeneral should only accept structs, cells or arrays.'</span>);
+0030         throw(up);
+0031     <span class="keyword">end</span>
+0032     <span class="comment">% recursively compute the inner product</span>
+0033     <span class="keyword">if</span> isstruct(x) &amp;&amp; isstruct(y)
+0034         innerpro  = <a href="#_sub1" class="code" title="subfunction innerpro = innerprodgeneral_struct(x,y)">innerprodgeneral_struct</a>(x,y);
+0035     <span class="keyword">elseif</span> iscell(x) &amp;&amp; iscell(y)
+0036         innerpro = <a href="#_sub2" class="code" title="subfunction innerpro = innerprodgeneral_cell(x,y)">innerprodgeneral_cell</a>(x,y);
+0037     <span class="keyword">else</span>
+0038         <span class="comment">% real case</span>
+0039         <span class="keyword">if</span> isreal(x) &amp;&amp; isreal(y)
+0040             innerpro = x(:)'*y(:);
+0041         <span class="keyword">else</span>
+0042         <span class="comment">% complex case</span>
+0043             innerpro = sum(real(conj(x(:)).*y(:)));
+0044         <span class="keyword">end</span>
+0045     <span class="keyword">end</span>
+0046     
+0047     <span class="comment">% struct case</span>
+0048     <a name="_sub1" href="#_subfunctions" class="code">function innerpro = innerprodgeneral_struct(x,y)</a>
+0049         innerpro = 0;
+0050         elemsx = fieldnames(x);
+0051         elemsy = fieldnames(y);
+0052         <span class="comment">% find the common fields</span>
+0053         [elems,ix,iy] = intersect(elemsx,elemsy, <span class="string">'stable'</span>);
+0054         nelems = numel(elems);
+0055         <span class="keyword">for</span> ii = 1:nelems
+0056             <span class="keyword">if</span> isstruct(x.(elemsx{ix(ii)}))
+0057                 innerpro = innerpro + <a href="#_sub1" class="code" title="subfunction innerpro = innerprodgeneral_struct(x,y)">innerprodgeneral_struct</a>(<span class="keyword">...</span><span class="comment">,</span>
+0058                     x.(elemsx{ix(ii)}),y.(elemsy{iy(ii)}));
+0059             <span class="keyword">elseif</span> iscell(x.(elemsx{ix(ii)}))
+0060                 innerpro = innerpro + <a href="#_sub2" class="code" title="subfunction innerpro = innerprodgeneral_cell(x,y)">innerprodgeneral_cell</a>(<span class="keyword">...</span><span class="comment">,</span>
+0061                     x.(elemsx{ix(ii)}),y.(elemsy{iy(ii)}));
+0062             <span class="keyword">else</span>
+0063                 xelem = x.(elemsx{ix(ii)});
+0064                 yelem = y.(elemsy{iy(ii)});
+0065                 <span class="keyword">if</span> isreal(xelem) &amp;&amp; isreal(yelem)
+0066                     innerpro = innerpro + xelem(:)'*yelem(:);
+0067                 <span class="keyword">else</span>
+0068                     innerpro = innerpro + sum(real(conj(xelem(:)).*yelem(:)));
+0069                 <span class="keyword">end</span>
+0070             <span class="keyword">end</span>
+0071         <span class="keyword">end</span>
+0072     <span class="keyword">end</span>
+0073 
+0074     <span class="comment">% cell case</span>
+0075     <a name="_sub2" href="#_subfunctions" class="code">function innerpro = innerprodgeneral_cell(x,y)</a>
+0076         innerpro = 0;
+0077         ncell = length(x);
+0078         <span class="keyword">for</span> ii = 1:ncell
+0079             <span class="keyword">if</span> isstruct(x{ii})
+0080                 innerpro = innerpro + <a href="#_sub1" class="code" title="subfunction innerpro = innerprodgeneral_struct(x,y)">innerprodgeneral_struct</a>(x{ii},y{ii});
+0081             <span class="keyword">elseif</span> iscell(x{ii})
+0082                 innerpro = innerpro + <a href="#_sub2" class="code" title="subfunction innerpro = innerprodgeneral_cell(x,y)">innerprodgeneral_cell</a>(x{ii},y{ii});
+0083             <span class="keyword">else</span>
+0084                 xii = x{ii};
+0085                 yii = y{ii};
+0086                 <span class="keyword">if</span> isreal(xii) &amp;&amp; isreal(yii)
+0087                     innerpro = innerpro + xii(:)'*yii(:);
+0088                 <span class="keyword">else</span>
+0089                     innerpro = innerpro + sum(real(conj(xii(:)).*yii(:)));
+0090                 <span class="keyword">end</span>
+0091             <span class="keyword">end</span>
+0092         <span class="keyword">end</span>
+0093     <span class="keyword">end</span>
+0094 
+0095 <span class="keyword">end</span>
+0096</pre></div>
+<hr><address>Generated on Sun 05-Sep-2021 17:57:00 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

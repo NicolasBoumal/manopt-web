@@ -1,0 +1,131 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of mat2dl_complex</title>
+  <meta name="keywords" content="mat2dl_complex">
+  <meta name="description" content="Convert x into a particular data structure to store complex numbers">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../index.html">Home</a> &gt;  <a href="#">manopt</a> &gt; <a href="index.html">autodiff</a> &gt; mat2dl_complex.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../index.html"><img alt="<" border="0" src="../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for manopt\autodiff&nbsp;<img alt=">" border="0" src="../../right.png"></a></td></tr></table>-->
+
+<h1>mat2dl_complex
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+<div class="box"><strong>Convert x into a particular data structure to store complex numbers</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+<div class="box"><strong>function dlx = mat2dl_complex(x) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> Convert x into a particular data structure to store complex numbers 
+
+ function dlx = mat2dl_complex(x)
+ 
+ The iput x can be defined recursively by arrays, structs and cells. Each
+ part of x should contain complex numbers. The function converts each 
+ part of x into a struct containing dlarrays with fields real and imag 
+ which indicate the real and imaginary part of the stored complex numbers. 
+
+ See also: <a href="dl2mat_complex.html" class="code" title="function x = dl2mat_complex(dlx)">dl2mat_complex</a>, <a href="manoptADhelp.html" class="code" title="function manoptADhelp()">manoptADhelp</a></pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../../matlabicon.gif)">
+<li><a href="costgradcompute.html" class="code" title="function [cost, grad] = costgradcompute(problem, x, complexflag)">costgradcompute</a>	Computes the cost and the gradient at x via AD in one call</li><li><a href="egradcompute.html" class="code" title="function egrad = egradcompute(problem, x, complexflag)">egradcompute</a>	Computes the Euclidean gradient of the cost function at x via AD.</li><li><a href="ehesscompute.html" class="code" title="function [ehess,store] = ehesscompute(problem, x, xdot, store, complexflag)">ehesscompute</a>	Computes the Euclidean Hessian of the cost function at x along xdot via AD.</li><li><a href="manoptAD.html" class="code" title="function problem = manoptAD(problem, flag)">manoptAD</a>	Preprocess automatic differentiation for a manopt problem structure</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+<ul style="list-style-image:url(../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function dlx = mat2dl_struct(x)</a></li><li><a href="#_sub2" class="code">function dlx = mat2dl_cell(x)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function dlx = mat2dl_complex(x)</a>
+0002 <span class="comment">% Convert x into a particular data structure to store complex numbers</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">% function dlx = mat2dl_complex(x)</span>
+0005 <span class="comment">%</span>
+0006 <span class="comment">% The iput x can be defined recursively by arrays, structs and cells. Each</span>
+0007 <span class="comment">% part of x should contain complex numbers. The function converts each</span>
+0008 <span class="comment">% part of x into a struct containing dlarrays with fields real and imag</span>
+0009 <span class="comment">% which indicate the real and imaginary part of the stored complex numbers.</span>
+0010 <span class="comment">%</span>
+0011 <span class="comment">% See also: dl2mat_complex, manoptADhelp</span>
+0012 
+0013 <span class="comment">% This file is part of Manopt: www.manopt.org.</span>
+0014 <span class="comment">% Original author: Xiaowen Jiang, July. 31, 2021.</span>
+0015 <span class="comment">% Contributors: Nicolas Boumal</span>
+0016 <span class="comment">% Change log:</span>
+0017 
+0018     <span class="keyword">if</span> ~isstruct(x) &amp;&amp; ~iscell(x) &amp;&amp; ~isnumeric(x)
+0019         up = MException(<span class="string">'manopt:autodiff:mat2dl_complex'</span>, <span class="keyword">...</span>
+0020                     <span class="string">'mat2dl_complex should only accept a struct, a cell or a numeric array'</span>);
+0021         throw(up);
+0022     <span class="keyword">end</span>
+0023 
+0024     <span class="comment">% recursively convert each part of x into a particular struct</span>
+0025     <span class="keyword">if</span> isstruct(x)
+0026         dlx = <a href="#_sub1" class="code" title="subfunction dlx = mat2dl_struct(x)">mat2dl_struct</a>(x);
+0027     <span class="keyword">elseif</span> iscell(x)
+0028         dlx = <a href="#_sub2" class="code" title="subfunction dlx = mat2dl_cell(x)">mat2dl_cell</a>(x);
+0029     <span class="keyword">else</span>
+0030         xreal = real(x);
+0031         ximag = imag(x);
+0032         dlx.real = dlarray(xreal);
+0033         dlx.imag = dlarray(ximag);
+0034     <span class="keyword">end</span>
+0035 
+0036     <span class="comment">% convert x into a particular dlarray struct if x is a struct</span>
+0037     <a name="_sub1" href="#_subfunctions" class="code">function dlx = mat2dl_struct(x)</a>
+0038         elems = fieldnames(x);
+0039         nelems = numel(elems);
+0040         <span class="keyword">for</span> ii = 1:nelems
+0041             <span class="keyword">if</span> isstruct(x.(elems{ii}))
+0042                 dlx.(elems{ii}) = <a href="#_sub1" class="code" title="subfunction dlx = mat2dl_struct(x)">mat2dl_struct</a>(x.(elems{ii}));
+0043             <span class="keyword">elseif</span> iscell(x.(elems{ii}))
+0044                 dlx.(elems{ii}) = <a href="#_sub2" class="code" title="subfunction dlx = mat2dl_cell(x)">mat2dl_cell</a>(x.(elems{ii}));
+0045             <span class="keyword">else</span>
+0046                 dlx.(elems{ii}) = struct();
+0047                 xreal = real(x.(elems{ii}));
+0048                 ximag = imag(x.(elems{ii}));
+0049                 dlx.(elems{ii}).real = dlarray(xreal);
+0050                 dlx.(elems{ii}).imag = dlarray(ximag);
+0051             <span class="keyword">end</span>
+0052         <span class="keyword">end</span>
+0053     <span class="keyword">end</span>
+0054 
+0055     <span class="comment">% convert x into a particular dlarray struct if x is a cell</span>
+0056     <a name="_sub2" href="#_subfunctions" class="code">function dlx = mat2dl_cell(x)</a>
+0057         ncell = length(x);
+0058         <span class="keyword">for</span> ii = 1:ncell
+0059             <span class="keyword">if</span> isstruct(x{ii})
+0060                 dlx{ii} = <a href="#_sub1" class="code" title="subfunction dlx = mat2dl_struct(x)">mat2dl_struct</a>(x{ii});
+0061             <span class="keyword">elseif</span> iscell(x{ii})
+0062                 dlx{ii} = <a href="#_sub2" class="code" title="subfunction dlx = mat2dl_cell(x)">mat2dl_cell</a>(x{ii});
+0063             <span class="keyword">else</span>
+0064                 xreal = real(x{ii});
+0065                 ximag = imag(x{ii});
+0066                 dlx{ii} = struct();
+0067                 dlx{ii}.real = dlarray(xreal);
+0068                 dlx{ii}.imag = dlarray(ximag);
+0069             <span class="keyword">end</span>
+0070         <span class="keyword">end</span>
+0071     <span class="keyword">end</span>
+0072 <span class="keyword">end</span>
+0073</pre></div>
+<hr><address>Generated on Sun 05-Sep-2021 17:57:00 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

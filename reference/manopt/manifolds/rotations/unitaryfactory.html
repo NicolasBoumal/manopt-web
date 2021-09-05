@@ -63,7 +63,7 @@
 <h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
 This function calls:
 <ul style="list-style-image:url(../../../matlabicon.gif)">
-<li><a href="randskewh.html" class="code" title="function S = randskewh(n, N)">randskewh</a>	Generates random skew Hermitian matrices with normal entries.</li><li><a href="randunitary.html" class="code" title="function U = randunitary(n, N)">randunitary</a>	Generates uniformly random unitary matrices.</li><li><a href="../../../manopt/tools/hashmd5.html" class="code" title="function h = hashmd5(inp)">hashmd5</a>	Computes the MD5 hash of input data.</li><li><a href="../../../manopt/tools/matrixlincomb.html" class="code" title="function v = matrixlincomb(x, a1, d1, a2, d2) %#ok<INUSL>">matrixlincomb</a>	Linear combination function for tangent vectors represented as matrices.</li><li><a href="../../../manopt/tools/multihconj.html" class="code" title="function b = multihconj(a, dim)">multihconj</a>	MULTIHCONJ  Hermitian conjugating arrays of matrices.</li><li><a href="../../../manopt/tools/multiherm.html" class="code" title="function Y = multiherm(X)">multiherm</a>	Returns the Hermitian parts of the matrices in the 3D matrix X</li><li><a href="../../../manopt/tools/multiprod.html" class="code" title="function c = multiprod(a, b, idA, idB)">multiprod</a>	Multiplying 1-D or 2-D subarrays contained in two N-D arrays.</li><li><a href="../../../manopt/tools/multiskewh.html" class="code" title="function Y = multiskewh(X)">multiskewh</a>	Returns the skew-Hermitian parts of the matrices in the 3D matrix X.</li><li><a href="../../../manopt/tools/qr_unique.html" class="code" title="function [Q, R] = qr_unique(A)">qr_unique</a>	Thin QR factorization ensuring diagonal of R is real, positive if possible.</li></ul>
+<li><a href="randskewh.html" class="code" title="function S = randskewh(n, N)">randskewh</a>	Generates random skew Hermitian matrices with normal entries.</li><li><a href="randunitary.html" class="code" title="function U = randunitary(n, N)">randunitary</a>	Generates uniformly random unitary matrices.</li><li><a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>	NORM Norm of a TT/MPS tensor.</li><li><a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_block/norm.html" class="code" title="function res = norm( x )">norm</a>	NORM Norm of a TT/MPS block-mu tensor.</li><li><a href="../../../manopt/tools/hashmd5.html" class="code" title="function h = hashmd5(inp)">hashmd5</a>	Computes the MD5 hash of input data.</li><li><a href="../../../manopt/tools/matrixlincomb.html" class="code" title="function v = matrixlincomb(x, a1, d1, a2, d2) %#ok<INUSL>">matrixlincomb</a>	Linear combination function for tangent vectors represented as matrices.</li><li><a href="../../../manopt/tools/multihconj.html" class="code" title="function B = multihconj(A, unused) %#ok<INUSD>">multihconj</a>	Hermitian-conjugate transpose the matrix slices of an N-D array</li><li><a href="../../../manopt/tools/multiherm.html" class="code" title="function Y = multiherm(X)">multiherm</a>	Returns the Hermitian parts of the matrices in a 3D array</li><li><a href="../../../manopt/tools/multiprod.html" class="code" title="function C = multiprod(A, B, unused1, unused2) %#ok<INUSD>">multiprod</a>	Matrix multiply 2-D slices of N-D arrays</li><li><a href="../../../manopt/tools/multiskewh.html" class="code" title="function Y = multiskewh(X)">multiskewh</a>	Returns the skew-Hermitian parts of the matrices in the 3D matrix X.</li><li><a href="../../../manopt/tools/qr_unique.html" class="code" title="function [Q, R] = qr_unique(A)">qr_unique</a>	Thin QR factorization ensuring diagonal of R is real, positive if possible.</li></ul>
 This function is called by:
 <ul style="list-style-image:url(../../../matlabicon.gif)">
 </ul>
@@ -129,16 +129,16 @@ This function is called by:
 0053     
 0054     M.inner = @(x, d1, d2) real(d1(:)'*d2(:));
 0055     
-0056     M.norm = @(x, d) norm(d(:));
+0056     M.norm = @(x, d) <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>(d(:));
 0057     
 0058     M.typicaldist = @() pi*sqrt(n*k);
 0059     
-0060     M.proj = @(X, H) <a href="../../../manopt/tools/multiskewh.html" class="code" title="function Y = multiskewh(X)">multiskewh</a>(<a href="../../../manopt/tools/multiprod.html" class="code" title="function c = multiprod(a, b, idA, idB)">multiprod</a>(<a href="../../../manopt/tools/multihconj.html" class="code" title="function b = multihconj(a, dim)">multihconj</a>(X), H));
+0060     M.proj = @(X, H) <a href="../../../manopt/tools/multiskewh.html" class="code" title="function Y = multiskewh(X)">multiskewh</a>(<a href="../../../manopt/tools/multiprod.html" class="code" title="function C = multiprod(A, B, unused1, unused2) %#ok<INUSD>">multiprod</a>(<a href="../../../manopt/tools/multihconj.html" class="code" title="function B = multihconj(A, unused) %#ok<INUSD>">multihconj</a>(X), H));
 0061     
 0062     M.tangent = @(X, H) <a href="../../../manopt/tools/multiskewh.html" class="code" title="function Y = multiskewh(X)">multiskewh</a>(H);
 0063     
 0064     M.tangent2ambient_is_identity = false;
-0065     M.tangent2ambient = @(X, U) <a href="../../../manopt/tools/multiprod.html" class="code" title="function c = multiprod(a, b, idA, idB)">multiprod</a>(X, U);
+0065     M.tangent2ambient = @(X, U) <a href="../../../manopt/tools/multiprod.html" class="code" title="function C = multiprod(A, B, unused1, unused2) %#ok<INUSD>">multiprod</a>(X, U);
 0066     
 0067     M.egrad2rgrad = M.proj;
 0068     
@@ -146,11 +146,11 @@ This function is called by:
 0070     <a name="_sub1" href="#_subfunctions" class="code">function Rhess = ehess2rhess(X, Egrad, Ehess, H)</a>
 0071         <span class="comment">% Reminder : H contains skew-Hermitian matrices. The actual</span>
 0072         <span class="comment">% direction that the point X is moved along is X*H.</span>
-0073         Xt = <a href="../../../manopt/tools/multihconj.html" class="code" title="function b = multihconj(a, dim)">multihconj</a>(X);
-0074         XtEgrad = <a href="../../../manopt/tools/multiprod.html" class="code" title="function c = multiprod(a, b, idA, idB)">multiprod</a>(Xt, Egrad);
+0073         Xt = <a href="../../../manopt/tools/multihconj.html" class="code" title="function B = multihconj(A, unused) %#ok<INUSD>">multihconj</a>(X);
+0074         XtEgrad = <a href="../../../manopt/tools/multiprod.html" class="code" title="function C = multiprod(A, B, unused1, unused2) %#ok<INUSD>">multiprod</a>(Xt, Egrad);
 0075         symXtEgrad = <a href="../../../manopt/tools/multiherm.html" class="code" title="function Y = multiherm(X)">multiherm</a>(XtEgrad);
-0076         XtEhess = <a href="../../../manopt/tools/multiprod.html" class="code" title="function c = multiprod(a, b, idA, idB)">multiprod</a>(Xt, Ehess);
-0077         Rhess = <a href="../../../manopt/tools/multiskewh.html" class="code" title="function Y = multiskewh(X)">multiskewh</a>( XtEhess - <a href="../../../manopt/tools/multiprod.html" class="code" title="function c = multiprod(a, b, idA, idB)">multiprod</a>(H, symXtEgrad) );
+0076         XtEhess = <a href="../../../manopt/tools/multiprod.html" class="code" title="function C = multiprod(A, B, unused1, unused2) %#ok<INUSD>">multiprod</a>(Xt, Ehess);
+0077         Rhess = <a href="../../../manopt/tools/multiskewh.html" class="code" title="function Y = multiskewh(X)">multiskewh</a>( XtEhess - <a href="../../../manopt/tools/multiprod.html" class="code" title="function C = multiprod(A, B, unused1, unused2) %#ok<INUSD>">multiprod</a>(H, symXtEgrad) );
 0078     <span class="keyword">end</span>
 0079     
 0080     <span class="comment">% This QR-based retraction is only a first-order approximation</span>
@@ -159,7 +159,7 @@ This function is called by:
 0083     <a name="_sub2" href="#_subfunctions" class="code">function Y = retraction_qr(X, U, t)</a>
 0084         <span class="comment">% It is necessary to call qr_unique rather than simply qr to ensure</span>
 0085         <span class="comment">% this is a retraction, to avoid spurious column sign flips.</span>
-0086         XU = <a href="../../../manopt/tools/multiprod.html" class="code" title="function c = multiprod(a, b, idA, idB)">multiprod</a>(X, U);
+0086         XU = <a href="../../../manopt/tools/multiprod.html" class="code" title="function C = multiprod(A, B, unused1, unused2) %#ok<INUSD>">multiprod</a>(X, U);
 0087         <span class="keyword">if</span> nargin &lt; 3
 0088             Y = <a href="../../../manopt/tools/qr_unique.html" class="code" title="function [Q, R] = qr_unique(A)">qr_unique</a>(X + XU);
 0089         <span class="keyword">else</span>
@@ -176,7 +176,7 @@ This function is called by:
 0100         <span class="keyword">else</span>
 0101             tU = U;
 0102         <span class="keyword">end</span>
-0103         Y = X + <a href="../../../manopt/tools/multiprod.html" class="code" title="function c = multiprod(a, b, idA, idB)">multiprod</a>(X, tU);
+0103         Y = X + <a href="../../../manopt/tools/multiprod.html" class="code" title="function C = multiprod(A, B, unused1, unused2) %#ok<INUSD>">multiprod</a>(X, tU);
 0104         <span class="keyword">for</span> kk = 1 : k
 0105             [Uk, ~, Vk] = svd(Y(:, :, kk));
 0106             Y(:, :, kk) = Uk*Vk';
@@ -196,12 +196,12 @@ This function is called by:
 0120         <span class="keyword">for</span> kk = 1 : k
 0121             exptU(:, :, kk) = expm(exptU(:, :, kk));
 0122         <span class="keyword">end</span>
-0123         Y = <a href="../../../manopt/tools/multiprod.html" class="code" title="function c = multiprod(a, b, idA, idB)">multiprod</a>(X, exptU);
+0123         Y = <a href="../../../manopt/tools/multiprod.html" class="code" title="function C = multiprod(A, B, unused1, unused2) %#ok<INUSD>">multiprod</a>(X, exptU);
 0124     <span class="keyword">end</span>
 0125     
 0126     M.log = @<a href="#_sub5" class="code" title="subfunction U = logarithm(X, Y)">logarithm</a>;
 0127     <a name="_sub5" href="#_subfunctions" class="code">function U = logarithm(X, Y)</a>
-0128         U = <a href="../../../manopt/tools/multiprod.html" class="code" title="function c = multiprod(a, b, idA, idB)">multiprod</a>(<a href="../../../manopt/tools/multihconj.html" class="code" title="function b = multihconj(a, dim)">multihconj</a>(X), Y);
+0128         U = <a href="../../../manopt/tools/multiprod.html" class="code" title="function C = multiprod(A, B, unused1, unused2) %#ok<INUSD>">multiprod</a>(<a href="../../../manopt/tools/multihconj.html" class="code" title="function B = multihconj(A, unused) %#ok<INUSD>">multihconj</a>(X), Y);
 0129         <span class="keyword">for</span> kk = 1 : k
 0130             U(:, :, kk) = logm(U(:, :, kk));
 0131         <span class="keyword">end</span>
@@ -242,6 +242,6 @@ This function is called by:
 0166     M.vecmatareisometries = @() true;
 0167 
 0168 <span class="keyword">end</span></pre></div>
-<hr><address>Generated on Tue 19-May-2020 18:46:12 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+<hr><address>Generated on Sun 05-Sep-2021 17:57:00 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
 </body>
 </html>

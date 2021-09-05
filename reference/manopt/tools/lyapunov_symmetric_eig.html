@@ -42,7 +42,7 @@
 <h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
 This function calls:
 <ul style="list-style-image:url(../../matlabicon.gif)">
-</ul>
+<li><a href="../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/plus.html" class="code" title="function z = plus( x, y )">plus</a>	PLUS Addition of two TT/MPS tensors.</li><li><a href="../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_block/plus.html" class="code" title="function z = plus( x, y )">plus</a>	PLUS Addition of two TT/MPS block-mu tensors.</li><li><a href="../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_op/plus.html" class="code" title="function z = plus( x, y )">plus</a>	PLUS Addition of two TT/MPS operators.</li></ul>
 This function is called by:
 <ul style="list-style-image:url(../../matlabicon.gif)">
 <li><a href="../../manopt/manifolds/fixedrank/fixedrankfactory_2factors_subspace_projection.html" class="code" title="function M = fixedrankfactory_2factors_subspace_projection(m, n, k)">fixedrankfactory_2factors_subspace_projection</a>	Manifold of m-by-n matrices of rank k with two factor quotient geometry.</li><li><a href="lyapunov_symmetric.html" class="code" title="function X = lyapunov_symmetric(A, C, tol)">lyapunov_symmetric</a>	Solves AX + XA = C when A = A', as a pseudo-inverse.</li></ul>
@@ -73,7 +73,7 @@ This function is called by:
 0020     M = V'*C*V;
 0021     
 0022     <span class="comment">% W(i, j) = lambda(i) + lambda(j)</span>
-0023     W = bsxfun(@plus, lambda, lambda');
+0023     W = bsxfun(@<a href="../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/plus.html" class="code" title="function z = plus( x, y )">plus</a>, lambda, lambda');
 0024     
 0025     <span class="comment">% Normally, the solution Y is simply this:</span>
 0026     Y = M ./ W;
@@ -90,6 +90,6 @@ This function is called by:
 0037     X = V*Y*V';
 0038 
 0039 <span class="keyword">end</span></pre></div>
-<hr><address>Generated on Tue 19-May-2020 18:46:12 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+<hr><address>Generated on Sun 05-Sep-2021 17:57:00 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
 </body>
 </html>

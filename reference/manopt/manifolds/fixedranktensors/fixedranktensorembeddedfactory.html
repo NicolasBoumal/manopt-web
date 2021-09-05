@@ -84,7 +84,7 @@
 <h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
 This function calls:
 <ul style="list-style-image:url(../../../matlabicon.gif)">
-<li><a href="../../../manopt/tools/hashmd5.html" class="code" title="function h = hashmd5(inp)">hashmd5</a>	Computes the MD5 hash of input data.</li><li><a href="../../../manopt/tools/lincomb.html" class="code" title="function vec = lincomb(M, x, vecs, coeffs)">lincomb</a>	Computes a linear combination of tangent vectors in the Manopt framework.</li></ul>
+<li><a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/cat.html" class="code" title="function z = cat( mu, x, y )">cat</a>	CAT concatenation of two TT/MPS tensors.</li><li><a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/innerprod.html" class="code" title="function res = innerprod( x, y, dir, upto, storeParts )">innerprod</a>	INNERPROD Inner product between two TT/MPS tensors.</li><li><a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_block/innerprod.html" class="code" title="function res = innerprod( x, y, dir, upto )">innerprod</a>	INNERPROD Inner product between two TT/MPS tensors.</li><li><a href="../../../manopt/tools/hashmd5.html" class="code" title="function h = hashmd5(inp)">hashmd5</a>	Computes the MD5 hash of input data.</li><li><a href="../../../manopt/tools/lincomb.html" class="code" title="function vec = lincomb(M, x, vecs, coeffs)">lincomb</a>	Computes a linear combination of tangent vectors in the Manopt framework.</li></ul>
 This function is called by:
 <ul style="list-style-image:url(../../../matlabicon.gif)">
 <li><a href="../../../examples/low_rank_tensor_completion_embedded.html" class="code" title="function low_rank_tensor_completion_embedded()">low_rank_tensor_completion_embedded</a>	Given partial observation of a low rank tensor (possibly including noise),</li></ul>
@@ -192,9 +192,9 @@ This function is called by:
 0095     <span class="comment">% Efficient inner product on tangent space exploiting orthogonality</span>
 0096     M.inner = @<a href="#_sub1" class="code" title="subfunction ip = iproduct(X, eta, zeta)">iproduct</a>;
 0097     <a name="_sub1" href="#_subfunctions" class="code">function ip = iproduct(X, eta, zeta)</a>
-0098         ip = innerprod(eta.G, zeta.G);
+0098         ip = <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/innerprod.html" class="code" title="function res = innerprod( x, y, dir, upto, storeParts )">innerprod</a>(eta.G, zeta.G);
 0099         <span class="keyword">for</span> i = 1:d
-0100             ip = ip + innerprod(X.X.core, <span class="keyword">...</span>
+0100             ip = ip + <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/innerprod.html" class="code" title="function res = innerprod( x, y, dir, upto, storeParts )">innerprod</a>(X.X.core, <span class="keyword">...</span>
 0101                                 ttm(X.X.core, eta.V{i}'*zeta.V{i}, i));
 0102         <span class="keyword">end</span>
 0103     <span class="keyword">end</span>
@@ -307,7 +307,7 @@ This function is called by:
 0210         <span class="comment">% First block C+alpha*G, see Kressner et al., Fig. 2</span>
 0211         sBlock = double(X.X.core + alpha*xi.G);
 0212         <span class="keyword">for</span> i = 1:d
-0213             sBlock = cat(i, sBlock, zeros(size(sBlock)));
+0213             sBlock = <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/cat.html" class="code" title="function z = cat( mu, x, y )">cat</a>(i, sBlock, zeros(size(sBlock)));
 0214         <span class="keyword">end</span>
 0215         S = S + sBlock;
 0216 
@@ -317,9 +317,9 @@ This function is called by:
 0220             modes = 1:d;
 0221             modes(i) = [];
 0222             <span class="keyword">for</span> j=modes
-0223                 sBlock = cat(j, sBlock, zeros(size(sBlock)));
+0223                 sBlock = <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/cat.html" class="code" title="function z = cat( mu, x, y )">cat</a>(j, sBlock, zeros(size(sBlock)));
 0224             <span class="keyword">end</span>
-0225             sBlock = cat(i, zeros(size(sBlock)), sBlock);
+0225             sBlock = <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/cat.html" class="code" title="function z = cat( mu, x, y )">cat</a>(i, zeros(size(sBlock)), sBlock);
 0226             S = S + sBlock;
 0227         <span class="keyword">end</span>
 0228 
@@ -615,6 +615,6 @@ This function is called by:
 0518     s = strcat(s, <span class="string">'%d'</span>);
 0519     spf = sprintf(s, n, r);
 0520 <span class="keyword">end</span></pre></div>
-<hr><address>Generated on Tue 19-May-2020 18:46:12 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+<hr><address>Generated on Sun 05-Sep-2021 17:57:00 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
 </body>
 </html>

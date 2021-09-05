@@ -1,0 +1,95 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of splitcore</title>
+  <meta name="keywords" content="splitcore">
+  <meta name="description" content="SPLITCORE Merging of two cores of a TT/MPS tensor.">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../index.html">Home</a> &gt;  <a href="#">manopt</a> &gt; <a href="#">manifolds</a> &gt; <a href="../../index.html">ttfixedrank</a> &gt; <a href="../index.html">TTeMPS_1.1</a> &gt; <a href="index.html">@TTeMPS</a> &gt; splitcore.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../index.html"><img alt="<" border="0" src="../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for manopt\manifolds\ttfixedrank\TTeMPS_1.1\@TTeMPS&nbsp;<img alt=">" border="0" src="../../../../../right.png"></a></td></tr></table>-->
+
+<h1>splitcore
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../up.png"></a></h2>
+<div class="box"><strong>SPLITCORE Merging of two cores of a TT/MPS tensor.</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../up.png"></a></h2>
+<div class="box"><strong>function res = splitcore( x, idx, nL, nR, tol ) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">SPLITCORE Merging of two cores of a TT/MPS tensor.
+
+   RES = SPLITCORE(X,IDX,NL,NR) splits the core IDX of
+   the TT/MPS tensor X into two cores with outer dimensions NL and NR.
+   The new outer dimensions NL and NR have to fulfill NL*NR = X.size(idx)
+
+   See also <a href="mergecore.html" class="code" title="function res = mergecore( x, idxL, idxR )">MERGECORE</a></pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../matlabicon.gif)">
+<li><a href="TTeMPS.html" class="code" title="">TTeMPS</a>	</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/trunc_singular.html" class="code" title="function s = trunc_singular(s, tol, relative, maxrank)">trunc_singular</a>	REL_TRUNC_SINGULAR Helper routine to truncate singular values</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../matlabicon.gif)">
+<li><a href="TTeMPS.html" class="code" title="">TTeMPS</a>	</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function res = splitcore( x, idx, nL, nR, tol )</a>
+0002     <span class="comment">%SPLITCORE Merging of two cores of a TT/MPS tensor.</span>
+0003     <span class="comment">%</span>
+0004     <span class="comment">%   RES = SPLITCORE(X,IDX,NL,NR) splits the core IDX of</span>
+0005     <span class="comment">%   the TT/MPS tensor X into two cores with outer dimensions NL and NR.</span>
+0006     <span class="comment">%   The new outer dimensions NL and NR have to fulfill NL*NR = X.size(idx)</span>
+0007     <span class="comment">%</span>
+0008     <span class="comment">%   See also MERGECORE</span>
+0009 
+0010     <span class="comment">%   TTeMPS Toolbox.</span>
+0011     <span class="comment">%   Michael Steinlechner, 2013-2016</span>
+0012     <span class="comment">%   Questions and contact: michael.steinlechner@epfl.ch</span>
+0013     <span class="comment">%   BSD 2-clause license, see LICENSE.txt</span>
+0014     
+0015     <span class="keyword">if</span> ~exist(<span class="string">'tol'</span>, <span class="string">'var'</span>)
+0016         tol = 1e-8;
+0017     <span class="keyword">end</span>
+0018 
+0019     <span class="keyword">if</span> ~isscalar(idx)
+0020          error(<span class="string">'Index IDX must be a scalar.'</span>)
+0021     <span class="keyword">end</span> 
+0022     
+0023     n = x.size;
+0024     r = x.rank;
+0025     
+0026     <span class="keyword">if</span> nL*nR ~= n(idx)
+0027         error(<span class="string">'New sizes must be compatible with old tensor: NL*NR = X.size(idx)'</span>)
+0028     <span class="keyword">end</span>
+0029     
+0030     <span class="comment">%x = orthogonalize(x, idx);</span>
+0031     [U,S,V] = svd( reshape(x.U{idx}, [r(idx)*nL, nR*r(idx+1)]), <span class="string">'econ'</span>);
+0032     s = <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/trunc_singular.html" class="code" title="function s = trunc_singular(s, tol, relative, maxrank)">trunc_singular</a>( diag(S), tol, true );
+0033     U = U(:,1:s);
+0034     V = V(:,1:s);
+0035     S = S(1:s,1:s);
+0036     newcoreR = reshape( S*V', [s, nR, r(idx+1)] );
+0037     newcoreL = reshape( U, [r(idx), nL, s] );
+0038     
+0039     C = x.U;
+0040     res = <a href="TTeMPS.html" class="code" title="">TTeMPS</a>( {C{1:idx-1}, newcoreL, newcoreR, C{idx+1:end} } );
+0041 <span class="keyword">end</span>
+0042</pre></div>
+<hr><address>Generated on Sun 05-Sep-2021 17:57:00 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

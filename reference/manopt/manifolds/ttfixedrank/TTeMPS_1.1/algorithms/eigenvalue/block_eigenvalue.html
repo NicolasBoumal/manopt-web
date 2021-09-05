@@ -1,0 +1,493 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of block_eigenvalue</title>
+  <meta name="keywords" content="block_eigenvalue">
+  <meta name="description" content="BLOCK_EIGENVALUE Calculate p smallest eigenvalues of a TTeMPS operator">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../index.html">Home</a> &gt;  <a href="#">manopt</a> &gt; <a href="#">manifolds</a> &gt; <a href="../../../index.html">ttfixedrank</a> &gt; <a href="../../index.html">TTeMPS_1.1</a> &gt; <a href="../index.html">algorithms</a> &gt; <a href="index.html">eigenvalue</a> &gt; block_eigenvalue.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../index.html"><img alt="<" border="0" src="../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for manopt\manifolds\ttfixedrank\TTeMPS_1.1\algorithms\eigenvalue&nbsp;<img alt=">" border="0" src="../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>block_eigenvalue
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="box"><strong>BLOCK_EIGENVALUE Calculate p smallest eigenvalues of a TTeMPS operator</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="box"><strong>function [X, C, evalue, residuums, micro_res, objective, elapsed_time] = block_eigenvalue(A, p, rr, opts) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">BLOCK_EIGENVALUE Calculate p smallest eigenvalues of a TTeMPS operator
+
+   [X, C, evalue, residuums, micro_res, objective, elapsed_time] = block_eigenvalue(A, P, RR, OPTS)
+       performs a block-eigenvalue optimization scheme to compute the p smallest eigenvalues of A
+       using the algorithm described in [1]. 
+
+   RR defines the starting rank and should usually be set to ones(1,d) where d is the dimensionality.
+   If p == 1, the algorithm equals a standard ALS-procedure for the eigenvalue problem, which is NOT 
+   rank adaptive. Hence, in this case RR should be taken to be the expected rank of the solution or, 
+   if unknown, the highest affordable rank.
+   
+   Specify the wanted options using the OPTS argument. All options have
+   default values (denoted in brackets). Hence, you only have to specify those you want 
+   to change.
+   The OPTS struct is organized as follows: 
+       OPTS.maxiter        Maximum number of full sweeps to perform        [3]
+       OPTS.maxrank        Maximum rank during the iteration               [40]
+       OPTS.tol            Tolerance for the shift from one core 
+                           to the next                                     [1e-8]
+       OPTS.tolLOBPCG      Tolerance for inner LOBPCG solver               [1e-6]
+       OPTS.maxiterLOBPCG  Max. number of iterations for LOBPCG            [2000]
+       OPTS.verbose        Show iteration information (true/false)         [true]
+       OPTS.precInner      Precondition the LOBPCG (STRONGLY RECOMMENDED!) [true]
+
+
+   NOTE: To run block_eigenvalue, Knyazev's implementation of LOBPCG is required. The corresponding
+         m-file can be downloaded from 
+               http://www.mathworks.com/matlabcentral/fileexchange/48-lobpcg-m
+
+    References: 
+    [1] S.V. Dolgov, B.N. Khoromskij, I.V. Oseledets, D.V. Savostyanov
+        Computation of extreme eigenvalues in higher dimensions using block tensor train format
+        Computer Physics Communications 185 (2014) 1207-1216.</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../matlabicon.gif)">
+<li><a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/disp.html" class="code" title="function disp( x, name )">disp</a>	DISP Display TT/MPS tensor.</li><li><a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/innerprod.html" class="code" title="function res = innerprod( x, y, dir, upto, storeParts )">innerprod</a>	INNERPROD Inner product between two TT/MPS tensors.</li><li><a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>	NORM Norm of a TT/MPS tensor.</li><li><a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/orthogonalize.html" class="code" title="function x = orthogonalize( x, pos )">orthogonalize</a>	ORTHOGONALIZE Orthogonalize tensor.</li><li><a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_block/disp.html" class="code" title="function disp( x, name )">disp</a>	DISP Display TT/MPS block-mu tensor.</li><li><a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_block/innerprod.html" class="code" title="function res = innerprod( x, y, dir, upto )">innerprod</a>	INNERPROD Inner product between two TT/MPS tensors.</li><li><a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_block/norm.html" class="code" title="function res = norm( x )">norm</a>	NORM Norm of a TT/MPS block-mu tensor.</li><li><a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_block/orthogonalize.html" class="code" title="function res = orthogonalize( x )">orthogonalize</a>	ORTHOGONALIZE Orthogonalize TT/MPS Block-mu tensor.</li><li><a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_op/apply.html" class="code" title="function y = apply( A, x, idx )">apply</a>	APPLY Application of TT/MPS operator to a TT/MPS tensor</li><li><a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_op/disp.html" class="code" title="function disp( x, name )">disp</a>	DISP Display TT/MPS operator.</li><li><a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_op_laplace/apply.html" class="code" title="function y = apply( A, x, idx )">apply</a>	APPLY Application of TT/MPS Laplace-like operator to a TT/MPS tensor</li><li><a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_op_laplace/constr_precond_inner.html" class="code" title="function expB = constr_precond_inner( A, X, mu )">constr_precond_inner</a>	TTeMPS Toolbox.</li><li><a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_op_laplace/disp.html" class="code" title="function disp( x, name )">disp</a>	DISP Display TT/MPS operator.</li><li><a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/TTeMPS_rand.html" class="code" title="function x = TTeMPS_rand(r, n)">TTeMPS_rand</a>	TTEMPS_RAND Create random TTeMPS tensor</li><li><a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod.html" class="code" title="function res = tensorprod( U, A, mode, apply_inv )">tensorprod</a>	TENSORPROD Tensor-times-Matrix product.</li><li><a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/trunc_singular.html" class="code" title="function s = trunc_singular(s, tol, relative, maxrank)">trunc_singular</a>	REL_TRUNC_SINGULAR Helper routine to truncate singular values</li><li><a href="../../../../../../manopt/tools/orthogonalize.html" class="code" title="function [Q, R] = orthogonalize(M, x, A)">orthogonalize</a>	Orthonormalizes a basis of tangent vectors in the Manopt framework.</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../matlabicon.gif)">
+<li><a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/examples/ex_henon_3_hermite.html" class="code" title="">ex_henon_3_hermite</a>	Example for the algorithms described in</li><li><a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/examples/ex_newton_1.html" class="code" title="">ex_newton_1</a>	Example for the algorithms described in</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function [left, right] = Afun_prepare( A, x, idx )</a></li><li><a href="#_sub2" class="code">function res = Afun_block_optim( A, U, sz, left, right, mu )</a></li><li><a href="#_sub3" class="code">function res = apply_local_precond( A, U, sz, expB)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [X, C, evalue, residuums, micro_res, objective, elapsed_time] = block_eigenvalue(A, p, rr, opts)</a>
+0002     <span class="comment">%BLOCK_EIGENVALUE Calculate p smallest eigenvalues of a TTeMPS operator</span>
+0003     <span class="comment">%</span>
+0004     <span class="comment">%   [X, C, evalue, residuums, micro_res, objective, elapsed_time] = block_eigenvalue(A, P, RR, OPTS)</span>
+0005     <span class="comment">%       performs a block-eigenvalue optimization scheme to compute the p smallest eigenvalues of A</span>
+0006     <span class="comment">%       using the algorithm described in [1].</span>
+0007     <span class="comment">%</span>
+0008     <span class="comment">%   RR defines the starting rank and should usually be set to ones(1,d) where d is the dimensionality.</span>
+0009     <span class="comment">%   If p == 1, the algorithm equals a standard ALS-procedure for the eigenvalue problem, which is NOT</span>
+0010     <span class="comment">%   rank adaptive. Hence, in this case RR should be taken to be the expected rank of the solution or,</span>
+0011     <span class="comment">%   if unknown, the highest affordable rank.</span>
+0012     <span class="comment">%</span>
+0013     <span class="comment">%   Specify the wanted options using the OPTS argument. All options have</span>
+0014     <span class="comment">%   default values (denoted in brackets). Hence, you only have to specify those you want</span>
+0015     <span class="comment">%   to change.</span>
+0016     <span class="comment">%   The OPTS struct is organized as follows:</span>
+0017     <span class="comment">%       OPTS.maxiter        Maximum number of full sweeps to perform        [3]</span>
+0018     <span class="comment">%       OPTS.maxrank        Maximum rank during the iteration               [40]</span>
+0019     <span class="comment">%       OPTS.tol            Tolerance for the shift from one core</span>
+0020     <span class="comment">%                           to the next                                     [1e-8]</span>
+0021     <span class="comment">%       OPTS.tolLOBPCG      Tolerance for inner LOBPCG solver               [1e-6]</span>
+0022     <span class="comment">%       OPTS.maxiterLOBPCG  Max. number of iterations for LOBPCG            [2000]</span>
+0023     <span class="comment">%       OPTS.verbose        Show iteration information (true/false)         [true]</span>
+0024     <span class="comment">%       OPTS.precInner      Precondition the LOBPCG (STRONGLY RECOMMENDED!) [true]</span>
+0025     <span class="comment">%</span>
+0026     <span class="comment">%</span>
+0027     <span class="comment">%   NOTE: To run block_eigenvalue, Knyazev's implementation of LOBPCG is required. The corresponding</span>
+0028     <span class="comment">%         m-file can be downloaded from</span>
+0029     <span class="comment">%               http://www.mathworks.com/matlabcentral/fileexchange/48-lobpcg-m</span>
+0030     <span class="comment">%</span>
+0031     <span class="comment">%    References:</span>
+0032     <span class="comment">%    [1] S.V. Dolgov, B.N. Khoromskij, I.V. Oseledets, D.V. Savostyanov</span>
+0033     <span class="comment">%        Computation of extreme eigenvalues in higher dimensions using block tensor train format</span>
+0034     <span class="comment">%        Computer Physics Communications 185 (2014) 1207-1216.</span>
+0035 
+0036     <span class="comment">%   TTeMPS Toolbox.</span>
+0037     <span class="comment">%   Michael Steinlechner, 2013-2014</span>
+0038     <span class="comment">%   Questions and contact: michael.steinlechner@epfl.ch</span>
+0039     <span class="comment">%   BSD 2-clause license, see LICENSE.txt</span>
+0040 
+0041 
+0042 nn = A.size_col;
+0043 d = A.order;
+0044 
+0045 <span class="keyword">if</span> ~isfield( opts, <span class="string">'maxiter'</span>);       opts.maxiter = 3;           <span class="keyword">end</span>
+0046 <span class="keyword">if</span> ~isfield( opts, <span class="string">'maxrank'</span>);       opts.maxrank = 40;          <span class="keyword">end</span>
+0047 <span class="keyword">if</span> ~isfield( opts, <span class="string">'tol'</span>);           opts.tol = 1e-8;            <span class="keyword">end</span>
+0048 <span class="keyword">if</span> ~isfield( opts, <span class="string">'tolLOBPCG'</span>);     opts.tolLOBPCG = 1e-6;      <span class="keyword">end</span>
+0049 <span class="keyword">if</span> ~isfield( opts, <span class="string">'maxiterLOBPCG'</span>); opts.maxiterLOBPCG = 2000;  <span class="keyword">end</span>
+0050 <span class="keyword">if</span> ~isfield( opts, <span class="string">'verbose'</span>);       opts.verbose = 1;           <span class="keyword">end</span>
+0051 <span class="keyword">if</span> ~isfield( opts, <span class="string">'precInner'</span>);     opts.precInner = true;      <span class="keyword">end</span>
+0052 <span class="keyword">if</span> ~isfield( opts, <span class="string">'X0'</span>);            useX0 = 0; <span class="keyword">else</span> useX0 = 1;  <span class="keyword">end</span>
+0053 
+0054 <span class="keyword">if</span> p == 1
+0055     tolLOBPCGmod = opts.tolLOBPCG;
+0056 <span class="keyword">else</span>
+0057     tolLOBPCGmod = 0.00001;
+0058 <span class="keyword">end</span>
+0059 
+0060 
+0061 <span class="keyword">if</span> ~useX0
+0062     X = <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/TTeMPS_rand.html" class="code" title="function x = TTeMPS_rand(r, n)">TTeMPS_rand</a>( rr, nn ); 
+0063     <span class="comment">% Left-orthogonalize the tensor:</span>
+0064     X = <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/orthogonalize.html" class="code" title="function x = orthogonalize( x, pos )">orthogonalize</a>( X, X.order );
+0065 
+0066     X.U{d} = rand( X.rank(d), X.size(d), X.rank(d+1), p );
+0067     C = cell( 1, p );
+0068     C{1} = X.U{d}(:,:,:,1);
+0069     <span class="keyword">for</span> i = 2:p
+0070         C{i} = X.U{d}(:,:,:,i);
+0071     <span class="keyword">end</span>
+0072 
+0073 <span class="keyword">else</span>
+0074     X = opts.X0;
+0075     X.U{d} = rand( X.rank(d), X.size(d), X.rank(d+1), p );
+0076     C = cell( 1, p );
+0077     C{1} = X.U{d}(:,:,:,1);
+0078     <span class="keyword">for</span> i = 2:p
+0079         C{i} = X.U{d}(:,:,:,i);
+0080     <span class="keyword">end</span>;
+0081 <span class="keyword">end</span>
+0082 
+0083 evalue = [];
+0084 residuums = zeros(p,2*opts.maxiter);
+0085 micro_res = [];
+0086 resi_norm = zeros(p,1);
+0087 objective = [];
+0088 tic;
+0089 elapsed_time = [];
+0090 
+0091 
+0092 <span class="keyword">for</span> i = 1:opts.maxiter
+0093     
+0094     <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/disp.html" class="code" title="function disp( x, name )">disp</a>(sprintf(<span class="string">'Iteration %i:'</span>, i));
+0095     <span class="comment">% right-to-left sweep</span>
+0096     fprintf(1, <span class="string">'RIGHT-TO-LEFT SWEEP. ---------------\n'</span>) 
+0097 
+0098     <span class="keyword">for</span> mu = d:-1:2
+0099         sz = [X.rank(mu), X.size(mu), X.rank(mu+1)];
+0100         <span class="comment">% shows itertaion information</span>
+0101         <span class="keyword">if</span> opts.verbose
+0102             fprintf(1,<span class="string">'Current core: %i. Current iterate (first eigenvalue): \n'</span>, mu);
+0103             <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/disp.html" class="code" title="function disp( x, name )">disp</a>(X);
+0104             fprintf(1,<span class="string">'Running LOBPCG: system size %i, tol %g ... '</span>, prod(sz), max(opts.tolLOBPCG, min( tolLOBPCGmod, sqrt(sum(residuums(:,2*(i-1)+1).^2))/sqrt(p)*tolLOBPCGmod )))
+0105         <span class="keyword">else</span>
+0106             fprintf(1,<span class="string">'%i  '</span>,mu);
+0107         <span class="keyword">end</span>
+0108         
+0109         [left, right] = <a href="#_sub1" class="code" title="subfunction [left, right] = Afun_prepare( A, x, idx )">Afun_prepare</a>( A, X, mu );
+0110 
+0111         <span class="keyword">if</span> opts.precInner
+0112             <span class="keyword">if</span> prod(sz) &lt; 5*p;
+0113                 Amat = zeros( prod(sz) );
+0114                 <span class="keyword">for</span> i_mat = 1:prod(sz)
+0115                     Amat(:,i_mat) = <a href="#_sub2" class="code" title="subfunction res = Afun_block_optim( A, U, sz, left, right, mu )">Afun_block_optim</a>( A, [zeros(i_mat-1,1); 1; zeros(prod(sz)-i_mat,1)], sz, left, right, mu);
+0116                 <span class="keyword">end</span>
+0117                 [vmat,emat] = eig(Amat);
+0118                 [emat,sortind] = sort(diag(emat),<span class="string">'ascend'</span>);
+0119                 vmat = vmat(:, sortind);
+0120                 L = emat(1:p);
+0121                 V = vmat(:, 1:p);
+0122                 
+0123                 <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/disp.html" class="code" title="function disp( x, name )">disp</a>(<span class="string">'Reduced system too small for LOBPCG, using eig instead'</span>);
+0124                 <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/disp.html" class="code" title="function disp( x, name )">disp</a>([<span class="string">'Current Eigenvalue approx: '</span>, num2str( L(1:p)')]);
+0125 
+0126                 
+0127             <span class="keyword">else</span>
+0128                 expB = <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_op_laplace/constr_precond_inner.html" class="code" title="function expB = constr_precond_inner( A, X, mu )">constr_precond_inner</a>( A, X, mu );
+0129                 [V,L,failureFlag,Lhist ] = lobpcg( rand( prod(sz), p), <span class="keyword">...</span>
+0130                                                    @(y) <a href="#_sub2" class="code" title="subfunction res = Afun_block_optim( A, U, sz, left, right, mu )">Afun_block_optim</a>( A, y, sz, left, right, mu), [], <span class="keyword">...</span>
+0131                                                    @(y) <a href="#_sub3" class="code" title="subfunction res = apply_local_precond( A, U, sz, expB)">apply_local_precond</a>( A, y, sz, expB), <span class="keyword">...</span>
+0132                                                    max(opts.tolLOBPCG, min( tolLOBPCGmod, sqrt(sum(residuums(:,2*(i-1)+1).^2))/sqrt(p)*tolLOBPCGmod )), <span class="keyword">...</span>
+0133                                                    opts.maxiterLOBPCG, 0);
+0134                 <span class="keyword">if</span> opts.verbose
+0135                     <span class="keyword">if</span> failureFlag
+0136                         fprintf(1,<span class="string">'NOT CONVERGED within %i steps!\n'</span>, opts.maxiterLOBPCG)
+0137                     <span class="keyword">else</span>
+0138                         fprintf(1,<span class="string">'converged after %i steps!\n'</span>, size(Lhist,2));
+0139                     <span class="keyword">end</span>
+0140                     <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/disp.html" class="code" title="function disp( x, name )">disp</a>([<span class="string">'Current Eigenvalue approx: '</span>, num2str( L(1:p)')]);
+0141                 <span class="keyword">end</span>
+0142             <span class="keyword">end</span>
+0143         <span class="keyword">else</span>
+0144             <span class="keyword">if</span> prod(sz) &lt; 25;
+0145                 Amat = zeros( prod(sz) );
+0146                 <span class="keyword">for</span> i_mat = 1:prod(sz)
+0147                     Amat(:,i_mat) = <a href="#_sub2" class="code" title="subfunction res = Afun_block_optim( A, U, sz, left, right, mu )">Afun_block_optim</a>( A, [zeros(i_mat-1,1); 1; zeros(prod(sz)-i_mat,1)], sz, left, right, mu);
+0148                 <span class="keyword">end</span>
+0149                 [vmat,emat] = eig(Amat);
+0150                 [emat,sortind] = sort(diag(emat),<span class="string">'ascend'</span>);
+0151                 vmat = vmat(:, sortind);
+0152                 L = emat(1:p);
+0153                 V = vmat(:, 1:p);
+0154                 
+0155                 <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/disp.html" class="code" title="function disp( x, name )">disp</a>(<span class="string">'Condition number!'</span>)
+0156                 cond(Amat)
+0157                 
+0158                 <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/disp.html" class="code" title="function disp( x, name )">disp</a>(<span class="string">'Reduced system too small for LOBPCG, using eig instead'</span>);
+0159                 <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/disp.html" class="code" title="function disp( x, name )">disp</a>([<span class="string">'Current Eigenvalue approx: '</span>, num2str( L(1:p)')]);
+0160 
+0161             <span class="keyword">else</span>
+0162                 X0 = rand( prod(sz), p);
+0163                 X0 = orth(X0);
+0164                 [V,L,failureFlag,Lhist ] = lobpcg( X0, <span class="keyword">...</span>
+0165                                                @(y) <a href="#_sub2" class="code" title="subfunction res = Afun_block_optim( A, U, sz, left, right, mu )">Afun_block_optim</a>( A, y, sz, left, right, mu), <span class="keyword">...</span>
+0166                                                opts.tolLOBPCG, opts.maxiterLOBPCG, 0);
+0167             <span class="keyword">end</span>
+0168         <span class="keyword">end</span>
+0169 
+0170         evalue = [evalue, L(1:p)];
+0171         objective = [objective, sum(evalue(:,end))];
+0172         elapsed_time = [elapsed_time, toc];
+0173 
+0174         X.U{mu} = reshape( V, [sz, p] );
+0175         lamX = X;
+0176         lamX.U{mu} = repmat( reshape(L, [1 1 1 p]), [X.rank(mu), X.size(mu), X.rank(mu+1), 1]).*lamX.U{mu};
+0177         res_new = <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_op/apply.html" class="code" title="function y = apply( A, x, idx )">apply</a>(A, X) - lamX
+0178 
+0179         <span class="keyword">for</span> j = 1:p
+0180             X.U{mu} = reshape( V(:,j), sz );
+0181             res = <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_op/apply.html" class="code" title="function y = apply( A, x, idx )">apply</a>(A, X) - L(j)*X;
+0182             resi_norm(j) = <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>(res);
+0183             residuums(j,2*(i-1)+1) = resi_norm(j);
+0184         
+0185         <span class="keyword">end</span>
+0186         
+0187         
+0188         micro_res = [micro_res, resi_norm];
+0189 
+0190         <span class="comment">% split new core</span>
+0191         V = reshape( V, [sz, p] );
+0192         V = permute( V, [1, 4, 2, 3] );
+0193         V = reshape( V, [sz(1)*p, sz(2)*sz(3)] );
+0194 
+0195         [U,S,V] = svd( V, <span class="string">'econ'</span> );
+0196         
+0197         <span class="keyword">if</span> p == 1
+0198             s = length(diag(S));
+0199         <span class="keyword">else</span>
+0200             s = <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/trunc_singular.html" class="code" title="function s = trunc_singular(s, tol, relative, maxrank)">trunc_singular</a>( diag(S), opts.tol, true, opts.maxrank );
+0201         <span class="keyword">end</span>
+0202 
+0203         V = V(:,1:s)';
+0204         X.U{mu} = reshape( V, [s, sz(2), sz(3)] );
+0205 
+0206         W = U(:,1:s)*S(1:s,1:s);
+0207         W = reshape( W, [sz(1), p, s]);
+0208         W = permute( W, [1, 3, 2]);
+0209         <span class="keyword">for</span> k = 1:p
+0210             C{k} = <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod.html" class="code" title="function res = tensorprod( U, A, mode, apply_inv )">tensorprod</a>( X.U{mu-1}, W(:,:,k)', 3);
+0211         <span class="keyword">end</span>
+0212         
+0213         X.U{mu-1} = C{1};
+0214 
+0215         <span class="keyword">if</span> opts.verbose
+0216             <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/disp.html" class="code" title="function disp( x, name )">disp</a>( [<span class="string">'Augmented system of size ('</span>, num2str( [sz(1)*p, sz(2)*sz(3)]), <span class="string">'). Cut-off tol: '</span>, num2str(opts.tol) ])
+0217             <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/disp.html" class="code" title="function disp( x, name )">disp</a>( sprintf( <span class="string">'Number of SVs: %i. Truncated to: %i =&gt; %g %%'</span>, length(diag(S)), s, s/length(diag(S))*100))
+0218             <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/disp.html" class="code" title="function disp( x, name )">disp</a>(<span class="string">' '</span>)
+0219         <span class="keyword">end</span>
+0220     <span class="keyword">end</span>
+0221 
+0222     <span class="comment">% calculate current residuum</span>
+0223 
+0224     fprintf(1, <span class="string">'---------------    finshed sweep.    ---------------\n'</span>) 
+0225     <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/disp.html" class="code" title="function disp( x, name )">disp</a>([<span class="string">'Current residuum: '</span>, num2str(residuums(:,2*(i-1)+1).')])
+0226     <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/disp.html" class="code" title="function disp( x, name )">disp</a>(<span class="string">' '</span>)
+0227     <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/disp.html" class="code" title="function disp( x, name )">disp</a>(<span class="string">' '</span>)
+0228     fprintf(1, <span class="string">'--------------- LEFT-TO-RIGHT SWEEP. ---------------\n'</span>) 
+0229     <span class="comment">% left-to-right sweep</span>
+0230     <span class="keyword">for</span> mu = 1:d-1
+0231         sz = [X.rank(mu), X.size(mu), X.rank(mu+1)];
+0232 
+0233         <span class="keyword">if</span> opts.verbose
+0234             fprintf(1,<span class="string">'Current core: %i. Current iterate (first eigenvalue): \n'</span>, mu);
+0235             <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/disp.html" class="code" title="function disp( x, name )">disp</a>(X);
+0236             fprintf(1,<span class="string">'Running LOBPCG: system size %i, tol %g ... '</span>, prod(sz), max(opts.tolLOBPCG, min( tolLOBPCGmod, sqrt(sum(residuums(:,2*(i-1)+2).^2))/sqrt(p)*tolLOBPCGmod )))
+0237         <span class="keyword">else</span>
+0238             fprintf(1,<span class="string">'%i  '</span>,mu);
+0239         <span class="keyword">end</span>
+0240 
+0241         [left, right] = <a href="#_sub1" class="code" title="subfunction [left, right] = Afun_prepare( A, x, idx )">Afun_prepare</a>( A, X, mu );
+0242 
+0243         <span class="keyword">if</span> opts.precInner
+0244             expB = <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_op_laplace/constr_precond_inner.html" class="code" title="function expB = constr_precond_inner( A, X, mu )">constr_precond_inner</a>( A, X, mu );
+0245             X0 = rand( prod(sz), p);
+0246             X0 = orth(X0);
+0247             [U,L,failureFlag,Lhist ] = lobpcg( X0 , <span class="keyword">...</span>
+0248                                                @(y) <a href="#_sub2" class="code" title="subfunction res = Afun_block_optim( A, U, sz, left, right, mu )">Afun_block_optim</a>( A, y, sz, left, right, mu), [], <span class="keyword">...</span>
+0249                                                @(y) <a href="#_sub3" class="code" title="subfunction res = apply_local_precond( A, U, sz, expB)">apply_local_precond</a>( A, y, sz, expB), <span class="keyword">...</span>
+0250                                                max(opts.tolLOBPCG, min( tolLOBPCGmod, sqrt(sum(residuums(:,2*(i-1)+2).^2))/sqrt(p)*tolLOBPCGmod )), <span class="keyword">...</span>
+0251                                                opts.maxiterLOBPCG, 0);
+0252         <span class="keyword">else</span>
+0253             <span class="keyword">if</span> prod(sz) &lt; 25;
+0254                 Amat = zeros( prod(sz) );
+0255                 <span class="keyword">for</span> i_mat = 1:prod(sz)
+0256                     Amat(:,i_mat) = <a href="#_sub2" class="code" title="subfunction res = Afun_block_optim( A, U, sz, left, right, mu )">Afun_block_optim</a>( A, [zeros(i_mat-1,1); 1; zeros(prod(sz)-i_mat,1)], sz, left, right, mu);
+0257                 <span class="keyword">end</span>
+0258                 [vmat,emat] = eig(Amat);
+0259                 [emat,sortind] = sort(diag(emat),<span class="string">'ascend'</span>);
+0260                 vmat = vmat(:, sortind);
+0261                 L = emat(1:p);
+0262                 U = vmat(:, 1:p);
+0263                 
+0264                 <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/disp.html" class="code" title="function disp( x, name )">disp</a>(<span class="string">'Reduced system too small for LOBPCG, using eig instead'</span>);
+0265                 <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/disp.html" class="code" title="function disp( x, name )">disp</a>([<span class="string">'Current Eigenvalue approx: '</span>, num2str( L(1:p)')]);
+0266             <span class="keyword">else</span>
+0267                 X0 = rand( prod(sz), p);
+0268                 X0 = orth(X0);
+0269                 [U,L,failureFlag,Lhist ] = lobpcg( X0 , <span class="keyword">...</span>
+0270                                                 @(y) <a href="#_sub2" class="code" title="subfunction res = Afun_block_optim( A, U, sz, left, right, mu )">Afun_block_optim</a>( A, y, sz, left, right, mu), <span class="keyword">...</span>
+0271                                                 opts.tolLOBPCG, opts.maxiterLOBPCG, 0);
+0272             <span class="keyword">end</span>
+0273         <span class="keyword">end</span>
+0274 
+0275         <span class="keyword">if</span> opts.verbose
+0276             <span class="keyword">if</span> failureFlag
+0277                 fprintf(1,<span class="string">'NOT CONVERGED within %i steps!\n'</span>, opts.maxiterLOBPCG)
+0278             <span class="keyword">else</span>
+0279                 fprintf(1,<span class="string">'converged after %i steps!\n'</span>, size(Lhist,2));
+0280             <span class="keyword">end</span>
+0281             <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/disp.html" class="code" title="function disp( x, name )">disp</a>([<span class="string">'Current Eigenvalue approx: '</span>, num2str( L(1:p)')]);
+0282         <span class="keyword">end</span>
+0283         evalue = [evalue, L(1:p)];
+0284         objective = [objective, sum(evalue(:,end))];
+0285         elapsed_time = [elapsed_time, toc];
+0286     
+0287         <span class="keyword">for</span> j = 1:p
+0288             X.U{mu} = reshape( U(:,j), sz );
+0289             res = <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_op/apply.html" class="code" title="function y = apply( A, x, idx )">apply</a>(A, X) - L(j)*X;
+0290             resi_norm(j) = <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>(res);
+0291             residuums(j,2*(i-1)+2) = resi_norm(j);
+0292         <span class="keyword">end</span>
+0293         micro_res = [micro_res, resi_norm];
+0294 
+0295         <span class="comment">% split new core</span>
+0296         U = reshape( U, [sz, p] );
+0297         U = permute( U, [1, 2, 4, 3] );
+0298         U = reshape( U, [sz(1)*sz(2), p*sz(3)] );
+0299 
+0300         [U,S,V] = svd( U, <span class="string">'econ'</span> );
+0301         <span class="keyword">if</span> p == 1
+0302             s = length(diag(S));
+0303         <span class="keyword">else</span>
+0304             s = <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/trunc_singular.html" class="code" title="function s = trunc_singular(s, tol, relative, maxrank)">trunc_singular</a>( diag(S), opts.tol, true, opts.maxrank );
+0305         <span class="keyword">end</span>
+0306 
+0307         U = U(:,1:s);
+0308         X.U{mu} = reshape( U, [sz(1), sz(2), s] );
+0309         W = S(1:s,1:s)*V(:,1:s)';
+0310         W = reshape( W, [s, p, sz(3)]);
+0311         W = permute( W, [1, 3, 2]);
+0312         
+0313         <span class="keyword">for</span> k = 1:p
+0314             C{k} = <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod.html" class="code" title="function res = tensorprod( U, A, mode, apply_inv )">tensorprod</a>( X.U{mu+1}, W(:,:,k), 1);
+0315         <span class="keyword">end</span>
+0316         
+0317         X.U{mu+1} = C{1};
+0318 
+0319         <span class="keyword">if</span> opts.verbose
+0320             <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/disp.html" class="code" title="function disp( x, name )">disp</a>( [<span class="string">'Augmented system of size ('</span>, num2str( [sz(1)*sz(2), p*sz(3)]), <span class="string">'). Cut-off tol: '</span>, num2str(opts.tol) ])
+0321             <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/disp.html" class="code" title="function disp( x, name )">disp</a>( sprintf( <span class="string">'Number of SVs: %i. Truncated to: %i =&gt; %g %%'</span>, length(diag(S)), s, s/length(diag(S))*100))
+0322             <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/disp.html" class="code" title="function disp( x, name )">disp</a>(<span class="string">' '</span>)
+0323         <span class="keyword">end</span>
+0324     <span class="keyword">end</span>
+0325 
+0326     fprintf(1, <span class="string">'---------------    finshed sweep.    ---------------\n'</span>) 
+0327     <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/disp.html" class="code" title="function disp( x, name )">disp</a>([<span class="string">'Current residuum: '</span>, num2str(residuums(:,2*(i-1)+2).')])
+0328     <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/disp.html" class="code" title="function disp( x, name )">disp</a>(<span class="string">' '</span>)
+0329     <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/disp.html" class="code" title="function disp( x, name )">disp</a>(<span class="string">' '</span>)
+0330 <span class="keyword">end</span>
+0331 
+0332 evs = zeros(p,1);
+0333 <span class="comment">% Evaluate rayleigh quotient for the p TT/MPS tensors</span>
+0334 <span class="keyword">for</span> i=1:p
+0335     evec = X;
+0336     evec.U{d} = C{i};
+0337     evs(i) = <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/innerprod.html" class="code" title="function res = innerprod( x, y, dir, upto, storeParts )">innerprod</a>( evec, <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_op/apply.html" class="code" title="function y = apply( A, x, idx )">apply</a>(A, evec));
+0338 <span class="keyword">end</span>
+0339 evalue = [evalue, evs];
+0340 
+0341 <span class="keyword">end</span>
+0342 
+0343 <a name="_sub1" href="#_subfunctions" class="code">function [left, right] = Afun_prepare( A, x, idx )</a>
+0344     y = A.apply(x); 
+0345     <span class="keyword">if</span> idx == 1
+0346         right = <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/innerprod.html" class="code" title="function res = innerprod( x, y, dir, upto, storeParts )">innerprod</a>( x, y, <span class="string">'RL'</span>, idx+1 );
+0347         left = [];
+0348     <span class="keyword">elseif</span> idx == x.order
+0349         left = <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/innerprod.html" class="code" title="function res = innerprod( x, y, dir, upto, storeParts )">innerprod</a>( x, y, <span class="string">'LR'</span>, idx-1 );
+0350         right = [];
+0351     <span class="keyword">else</span>
+0352         left = <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/innerprod.html" class="code" title="function res = innerprod( x, y, dir, upto, storeParts )">innerprod</a>( x, y, <span class="string">'LR'</span>, idx-1 );
+0353         right = <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/innerprod.html" class="code" title="function res = innerprod( x, y, dir, upto, storeParts )">innerprod</a>( x, y, <span class="string">'RL'</span>, idx+1 ); 
+0354     <span class="keyword">end</span>
+0355 <span class="keyword">end</span>
+0356 
+0357 <a name="_sub2" href="#_subfunctions" class="code">function res = Afun_block_optim( A, U, sz, left, right, mu )</a>
+0358 
+0359     p = size(U, 2);
+0360     
+0361     V = reshape( U, [sz, p] );
+0362     V = A.apply( V, mu );
+0363     
+0364     <span class="keyword">if</span> mu == 1
+0365         tmp = reshape( permute( V, [3 1 2 4] ), [size(V, 3), sz(1)*sz(2)*p]);
+0366         tmp = right * tmp;
+0367         tmp = reshape( tmp, [size(right, 1), sz(1), sz(2), p]);
+0368         tmp = ipermute( tmp, [3 1 2 4] );
+0369     <span class="keyword">elseif</span> mu == A.order
+0370         tmp = reshape( V, [size(V,1), sz(2)*sz(3)*p]);
+0371         tmp = left * tmp;
+0372         tmp = reshape( tmp, [size(left, 1), sz(2), sz(3), p]);
+0373     <span class="keyword">else</span>
+0374         tmp = reshape( permute( V, [3 1 2 4] ), [size(V, 3), size(V, 1)*sz(2)*p]);
+0375         tmp = right * tmp;
+0376         tmp = reshape( tmp, [size(right, 1), size(V, 1), sz(2), p]);
+0377         tmp = ipermute( tmp, [3 1 2 4] );
+0378 
+0379         tmp = reshape( tmp, [size(V, 1), sz(2)*sz(3)*p]);
+0380         tmp = left * tmp;
+0381         tmp = reshape( tmp, [size(left, 1), sz(2), sz(3), p]);
+0382 
+0383     <span class="keyword">end</span>
+0384 
+0385     res = reshape( tmp, [prod(sz), p] );
+0386         
+0387 
+0388 <span class="keyword">end</span>
+0389 
+0390 <a name="_sub3" href="#_subfunctions" class="code">function res = apply_local_precond( A, U, sz, expB)</a>
+0391 
+0392     p = size(U, 2);
+0393 
+0394     x = reshape( U, [sz, p] );
+0395     res = zeros( [sz, p] );
+0396 
+0397     <span class="keyword">for</span> i = 1:size( expB, 1)
+0398         tmp = reshape( x, [sz(1), sz(2)*sz(3)*p] );
+0399         tmp = reshape( expB{1,i}*tmp, [sz(1), sz(2), sz(3), p] );
+0400 
+0401         tmp = reshape( permute( tmp, [2 1 3 4] ), [sz(2), sz(1)*sz(3)*p] );
+0402         tmp = ipermute( reshape( expB{2,i}*tmp, [sz(2), sz(1), sz(3), p] ), [2 1 3 4] );
+0403 
+0404         tmp = reshape( permute( tmp, [3 1 2 4] ), [sz(3), sz(1)*sz(2)*p] );
+0405         tmp = ipermute( reshape( expB{3,i}*tmp, [sz(3), sz(1), sz(2), p] ), [3 1 2 4] );
+0406 
+0407         res = res + tmp;
+0408     <span class="keyword">end</span>
+0409     res = reshape( res, [prod(sz), p] );
+0410     
+0411 <span class="keyword">end</span>
+0412</pre></div>
+<hr><address>Generated on Sun 05-Sep-2021 17:57:00 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

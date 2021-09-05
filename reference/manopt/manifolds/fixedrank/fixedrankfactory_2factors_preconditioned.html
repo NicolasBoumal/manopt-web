@@ -55,7 +55,7 @@
 <h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
 This function calls:
 <ul style="list-style-image:url(../../../matlabicon.gif)">
-<li><a href="../../../manopt/tools/hashmd5.html" class="code" title="function h = hashmd5(inp)">hashmd5</a>	Computes the MD5 hash of input data.</li><li><a href="../../../manopt/tools/lincomb.html" class="code" title="function vec = lincomb(M, x, vecs, coeffs)">lincomb</a>	Computes a linear combination of tangent vectors in the Manopt framework.</li></ul>
+<li><a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>	NORM Norm of a TT/MPS tensor.</li><li><a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_block/norm.html" class="code" title="function res = norm( x )">norm</a>	NORM Norm of a TT/MPS block-mu tensor.</li><li><a href="../../../manopt/tools/hashmd5.html" class="code" title="function h = hashmd5(inp)">hashmd5</a>	Computes the MD5 hash of input data.</li><li><a href="../../../manopt/tools/lincomb.html" class="code" title="function vec = lincomb(M, x, vecs, coeffs)">lincomb</a>	Computes a linear combination of tangent vectors in the Manopt framework.</li></ul>
 This function is called by:
 <ul style="list-style-image:url(../../../matlabicon.gif)">
 </ul>
@@ -189,7 +189,7 @@ This function is called by:
 0121         <span class="comment">% We need to ensure that L and R are do not have very relative</span>
 0122         <span class="comment">% skewed norms.</span>
 0123         
-0124         scaling = norm(X.L, <span class="string">'fro'</span>)/norm(X.R, <span class="string">'fro'</span>);
+0124         scaling = <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>(X.L, <span class="string">'fro'</span>)/<a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>(X.R, <span class="string">'fro'</span>);
 0125         scaling = sqrt(scaling);
 0126         Y.L = Y.L / scaling;
 0127         Y.R = Y.R * scaling;
@@ -255,6 +255,6 @@ This function is called by:
 0187 
 0188 
 0189</pre></div>
-<hr><address>Generated on Tue 19-May-2020 18:46:12 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+<hr><address>Generated on Sun 05-Sep-2021 17:57:00 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
 </body>
 </html>

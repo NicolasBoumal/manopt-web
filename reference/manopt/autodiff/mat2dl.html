@@ -1,0 +1,118 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of mat2dl</title>
+  <meta name="keywords" content="mat2dl">
+  <meta name="description" content="Convert the data type of x from numeric into dlarray">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../index.html">Home</a> &gt;  <a href="#">manopt</a> &gt; <a href="index.html">autodiff</a> &gt; mat2dl.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../index.html"><img alt="<" border="0" src="../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for manopt\autodiff&nbsp;<img alt=">" border="0" src="../../right.png"></a></td></tr></table>-->
+
+<h1>mat2dl
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+<div class="box"><strong>Convert the data type of x from numeric into dlarray</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+<div class="box"><strong>function dlx = mat2dl(x) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> Convert the data type of x from numeric into dlarray 
+
+ function dlx = mat2dl(x)
+ 
+ The iput x is a numeric data structure which can be defined recursively 
+ by arrays, structs and cells. The output is of dlarray data type with the 
+ same data structure.
+
+ See also: <a href="mat2dl_complex.html" class="code" title="function dlx = mat2dl_complex(x)">mat2dl_complex</a>, <a href="dl2mat.html" class="code" title="function x = dl2mat(dlx)">dl2mat</a>, <a href="dl2mat_complex.html" class="code" title="function x = dl2mat_complex(dlx)">dl2mat_complex</a></pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../../matlabicon.gif)">
+<li><a href="costgradcompute.html" class="code" title="function [cost, grad] = costgradcompute(problem, x, complexflag)">costgradcompute</a>	Computes the cost and the gradient at x via AD in one call</li><li><a href="costgradcomputefixedrankembedded.html" class="code" title="function [y,grad] = costgradcomputefixedrankembedded(problem,x)">costgradcomputefixedrankembedded</a>	Computes the Riemannian gradient and the cost at x via AD in one call for</li><li><a href="egradcompute.html" class="code" title="function egrad = egradcompute(problem, x, complexflag)">egradcompute</a>	Computes the Euclidean gradient of the cost function at x via AD.</li><li><a href="ehesscompute.html" class="code" title="function [ehess,store] = ehesscompute(problem, x, xdot, store, complexflag)">ehesscompute</a>	Computes the Euclidean Hessian of the cost function at x along xdot via AD.</li><li><a href="gradcomputefixedrankembedded.html" class="code" title="function grad = gradcomputefixedrankembedded(problem,x)">gradcomputefixedrankembedded</a>	Computes the Riemannian gradient of the cost function at x via AD for</li><li><a href="manoptAD.html" class="code" title="function problem = manoptAD(problem, flag)">manoptAD</a>	Preprocess automatic differentiation for a manopt problem structure</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+<ul style="list-style-image:url(../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function dlx = mat2dl_struct(x)</a></li><li><a href="#_sub2" class="code">function dlx = mat2dl_cell(x)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function dlx = mat2dl(x)</a>
+0002 <span class="comment">% Convert the data type of x from numeric into dlarray</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">% function dlx = mat2dl(x)</span>
+0005 <span class="comment">%</span>
+0006 <span class="comment">% The iput x is a numeric data structure which can be defined recursively</span>
+0007 <span class="comment">% by arrays, structs and cells. The output is of dlarray data type with the</span>
+0008 <span class="comment">% same data structure.</span>
+0009 <span class="comment">%</span>
+0010 <span class="comment">% See also: mat2dl_complex, dl2mat, dl2mat_complex</span>
+0011 
+0012 <span class="comment">% This file is part of Manopt: www.manopt.org.</span>
+0013 <span class="comment">% Original author: Xiaowen Jiang, July. 31, 2021.</span>
+0014 <span class="comment">% Contributors: Nicolas Boumal</span>
+0015 <span class="comment">% Change log:</span>
+0016 
+0017     <span class="keyword">if</span> ~isstruct(x) &amp;&amp; ~iscell(x) &amp;&amp; ~isnumeric(x)
+0018         up = MException(<span class="string">'manopt:autodiff:mat2dl'</span>, <span class="keyword">...</span>
+0019                     <span class="string">'mat2dl should only accept structs, cells or arrays.'</span>);
+0020         throw(up);
+0021     <span class="keyword">end</span>
+0022 
+0023     <span class="comment">% recursively convert each part of x into dlarrays</span>
+0024     <span class="keyword">if</span> isstruct(x)
+0025         dlx = <a href="#_sub1" class="code" title="subfunction dlx = mat2dl_struct(x)">mat2dl_struct</a>(x);
+0026     <span class="keyword">elseif</span> iscell(x)
+0027         dlx = <a href="#_sub2" class="code" title="subfunction dlx = mat2dl_cell(x)">mat2dl_cell</a>(x);
+0028     <span class="keyword">else</span>
+0029         dlx = dlarray(x);
+0030     <span class="keyword">end</span>
+0031 
+0032     <span class="comment">% convert x into dlarray if x is a struct</span>
+0033     <a name="_sub1" href="#_subfunctions" class="code">function dlx = mat2dl_struct(x)</a>
+0034         elems = fieldnames(x);
+0035         nelems = numel(elems);
+0036         <span class="keyword">for</span> ii = 1:nelems
+0037             <span class="keyword">if</span> isstruct(x.(elems{ii}))
+0038                 dlx.(elems{ii}) = <a href="#_sub1" class="code" title="subfunction dlx = mat2dl_struct(x)">mat2dl_struct</a>(x.(elems{ii}));
+0039             <span class="keyword">elseif</span> iscell(x.(elems{ii}))
+0040                 dlx.(elems{ii}) = <a href="#_sub2" class="code" title="subfunction dlx = mat2dl_cell(x)">mat2dl_cell</a>(x.(elems{ii}));
+0041             <span class="keyword">else</span>
+0042                 dlx.(elems{ii}) = dlarray(x.(elems{ii}));
+0043             <span class="keyword">end</span>
+0044         <span class="keyword">end</span>
+0045     <span class="keyword">end</span>
+0046 
+0047     <span class="comment">% convert x into dlarray if x is a cell</span>
+0048     <a name="_sub2" href="#_subfunctions" class="code">function dlx = mat2dl_cell(x)</a>
+0049         ncell = length(x);
+0050         <span class="keyword">for</span> ii = 1:ncell
+0051             <span class="keyword">if</span> isstruct(x{ii})
+0052                 dlx{ii} = <a href="#_sub1" class="code" title="subfunction dlx = mat2dl_struct(x)">mat2dl_struct</a>(x{ii});
+0053             <span class="keyword">elseif</span> iscell(x{ii})
+0054                 dlx{ii} = <a href="#_sub2" class="code" title="subfunction dlx = mat2dl_cell(x)">mat2dl_cell</a>(x{ii});
+0055             <span class="keyword">else</span>
+0056                 dlx{ii} = dlarray(x{ii});
+0057             <span class="keyword">end</span>
+0058         <span class="keyword">end</span>
+0059     <span class="keyword">end</span>
+0060 <span class="keyword">end</span>
+0061</pre></div>
+<hr><address>Generated on Sun 05-Sep-2021 17:57:00 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

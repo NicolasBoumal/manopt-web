@@ -1,0 +1,158 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of construct_initial_guess_rankOne</title>
+  <meta name="keywords" content="construct_initial_guess_rankOne">
+  <meta name="description" content="TTeMPS Toolbox.">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../index.html">Home</a> &gt;  <a href="#">manopt</a> &gt; <a href="#">manifolds</a> &gt; <a href="../../../index.html">ttfixedrank</a> &gt; <a href="../../index.html">TTeMPS_1.1</a> &gt; <a href="../index.html">algorithms</a> &gt; <a href="index.html">linearsystem</a> &gt; construct_initial_guess_rankOne.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../index.html"><img alt="<" border="0" src="../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for manopt\manifolds\ttfixedrank\TTeMPS_1.1\algorithms\linearsystem&nbsp;<img alt=">" border="0" src="../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>construct_initial_guess_rankOne
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="box"><strong>TTeMPS Toolbox.</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="box"><strong>function X = construct_initial_guess(L, F, r, n) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">   TTeMPS Toolbox. 
+   Michael Steinlechner, 2013-2016
+   Questions and contact: michael.steinlechner@epfl.ch
+   BSD 2-clause license, see LICENSE.txt</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../matlabicon.gif)">
+<li><a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/contract.html" class="code" title="function res = contract( x, y, idx )">contract</a>	CONTRACT Contraction of two TT/MPS tensors.</li><li><a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/innerprod.html" class="code" title="function res = innerprod( x, y, dir, upto, storeParts )">innerprod</a>	INNERPROD Inner product between two TT/MPS tensors.</li><li><a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>	NORM Norm of a TT/MPS tensor.</li><li><a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/orth_at.html" class="code" title="function [x, R] = orth_at(x, pos, dir, apply)">orth_at</a>	ORTH_AT Orthogonalize single core.</li><li><a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/orthogonalize.html" class="code" title="function x = orthogonalize( x, pos )">orthogonalize</a>	ORTHOGONALIZE Orthogonalize tensor.</li><li><a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_block/innerprod.html" class="code" title="function res = innerprod( x, y, dir, upto )">innerprod</a>	INNERPROD Inner product between two TT/MPS tensors.</li><li><a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_block/norm.html" class="code" title="function res = norm( x )">norm</a>	NORM Norm of a TT/MPS block-mu tensor.</li><li><a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_block/orthogonalize.html" class="code" title="function res = orthogonalize( x )">orthogonalize</a>	ORTHOGONALIZE Orthogonalize TT/MPS Block-mu tensor.</li><li><a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_op/contract.html" class="code" title="function res = contract( A, X, mu )">contract</a>	CONTRACT Contraction of two TT/MPS tensors with inner TT/MPS operator.</li><li><a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_op_laplace/contract.html" class="code" title="function res = contract( A, X, mu )">contract</a>	CONTRACT Contraction of two TT/MPS tensors with inner TT/MPS Laplace operator.</li><li><a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/TTeMPS_rand.html" class="code" title="function x = TTeMPS_rand(r, n)">TTeMPS_rand</a>	TTEMPS_RAND Create random TTeMPS tensor</li><li><a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/matricize.html" class="code" title="function res = matricize( U, mode )">matricize</a>	MATRICIZE Matricize 3D Matlab array.</li><li><a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorize.html" class="code" title="function res = tensorize( U, mode, d )">tensorize</a>	TENSORIZE Tensorize matrix (inverse matricization).</li><li><a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod.html" class="code" title="function res = tensorprod( U, A, mode, apply_inv )">tensorprod</a>	TENSORPROD Tensor-times-Matrix product.</li><li><a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/unfold.html" class="code" title="function W = unfold( U, dir )">unfold</a>	UNFOLD Left/right-unfold a 3D array.</li><li><a href="../../../../../../manopt/tools/orthogonalize.html" class="code" title="function [Q, R] = orthogonalize(M, x, A)">orthogonalize</a>	Orthonormalizes a basis of tangent vectors in the Manopt framework.</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../matlabicon.gif)">
+</ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function [left, right] = Afun_prepare( A, x, idx )</a></li><li><a href="#_sub2" class="code">function res = Afun( A, U, idx, sz, left, right )</a></li><li><a href="#_sub3" class="code">function B1 = prepare_precond( L0, X, idx )</a></li><li><a href="#_sub4" class="code">function res = apply_precond( L0, B1, rhs, sz )</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">%   TTeMPS Toolbox.</span>
+0002 <span class="comment">%   Michael Steinlechner, 2013-2016</span>
+0003 <span class="comment">%   Questions and contact: michael.steinlechner@epfl.ch</span>
+0004 <span class="comment">%   BSD 2-clause license, see LICENSE.txt</span>
+0005 
+0006 <a name="_sub0" href="#_subfunctions" class="code">function X = construct_initial_guess(L, F, r, n)</a>
+0007 <span class="comment">% Basicially only the first micro-step of ALS</span>
+0008 
+0009 X = <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/TTeMPS_rand.html" class="code" title="function x = TTeMPS_rand(r, n)">TTeMPS_rand</a>( r, n );
+0010 X = 1/<a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>(X) * X;
+0011 
+0012 
+0013 d = X.order;
+0014 n = X.size;
+0015 
+0016 
+0017 X = <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/orthogonalize.html" class="code" title="function x = orthogonalize( x, pos )">orthogonalize</a>(X, 1);
+0018 Fi = <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/contract.html" class="code" title="function res = contract( x, y, idx )">contract</a>( X, F, 1 );
+0019 sz = [X.rank(1), X.size(1), X.rank(2)];
+0020 
+0021 [left, right] = <a href="#_sub1" class="code" title="subfunction [left, right] = Afun_prepare( A, x, idx )">Afun_prepare</a>( L, X, 1 );
+0022 B1 =  <a href="#_sub3" class="code" title="subfunction B1 = prepare_precond( L0, X, idx )">prepare_precond</a>( L.A{1}, X, 1 );
+0023 
+0024 Ui = pcg( @(y) <a href="#_sub2" class="code" title="subfunction res = Afun( A, U, idx, sz, left, right )">Afun</a>( L, y, 1, sz, left, right), <span class="keyword">...</span>
+0025          Fi(:), <span class="keyword">...</span>
+0026          1e-10, 1000, <span class="keyword">...</span>
+0027          @(y) <a href="#_sub4" class="code" title="subfunction res = apply_precond( L0, B1, rhs, sz )">apply_precond</a>( L.A{1}, B1, y, sz ), [],<span class="keyword">...</span>
+0028          X.U{1}(:) ); 
+0029 
+0030 X.U{1} = reshape( Ui, sz );
+0031 
+0032 X = <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/orth_at.html" class="code" title="function [x, R] = orth_at(x, pos, dir, apply)">orth_at</a>( X, 1, <span class="string">'left'</span>, true );
+0033 
+0034 
+0035 <span class="keyword">end</span>
+0036 
+0037 
+0038 
+0039 
+0040 <a name="_sub1" href="#_subfunctions" class="code">function [left, right] = Afun_prepare( A, x, idx )</a>
+0041     y = A.apply(x); 
+0042     <span class="keyword">if</span> idx == 1
+0043         right = <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/innerprod.html" class="code" title="function res = innerprod( x, y, dir, upto, storeParts )">innerprod</a>( x, y, <span class="string">'RL'</span>, idx+1 );
+0044         left = [];
+0045     <span class="keyword">elseif</span> idx == x.order
+0046         left = <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/innerprod.html" class="code" title="function res = innerprod( x, y, dir, upto, storeParts )">innerprod</a>( x, y, <span class="string">'LR'</span>, idx-1 );
+0047         right = [];
+0048     <span class="keyword">else</span>
+0049         left = <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/innerprod.html" class="code" title="function res = innerprod( x, y, dir, upto, storeParts )">innerprod</a>( x, y, <span class="string">'LR'</span>, idx-1 );
+0050         right = <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/innerprod.html" class="code" title="function res = innerprod( x, y, dir, upto, storeParts )">innerprod</a>( x, y, <span class="string">'RL'</span>, idx+1 ); 
+0051     <span class="keyword">end</span>
+0052 <span class="keyword">end</span>
+0053 
+0054 <a name="_sub2" href="#_subfunctions" class="code">function res = Afun( A, U, idx, sz, left, right )</a>
+0055 
+0056     V = reshape( U, sz );
+0057     V = A.apply( V, idx );
+0058     
+0059     <span class="keyword">if</span> idx == 1
+0060         tmp = <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod.html" class="code" title="function res = tensorprod( U, A, mode, apply_inv )">tensorprod</a>( V, right, 3 );
+0061     <span class="keyword">elseif</span> idx == A.order
+0062         tmp = <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod.html" class="code" title="function res = tensorprod( U, A, mode, apply_inv )">tensorprod</a>( V, left, 1 );
+0063     <span class="keyword">else</span>
+0064         tmp = <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod.html" class="code" title="function res = tensorprod( U, A, mode, apply_inv )">tensorprod</a>( V, right, 3);
+0065         tmp = <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod.html" class="code" title="function res = tensorprod( U, A, mode, apply_inv )">tensorprod</a>( tmp, left, 1);
+0066     <span class="keyword">end</span>
+0067 
+0068     res = tmp(:);
+0069 <span class="keyword">end</span>
+0070 
+0071 
+0072 <a name="_sub3" href="#_subfunctions" class="code">function B1 = prepare_precond( L0, X, idx )</a>
+0073 
+0074     <span class="keyword">if</span> idx == 1
+0075         B1 = [];
+0076         <span class="keyword">return</span>
+0077     <span class="keyword">end</span>
+0078 
+0079     n = size(L0, 1);
+0080     r = X.rank;
+0081 
+0082     X1 = <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/matricize.html" class="code" title="function res = matricize( U, mode )">matricize</a>( X.U{1}, 2);
+0083     Y = X;
+0084     Y.U{1} = <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorize.html" class="code" title="function res = tensorize( U, mode, d )">tensorize</a>( L0*X1, 2, [r(1), n(1), r(2)] );
+0085     B1 = <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/innerprod.html" class="code" title="function res = innerprod( x, y, dir, upto, storeParts )">innerprod</a>( X, Y, <span class="string">'LR'</span>, idx-1);
+0086 <span class="keyword">end</span>
+0087 
+0088 <a name="_sub4" href="#_subfunctions" class="code">function res = apply_precond( L0, B1, rhs, sz )</a>
+0089     
+0090     n = size(L0, 1);
+0091     rhs = reshape( rhs, sz );
+0092     <span class="keyword">if</span> isempty(B1) <span class="comment">%idx == 1</span>
+0093         res = L0 \ <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/unfold.html" class="code" title="function W = unfold( U, dir )">unfold</a>( rhs, <span class="string">'left'</span> );
+0094         res = reshape( res, sz );
+0095     <span class="keyword">else</span>
+0096         res = B1 \ <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/unfold.html" class="code" title="function W = unfold( U, dir )">unfold</a>(rhs, <span class="string">'right'</span>);
+0097         res = reshape( res, sz );
+0098     <span class="keyword">end</span>
+0099     res = res(:);
+0100 <span class="keyword">end</span>
+0101 
+0102 
+0103 
+0104 
+0105 
+0106</pre></div>
+<hr><address>Generated on Sun 05-Sep-2021 17:57:00 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

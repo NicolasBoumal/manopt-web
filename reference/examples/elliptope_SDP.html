@@ -84,7 +84,7 @@
 <h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
 This function calls:
 <ul style="list-style-image:url(../matlabicon.gif)">
-<li><a href="../manopt/manifolds/oblique/obliquefactory.html" class="code" title="function M = obliquefactory(n, m, transposed)">obliquefactory</a>	Returns a manifold struct to optimize over matrices w/ unit-norm columns.</li><li><a href="../manopt/solvers/trustregions/trustregions.html" class="code" title="function [x, cost, info, options] = trustregions(problem, x, options)">trustregions</a>	Riemannian trust-regions solver for optimization on manifolds.</li></ul>
+<li><a href="../manopt/manifolds/oblique/obliquefactory.html" class="code" title="function M = obliquefactory(n, m, transposed)">obliquefactory</a>	Returns a manifold struct to optimize over matrices w/ unit-norm columns.</li><li><a href="../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/round.html" class="code" title="function x = round( x, tol )">round</a>	ROUND Approximate TTeMPS tensor within a prescribed tolerance.</li><li><a href="../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_block/round.html" class="code" title="function x = round( x, tol )">round</a>	ROUND Approximate TTeMPS tensor within a prescribed tolerance.</li><li><a href="../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_op/round.html" class="code" title="function A = round(A, tol )">round</a>	ROUND Approximate TTeMPS operator within a prescribed tolerance.</li><li><a href="../manopt/solvers/trustregions/trustregions.html" class="code" title="function [x, cost, info, options] = trustregions(problem, x, options)">trustregions</a>	Riemannian trust-regions solver for optimization on manifolds.</li></ul>
 This function is called by:
 <ul style="list-style-image:url(../matlabicon.gif)">
 </ul>
@@ -153,98 +153,111 @@ This function is called by:
 0056 <span class="comment">% Original author: Nicolas Boumal, June 28, 2016</span>
 0057 <span class="comment">% Contributors:</span>
 0058 <span class="comment">% Change log:</span>
-0059 
-0060 
-0061     <span class="comment">% If no inputs are provided, since this is an example file, generate</span>
-0062     <span class="comment">% a random Erdos-Renyi graph. This is for illustration purposes only.</span>
-0063     <span class="keyword">if</span> ~exist(<span class="string">'A'</span>, <span class="string">'var'</span>) || isempty(A)
-0064         n = 100;
-0065         A = triu(rand(n) &lt;= .1, 1);
-0066         A = (A+A.')/(2*n);
-0067     <span class="keyword">end</span>
-0068 
-0069     n = size(A, 1);
-0070     assert(n &gt;= 2, <span class="string">'A must be at least 2x2.'</span>);
-0071     assert(isreal(A), <span class="string">'A must be real.'</span>);
-0072     assert(size(A, 2) == n, <span class="string">'A must be square.'</span>);
-0073     
-0074     <span class="comment">% Force A to be symmetric</span>
-0075     A = (A+A.')/2;
-0076     
-0077     <span class="comment">% By default, pick a sufficiently large p (number of columns of Y).</span>
-0078     <span class="keyword">if</span> ~exist(<span class="string">'p'</span>, <span class="string">'var'</span>) || isempty(p)
-0079         p = ceil(sqrt(8*n+1)/2);
-0080     <span class="keyword">end</span>
-0081     
-0082     assert(p &gt;= 2 &amp;&amp; p == round(p), <span class="string">'p must be an integer &gt;= 2.'</span>);
-0083 
-0084     <span class="comment">% Pick the manifold of n-by-p matrices with unit norm rows.</span>
-0085     manifold = <a href="../manopt/manifolds/oblique/obliquefactory.html" class="code" title="function M = obliquefactory(n, m, transposed)">obliquefactory</a>(p, n, true);
-0086     
-0087     problem.M = manifold;
+0059 <span class="comment">%</span>
+0060 <span class="comment">%    Xiaowen Jiang Aug. 20, 2021</span>
+0061 <span class="comment">%       Added AD to compute the egrad and the ehess</span>
+0062 
+0063     <span class="comment">% If no inputs are provided, since this is an example file, generate</span>
+0064     <span class="comment">% a random Erdos-Renyi graph. This is for illustration purposes only.</span>
+0065     <span class="keyword">if</span> ~exist(<span class="string">'A'</span>, <span class="string">'var'</span>) || isempty(A)
+0066         n = 100;
+0067         A = triu(rand(n) &lt;= .1, 1);
+0068         A = (A+A.')/(2*n);
+0069     <span class="keyword">end</span>
+0070 
+0071     n = size(A, 1);
+0072     assert(n &gt;= 2, <span class="string">'A must be at least 2x2.'</span>);
+0073     assert(isreal(A), <span class="string">'A must be real.'</span>);
+0074     assert(size(A, 2) == n, <span class="string">'A must be square.'</span>);
+0075     
+0076     <span class="comment">% Force A to be symmetric</span>
+0077     A = (A+A.')/2;
+0078     
+0079     <span class="comment">% By default, pick a sufficiently large p (number of columns of Y).</span>
+0080     <span class="keyword">if</span> ~exist(<span class="string">'p'</span>, <span class="string">'var'</span>) || isempty(p)
+0081         p = ceil(sqrt(8*n+1)/2);
+0082     <span class="keyword">end</span>
+0083     
+0084     assert(p &gt;= 2 &amp;&amp; p == <a href="../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/round.html" class="code" title="function x = round( x, tol )">round</a>(p), <span class="string">'p must be an integer &gt;= 2.'</span>);
+0085 
+0086     <span class="comment">% Pick the manifold of n-by-p matrices with unit norm rows.</span>
+0087     manifold = <a href="../manopt/manifolds/oblique/obliquefactory.html" class="code" title="function M = obliquefactory(n, m, transposed)">obliquefactory</a>(p, n, true);
 0088     
-0089     
-0090     <span class="comment">% These three, quick commented lines of code are sufficient to define</span>
-0091     <span class="comment">% the cost function and its derivatives. This is good code to write</span>
-0092     <span class="comment">% when prototyping. Below, a more advanced use of Manopt is shown,</span>
-0093     <span class="comment">% where the redundant computation A*Y is avoided between the gradient</span>
-0094     <span class="comment">% and the cost evaluation.</span>
-0095     <span class="comment">% % problem.cost  = @(Y) .5*sum(sum((A*Y).*Y));</span>
-0096     <span class="comment">% % problem.egrad = @(Y) A*Y;</span>
-0097     <span class="comment">% % problem.ehess = @(Y, Ydot) A*Ydot;</span>
-0098     
-0099     <span class="comment">% Products with A dominate the cost, hence we store the result.</span>
-0100     <span class="comment">% This allows to share the results among cost, grad and hess.</span>
-0101     <span class="comment">% This is completely optional.</span>
-0102     <a name="_sub1" href="#_subfunctions" class="code">function store = prepare(Y, store)</a>
-0103         <span class="keyword">if</span> ~isfield(store, <span class="string">'AY'</span>)
-0104             AY = A*Y;
-0105             store.AY = AY;
-0106             store.diagAYYt = sum(AY .* Y, 2);
-0107         <span class="keyword">end</span>
-0108     <span class="keyword">end</span>
-0109     
-0110     <span class="comment">% Define the cost function to be /minimized/.</span>
-0111     problem.cost = @<a href="#_sub2" class="code" title="subfunction [f, store] = cost(Y, store)">cost</a>;
-0112     <a name="_sub2" href="#_subfunctions" class="code">function [f, store] = cost(Y, store)</a>
-0113         store = <a href="#_sub1" class="code" title="subfunction store = prepare(Y, store)">prepare</a>(Y, store);
-0114         f = .5*sum(store.diagAYYt);
-0115     <span class="keyword">end</span>
-0116 
-0117     <span class="comment">% Define the Riemannian gradient.</span>
-0118     problem.grad = @<a href="#_sub3" class="code" title="subfunction [G, store] = grad(Y, store)">grad</a>;
-0119     <a name="_sub3" href="#_subfunctions" class="code">function [G, store] = grad(Y, store)</a>
-0120         store = <a href="#_sub1" class="code" title="subfunction store = prepare(Y, store)">prepare</a>(Y, store);
-0121         G = store.AY - bsxfun(@times, Y, store.diagAYYt);
-0122     <span class="keyword">end</span>
-0123 
-0124     <span class="comment">% If you want to, you can specify the Riemannian Hessian as well.</span>
-0125     problem.hess = @<a href="#_sub4" class="code" title="subfunction [H, store] = hess(Y, Ydot, store)">hess</a>;
-0126     <a name="_sub4" href="#_subfunctions" class="code">function [H, store] = hess(Y, Ydot, store)</a>
-0127         store = <a href="#_sub1" class="code" title="subfunction store = prepare(Y, store)">prepare</a>(Y, store);
-0128         SYdot = A*Ydot - bsxfun(@times, Ydot, store.diagAYYt);
-0129         H = manifold.proj(Y, SYdot);
-0130     <span class="keyword">end</span>
-0131 
-0132 
-0133     <span class="comment">% If no initial guess is available, tell Manopt to use a random one.</span>
-0134     <span class="keyword">if</span> ~exist(<span class="string">'Y0'</span>, <span class="string">'var'</span>) || isempty(Y0)
-0135         Y0 = [];
-0136     <span class="keyword">end</span>
-0137 
-0138     <span class="comment">% Call your favorite solver.</span>
-0139     opts = struct();
-0140     opts.verbosity = 0;      <span class="comment">% Set to 0 for no output, 2 for normal output</span>
-0141     opts.maxinner = 500;     <span class="comment">% maximum Hessian calls per iteration</span>
-0142     opts.tolgradnorm = 1e-6; <span class="comment">% tolerance on gradient norm</span>
-0143     Y = <a href="../manopt/solvers/trustregions/trustregions.html" class="code" title="function [x, cost, info, options] = trustregions(problem, x, options)">trustregions</a>(problem, Y0, opts);
-0144     
-0145     <span class="comment">% If required, produce an optimality certificate.</span>
-0146     <span class="keyword">if</span> nargout &gt;= 3
-0147         S = A - spdiags(sum((A*Y).*Y, 2), 0, n, n);
-0148     <span class="keyword">end</span>
-0149 
-0150 <span class="keyword">end</span></pre></div>
-<hr><address>Generated on Tue 19-May-2020 18:46:12 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+0089     problem.M = manifold;
+0090     
+0091     
+0092     <span class="comment">% These three, quick commented lines of code are sufficient to define</span>
+0093     <span class="comment">% the cost function and its derivatives. This is good code to write</span>
+0094     <span class="comment">% when prototyping. Below, a more advanced use of Manopt is shown,</span>
+0095     <span class="comment">% where the redundant computation A*Y is avoided between the gradient</span>
+0096     <span class="comment">% and the cost evaluation.</span>
+0097     <span class="comment">% % problem.cost  = @(Y) .5*sum(sum((A*Y).*Y));</span>
+0098     <span class="comment">% % problem.egrad = @(Y) A*Y;</span>
+0099     <span class="comment">% % problem.ehess = @(Y, Ydot) A*Ydot;</span>
+0100     
+0101     <span class="comment">% Products with A dominate the cost, hence we store the result.</span>
+0102     <span class="comment">% This allows to share the results among cost, grad and hess.</span>
+0103     <span class="comment">% This is completely optional.</span>
+0104     <a name="_sub1" href="#_subfunctions" class="code">function store = prepare(Y, store)</a>
+0105         <span class="keyword">if</span> ~isfield(store, <span class="string">'AY'</span>)
+0106             AY = A*Y;
+0107             store.AY = AY;
+0108             store.diagAYYt = sum(AY .* Y, 2);
+0109         <span class="keyword">end</span>
+0110     <span class="keyword">end</span>
+0111     
+0112     <span class="comment">% Define the cost function to be /minimized/.</span>
+0113     problem.cost = @<a href="#_sub2" class="code" title="subfunction [f, store] = cost(Y, store)">cost</a>;
+0114     <a name="_sub2" href="#_subfunctions" class="code">function [f, store] = cost(Y, store)</a>
+0115         store = <a href="#_sub1" class="code" title="subfunction store = prepare(Y, store)">prepare</a>(Y, store);
+0116         f = .5*sum(store.diagAYYt);
+0117     <span class="keyword">end</span>
+0118 
+0119     <span class="comment">% Define the Riemannian gradient.</span>
+0120     problem.grad = @<a href="#_sub3" class="code" title="subfunction [G, store] = grad(Y, store)">grad</a>;
+0121     <a name="_sub3" href="#_subfunctions" class="code">function [G, store] = grad(Y, store)</a>
+0122         store = <a href="#_sub1" class="code" title="subfunction store = prepare(Y, store)">prepare</a>(Y, store);
+0123         G = store.AY - bsxfun(@times, Y, store.diagAYYt);
+0124     <span class="keyword">end</span>
+0125 
+0126     <span class="comment">% If you want to, you can specify the Riemannian Hessian as well.</span>
+0127     problem.hess = @<a href="#_sub4" class="code" title="subfunction [H, store] = hess(Y, Ydot, store)">hess</a>;
+0128     <a name="_sub4" href="#_subfunctions" class="code">function [H, store] = hess(Y, Ydot, store)</a>
+0129         store = <a href="#_sub1" class="code" title="subfunction store = prepare(Y, store)">prepare</a>(Y, store);
+0130         SYdot = A*Ydot - bsxfun(@times, Ydot, store.diagAYYt);
+0131         H = manifold.proj(Y, SYdot);
+0132     <span class="keyword">end</span>
+0133 
+0134     <span class="comment">% An alternative way to compute the gradient and the hessian is to use</span>
+0135     <span class="comment">% automatic differentiation provided in the deep learning toolbox (slower)</span>
+0136     <span class="comment">% Define the cost function without the store structure</span>
+0137     <span class="comment">% function f = cost_AD(Y)</span>
+0138     <span class="comment">%    AY = A*Y;</span>
+0139     <span class="comment">%    diagAYYt = sum(AY .* Y, 2);</span>
+0140     <span class="comment">%    f = .5*sum(diagAYYt);</span>
+0141     <span class="comment">% end</span>
+0142     <span class="comment">% problem.cost = @cost_AD;</span>
+0143     <span class="comment">% call manoptAD to prepare AD for the problem structure</span>
+0144     <span class="comment">% problem = manoptAD(problem);</span>
+0145 
+0146     <span class="comment">% If no initial guess is available, tell Manopt to use a random one.</span>
+0147     <span class="keyword">if</span> ~exist(<span class="string">'Y0'</span>, <span class="string">'var'</span>) || isempty(Y0)
+0148         Y0 = [];
+0149     <span class="keyword">end</span>
+0150 
+0151     <span class="comment">% Call your favorite solver.</span>
+0152     opts = struct();
+0153     opts.verbosity = 0;      <span class="comment">% Set to 0 for no output, 2 for normal output</span>
+0154     opts.maxinner = 500;     <span class="comment">% maximum Hessian calls per iteration</span>
+0155     opts.tolgradnorm = 1e-6; <span class="comment">% tolerance on gradient norm</span>
+0156     Y = <a href="../manopt/solvers/trustregions/trustregions.html" class="code" title="function [x, cost, info, options] = trustregions(problem, x, options)">trustregions</a>(problem, Y0, opts);
+0157     
+0158     <span class="comment">% If required, produce an optimality certificate.</span>
+0159     <span class="keyword">if</span> nargout &gt;= 3
+0160         S = A - spdiags(sum((A*Y).*Y, 2), 0, n, n);
+0161     <span class="keyword">end</span>
+0162 
+0163 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Sun 05-Sep-2021 17:57:00 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
 </body>
 </html>

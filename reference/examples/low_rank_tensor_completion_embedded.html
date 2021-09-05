@@ -76,7 +76,7 @@
 <h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
 This function calls:
 <ul style="list-style-image:url(../matlabicon.gif)">
-<li><a href="../manopt/core/getGradient.html" class="code" title="function grad = getGradient(problem, x, storedb, key)">getGradient</a>	Computes the gradient of the cost function at x.</li><li><a href="../manopt/manifolds/fixedranktensors/fixedranktensorembeddedfactory.html" class="code" title="function M = fixedranktensorembeddedfactory(tensor_size, tensor_rank)">fixedranktensorembeddedfactory</a>	Manifold of tensors with fixed multilinear rank in Tucker format</li><li><a href="../manopt/solvers/trustregions/trustregions.html" class="code" title="function [x, cost, info, options] = trustregions(problem, x, options)">trustregions</a>	Riemannian trust-regions solver for optimization on manifolds.</li></ul>
+<li><a href="../manopt/core/getGradient.html" class="code" title="function grad = getGradient(problem, x, storedb, key)">getGradient</a>	Computes the gradient of the cost function at x.</li><li><a href="../manopt/manifolds/fixedranktensors/fixedranktensorembeddedfactory.html" class="code" title="function M = fixedranktensorembeddedfactory(tensor_size, tensor_rank)">fixedranktensorembeddedfactory</a>	Manifold of tensors with fixed multilinear rank in Tucker format</li><li><a href="../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/full.html" class="code" title="function y = full( x )">full</a>	FULL Convert TTeMPS tensor to full array</li><li><a href="../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>	NORM Norm of a TT/MPS tensor.</li><li><a href="../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/round.html" class="code" title="function x = round( x, tol )">round</a>	ROUND Approximate TTeMPS tensor within a prescribed tolerance.</li><li><a href="../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_block/full.html" class="code" title="function y = full( x )">full</a>	FULL Convert TTeMPS tensor to full array</li><li><a href="../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_block/norm.html" class="code" title="function res = norm( x )">norm</a>	NORM Norm of a TT/MPS block-mu tensor.</li><li><a href="../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_block/round.html" class="code" title="function x = round( x, tol )">round</a>	ROUND Approximate TTeMPS tensor within a prescribed tolerance.</li><li><a href="../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_op/full.html" class="code" title="function Afull = full( A )">full</a>	FULL Convert TTeMPS_op operator to full array</li><li><a href="../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_op/round.html" class="code" title="function A = round(A, tol )">round</a>	ROUND Approximate TTeMPS operator within a prescribed tolerance.</li><li><a href="../manopt/solvers/trustregions/trustregions.html" class="code" title="function [x, cost, info, options] = trustregions(problem, x, options)">trustregions</a>	Riemannian trust-regions solver for optimization on manifolds.</li></ul>
 This function is called by:
 <ul style="list-style-image:url(../matlabicon.gif)">
 </ul>
@@ -177,7 +177,7 @@ This function is called by:
 0088     <span class="comment">% P(i, j, k) = 1 if the entry (i, j, k) of A is observed,</span>
 0089     <span class="comment">%            = 0 otherwise.</span>
 0090     fraction = 0.1; <span class="comment">% Fraction of observed entries.</span>
-0091     nr = round(fraction * total_entries);
+0091     nr = <a href="../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/round.html" class="code" title="function x = round( x, tol )">round</a>(fraction * total_entries);
 0092     ind = randperm(total_entries);
 0093     ind = ind(1 : nr);
 0094     P = false(tensor_dims);
@@ -204,10 +204,10 @@ This function is called by:
 0115     problem.cost = @<a href="#_sub1" class="code" title="subfunction [f, store] = cost(X, store)">cost</a>;
 0116     <a name="_sub1" href="#_subfunctions" class="code">function [f, store] = cost(X, store)</a>
 0117         <span class="keyword">if</span> ~isfield(store, <span class="string">'PXmPA'</span>)
-0118             Xfull = full(X.X);
+0118             Xfull = <a href="../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/full.html" class="code" title="function y = full( x )">full</a>(X.X);
 0119             store.PXmPA = P.*Xfull - PA;
 0120         <span class="keyword">end</span>
-0121         f = .5*norm(store.PXmPA)^2;
+0121         f = .5*<a href="../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>(store.PXmPA)^2;
 0122     <span class="keyword">end</span>
 0123 
 0124     <span class="comment">% Define the Euclidean gradient of the cost function, that is, the</span>
@@ -215,7 +215,7 @@ This function is called by:
 0126     problem.egrad =  @<a href="#_sub2" class="code" title="subfunction [g, store] = egrad(X, store)">egrad</a>;
 0127     <a name="_sub2" href="#_subfunctions" class="code">function [g, store] = egrad(X, store)</a>
 0128         <span class="keyword">if</span> ~isfield(store, <span class="string">'PXmPA'</span>)
-0129             Xfull = full(X.X);
+0129             Xfull = <a href="../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/full.html" class="code" title="function y = full( x )">full</a>(X.X);
 0130             store.PXmPA = P.*Xfull - PA;
 0131         <span class="keyword">end</span>
 0132         g = store.PXmPA;
@@ -241,11 +241,11 @@ This function is called by:
 0152     Xtr = <a href="../manopt/solvers/trustregions/trustregions.html" class="code" title="function [x, cost, info, options] = trustregions(problem, x, options)">trustregions</a>(problem, X0, options);
 0153 
 0154     <span class="comment">% Display some quality metrics for the computed solution</span>
-0155     Xtrfull = full(Xtr.X);
-0156     fprintf(<span class="string">'||X-A||_F / ||A||_F = %g\n'</span>, norm(Xtrfull - A)/norm(A));
-0157     fprintf(<span class="string">'||PX-PA||_F / ||PA||_F = %g\n'</span>, norm(P.*Xtrfull - PA)/norm(PA));
+0155     Xtrfull = <a href="../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/full.html" class="code" title="function y = full( x )">full</a>(Xtr.X);
+0156     fprintf(<span class="string">'||X-A||_F / ||A||_F = %g\n'</span>, <a href="../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>(Xtrfull - A)/<a href="../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>(A));
+0157     fprintf(<span class="string">'||PX-PA||_F / ||PA||_F = %g\n'</span>, <a href="../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>(P.*Xtrfull - PA)/<a href="../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>(PA));
 0158     
 0159 <span class="keyword">end</span></pre></div>
-<hr><address>Generated on Tue 19-May-2020 18:46:12 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+<hr><address>Generated on Sun 05-Sep-2021 17:57:00 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
 </body>
 </html>

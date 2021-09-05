@@ -65,7 +65,7 @@
 <h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
 This function calls:
 <ul style="list-style-image:url(../../../matlabicon.gif)">
-<li><a href="../../../manopt/tools/hashmd5.html" class="code" title="function h = hashmd5(inp)">hashmd5</a>	Computes the MD5 hash of input data.</li><li><a href="../../../manopt/tools/matrixlincomb.html" class="code" title="function v = matrixlincomb(x, a1, d1, a2, d2) %#ok<INUSL>">matrixlincomb</a>	Linear combination function for tangent vectors represented as matrices.</li></ul>
+<li><a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>	NORM Norm of a TT/MPS tensor.</li><li><a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_block/norm.html" class="code" title="function res = norm( x )">norm</a>	NORM Norm of a TT/MPS block-mu tensor.</li><li><a href="../../../manopt/tools/hashmd5.html" class="code" title="function h = hashmd5(inp)">hashmd5</a>	Computes the MD5 hash of input data.</li><li><a href="../../../manopt/tools/matrixlincomb.html" class="code" title="function v = matrixlincomb(x, a1, d1, a2, d2) %#ok<INUSL>">matrixlincomb</a>	Linear combination function for tangent vectors represented as matrices.</li></ul>
 This function is called by:
 <ul style="list-style-image:url(../../../matlabicon.gif)">
 </ul>
@@ -130,7 +130,7 @@ This function is called by:
 0052    
 0053     M.norm = @(X, eta) sqrt(<a href="#_sub1" class="code" title="subfunction innerproduct = myinner(X, eta, zeta)">myinner</a>(X, eta, eta));
 0054     
-0055     M.dist = @(X, Y) norm(log(Y./X), <span class="string">'fro'</span>);
+0055     M.dist = @(X, Y) <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>(log(Y./X), <span class="string">'fro'</span>);
 0056     
 0057     M.typicaldist = @() sqrt(m*n);
 0058     
@@ -208,16 +208,15 @@ This function is called by:
 0130     <span class="comment">% present factory.</span>
 0131     M.paralleltransp = @<a href="#_sub8" class="code" title="subfunction zeta = parallel_transport(X, Y, eta)">parallel_transport</a>;
 0132     <a name="_sub8" href="#_subfunctions" class="code">function zeta = parallel_transport(X, Y, eta)</a>
-0133         E = sqrt(Y./X);
-0134         zeta = E.*eta.*E;
-0135     <span class="keyword">end</span>
-0136     
-0137     <span class="comment">% vec and mat are not isometries, because of the unusual inner metric.</span>
-0138     M.vec = @(X, U) U(:);
-0139     M.mat = @(X, u) reshape(u, m, n);
-0140     M.vecmatareisometries = @() true;
-0141     
-0142 <span class="keyword">end</span></pre></div>
-<hr><address>Generated on Tue 19-May-2020 18:46:12 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+0133         zeta = eta.*Y./X;
+0134     <span class="keyword">end</span>
+0135     
+0136     <span class="comment">% vec and mat are not isometries, because of the unusual inner metric.</span>
+0137     M.vec = @(X, U) U(:);
+0138     M.mat = @(X, u) reshape(u, m, n);
+0139     M.vecmatareisometries = @() true;
+0140     
+0141 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Sun 05-Sep-2021 17:57:00 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
 </body>
 </html>

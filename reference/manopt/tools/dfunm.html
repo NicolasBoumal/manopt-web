@@ -4,7 +4,7 @@
 <head>
   <title>Description of dfunm</title>
   <meta name="keywords" content="dfunm">
-  <meta name="description" content="Fréchet derivative of matrix functions.">
+  <meta name="description" content="FrÃ©chet derivative of matrix functions.">
   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
   <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
   <meta name="robots" content="index, follow">
@@ -21,21 +21,21 @@
 </h1>
 
 <h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
-<div class="box"><strong>Fréchet derivative of matrix functions.</strong></div>
+<div class="box"><strong>FrÃ©chet derivative of matrix functions.</strong></div>
 
 <h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
 <div class="box"><strong>function [D, fX] = dfunm(funm, X, H) </strong></div>
 
 <h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
-<div class="fragment"><pre class="comment"> Fréchet derivative of matrix functions.
+<div class="fragment"><pre class="comment"> FrÃ©chet derivative of matrix functions.
 
  function [D, fX] = dfunm(funm, X, H)
 
- Computes the directional derivative (the Fréchet derivative) of a matrix
+ Computes the directional derivative (the FrÃ©chet derivative) of a matrix
  function (such as @logm, @expm, ...) at X along H (square matrices),
  according to a very nice trick which appears in this paper:
  
- &quot;Computing the Fréchet derivative of the matrix exponential, with an
+ &quot;Computing the FrÃ©chet derivative of the matrix exponential, with an
  application to condition number estimation&quot;,
  Awad H. Al-Mohy and Nicholas J. Higham, 2009.
  http://eprints.ma.man.ac.uk/1218/01/covered/MIMS_ep2008_26.pdf
@@ -63,22 +63,22 @@ This function calls:
 </ul>
 This function is called by:
 <ul style="list-style-image:url(../../matlabicon.gif)">
-<li><a href="dexpm.html" class="code" title="function [D, fX] = dexpm(X, H)">dexpm</a>	Fréchet derivative of the matrix exponential.</li><li><a href="dlogm.html" class="code" title="function [D, fX] = dlogm(X, H)">dlogm</a>	Fréchet derivative of the matrix logarithm.</li><li><a href="dsqrtm.html" class="code" title="function [D, fX] = dsqrtm(X, H)">dsqrtm</a>	Fréchet derivative of the matrix square root.</li></ul>
+<li><a href="dexpm.html" class="code" title="function [D, fX] = dexpm(X, H)">dexpm</a>	FrÃ©chet derivative of the matrix exponential.</li><li><a href="dlogm.html" class="code" title="function [D, fX] = dlogm(X, H)">dlogm</a>	FrÃ©chet derivative of the matrix logarithm.</li><li><a href="dsqrtm.html" class="code" title="function [D, fX] = dsqrtm(X, H)">dsqrtm</a>	FrÃ©chet derivative of the matrix square root.</li></ul>
 <!-- crossreference -->
 
 
 
 <h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
 <div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [D, fX] = dfunm(funm, X, H)</a>
-0002 <span class="comment">% Fréchet derivative of matrix functions.</span>
+0002 <span class="comment">% FrÃ©chet derivative of matrix functions.</span>
 0003 <span class="comment">%</span>
 0004 <span class="comment">% function [D, fX] = dfunm(funm, X, H)</span>
 0005 <span class="comment">%</span>
-0006 <span class="comment">% Computes the directional derivative (the Fréchet derivative) of a matrix</span>
+0006 <span class="comment">% Computes the directional derivative (the FrÃ©chet derivative) of a matrix</span>
 0007 <span class="comment">% function (such as @logm, @expm, ...) at X along H (square matrices),</span>
 0008 <span class="comment">% according to a very nice trick which appears in this paper:</span>
 0009 <span class="comment">%</span>
-0010 <span class="comment">% &quot;Computing the Fréchet derivative of the matrix exponential, with an</span>
+0010 <span class="comment">% &quot;Computing the FrÃ©chet derivative of the matrix exponential, with an</span>
 0011 <span class="comment">% application to condition number estimation&quot;,</span>
 0012 <span class="comment">% Awad H. Al-Mohy and Nicholas J. Higham, 2009.</span>
 0013 <span class="comment">% http://eprints.ma.man.ac.uk/1218/01/covered/MIMS_ep2008_26.pdf</span>
@@ -119,6 +119,6 @@ This function is called by:
 0048     fX = A(1:n, 1:n);
 0049     
 0050 <span class="keyword">end</span></pre></div>
-<hr><address>Generated on Tue 19-May-2020 18:46:12 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+<hr><address>Generated on Sun 05-Sep-2021 17:57:00 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
 </body>
 </html>

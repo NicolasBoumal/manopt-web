@@ -1,0 +1,89 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of cnormfro</title>
+  <meta name="keywords" content="cnormfro">
+  <meta name="description" content="Computes the Frobenius norm of X">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../index.html">Home</a> &gt;  <a href="#">manopt</a> &gt; <a href="../index.html">autodiff</a> &gt; <a href="index.html">functions_AD</a> &gt; cnormfro.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../index.html"><img alt="<" border="0" src="../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for manopt\autodiff\functions_AD&nbsp;<img alt=">" border="0" src="../../../right.png"></a></td></tr></table>-->
+
+<h1>cnormfro
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>Computes the Frobenius norm of X</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function Xnormfro = cnormfro(X) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> Computes the Frobenius norm of X
+
+ function Xnormfro = cnormfro(X)
+
+ Returns the Frobenius norm of X. This function can be seen as 
+ norm(...,'fro') but is compatible with dlarrays and structs with fields
+ real and imag. Supports both real and complex numbers.
+
+ See also: manoptADhelp</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="cinnerprodgeneral.html" class="code" title="function innerpro = cinnerprodgeneral(x, y)">cinnerprodgeneral</a>	Computes the Euclidean inner product between x and y in the complex case</li><li><a href="iscstruct.html" class="code" title="function flag = iscstruct(A)">iscstruct</a>	</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+</ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function Xnormfro = cnormfro(X)</a>
+0002 <span class="comment">% Computes the Frobenius norm of X</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">% function Xnormfro = cnormfro(X)</span>
+0005 <span class="comment">%</span>
+0006 <span class="comment">% Returns the Frobenius norm of X. This function can be seen as</span>
+0007 <span class="comment">% norm(...,'fro') but is compatible with dlarrays and structs with fields</span>
+0008 <span class="comment">% real and imag. Supports both real and complex numbers.</span>
+0009 <span class="comment">%</span>
+0010 <span class="comment">% See also: manoptADhelp</span>
+0011 
+0012 <span class="comment">% This file is part of Manopt: www.manopt.org.</span>
+0013 <span class="comment">% Original author: Xiaowen Jiang, July. 31, 2021.</span>
+0014 <span class="comment">% Contributors: Nicolas Boumal</span>
+0015 <span class="comment">% Change log:</span>
+0016 
+0017     <span class="keyword">if</span> <a href="iscstruct.html" class="code" title="function flag = iscstruct(A)">iscstruct</a>(X)
+0018         Xnormfro = sqrt(<a href="cinnerprodgeneral.html" class="code" title="function innerpro = cinnerprodgeneral(x, y)">cinnerprodgeneral</a>(X,X));
+0019         
+0020     <span class="keyword">elseif</span> isnumeric(X)
+0021         <span class="keyword">if</span> isreal(X)
+0022             Xnormfro = sqrt(X(:)'*X(:));
+0023         <span class="keyword">else</span>
+0024             Xnormfro = sqrt(sum(real(conj(X(:)).*X(:))));
+0025         <span class="keyword">end</span>
+0026         
+0027     <span class="keyword">else</span>
+0028         ME = MException(<span class="string">'cnormfro:inputError'</span>, <span class="keyword">...</span>
+0029                         <span class="string">'Input does not have the expected format.'</span>);
+0030         throw(ME);
+0031         
+0032     <span class="keyword">end</span>
+0033 
+0034 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Sun 05-Sep-2021 17:57:00 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

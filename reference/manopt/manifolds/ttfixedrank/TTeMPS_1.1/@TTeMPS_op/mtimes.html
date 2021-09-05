@@ -1,0 +1,69 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of mtimes</title>
+  <meta name="keywords" content="mtimes">
+  <meta name="description" content="MINUS Multiplication of TT/MPS operator by scalar.">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../index.html">Home</a> &gt;  <a href="#">manopt</a> &gt; <a href="#">manifolds</a> &gt; <a href="../../index.html">ttfixedrank</a> &gt; <a href="../index.html">TTeMPS_1.1</a> &gt; <a href="index.html">@TTeMPS_op</a> &gt; mtimes.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../index.html"><img alt="<" border="0" src="../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for manopt\manifolds\ttfixedrank\TTeMPS_1.1\@TTeMPS_op&nbsp;<img alt=">" border="0" src="../../../../../right.png"></a></td></tr></table>-->
+
+<h1>mtimes
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../up.png"></a></h2>
+<div class="box"><strong>MINUS Multiplication of TT/MPS operator by scalar.</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../up.png"></a></h2>
+<div class="box"><strong>function A = mtimes( B, A ) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">MINUS Multiplication of TT/MPS operator by scalar.
+   A = MTIMES(B, A) multiplies the TT/MPS operator A by the scalar B.
+
+   See also <a href="plus.html" class="code" title="function z = plus( x, y )">PLUS</a>.</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../matlabicon.gif)">
+<li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/TTeMPS.html" class="code" title="">TTeMPS</a>	</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_block/TTeMPS_block.html" class="code" title="">TTeMPS_block</a>	</li><li><a href="TTeMPS_op.html" class="code" title="">TTeMPS_op</a>	</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_op_laplace/TTeMPS_op_laplace.html" class="code" title="">TTeMPS_op_laplace</a>	</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_tangent/TTeMPS_tangent.html" class="code" title="">TTeMPS_tangent</a>	</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_tangent_orth/TTeMPS_tangent_orth.html" class="code" title="">TTeMPS_tangent_orth</a>	</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function A = mtimes( B, A )</a>
+0002     <span class="comment">%MINUS Multiplication of TT/MPS operator by scalar.</span>
+0003     <span class="comment">%   A = MTIMES(B, A) multiplies the TT/MPS operator A by the scalar B.</span>
+0004     <span class="comment">%</span>
+0005     <span class="comment">%   See also PLUS.</span>
+0006     
+0007     <span class="comment">%   TTeMPS Toolbox.</span>
+0008     <span class="comment">%   Michael Steinlechner, 2013-2016</span>
+0009     <span class="comment">%   Questions and contact: michael.steinlechner@epfl.ch</span>
+0010     <span class="comment">%   BSD 2-clause license, see LICENSE.txt</span>
+0011 
+0012     <span class="comment">%A.U{1} = B*A.U{1};</span>
+0013     <span class="comment">%Numerically more stable way: distribute scalar over all cores:</span>
+0014 
+0015     b = B^(1/A.order);
+0016     <span class="keyword">for</span> i = 1:A.order
+0017         A.U{i} = b*A.U{i};
+0018     <span class="keyword">end</span>
+0019 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Sun 05-Sep-2021 17:57:00 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

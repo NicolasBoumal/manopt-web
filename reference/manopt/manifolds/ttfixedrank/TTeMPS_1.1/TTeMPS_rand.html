@@ -1,0 +1,74 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of TTeMPS_rand</title>
+  <meta name="keywords" content="TTeMPS_rand">
+  <meta name="description" content="TTEMPS_RAND Create random TTeMPS tensor">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../index.html">Home</a> &gt;  <a href="#">manopt</a> &gt; <a href="#">manifolds</a> &gt; <a href="../index.html">ttfixedrank</a> &gt; <a href="index.html">TTeMPS_1.1</a> &gt; TTeMPS_rand.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../index.html"><img alt="<" border="0" src="../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for manopt\manifolds\ttfixedrank\TTeMPS_1.1&nbsp;<img alt=">" border="0" src="../../../../right.png"></a></td></tr></table>-->
+
+<h1>TTeMPS_rand
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../up.png"></a></h2>
+<div class="box"><strong>TTEMPS_RAND Create random TTeMPS tensor</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../up.png"></a></h2>
+<div class="box"><strong>function x = TTeMPS_rand(r, n) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> TTEMPS_RAND Create random TTeMPS tensor
+   X = TTEMPS_RAND(R, N) creates a length(N)-dimensional TTeMPS tensor
+   of size N(1)*N(2)*...N(end) with ranks R by filling the cores with
+   iid uniform random numbers in [0, 1].
+   Note that the first and last entry of the rank vector must be 1.</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../matlabicon.gif)">
+<li><a href="../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/TTeMPS.html" class="code" title="">TTeMPS</a>	</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../matlabicon.gif)">
+<li><a href="../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/algorithms/eigenvalue/amen_eigenvalue.html" class="code" title="function [X, C, evalue, residuums, micro_res, objective, elapsed_time] = amen_eigenvalue(A, prec, p, rr, opts)">amen_eigenvalue</a>	AMEN_EIGENVALUE Calculate p smallest eigenvalues of a TTeMPS operator</li><li><a href="../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/algorithms/eigenvalue/block_eigenvalue.html" class="code" title="function [X, C, evalue, residuums, micro_res, objective, elapsed_time] = block_eigenvalue(A, p, rr, opts)">block_eigenvalue</a>	BLOCK_EIGENVALUE Calculate p smallest eigenvalues of a TTeMPS operator</li><li><a href="../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/algorithms/linearsystem/construct_initial_guess.html" class="code" title="function X = construct_initial_guess(L, F, r, n)">construct_initial_guess</a>	TTeMPS Toolbox.</li><li><a href="../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/algorithms/linearsystem/construct_initial_guess_rankOne.html" class="code" title="function X = construct_initial_guess(L, F, r, n)">construct_initial_guess_rankOne</a>	TTeMPS Toolbox.</li><li><a href="../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/examples/ex_completion_compare_als_riemann.html" class="code" title="">ex_completion_compare_als_riemann</a>	This example shows a simple comparison of two different algorithm for tensor completion:</li><li><a href="../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/examples/ex_completion_rankadaptive.html" class="code" title="">ex_completion_rankadaptive</a>	Example script for RANK-ADAPTIVE TENSOR COMPLETION, see Algorithm RTTC described in</li><li><a href="../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/examples/example.html" class="code" title="">example</a>	TTeMPS Toolbox.</li><li><a href="../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/examples/linearsystem_compare.html" class="code" title="">linearsystem_compare</a>	Example code for the algorithms described in</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function x = TTeMPS_rand(r, n)</a>
+0002 <span class="comment">% TTEMPS_RAND Create random TTeMPS tensor</span>
+0003 <span class="comment">%   X = TTEMPS_RAND(R, N) creates a length(N)-dimensional TTeMPS tensor</span>
+0004 <span class="comment">%   of size N(1)*N(2)*...N(end) with ranks R by filling the cores with</span>
+0005 <span class="comment">%   iid uniform random numbers in [0, 1].</span>
+0006 <span class="comment">%   Note that the first and last entry of the rank vector must be 1.</span>
+0007 <span class="comment">%</span>
+0008 
+0009 <span class="comment">%   TTeMPS Toolbox.</span>
+0010 <span class="comment">%   Michael Steinlechner, 2013-2016</span>
+0011 <span class="comment">%   Questions and contact: michael.steinlechner@epfl.ch</span>
+0012 <span class="comment">%   BSD 2-clause license, see LICENSE.txt</span>
+0013     
+0014     <span class="keyword">if</span> length(r) ~= length(n)+1
+0015         error(<span class="string">'Size mismatch in arguments'</span>)
+0016     <span class="keyword">end</span>
+0017 
+0018     U = cell(1, length(n));
+0019     <span class="keyword">for</span> i = 1:length(n)
+0020         U{i} = rand(r(i), n(i), r(i+1));
+0021     <span class="keyword">end</span>
+0022     x = <a href="../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/TTeMPS.html" class="code" title="">TTeMPS</a>(U);
+0023 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Sun 05-Sep-2021 17:57:00 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

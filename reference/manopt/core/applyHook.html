@@ -1,0 +1,160 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of applyHook</title>
+  <meta name="keywords" content="applyHook">
+  <meta name="description" content="Apply the hook function to possibly replace the current x (for solvers).">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../index.html">Home</a> &gt;  <a href="#">manopt</a> &gt; <a href="index.html">core</a> &gt; applyHook.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../index.html"><img alt="<" border="0" src="../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for manopt\core&nbsp;<img alt=">" border="0" src="../../right.png"></a></td></tr></table>-->
+
+<h1>applyHook
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+<div class="box"><strong>Apply the hook function to possibly replace the current x (for solvers).</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+<div class="box"><strong>function [newx, newkey, info, hooked] = applyHook(problem, x, storedb, key, options, info, last) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> Apply the hook function to possibly replace the current x (for solvers).
+
+ function [newx, newkey, info, hooked] = 
+                  applyHook(problem, x, storedb, key, options, info, last)
+
+ Applies the options.hook user-supplied function (if there is one) to the
+ current x of a solver. If this leads to a change, than the boolean
+ 'hooked' is true, and newx, newkey are different from x, key. Otherwise,
+ newx, newkey are equal to x, key, and the boolean 'hooked' is false.
+
+ storedb is a StoreDB object, key is the StoreDB key to point x; likewise
+ for newkey and newx.
+
+ info and last work the same way as in stoppingcriterion.
+
+ The hook is called at the beginning of each iteration, after saving the
+ stats information, but before evaluating stopping criteria. Time spent in
+ the hook is included in the solver's reported computation time.
+
+ This function takes care of logging the boolean 'hooked' in the info
+ struct-array. (This requires the field 'hooked' to exist in the first
+ place: applyStatsfun ensures this.)
+
+ The options.hook function handle can have these prototypes:
+
+   [newx, hooked]                = hook(problem, x)
+   [newx, newkey, hooked]        = hook(problem, x, storedb, key)
+   [newx, newkey, hooked, stats] = hook(problem, x, storedb, key, stats)
+
+ See also: <a href="applyStatsfun.html" class="code" title="function stats = applyStatsfun(problem, x, storedb, key, options, stats)">applyStatsfun</a> <a href="stoppingcriterion.html" class="code" title="function [stop, reason] = stoppingcriterion(problem, x, options, info, last)">stoppingcriterion</a></pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../../matlabicon.gif)">
+<li><a href="../../manopt/solvers/steepestdescent/steepestdescent.html" class="code" title="function [x, cost, info, options] = steepestdescent(problem, x, options)">steepestdescent</a>	Steepest descent (gradient descent) minimization algorithm for Manopt.</li><li><a href="../../manopt/solvers/trustregions/trustregions.html" class="code" title="function [x, cost, info, options] = trustregions(problem, x, options)">trustregions</a>	Riemannian trust-regions solver for optimization on manifolds.</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [newx, newkey, info, hooked] = applyHook(problem, x, storedb, key, options, info, last)</a>
+0002 <span class="comment">% Apply the hook function to possibly replace the current x (for solvers).</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">% function [newx, newkey, info, hooked] =</span>
+0005 <span class="comment">%                  applyHook(problem, x, storedb, key, options, info, last)</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">% Applies the options.hook user-supplied function (if there is one) to the</span>
+0008 <span class="comment">% current x of a solver. If this leads to a change, than the boolean</span>
+0009 <span class="comment">% 'hooked' is true, and newx, newkey are different from x, key. Otherwise,</span>
+0010 <span class="comment">% newx, newkey are equal to x, key, and the boolean 'hooked' is false.</span>
+0011 <span class="comment">%</span>
+0012 <span class="comment">% storedb is a StoreDB object, key is the StoreDB key to point x; likewise</span>
+0013 <span class="comment">% for newkey and newx.</span>
+0014 <span class="comment">%</span>
+0015 <span class="comment">% info and last work the same way as in stoppingcriterion.</span>
+0016 <span class="comment">%</span>
+0017 <span class="comment">% The hook is called at the beginning of each iteration, after saving the</span>
+0018 <span class="comment">% stats information, but before evaluating stopping criteria. Time spent in</span>
+0019 <span class="comment">% the hook is included in the solver's reported computation time.</span>
+0020 <span class="comment">%</span>
+0021 <span class="comment">% This function takes care of logging the boolean 'hooked' in the info</span>
+0022 <span class="comment">% struct-array. (This requires the field 'hooked' to exist in the first</span>
+0023 <span class="comment">% place: applyStatsfun ensures this.)</span>
+0024 <span class="comment">%</span>
+0025 <span class="comment">% The options.hook function handle can have these prototypes:</span>
+0026 <span class="comment">%</span>
+0027 <span class="comment">%   [newx, hooked]                = hook(problem, x)</span>
+0028 <span class="comment">%   [newx, newkey, hooked]        = hook(problem, x, storedb, key)</span>
+0029 <span class="comment">%   [newx, newkey, hooked, stats] = hook(problem, x, storedb, key, stats)</span>
+0030 <span class="comment">%</span>
+0031 <span class="comment">% See also: applyStatsfun stoppingcriterion</span>
+0032 
+0033 <span class="comment">% This file is part of Manopt: www.manopt.org.</span>
+0034 <span class="comment">% Original author: Nicolas Boumal, July 19, 2020.</span>
+0035 <span class="comment">% Contributors: Eitan Levin</span>
+0036 <span class="comment">% Change log:</span>
+0037 
+0038     <span class="keyword">if</span> isfield(options, <span class="string">'hook'</span>)
+0039         
+0040         nin = nargin(options.hook);
+0041         nout = nargout(options.hook);
+0042         
+0043         <span class="keyword">if</span> nin == 2 &amp;&amp; nout == 2
+0044             [newx, hooked] = options.hook(problem, x);
+0045             <span class="keyword">if</span> hooked
+0046                 storedb.remove(key);
+0047                 newkey = storedb.getNewKey();
+0048             <span class="keyword">else</span>
+0049                 newkey = key;
+0050             <span class="keyword">end</span>
+0051         <span class="keyword">elseif</span> nin == 4 &amp;&amp; nout == 3
+0052             [newx, newkey, hooked] = options.hook(problem, x, storedb, key);
+0053             <span class="keyword">if</span> hooked
+0054                 storedb.removefirstifdifferent(key, newkey);
+0055             <span class="keyword">end</span>
+0056         <span class="keyword">elseif</span> nin == 5 &amp;&amp; nout == 4
+0057             stats = info(last);
+0058             [newx, newkey, hooked, stats] = <span class="keyword">...</span>
+0059                              options.hook(problem, x, storedb, key, stats);
+0060             info(last) = stats;
+0061             <span class="keyword">if</span> hooked
+0062                 storedb.removefirstifdifferent(key, newkey);
+0063             <span class="keyword">end</span>
+0064         <span class="keyword">else</span>
+0065             newx = x;
+0066             newkey = key;
+0067             hooked = false;
+0068             warning(<span class="string">'manopt:hook'</span>, <span class="keyword">...</span>
+0069                     <span class="string">'options.hook unused: wrong number of inputs/outputs'</span>);
+0070         <span class="keyword">end</span>
+0071         
+0072     <span class="keyword">else</span>
+0073         newx = x;
+0074         newkey = key;
+0075         hooked = false;
+0076     <span class="keyword">end</span>
+0077     
+0078     <span class="comment">% Always register whether or not the point was hooked (i.e., changed).</span>
+0079     <span class="comment">% This field is first created in applyStatsfun.</span>
+0080     stats = info(last);
+0081     stats.hooked = hooked;
+0082     info(last) = stats;
+0083 
+0084 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Sun 05-Sep-2021 17:57:00 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

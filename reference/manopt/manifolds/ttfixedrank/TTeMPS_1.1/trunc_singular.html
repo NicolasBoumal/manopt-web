@@ -1,0 +1,72 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of trunc_singular</title>
+  <meta name="keywords" content="trunc_singular">
+  <meta name="description" content="REL_TRUNC_SINGULAR Helper routine to truncate singular values">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../index.html">Home</a> &gt;  <a href="#">manopt</a> &gt; <a href="#">manifolds</a> &gt; <a href="../index.html">ttfixedrank</a> &gt; <a href="index.html">TTeMPS_1.1</a> &gt; trunc_singular.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../index.html"><img alt="<" border="0" src="../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for manopt\manifolds\ttfixedrank\TTeMPS_1.1&nbsp;<img alt=">" border="0" src="../../../../right.png"></a></td></tr></table>-->
+
+<h1>trunc_singular
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../up.png"></a></h2>
+<div class="box"><strong>REL_TRUNC_SINGULAR Helper routine to truncate singular values</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../up.png"></a></h2>
+<div class="box"><strong>function s = trunc_singular(s, tol, relative, maxrank) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> REL_TRUNC_SINGULAR Helper routine to truncate singular values</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../matlabicon.gif)">
+<li><a href="../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/from_array.html" class="code" title="function x = from_array(A,opt)">from_array</a>	FROM_ARRAY Approximate full array by TTeMPS tensor of prescribed rank</li><li><a href="../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/round.html" class="code" title="function x = round( x, tol )">round</a>	ROUND Approximate TTeMPS tensor within a prescribed tolerance.</li><li><a href="../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/splitcore.html" class="code" title="function res = splitcore( x, idx, nL, nR, tol )">splitcore</a>	SPLITCORE Merging of two cores of a TT/MPS tensor.</li><li><a href="../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_block/shift.html" class="code" title="function x = shift( x, nu, tol, maxrank )">shift</a>	TTeMPS Toolbox.</li><li><a href="../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/algorithms/eigenvalue/amen_eigenvalue.html" class="code" title="function [X, C, evalue, residuums, micro_res, objective, elapsed_time] = amen_eigenvalue(A, prec, p, rr, opts)">amen_eigenvalue</a>	AMEN_EIGENVALUE Calculate p smallest eigenvalues of a TTeMPS operator</li><li><a href="../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/algorithms/eigenvalue/block_eigenvalue.html" class="code" title="function [X, C, evalue, residuums, micro_res, objective, elapsed_time] = block_eigenvalue(A, p, rr, opts)">block_eigenvalue</a>	BLOCK_EIGENVALUE Calculate p smallest eigenvalues of a TTeMPS operator</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function s = trunc_singular(s, tol, relative, maxrank)</a>
+0002 <span class="comment">% REL_TRUNC_SINGULAR Helper routine to truncate singular values</span>
+0003 
+0004 <span class="comment">%   TTeMPS Toolbox.</span>
+0005 <span class="comment">%   Michael Steinlechner, 2013-2016</span>
+0006 <span class="comment">%   Questions and contact: michael.steinlechner@epfl.ch</span>
+0007 <span class="comment">%   BSD 2-clause license, see LICENSE.txt</span>
+0008 
+0009     <span class="keyword">if</span> ~exist(<span class="string">'relative'</span>,<span class="string">'var'</span>),    relative = true;     <span class="keyword">end</span>
+0010     <span class="keyword">if</span> ~exist(<span class="string">'maxrank'</span>,<span class="string">'var'</span>), maxrank = length(s); <span class="keyword">end</span>
+0011 
+0012     summ = cumsum(s.^2,<span class="string">'reverse'</span>);
+0013 
+0014     <span class="keyword">if</span> relative
+0015         s = find(summ &gt; tol^2, 1, <span class="string">'last'</span>);
+0016         <span class="keyword">if</span> isempty(s), s = 1; <span class="keyword">end</span>
+0017     <span class="keyword">else</span>
+0018         s = find(summ &gt; tol^2*summ(1), 1, <span class="string">'last'</span>);
+0019         <span class="keyword">if</span> isempty(s), s = 1; <span class="keyword">end</span>
+0020     <span class="keyword">end</span>
+0021 
+0022     s = min([s, maxrank, length(s)]);
+0023 
+0024 <span class="keyword">end</span>
+0025</pre></div>
+<hr><address>Generated on Sun 05-Sep-2021 17:57:00 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

@@ -1,0 +1,158 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of cinnerprodgeneral</title>
+  <meta name="keywords" content="cinnerprodgeneral">
+  <meta name="description" content="Computes the Euclidean inner product between x and y in the complex case">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../index.html">Home</a> &gt;  <a href="#">manopt</a> &gt; <a href="../index.html">autodiff</a> &gt; <a href="index.html">functions_AD</a> &gt; cinnerprodgeneral.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../index.html"><img alt="<" border="0" src="../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for manopt\autodiff\functions_AD&nbsp;<img alt=">" border="0" src="../../../right.png"></a></td></tr></table>-->
+
+<h1>cinnerprodgeneral
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>Computes the Euclidean inner product between x and y in the complex case</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function innerpro = cinnerprodgeneral(x, y) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> Computes the Euclidean inner product between x and y in the complex case
+
+ function innerpro = cinnerprodgeneral(x, y)
+
+ The input x and y are numeric data structures which can be defined  
+ recursively by arrays, structs and cells. Each part of x and y should 
+ be a struct which contains the fields real and iamg which indicate
+ the real and imaginary part of the stored complex numbers. The inner
+ product between x and y is defined as sum(real(conj(x(:)).*y(:))).
+ The return is the sum of the inner products over each part of x and y.
+ In case that x and y are structs with different fields, the inner products
+ are computed only for the common fields.
+
+ Note: Operations between dlarrays containing complex numbers have been
+ introduced in Matlab R2021b or later. This file is only useful for Matlab
+ R2021a or earlier. It will be discarded when Matlab R2021b is stable. 
+ 
+ See also: innerprodgeneral, manoptADhelp</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="cconj.html" class="code" title="function xconj = cconj(x)">cconj</a>	Computes the complex conjugate of x</li><li><a href="cdottimes.html" class="code" title="function cdottimesAB = cdottimes(A, B)">cdottimes</a>	Computes the element-wise multiplication between A and B</li><li><a href="creal.html" class="code" title="function Xreal = creal(X)">creal</a>	Extracts the real part of x</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="../../../manopt/autodiff/ehesscompute.html" class="code" title="function [ehess,store] = ehesscompute(problem, x, xdot, store, complexflag)">ehesscompute</a>	Computes the Euclidean Hessian of the cost function at x along xdot via AD.</li><li><a href="cnormfro.html" class="code" title="function Xnormfro = cnormfro(X)">cnormfro</a>	Computes the Frobenius norm of X</li><li><a href="cnormsqfro.html" class="code" title="function Xnormfro = cnormsqfro(X)">cnormsqfro</a>	Computes the squared Frobenius norm of X</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function innerpro = cinnerprodgeneral_struct(x,y)</a></li><li><a href="#_sub2" class="code">function innerpro = cinnerprodgeneral_cell(x,y)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function innerpro = cinnerprodgeneral(x, y)</a>
+0002 <span class="comment">% Computes the Euclidean inner product between x and y in the complex case</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">% function innerpro = cinnerprodgeneral(x, y)</span>
+0005 <span class="comment">%</span>
+0006 <span class="comment">% The input x and y are numeric data structures which can be defined</span>
+0007 <span class="comment">% recursively by arrays, structs and cells. Each part of x and y should</span>
+0008 <span class="comment">% be a struct which contains the fields real and iamg which indicate</span>
+0009 <span class="comment">% the real and imaginary part of the stored complex numbers. The inner</span>
+0010 <span class="comment">% product between x and y is defined as sum(real(conj(x(:)).*y(:))).</span>
+0011 <span class="comment">% The return is the sum of the inner products over each part of x and y.</span>
+0012 <span class="comment">% In case that x and y are structs with different fields, the inner products</span>
+0013 <span class="comment">% are computed only for the common fields.</span>
+0014 <span class="comment">%</span>
+0015 <span class="comment">% Note: Operations between dlarrays containing complex numbers have been</span>
+0016 <span class="comment">% introduced in Matlab R2021b or later. This file is only useful for Matlab</span>
+0017 <span class="comment">% R2021a or earlier. It will be discarded when Matlab R2021b is stable.</span>
+0018 <span class="comment">%</span>
+0019 <span class="comment">% See also: innerprodgeneral, manoptADhelp</span>
+0020 
+0021 <span class="comment">% This file is part of Manopt: www.manopt.org.</span>
+0022 <span class="comment">% Original author: Xiaowen Jiang, Aug. 31, 2021.</span>
+0023 <span class="comment">% Contributors: Nicolas Boumal</span>
+0024 <span class="comment">% Change log:</span>
+0025 
+0026     <span class="keyword">if</span> ~((isstruct(x) &amp;&amp; isstruct(y)) || (iscell(x) &amp;&amp; iscell(y))<span class="keyword">...</span><span class="comment">,</span>
+0027             || (isnumeric(x) &amp;&amp; isnumeric(y)) || (isstruct(x) &amp;&amp; isnumeric(y)))
+0028         
+0029         up = MException(<span class="string">'manopt:autodiff:cinnerprodgeneral'</span> ,<span class="keyword">...</span>
+0030             <span class="string">'cinnerprodgeneral should only accept structs, cells or arrays.'</span>);
+0031         throw(up);
+0032         
+0033     <span class="keyword">end</span>
+0034     <span class="comment">% recursively compute the inner product</span>
+0035     <span class="keyword">if</span> isstruct(x) &amp;&amp; isstruct(y) &amp;&amp; (~isfield(x,<span class="string">'real'</span>)) &amp;&amp; (~isfield(y,<span class="string">'real'</span>))
+0036         innerpro  = <a href="#_sub1" class="code" title="subfunction innerpro = cinnerprodgeneral_struct(x,y)">cinnerprodgeneral_struct</a>(x,y);
+0037     <span class="keyword">elseif</span> iscell(x) &amp;&amp; iscell(y)
+0038         innerpro = <a href="#_sub2" class="code" title="subfunction innerpro = cinnerprodgeneral_cell(x,y)">cinnerprodgeneral_cell</a>(x,y);
+0039     <span class="keyword">else</span>
+0040         xconj = <a href="cconj.html" class="code" title="function xconj = cconj(x)">cconj</a>(x);
+0041         product = <a href="cdottimes.html" class="code" title="function cdottimesAB = cdottimes(A, B)">cdottimes</a>(xconj,y);
+0042         innerpro = sum(<a href="creal.html" class="code" title="function Xreal = creal(X)">creal</a>(product),<span class="string">'all'</span>);
+0043         <span class="comment">% slower</span>
+0044         <span class="comment">% xcol = cmat2col(x);</span>
+0045         <span class="comment">% innerpro = creal(cprod(ctransp(xcol),xcol));</span>
+0046     <span class="keyword">end</span>
+0047     
+0048     <span class="comment">% struct case</span>
+0049     <a name="_sub1" href="#_subfunctions" class="code">function innerpro = cinnerprodgeneral_struct(x,y)</a>
+0050         innerpro = 0;
+0051         elemsx = fieldnames(x);
+0052         elemsy = fieldnames(y);
+0053         <span class="comment">% find the common fields</span>
+0054         [elems,ix,iy] = intersect(elemsx,elemsy, <span class="string">'stable'</span>);
+0055         nelems = numel(elems);
+0056         <span class="keyword">for</span> ii = 1:nelems
+0057             <span class="keyword">if</span> isstruct(x.(elemsx{ix(ii)})) &amp;&amp; (~isfield(x.(elemsx{ix(ii)}),<span class="string">'real'</span>))<span class="keyword">...</span><span class="comment">,</span>
+0058                     &amp;&amp; (~isfield(y.(elemsy{iy(ii)}),<span class="string">'real'</span>))
+0059                 innerpro = innerpro + <a href="#_sub1" class="code" title="subfunction innerpro = cinnerprodgeneral_struct(x,y)">cinnerprodgeneral_struct</a>(<span class="keyword">...</span><span class="comment">,</span>
+0060                     x.(elemsx{ix(ii)}),y.(elemsy{iy(ii)}));
+0061             <span class="keyword">elseif</span> iscell(x.(elemsx{ix(ii)}))
+0062                 innerpro = innerpro + <a href="#_sub2" class="code" title="subfunction innerpro = cinnerprodgeneral_cell(x,y)">cinnerprodgeneral_cell</a>(<span class="keyword">...</span><span class="comment">,</span>
+0063                     x.(elemsx{ix(ii)}),y.(elemsy{iy(ii)}));
+0064             <span class="keyword">else</span>
+0065                 xconj = <a href="cconj.html" class="code" title="function xconj = cconj(x)">cconj</a>(x.(elemsx{ix(ii)}));
+0066                 product = <a href="cdottimes.html" class="code" title="function cdottimesAB = cdottimes(A, B)">cdottimes</a>(xconj, y.(elemsy{iy(ii)}));
+0067                 innerpro = innerpro + sum(<a href="creal.html" class="code" title="function Xreal = creal(X)">creal</a>(product), <span class="string">'all'</span>);
+0068             <span class="keyword">end</span>
+0069         <span class="keyword">end</span>
+0070     <span class="keyword">end</span>
+0071     
+0072     <span class="comment">% cell case</span>
+0073     <a name="_sub2" href="#_subfunctions" class="code">function innerpro = cinnerprodgeneral_cell(x,y)</a>
+0074         innerpro = 0;
+0075         ncell = length(x);
+0076         <span class="keyword">for</span> ii = 1:ncell
+0077             <span class="keyword">if</span> isstruct(x{ii}) &amp;&amp; (~isfield(x{ii},<span class="string">'real'</span>)) &amp;&amp; (~isfield(y{ii},<span class="string">'real'</span>))
+0078                 innerpro = innerpro + <a href="#_sub1" class="code" title="subfunction innerpro = cinnerprodgeneral_struct(x,y)">cinnerprodgeneral_struct</a>(<span class="keyword">...</span><span class="comment">,</span>
+0079                     x{ii},y{ii});
+0080             <span class="keyword">elseif</span> iscell(x{ii})
+0081                 innerpro = innerpro + <a href="#_sub2" class="code" title="subfunction innerpro = cinnerprodgeneral_cell(x,y)">cinnerprodgeneral_cell</a>(<span class="keyword">...</span><span class="comment">,</span>
+0082                     x{ii},y{ii});
+0083             <span class="keyword">else</span>
+0084                 xconj = <a href="cconj.html" class="code" title="function xconj = cconj(x)">cconj</a>(x{ii});
+0085                 product = <a href="cdottimes.html" class="code" title="function cdottimesAB = cdottimes(A, B)">cdottimes</a>(xconj, y{ii});
+0086                 innerpro = innerpro + sum(<a href="creal.html" class="code" title="function Xreal = creal(X)">creal</a>(product), <span class="string">'all'</span>);
+0087             <span class="keyword">end</span>
+0088         <span class="keyword">end</span>
+0089     <span class="keyword">end</span>
+0090 
+0091 <span class="keyword">end</span>
+0092</pre></div>
+<hr><address>Generated on Sun 05-Sep-2021 17:57:00 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

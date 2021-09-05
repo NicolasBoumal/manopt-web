@@ -69,7 +69,7 @@
 <h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
 This function calls:
 <ul style="list-style-image:url(../matlabicon.gif)">
-<li><a href="../manopt/manifolds/grassmann/grassmanngeneralizedfactory.html" class="code" title="function M = grassmanngeneralizedfactory(n, p, B)">grassmanngeneralizedfactory</a>	Returns a manifold struct of "scaled" vector subspaces.</li><li><a href="../manopt/solvers/trustregions/trustregions.html" class="code" title="function [x, cost, info, options] = trustregions(problem, x, options)">trustregions</a>	Riemannian trust-regions solver for optimization on manifolds.</li></ul>
+<li><a href="../manopt/manifolds/grassmann/grassmanngeneralizedfactory.html" class="code" title="function M = grassmanngeneralizedfactory(n, p, B)">grassmanngeneralizedfactory</a>	Returns a manifold struct of "scaled" vector subspaces.</li><li><a href="../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>	NORM Norm of a TT/MPS tensor.</li><li><a href="../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_block/norm.html" class="code" title="function res = norm( x )">norm</a>	NORM Norm of a TT/MPS block-mu tensor.</li><li><a href="../manopt/solvers/trustregions/trustregions.html" class="code" title="function [x, cost, info, options] = trustregions(problem, x, options)">trustregions</a>	Riemannian trust-regions solver for optimization on manifolds.</li></ul>
 This function is called by:
 <ul style="list-style-image:url(../matlabicon.gif)">
 </ul>
@@ -127,67 +127,76 @@ This function is called by:
 0047 <span class="comment">%     Aug. 10, 2016 (NB): the eigenvectors Xsol are now rotated by Vsol</span>
 0048 <span class="comment">%     before they are returned, to ensure the output matches what you would</span>
 0049 <span class="comment">%     normally expect calling eigs.</span>
-0050     
-0051     <span class="comment">% Generate some random data to test the function</span>
-0052     <span class="keyword">if</span> ~exist(<span class="string">'A'</span>, <span class="string">'var'</span>) || isempty(A)
-0053         n = 128;
-0054         A = randn(n);
-0055         A = (A+A')/2;
-0056     <span class="keyword">end</span>
-0057     <span class="keyword">if</span> ~exist(<span class="string">'B'</span>, <span class="string">'var'</span>) || isempty(B)
-0058         n = size(A, 1);
-0059         e = ones(n, 1);
-0060         B = spdiags([-e 2*e -e], -1:1, n, n); <span class="comment">% Symmetric positive definite</span>
-0061     <span class="keyword">end</span>
-0062     
-0063     <span class="keyword">if</span> ~exist(<span class="string">'p'</span>, <span class="string">'var'</span>) || isempty(p)
-0064         p = 3;
-0065     <span class="keyword">end</span>
-0066     
-0067     <span class="comment">% Make sure the input matrix is square and symmetric</span>
-0068     n = size(A, 1);
-0069     assert(isreal(A), <span class="string">'A must be real.'</span>)
-0070     assert(size(A, 2) == n, <span class="string">'A must be square.'</span>);
-0071     assert(norm(A-A', <span class="string">'fro'</span>) &lt; n*eps, <span class="string">'A must be symmetric.'</span>);
-0072     assert(p &lt;= n, <span class="string">'p must be smaller than n.'</span>);
-0073     
-0074     <span class="comment">% Define the cost and its derivatives on the generalized</span>
-0075     <span class="comment">% Grassmann manifold, i.e., the column space of all X such that</span>
-0076     <span class="comment">% X'*B*X is identity.</span>
-0077     gGr = <a href="../manopt/manifolds/grassmann/grassmanngeneralizedfactory.html" class="code" title="function M = grassmanngeneralizedfactory(n, p, B)">grassmanngeneralizedfactory</a>(n, p, B);
-0078     
-0079     problem.M = gGr;
-0080     problem.cost  = @(X)    -trace(X'*A*X);
-0081     problem.egrad = @(X)    -2*(A*X); <span class="comment">% Only Euclidean gradient needed.</span>
-0082     problem.ehess = @(X, H) -2*(A*H); <span class="comment">% Only Euclidean Hessian needed.</span>
-0083     
-0084     <span class="comment">% Execute some checks on the derivatives for early debugging.</span>
-0085     <span class="comment">% These things can be commented out of course.</span>
-0086     <span class="comment">% checkgradient(problem);</span>
-0087     <span class="comment">% pause;</span>
-0088     <span class="comment">% checkhessian(problem);</span>
-0089     <span class="comment">% pause;</span>
-0090     
-0091     <span class="comment">% Issue a call to a solver. A random initial guess will be chosen and</span>
-0092     <span class="comment">% default options are selected except for the ones we specify here.</span>
-0093     options.Delta_bar = 8*sqrt(p);
-0094     options.tolgradnorm = 1e-7;
-0095     options.verbosity = 2; <span class="comment">% set to 0 to silence the solver, 2 for normal output.</span>
-0096     [Xsol, costXsol, info] = <a href="../manopt/solvers/trustregions/trustregions.html" class="code" title="function [x, cost, info, options] = trustregions(problem, x, options)">trustregions</a>(problem, [], options); <span class="comment">%#ok&lt;ASGLU&gt;</span>
-0097     
-0098     <span class="comment">% To extract the eigenvalues, solve the small p-by-p symmetric</span>
-0099     <span class="comment">% eigenvalue problem.</span>
-0100     [Vsol, Dsol] = eig(Xsol'*(A*Xsol));
-0101     Ssol = diag(Dsol);
-0102     
-0103     <span class="comment">% To extract the eigenvectors, rotate Xsol by the p-by-p orthogonal</span>
-0104     <span class="comment">% matrix Vsol.</span>
-0105     Xsol = Xsol*Vsol;
+0050 <span class="comment">%     Aug. 20, 2021 (XJ): Added AD to compute the egrad and the ehess</span>
+0051 
+0052     <span class="comment">% Generate some random data to test the function</span>
+0053     <span class="keyword">if</span> ~exist(<span class="string">'A'</span>, <span class="string">'var'</span>) || isempty(A)
+0054         n = 128;
+0055         A = randn(n);
+0056         A = (A+A')/2;
+0057     <span class="keyword">end</span>
+0058     <span class="keyword">if</span> ~exist(<span class="string">'B'</span>, <span class="string">'var'</span>) || isempty(B)
+0059         n = size(A, 1);
+0060         e = ones(n, 1);
+0061         B = spdiags([-e 2*e -e], -1:1, n, n); <span class="comment">% Symmetric positive definite</span>
+0062     <span class="keyword">end</span>
+0063     
+0064     <span class="keyword">if</span> ~exist(<span class="string">'p'</span>, <span class="string">'var'</span>) || isempty(p)
+0065         p = 3;
+0066     <span class="keyword">end</span>
+0067     
+0068     <span class="comment">% Make sure the input matrix is square and symmetric</span>
+0069     n = size(A, 1);
+0070     assert(isreal(A), <span class="string">'A must be real.'</span>)
+0071     assert(size(A, 2) == n, <span class="string">'A must be square.'</span>);
+0072     assert(<a href="../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>(A-A', <span class="string">'fro'</span>) &lt; n*eps, <span class="string">'A must be symmetric.'</span>);
+0073     assert(p &lt;= n, <span class="string">'p must be smaller than n.'</span>);
+0074     
+0075     <span class="comment">% Define the cost and its derivatives on the generalized</span>
+0076     <span class="comment">% Grassmann manifold, i.e., the column space of all X such that</span>
+0077     <span class="comment">% X'*B*X is identity.</span>
+0078     gGr = <a href="../manopt/manifolds/grassmann/grassmanngeneralizedfactory.html" class="code" title="function M = grassmanngeneralizedfactory(n, p, B)">grassmanngeneralizedfactory</a>(n, p, B);
+0079     
+0080     problem.M = gGr;
+0081     problem.cost  = @(X)    -trace(X'*A*X);
+0082     problem.egrad = @(X)    -2*(A*X); <span class="comment">% Only Euclidean gradient needed.</span>
+0083     problem.ehess = @(X, H) -2*(A*H); <span class="comment">% Only Euclidean Hessian needed.</span>
+0084     
+0085     <span class="comment">% An alternative way to compute the egrad and the ehess is to use</span>
+0086     <span class="comment">% automatic differentiation provided in the deep learning toolbox (slower)</span>
+0087     <span class="comment">% Notice that the function trace is not supported for AD so far.</span>
+0088     <span class="comment">% Replace it with ctrace described in the file manoptADhelp.m</span>
+0089     <span class="comment">% problem.cost = @(X)    -.5*ctrace(X'*A*X);</span>
+0090     <span class="comment">% call manoptAD to automatically obtain the egrad and the ehess</span>
+0091     <span class="comment">% problem = manoptAD(problem);</span>
+0092     
+0093     <span class="comment">% Execute some checks on the derivatives for early debugging.</span>
+0094     <span class="comment">% These things can be commented out of course.</span>
+0095     <span class="comment">% checkgradient(problem);</span>
+0096     <span class="comment">% pause;</span>
+0097     <span class="comment">% checkhessian(problem);</span>
+0098     <span class="comment">% pause;</span>
+0099     
+0100     <span class="comment">% Issue a call to a solver. A random initial guess will be chosen and</span>
+0101     <span class="comment">% default options are selected except for the ones we specify here.</span>
+0102     options.Delta_bar = 8*sqrt(p);
+0103     options.tolgradnorm = 1e-7;
+0104     options.verbosity = 2; <span class="comment">% set to 0 to silence the solver, 2 for normal output.</span>
+0105     [Xsol, costXsol, info] = <a href="../manopt/solvers/trustregions/trustregions.html" class="code" title="function [x, cost, info, options] = trustregions(problem, x, options)">trustregions</a>(problem, [], options); <span class="comment">%#ok&lt;ASGLU&gt;</span>
 0106     
-0107     <span class="comment">% This quantity should be small.</span>
-0108     <span class="comment">% norm(A*Xsol - B*Xsol*diag(Ssol));</span>
-0109   
-0110 <span class="keyword">end</span></pre></div>
-<hr><address>Generated on Tue 19-May-2020 18:46:12 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+0107     <span class="comment">% To extract the eigenvalues, solve the small p-by-p symmetric</span>
+0108     <span class="comment">% eigenvalue problem.</span>
+0109     [Vsol, Dsol] = eig(Xsol'*(A*Xsol));
+0110     Ssol = diag(Dsol);
+0111     
+0112     <span class="comment">% To extract the eigenvectors, rotate Xsol by the p-by-p orthogonal</span>
+0113     <span class="comment">% matrix Vsol.</span>
+0114     Xsol = Xsol*Vsol;
+0115     
+0116     <span class="comment">% This quantity should be small.</span>
+0117     <span class="comment">% norm(A*Xsol - B*Xsol*diag(Ssol));</span>
+0118   
+0119 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Sun 05-Sep-2021 17:57:00 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
 </body>
 </html>

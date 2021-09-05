@@ -1,0 +1,289 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of anisotropicdiffusion</title>
+  <meta name="keywords" content="anisotropicdiffusion">
+  <meta name="description" content="">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../index.html">Home</a> &gt;  <a href="#">manopt</a> &gt; <a href="#">manifolds</a> &gt; <a href="../../index.html">ttfixedrank</a> &gt; <a href="../index.html">TTeMPS_1.1</a> &gt; <a href="index.html">operators</a> &gt; anisotropicdiffusion.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../index.html"><img alt="<" border="0" src="../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for manopt\manifolds\ttfixedrank\TTeMPS_1.1\operators&nbsp;<img alt=">" border="0" src="../../../../../right.png"></a></td></tr></table>-->
+
+<h1>anisotropicdiffusion
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../up.png"></a></h2>
+<div class="box"><strong></strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment"></pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../matlabicon.gif)">
+<li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/full.html" class="code" title="function y = full( x )">full</a>	FULL Convert TTeMPS tensor to full array</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/innerprod.html" class="code" title="function res = innerprod( x, y, dir, upto, storeParts )">innerprod</a>	INNERPROD Inner product between two TT/MPS tensors.</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_block/full.html" class="code" title="function y = full( x )">full</a>	FULL Convert TTeMPS tensor to full array</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_block/innerprod.html" class="code" title="function res = innerprod( x, y, dir, upto )">innerprod</a>	INNERPROD Inner product between two TT/MPS tensors.</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_op/TTeMPS_op.html" class="code" title="">TTeMPS_op</a>	</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_op/full.html" class="code" title="function Afull = full( A )">full</a>	FULL Convert TTeMPS_op operator to full array</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_op_laplace/TTeMPS_op_laplace.html" class="code" title="">TTeMPS_op_laplace</a>	</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/matricize.html" class="code" title="function res = matricize( U, mode )">matricize</a>	MATRICIZE Matricize 3D Matlab array.</li><li><a href="anisotropicdiffusion.html" class="code" title="">anisotropicdiffusion</a>	</li><li><a href="load_coefficients.html" class="code" title="function [omega, alpha] = load_coefficients( R )">load_coefficients</a>	lOAD_COEFFICIENTS Loads exponential sum approximation coefficients</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorize.html" class="code" title="function res = tensorize( U, mode, d )">tensorize</a>	TENSORIZE Tensorize matrix (inverse matricization).</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../matlabicon.gif)">
+<li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/examples/linearsystem_compare.html" class="code" title="">linearsystem_compare</a>	Example code for the algorithms described in</li><li><a href="anisotropicdiffusion.html" class="code" title="">anisotropicdiffusion</a>	</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function A = update_properties( A );</a></li><li><a href="#_sub2" class="code">function A = anisotropicdiffusion( n, d, alpha )</a></li><li><a href="#_sub3" class="code">function expB = constr_precond_inner( A, X, mu )</a></li><li><a href="#_sub4" class="code">function expB = constr_precond_outer( A, X, mu1, mu2 )</a></li><li><a href="#_sub5" class="code">function P = constr_precond( A, k )</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 classdef <a href="anisotropicdiffusion.html" class="code" title="">anisotropicdiffusion</a> &lt; <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_op_laplace/TTeMPS_op_laplace.html" class="code" title="">TTeMPS_op_laplace</a>
+0002     <span class="comment">% Class for anisotropic diffusion operator with tridiagonal diffusion matrix</span>
+0003     <span class="comment">%</span>
+0004     <span class="comment">%       [ 1 a 0     ...0 ]</span>
+0005     <span class="comment">%       [ a 1 a 0    ..0 ]</span>
+0006     <span class="comment">%   D = [ 0 a 1 a 0  ..0 ]</span>
+0007     <span class="comment">%       [  ..   .. . .   ]</span>
+0008     <span class="comment">%       [ 0 ... .. 0 a 1 ]</span>
+0009     <span class="comment">%</span>
+0010     <span class="comment">%</span>
+0011 
+0012     <span class="comment">%   TTeMPS Toolbox.</span>
+0013     <span class="comment">%   Michael Steinlechner, 2013-2016</span>
+0014     <span class="comment">%   Questions and contact: michael.steinlechner@epfl.ch</span>
+0015     <span class="comment">%   BSD 2-clause license, see LICENSE.txt</span>
+0016 
+0017     properties
+0018         L
+0019         D
+0020         <span class="comment">% precomputed spectral decomp of 1D Laplace:</span>
+0021 
+0022     <span class="keyword">end</span>
+0023 
+0024     methods
+0025 
+0026         <a name="_sub0" href="#_subfunctions" class="code">function A = update_properties( A );</a>
+0027 
+0028             A.rank = [1,  3*ones(1, length(A.U)-1), 1];  <span class="comment">% the TT rank is always three for such Laplace-like tensors</span>
+0029             size_col_ = cellfun( @(y) size(y,1), A.U);
+0030             A.size_col = size_col_ ./ (A.rank(1:end-1).*A.rank(2:end));
+0031             A.size_row = cellfun( @(y) size(y,2), A.U);
+0032             A.order = length( A.size_row );
+0033         <span class="keyword">end</span>
+0034     <span class="keyword">end</span>
+0035 
+0036 
+0037     methods( Access = public )
+0038 
+0039         <a name="_sub1" href="#_subfunctions" class="code">function A = anisotropicdiffusion( n, d, alpha )</a>
+0040 
+0041             <span class="keyword">if</span> ~exist(<span class="string">'alpha'</span>, <span class="string">'var'</span>)
+0042                 alpha = 0.25;
+0043             <span class="keyword">end</span>
+0044             
+0045             one = ones(n,1);
+0046             q = linspace( -10, 10, n)';
+0047             h = abs(q(2) - q(1));
+0048             L = -spdiags( [one, -2*one, one], [-1 0 1], n, n) / (h^2);
+0049 
+0050             <span class="comment">% superclass constructor</span>
+0051             A = A@<a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_op_laplace/TTeMPS_op_laplace.html" class="code" title="">TTeMPS_op_laplace</a>( L, d );
+0052             <span class="comment">% precompute eigenvalue information and exponential for use in local</span>
+0053             A = initialize_precond( A );
+0054             <span class="comment">% preconditioner:</span>
+0055             A.L = L;
+0056 
+0057             [A.V_L, A.E_L] = eig(<a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/full.html" class="code" title="function y = full( x )">full</a>(A.L));
+0058             A.E_L = diag(A.E_L);
+0059 
+0060             A.D = spdiags( [-one,one], [-1,1], n, n ) / (2*h); 
+0061             I = speye( n, n );
+0062 
+0063             e1 = sparse( 1, 1, 1, 3, 1 );
+0064             e2 = sparse( 2, 1, 1, 3, 1 );
+0065             e3 = sparse( 3, 1, 1, 3, 1 );
+0066 
+0067             l_mid = sparse( 3, 1, 1, 9, 1 );                <span class="comment">% e_3</span>
+0068             b_mid = sparse( 6, 1, 1, 9, 1 );                <span class="comment">% e_6</span>
+0069             m_mid = sparse( [1;9], [1;1], [1;1], 9, 1 );    <span class="comment">% e_1 + e_9</span>
+0070             c_mid = sparse( 2, 1, 1, 9, 1 );                <span class="comment">% e_2</span>
+0071 
+0072             A.U = cell( 1, d );
+0073             A.U{1} = kron( A.L, e1 ) + kron( 2*alpha*A.D, e2 ) + kron( I, e3);
+0074             A_mid = kron( A.L, l_mid ) + kron( 2*alpha*A.D, b_mid ) + kron( I, m_mid) + kron( A.D, c_mid );
+0075             <span class="keyword">for</span> i=2:d-1
+0076                 A.U{i} = A_mid;
+0077             <span class="keyword">end</span>
+0078             A.U{d} = kron( I, e1 ) + kron( A.D, e2 ) + kron( A.L, e3);
+0079 
+0080             A = <a href="#_sub1" class="code" title="subfunction A = update_properties( A );">update_properties</a>( A );
+0081            
+0082         <span class="keyword">end</span>
+0083 
+0084         <a name="_sub2" href="#_subfunctions" class="code">function expB = constr_precond_inner( A, X, mu )</a>
+0085 
+0086             n = size(A.L, 1);
+0087             sz = [X.rank(mu), X.size(mu), X.rank(mu+1)]
+0088 
+0089             B1 = zeros( X.rank(mu) );
+0090             <span class="comment">% calculate B1 part:</span>
+0091             <span class="keyword">for</span> i = 1:mu-1
+0092                 <span class="comment">% apply L to the i'th core</span>
+0093                 tmp = X;
+0094                 Xi = <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/matricize.html" class="code" title="function res = matricize( U, mode )">matricize</a>( tmp.U{i}, 2 );
+0095                 Xi = A.L*Xi;
+0096                 tmp.U{i} = <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorize.html" class="code" title="function res = tensorize( U, mode, d )">tensorize</a>( Xi, 2, [X.rank(i), n, X.rank(i+1)] );
+0097                 B1 = B1 + <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/innerprod.html" class="code" title="function res = innerprod( x, y, dir, upto, storeParts )">innerprod</a>( X, tmp, <span class="string">'LR'</span>, mu-1);
+0098             <span class="keyword">end</span>
+0099 
+0100             B3 = zeros( X.rank(mu+1) );
+0101             <span class="comment">% calculate B3 part:</span>
+0102             <span class="keyword">for</span> i = mu+1:A.order
+0103                 tmp = X;
+0104                 Xi = <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/matricize.html" class="code" title="function res = matricize( U, mode )">matricize</a>( tmp.U{i}, 2 );
+0105                 Xi = A.L*Xi;
+0106                 tmp.U{i} = <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorize.html" class="code" title="function res = tensorize( U, mode, d )">tensorize</a>( Xi, 2, [X.rank(i), n, X.rank(i+1)] );
+0107                 B3 = B3 + <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/innerprod.html" class="code" title="function res = innerprod( x, y, dir, upto, storeParts )">innerprod</a>( X, tmp, <span class="string">'RL'</span>, mu+1);
+0108             <span class="keyword">end</span>
+0109             
+0110             [V1,e1] = eig(B1);
+0111             e1 = diag(e1);
+0112             [V3,e3] = eig(B3);
+0113             e3 = diag(e3);
+0114 
+0115             lmin = min(e1) + min(A.E_L) + min(e3);
+0116             lmax = max(e1) + max(A.E_L) + max(e3);
+0117 
+0118             R = lmax/lmin
+0119             
+0120             [omega, alpha] = <a href="load_coefficients.html" class="code" title="function [omega, alpha] = load_coefficients( R )">load_coefficients</a>( R );
+0121 
+0122             k = 3;
+0123             omega = omega/lmin;
+0124             alpha = alpha/lmin;
+0125 
+0126             expB = cell(3,k);
+0127             
+0128             <span class="keyword">for</span> i = 1:k
+0129                 expB{1,i} = omega(i) * V1*diag( exp( -alpha(i)*e1 ))*V1';    <span class="comment">% include omega in first part</span>
+0130                 expB{2,i} = A.V_L*diag( exp( -alpha(i)*A.E_L ))*A.V_L';
+0131                 expB{3,i} = V3*diag( exp( -alpha(i)*e3 ))*V3';
+0132             <span class="keyword">end</span>
+0133         <span class="keyword">end</span>
+0134 
+0135         <a name="_sub3" href="#_subfunctions" class="code">function expB = constr_precond_outer( A, X, mu1, mu2 )</a>
+0136             
+0137             n = size(A.L, 1);
+0138 
+0139             B1 = zeros( X.rank(mu1) );
+0140             <span class="comment">% calculate B1 part:</span>
+0141             <span class="keyword">for</span> i = 1:mu1-1
+0142                 <span class="comment">% apply L to the i'th core</span>
+0143                 tmp = X;
+0144                 Xi = <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/matricize.html" class="code" title="function res = matricize( U, mode )">matricize</a>( tmp.U{i}, 2 );
+0145                 Xi = A.L*Xi;
+0146                 tmp.U{i} = <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorize.html" class="code" title="function res = tensorize( U, mode, d )">tensorize</a>( Xi, 2, [X.rank(i), n, X.rank(i+1)] );
+0147                 B1 = B1 + <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/innerprod.html" class="code" title="function res = innerprod( x, y, dir, upto, storeParts )">innerprod</a>( X, tmp, <span class="string">'LR'</span>, mu1-1);
+0148             <span class="keyword">end</span>
+0149 
+0150             B3 = zeros( X.rank(mu2+1) );
+0151             <span class="comment">% calculate B3 part:</span>
+0152             <span class="keyword">for</span> i = mu2+1:A.order
+0153                 tmp = X;
+0154                 Xi = <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/matricize.html" class="code" title="function res = matricize( U, mode )">matricize</a>( tmp.U{i}, 2 );
+0155                 Xi = A.L*Xi;
+0156                 tmp.U{i} = <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorize.html" class="code" title="function res = tensorize( U, mode, d )">tensorize</a>( Xi, 2, [X.rank(i), n, X.rank(i+1)] );
+0157                 B3 = B3 + <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/innerprod.html" class="code" title="function res = innerprod( x, y, dir, upto, storeParts )">innerprod</a>( X, tmp, <span class="string">'RL'</span>, mu2+1);
+0158             <span class="keyword">end</span>
+0159             
+0160             [V1,e1] = eig(B1);
+0161             e1 = diag(e1);
+0162             [V3,e3] = eig(B3);
+0163             e3 = diag(e3);
+0164 
+0165             lmin = min(e1) + 2*min(A.E_L) + min(e3);
+0166             lmax = max(e1) + 2*max(A.E_L) + max(e3);
+0167 
+0168             R = lmax/lmin
+0169             
+0170             [omega, alpha] = <a href="load_coefficients.html" class="code" title="function [omega, alpha] = load_coefficients( R )">load_coefficients</a>( R );
+0171 
+0172             k = 3;
+0173             omega = omega/lmin;
+0174             alpha = alpha/lmin;
+0175 
+0176             expB = cell(4,k);
+0177             
+0178             <span class="keyword">for</span> i = 1:k
+0179                 expB{1,i} = omega(i) * V1*diag( exp( -alpha(i)*e1 ))*V1';    <span class="comment">% include omega in first part</span>
+0180                 expB{2,i} = A.V_L*diag( exp( -alpha(i)*A.E_L ))*A.V_L';
+0181                 expB{3,i} = A.V_L*diag( exp( -alpha(i)*A.E_L ))*A.V_L';
+0182                 expB{4,i} = V3*diag( exp( -alpha(i)*e3 ))*V3';
+0183             <span class="keyword">end</span>
+0184         <span class="keyword">end</span>
+0185 
+0186         <a name="_sub4" href="#_subfunctions" class="code">function P = constr_precond( A, k )</a>
+0187 
+0188             d = A.order;
+0189 
+0190             lmin = d*min(A.E_L);
+0191             lmax = d*max(A.E_L);
+0192 
+0193             R = lmax/lmin
+0194 
+0195             <span class="comment">%  http://www.mis.mpg.de/scicomp/EXP_SUM/1_x/1_xk07_2E2</span>
+0196             <span class="comment">%  0.0133615547183825570028305575534521842940   {omega[1]}</span>
+0197             <span class="comment">%  0.0429728469424360175410925952177443321034   {omega[2]}</span>
+0198             <span class="comment">%  0.1143029399081515586560726591147663100401   {omega[3]}</span>
+0199             <span class="comment">%  0.2838881266934189482611071431161775535656   {omega[4]}</span>
+0200             <span class="comment">%  0.6622322841999484042811198458711174907876   {omega[5]}</span>
+0201             <span class="comment">%  1.4847175320092703810050463464342840325116   {omega[6]}</span>
+0202             <span class="comment">%  3.4859753729916252771962870138366952232900   {omega[7]}</span>
+0203             <span class="comment">%  0.0050213411684266507485648978019454613531   {alpha[1]}</span>
+0204             <span class="comment">%  0.0312546410994290844202411500801774835168   {alpha[2]}</span>
+0205             <span class="comment">%  0.1045970270084145620410366606112262388706   {alpha[3]}</span>
+0206             <span class="comment">%  0.2920522758702768403556507270657505159761   {alpha[4]}</span>
+0207             <span class="comment">%  0.7407504784499061527671195936939341208927   {alpha[5]}</span>
+0208             <span class="comment">%  1.7609744335543204401530945069076494746696   {alpha[6]}</span>
+0209             <span class="comment">%  4.0759036969145123916954953635638503328664   {alpha[7]}</span>
+0210             
+0211             <span class="keyword">if</span> k == 3
+0212                 [omega, alpha] = <a href="load_coefficients.html" class="code" title="function [omega, alpha] = load_coefficients( R )">load_coefficients</a>( R );
+0213 
+0214             <span class="keyword">elseif</span> k == 7
+0215                 omega = [0.0133615547183825570028305575534521842940 0.0429728469424360175410925952177443321034 0.1143029399081515586560726591147663100401,<span class="keyword">...</span>
+0216                          0.2838881266934189482611071431161775535656 0.6622322841999484042811198458711174907876 1.4847175320092703810050463464342840325116,<span class="keyword">...</span>
+0217                          3.4859753729916252771962870138366952232900];
+0218                 alpha = [0.0050213411684266507485648978019454613531 0.0312546410994290844202411500801774835168 0.1045970270084145620410366606112262388706,<span class="keyword">...</span>
+0219                          0.2920522758702768403556507270657505159761 0.7407504784499061527671195936939341208927 1.7609744335543204401530945069076494746696,<span class="keyword">...</span>
+0220                          4.0759036969145123916954953635638503328664];
+0221             <span class="keyword">else</span>
+0222                 error(<span class="string">'Unknown rank specified. Choose either k=3 or k=7'</span>);
+0223             <span class="keyword">end</span>
+0224 
+0225             omega = omega/lmin;
+0226             alpha = alpha/lmin;
+0227 
+0228             <span class="comment">% careful: all cores assumed to be of same size</span>
+0229             E = reshape( expm( -alpha(1) * A.L), [1, A.size_row(2), A.size_col(2), 1]);
+0230             P = omega(1)*<a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_op/TTeMPS_op.html" class="code" title="">TTeMPS_op</a>( repmat({E},1,d) );
+0231             <span class="keyword">for</span> i = 2:k
+0232                 E = reshape( expm( -alpha(i) * A.L), [1, A.size_row(2), A.size_col(2), 1]);
+0233                 P = P + omega(i)*<a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_op/TTeMPS_op.html" class="code" title="">TTeMPS_op</a>( repmat({E},1,d) );
+0234             <span class="keyword">end</span>
+0235 
+0236         <span class="keyword">end</span>
+0237 
+0238     <span class="keyword">end</span>
+0239         
+0240 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Sun 05-Sep-2021 17:57:00 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

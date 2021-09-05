@@ -4,7 +4,7 @@
 <head>
   <title>Description of dlogm</title>
   <meta name="keywords" content="dlogm">
-  <meta name="description" content="Fréchet derivative of the matrix logarithm.">
+  <meta name="description" content="FrÃ©chet derivative of the matrix logarithm.">
   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
   <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
   <meta name="robots" content="index, follow">
@@ -21,17 +21,17 @@
 </h1>
 
 <h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
-<div class="box"><strong>Fréchet derivative of the matrix logarithm.</strong></div>
+<div class="box"><strong>FrÃ©chet derivative of the matrix logarithm.</strong></div>
 
 <h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
 <div class="box"><strong>function [D, fX] = dlogm(X, H) </strong></div>
 
 <h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
-<div class="fragment"><pre class="comment"> Fréchet derivative of the matrix logarithm.
+<div class="fragment"><pre class="comment"> FrÃ©chet derivative of the matrix logarithm.
 
  function [D, fX] = dlogm(X, H)
 
- Computes the directional derivative (the Fréchet derivative) of logm at X
+ Computes the directional derivative (the FrÃ©chet derivative) of logm at X
  along H (square matrices).
 
  Thus, D = lim_(t -&gt; 0) (logm(X + tH) - logm(X)) / t.
@@ -48,7 +48,7 @@
 <h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
 This function calls:
 <ul style="list-style-image:url(../../matlabicon.gif)">
-<li><a href="dfunm.html" class="code" title="function [D, fX] = dfunm(funm, X, H)">dfunm</a>	Fréchet derivative of matrix functions.</li></ul>
+<li><a href="dfunm.html" class="code" title="function [D, fX] = dfunm(funm, X, H)">dfunm</a>	FrÃ©chet derivative of matrix functions.</li></ul>
 This function is called by:
 <ul style="list-style-image:url(../../matlabicon.gif)">
 </ul>
@@ -58,11 +58,11 @@ This function is called by:
 
 <h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
 <div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [D, fX] = dlogm(X, H)</a>
-0002 <span class="comment">% Fréchet derivative of the matrix logarithm.</span>
+0002 <span class="comment">% FrÃ©chet derivative of the matrix logarithm.</span>
 0003 <span class="comment">%</span>
 0004 <span class="comment">% function [D, fX] = dlogm(X, H)</span>
 0005 <span class="comment">%</span>
-0006 <span class="comment">% Computes the directional derivative (the Fréchet derivative) of logm at X</span>
+0006 <span class="comment">% Computes the directional derivative (the FrÃ©chet derivative) of logm at X</span>
 0007 <span class="comment">% along H (square matrices).</span>
 0008 <span class="comment">%</span>
 0009 <span class="comment">% Thus, D = lim_(t -&gt; 0) (logm(X + tH) - logm(X)) / t.</span>
@@ -85,6 +85,6 @@ This function is called by:
 0026     [D, fX] = <a href="dfunm.html" class="code" title="function [D, fX] = dfunm(funm, X, H)">dfunm</a>(@logm, X, H);
 0027     
 0028 <span class="keyword">end</span></pre></div>
-<hr><address>Generated on Tue 19-May-2020 18:46:12 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+<hr><address>Generated on Sun 05-Sep-2021 17:57:00 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
 </body>
 </html>

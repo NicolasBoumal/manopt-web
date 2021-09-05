@@ -1,0 +1,83 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of tensorize</title>
+  <meta name="keywords" content="tensorize">
+  <meta name="description" content="TENSORIZE Tensorize matrix (inverse matricization).">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../index.html">Home</a> &gt;  <a href="#">manopt</a> &gt; <a href="#">manifolds</a> &gt; <a href="../index.html">ttfixedrank</a> &gt; <a href="index.html">TTeMPS_1.1</a> &gt; tensorize.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../index.html"><img alt="<" border="0" src="../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for manopt\manifolds\ttfixedrank\TTeMPS_1.1&nbsp;<img alt=">" border="0" src="../../../../right.png"></a></td></tr></table>-->
+
+<h1>tensorize
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../up.png"></a></h2>
+<div class="box"><strong>TENSORIZE Tensorize matrix (inverse matricization).</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../up.png"></a></h2>
+<div class="box"><strong>function res = tensorize( U, mode, d ) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">TENSORIZE Tensorize matrix (inverse matricization).
+   X = TENSORIZE(U, MODE, D) (re-)tensorizes the matrix U along the 
+   specified mode MODE into a tensor X of size D(1) x D(2) x D(3). Higher 
+   dimensions than 3 are not supported. Tensorize is inverse matricization,
+   that is, X == tensorize( matricize(X, i), i, size(X)) for all modes i.
+
+   See also <a href="matricize.html" class="code" title="function res = matricize( U, mode )">MATRICIZE</a>, <a href="tensorprod.html" class="code" title="function res = tensorprod( U, A, mode, apply_inv )">TENSORPROD</a>, <a href="unfold.html" class="code" title="function W = unfold( U, dir )">UNFOLD</a>.</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../matlabicon.gif)">
+<li><a href="../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/algorithms/linearsystem/alsLinsolve_fast.html" class="code" title="function [X, residuum, cost, times] = alsLinsolve_fast( L, F, X, opts )">alsLinsolve_fast</a>	TTeMPS Toolbox.</li><li><a href="../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/algorithms/linearsystem/alsLinsolve_rankOne.html" class="code" title="function [X, residuum, cost, times] = alsLinsolve_rankOne( L, F, X, opts )">alsLinsolve_rankOne</a>	TTeMPS Toolbox.</li><li><a href="../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/algorithms/linearsystem/amen_fast.html" class="code" title="function [X, residual, cost, times] = amen_fast( L, F, X, opts )">amen_fast</a>	TTeMPS Toolbox.</li><li><a href="../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/algorithms/linearsystem/construct_initial_guess_rankOne.html" class="code" title="function X = construct_initial_guess(L, F, r, n)">construct_initial_guess_rankOne</a>	TTeMPS Toolbox.</li><li><a href="../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/algorithms/linearsystem/precond_laplace_noSaddle.html" class="code" title="function [eta] = precond_laplace_noSaddle( L, xi, xL, xR )">precond_laplace_noSaddle</a>	TTeMPS Toolbox.</li><li><a href="../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/algorithms/linearsystem/precond_laplace_noorth.html" class="code" title="function [eta] = precond_laplace_noorth( L, xi, xL, xR, G )">precond_laplace_noorth</a>	TTeMPS Toolbox.</li><li><a href="../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/algorithms/linearsystem/precond_laplace_overlapGS.html" class="code" title="function [eta,Yeta] = precond_laplace_overlapGS( L, xi, xL, xR, G, Lapl )">precond_laplace_overlapGS</a>	TTeMPS Toolbox.</li><li><a href="../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/algorithms/linearsystem/precond_laplace_overlapJacobi.html" class="code" title="function [eta, B1,B3] = precond_laplace_overlapJacobi( L, xi, xL, xR, G, B1, B3 )">precond_laplace_overlapJacobi</a>	TTeMPS Toolbox.</li><li><a href="../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/algorithms/linearsystem/precond_rankOne.html" class="code" title="function [eta] = precond_rankOne( A, xi, xL, xR  )">precond_rankOne</a>	TTeMPS Toolbox.</li><li><a href="../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/operators/TTeMPS_op_NN.html" class="code" title="">TTeMPS_op_NN</a>	</li><li><a href="../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/operators/TTeMPS_op_NN_hermite.html" class="code" title="">TTeMPS_op_NN_hermite</a>	</li><li><a href="../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/operators/anisotropicdiffusion.html" class="code" title="">anisotropicdiffusion</a>	</li><li><a href="../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/operators/newton_potential.html" class="code" title="">newton_potential</a>	</li><li><a href="tensorprod.html" class="code" title="function res = tensorprod( U, A, mode, apply_inv )">tensorprod</a>	TENSORPROD Tensor-times-Matrix product.</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function res = tensorize( U, mode, d )</a>
+0002     <span class="comment">%TENSORIZE Tensorize matrix (inverse matricization).</span>
+0003     <span class="comment">%   X = TENSORIZE(U, MODE, D) (re-)tensorizes the matrix U along the</span>
+0004     <span class="comment">%   specified mode MODE into a tensor X of size D(1) x D(2) x D(3). Higher</span>
+0005     <span class="comment">%   dimensions than 3 are not supported. Tensorize is inverse matricization,</span>
+0006     <span class="comment">%   that is, X == tensorize( matricize(X, i), i, size(X)) for all modes i.</span>
+0007     <span class="comment">%</span>
+0008     <span class="comment">%   See also MATRICIZE, TENSORPROD, UNFOLD.</span>
+0009     
+0010     <span class="comment">%   TTeMPS Toolbox.</span>
+0011     <span class="comment">%   Michael Steinlechner, 2013-2016</span>
+0012     <span class="comment">%   Questions and contact: michael.steinlechner@epfl.ch</span>
+0013     <span class="comment">%   BSD 2-clause license, see LICENSE.txt</span>
+0014 
+0015     <span class="comment">% pad with 1 for the last dim (annoying)</span>
+0016     <span class="keyword">if</span> length(d) == 2
+0017         d = [d, 1];
+0018     <span class="keyword">end</span>
+0019     
+0020     <span class="keyword">switch</span> mode
+0021         <span class="keyword">case</span> 1
+0022             res = reshape( U, d );
+0023         <span class="keyword">case</span> 2 
+0024             res = ipermute( reshape(U, [d(2), d(1), d(3)]), [2, 1, 3] );
+0025         <span class="keyword">case</span> 3 
+0026             res = reshape( transpose(U), d );
+0027         <span class="keyword">otherwise</span>
+0028             error(<span class="string">'Invalid mode input in function matricize'</span>)
+0029     <span class="keyword">end</span>
+0030 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Sun 05-Sep-2021 17:57:00 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

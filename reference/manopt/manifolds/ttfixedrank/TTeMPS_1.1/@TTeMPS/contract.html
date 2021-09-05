@@ -1,0 +1,163 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of contract</title>
+  <meta name="keywords" content="contract">
+  <meta name="description" content="CONTRACT Contraction of two TT/MPS tensors.">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../index.html">Home</a> &gt;  <a href="#">manopt</a> &gt; <a href="#">manifolds</a> &gt; <a href="../../index.html">ttfixedrank</a> &gt; <a href="../index.html">TTeMPS_1.1</a> &gt; <a href="index.html">@TTeMPS</a> &gt; contract.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../index.html"><img alt="<" border="0" src="../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for manopt\manifolds\ttfixedrank\TTeMPS_1.1\@TTeMPS&nbsp;<img alt=">" border="0" src="../../../../../right.png"></a></td></tr></table>-->
+
+<h1>contract
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../up.png"></a></h2>
+<div class="box"><strong>CONTRACT Contraction of two TT/MPS tensors.</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../up.png"></a></h2>
+<div class="box"><strong>function res = contract( x, y, idx ) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">CONTRACT Contraction of two TT/MPS tensors.
+   Z = CONTRACT(X,Y,IDX) contracts all cores of the two TT/MPS tensors X and Y except 
+   core IDX. Result Z is a tensor of size [X.rank(IDX),Y.ORDER(IDX),X.rank(IDX+1)].
+
+   RES = CONTRACT(X,Y,[IDX1, IDX2]) contracts all cores of the two TT/MPS tensors X and Y except 
+   cores [IDX1, IDX2]. IDX1 and IDX2 must be two consecutive integers in ascending order. 
+   Result RES is a cell array with two tensors of size [X.rank(IDX1),Y.ORDER(IDX1),Y.rank(IDX2)]
+   and [Y.rank(IDX2),Y.ORDER(IDX2),X.rank(IDX2+1)], respectively.
+
+   See also <a href="innerprod.html" class="code" title="function res = innerprod( x, y, dir, upto, storeParts )">INNERPROD</a>.</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../matlabicon.gif)">
+<li><a href="innerprod.html" class="code" title="function res = innerprod( x, y, dir, upto, storeParts )">innerprod</a>	INNERPROD Inner product between two TT/MPS tensors.</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_block/innerprod.html" class="code" title="function res = innerprod( x, y, dir, upto )">innerprod</a>	INNERPROD Inner product between two TT/MPS tensors.</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod.html" class="code" title="function res = tensorprod( U, A, mode, apply_inv )">tensorprod</a>	TENSORPROD Tensor-times-Matrix product.</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../matlabicon.gif)">
+<li><a href="TTeMPS.html" class="code" title="">TTeMPS</a>	</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_block/TTeMPS_block.html" class="code" title="">TTeMPS_block</a>	</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_op/TTeMPS_op.html" class="code" title="">TTeMPS_op</a>	</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_op_laplace/TTeMPS_op_laplace.html" class="code" title="">TTeMPS_op_laplace</a>	</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_tangent/TTeMPS_tangent.html" class="code" title="">TTeMPS_tangent</a>	</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/algorithms/eigenvalue/amen_eigenvalue.html" class="code" title="function [X, C, evalue, residuums, micro_res, objective, elapsed_time] = amen_eigenvalue(A, prec, p, rr, opts)">amen_eigenvalue</a>	AMEN_EIGENVALUE Calculate p smallest eigenvalues of a TTeMPS operator</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/algorithms/linearsystem/alsLinsolve.html" class="code" title="function [X, residuum, cost] = alsLinsolve( L, F, X, opts )">alsLinsolve</a>	TTeMPS Toolbox.</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/algorithms/linearsystem/alsLinsolve_fast.html" class="code" title="function [X, residuum, cost, times] = alsLinsolve_fast( L, F, X, opts )">alsLinsolve_fast</a>	TTeMPS Toolbox.</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/algorithms/linearsystem/alsLinsolve_rankOne.html" class="code" title="function [X, residuum, cost, times] = alsLinsolve_rankOne( L, F, X, opts )">alsLinsolve_rankOne</a>	TTeMPS Toolbox.</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/algorithms/linearsystem/amen.html" class="code" title="function [X, residual, cost] = amen( L, F, X, opts )">amen</a>	TTeMPS Toolbox.</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/algorithms/linearsystem/amen_fast.html" class="code" title="function [X, residual, cost, times] = amen_fast( L, F, X, opts )">amen_fast</a>	TTeMPS Toolbox.</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/algorithms/linearsystem/construct_initial_guess.html" class="code" title="function X = construct_initial_guess(L, F, r, n)">construct_initial_guess</a>	TTeMPS Toolbox.</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/algorithms/linearsystem/construct_initial_guess_rankOne.html" class="code" title="function X = construct_initial_guess(L, F, r, n)">construct_initial_guess_rankOne</a>	TTeMPS Toolbox.</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function res = contract( x, y, idx )</a>
+0002     <span class="comment">%CONTRACT Contraction of two TT/MPS tensors.</span>
+0003     <span class="comment">%   Z = CONTRACT(X,Y,IDX) contracts all cores of the two TT/MPS tensors X and Y except</span>
+0004     <span class="comment">%   core IDX. Result Z is a tensor of size [X.rank(IDX),Y.ORDER(IDX),X.rank(IDX+1)].</span>
+0005     <span class="comment">%</span>
+0006     <span class="comment">%   RES = CONTRACT(X,Y,[IDX1, IDX2]) contracts all cores of the two TT/MPS tensors X and Y except</span>
+0007     <span class="comment">%   cores [IDX1, IDX2]. IDX1 and IDX2 must be two consecutive integers in ascending order.</span>
+0008     <span class="comment">%   Result RES is a cell array with two tensors of size [X.rank(IDX1),Y.ORDER(IDX1),Y.rank(IDX2)]</span>
+0009     <span class="comment">%   and [Y.rank(IDX2),Y.ORDER(IDX2),X.rank(IDX2+1)], respectively.</span>
+0010     <span class="comment">%</span>
+0011     <span class="comment">%   See also INNERPROD.</span>
+0012 
+0013     <span class="comment">%   TTeMPS Toolbox.</span>
+0014     <span class="comment">%   Michael Steinlechner, 2013-2016</span>
+0015     <span class="comment">%   Questions and contact: michael.steinlechner@epfl.ch</span>
+0016     <span class="comment">%   BSD 2-clause license, see LICENSE.txt</span>
+0017 
+0018     sz = size(idx);
+0019 
+0020     <span class="keyword">if</span> min(sz) == 1
+0021         <span class="keyword">if</span> max(sz) == 1
+0022             <span class="comment">% Scalar IDX case: only one node not to contract</span>
+0023             <span class="keyword">if</span> idx == 1
+0024                 right = <a href="innerprod.html" class="code" title="function res = innerprod( x, y, dir, upto, storeParts )">innerprod</a>( x, y, <span class="string">'RL'</span>, idx+1 );
+0025                 res = <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod.html" class="code" title="function res = tensorprod( U, A, mode, apply_inv )">tensorprod</a>( y.U{idx}, right, 3 );
+0026             <span class="keyword">elseif</span> idx == x.order
+0027                 left = <a href="innerprod.html" class="code" title="function res = innerprod( x, y, dir, upto, storeParts )">innerprod</a>( x, y, <span class="string">'LR'</span>, idx-1 );
+0028                 res = <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod.html" class="code" title="function res = tensorprod( U, A, mode, apply_inv )">tensorprod</a>( y.U{idx}, left, 1 );
+0029             <span class="keyword">else</span>
+0030                 left = <a href="innerprod.html" class="code" title="function res = innerprod( x, y, dir, upto, storeParts )">innerprod</a>( x, y, <span class="string">'LR'</span>, idx-1 );
+0031                 right = <a href="innerprod.html" class="code" title="function res = innerprod( x, y, dir, upto, storeParts )">innerprod</a>( x, y, <span class="string">'RL'</span>, idx+1 ); 
+0032 
+0033                 res = <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod.html" class="code" title="function res = tensorprod( U, A, mode, apply_inv )">tensorprod</a>( y.U{idx}, left, 1 );
+0034                 res = <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod.html" class="code" title="function res = tensorprod( U, A, mode, apply_inv )">tensorprod</a>( res, right, 3 );
+0035             <span class="keyword">end</span> 
+0036 
+0037         <span class="keyword">elseif</span> max(sz) == 2
+0038             <span class="comment">% Two-IDX case: two neighboring nodes to contract.</span>
+0039             <span class="keyword">if</span> diff(idx) ~= 1
+0040                 error(<span class="string">'Choose two neighboring nodes in ascending order.'</span>)
+0041             <span class="keyword">end</span>
+0042 
+0043             <span class="keyword">if</span> idx(1) == 1
+0044                 <span class="comment">% test for block format</span>
+0045                 q = size(y.U{idx(2)}, 4);
+0046                 right = <a href="innerprod.html" class="code" title="function res = innerprod( x, y, dir, upto, storeParts )">innerprod</a>( x, y, <span class="string">'RL'</span>, idx(2)+1 );
+0047                 res{1} = y.U{1};
+0048                 <span class="keyword">if</span> q ~= 1 
+0049                     s = size(y.U{idx(2)});
+0050                     res{2} = reshape( permute( y.U{idx(2)}, [3 1 2 4] ), [s(3), s(1)*s(2)*q]);
+0051                     res{2} = right*res{2};
+0052                     res{2} = reshape( res{2}, [size(right, 1), s(1), s(2), q]);
+0053                     res{2} = ipermute( res{2}, [3 1 2 4] );
+0054                 <span class="keyword">else</span>
+0055                     res{2} = <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod.html" class="code" title="function res = tensorprod( U, A, mode, apply_inv )">tensorprod</a>( y.U{idx(2)}, right, 3 );
+0056                 <span class="keyword">end</span>
+0057 
+0058             <span class="keyword">elseif</span> idx(2) == x.order
+0059                 <span class="comment">% test for block format</span>
+0060                 p = size(y.U{idx(1)}, 4);
+0061                 left = <a href="innerprod.html" class="code" title="function res = innerprod( x, y, dir, upto, storeParts )">innerprod</a>( x, y, <span class="string">'LR'</span>, idx(1)-1 );
+0062                 <span class="keyword">if</span> p ~= 1 
+0063                     s = size(y.U{idx(1)});
+0064                     res{1} = reshape( y.U{idx(1)}, [s(1), s(2)*s(3)*p]);
+0065                     res{1} = left * res{1};
+0066                     res{1} = reshape( res{1}, [size(left,1), s(2), s(3), p]);
+0067                 <span class="keyword">else</span>
+0068                     res{1} = <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod.html" class="code" title="function res = tensorprod( U, A, mode, apply_inv )">tensorprod</a>( y.U{idx(1)}, left, 1 );
+0069                 <span class="keyword">end</span>
+0070                 res{2} = y.U{x.order};
+0071 
+0072             <span class="keyword">else</span>
+0073                 left = <a href="innerprod.html" class="code" title="function res = innerprod( x, y, dir, upto, storeParts )">innerprod</a>( x, y, <span class="string">'LR'</span>, idx(1)-1 );
+0074                 right = <a href="innerprod.html" class="code" title="function res = innerprod( x, y, dir, upto, storeParts )">innerprod</a>( x, y, <span class="string">'RL'</span>, idx(2)+1 ); 
+0075                 <span class="comment">% test for block format</span>
+0076                 p = size(y.U{idx(1)}, 4);
+0077                 q = size(y.U{idx(2)}, 4);
+0078                 <span class="keyword">if</span> p ~= 1 
+0079                     s = size(y.U{idx(1)});
+0080                     res{1} = reshape( y.U{idx(1)}, [s(1), s(2)*s(3)*p]);
+0081                     res{1} = left * res{1};
+0082                     res{1} = reshape( res{1}, [size(left,1), s(2), s(3), p]);
+0083                     res{2} = <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod.html" class="code" title="function res = tensorprod( U, A, mode, apply_inv )">tensorprod</a>( y.U{idx(2)}, right, 3 );
+0084                 <span class="keyword">elseif</span> q ~= 1
+0085                     res{1} = <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod.html" class="code" title="function res = tensorprod( U, A, mode, apply_inv )">tensorprod</a>( y.U{idx(1)}, left, 1 );
+0086                     s = size(y.U{idx(2)});
+0087                     res{2} = reshape( permute( y.U{idx(2)}, [3 1 2 4] ), [s(3), s(1)*s(2)*q]);
+0088                     res{2} = right*res{2};
+0089                     res{2} = reshape( res{2}, [size(right, 1), s(1), s(2), q]);
+0090                     res{2} = ipermute( res{2}, [3 1 2 4] );
+0091                 <span class="keyword">else</span>
+0092                     res{1} = <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod.html" class="code" title="function res = tensorprod( U, A, mode, apply_inv )">tensorprod</a>( y.U{idx(1)}, left, 1 );
+0093                     res{2} = <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod.html" class="code" title="function res = tensorprod( U, A, mode, apply_inv )">tensorprod</a>( y.U{idx(2)}, right, 3 );
+0094                 <span class="keyword">end</span>
+0095                     
+0096             <span class="keyword">end</span> 
+0097             
+0098         <span class="keyword">else</span>
+0099             <span class="comment">% Wrong IDX format.</span>
+0100             error(<span class="string">'Unknown IDX format. Either scalar or two-dim. row-/column array expected.'</span>)
+0101         <span class="keyword">end</span>
+0102             
+0103     <span class="keyword">else</span>
+0104         error(<span class="string">'Unknown IDX format. Either scalar or two-dim. row-/column array expected.'</span>)
+0105     <span class="keyword">end</span>
+0106 <span class="keyword">end</span>
+0107</pre></div>
+<hr><address>Generated on Sun 05-Sep-2021 17:57:00 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

@@ -34,7 +34,7 @@
  Given a 3-dimensional matrix A of size n-by-m-by-N, returns a column
  vector of length N such that sqnorm(i) = norm(A(:, :, i), 'fro')^2.
 
- See also: <a href="multiprod.html" class="code" title="function c = multiprod(a, b, idA, idB)">multiprod</a> <a href="multitransp.html" class="code" title="function b = multitransp(a, dim)">multitransp</a> <a href="multitrace.html" class="code" title="function tr = multitrace(A)">multitrace</a> norms</pre></div>
+ See also: <a href="multiprod.html" class="code" title="function C = multiprod(A, B, unused1, unused2) %#ok<INUSD>">multiprod</a> <a href="multitransp.html" class="code" title="function B = multitransp(A, unused) %#ok<INUSD>">multitransp</a> <a href="multitrace.html" class="code" title="function tr = multitrace(A)">multitrace</a> norms</pre></div>
 
 <!-- crossreference -->
 <h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
@@ -74,6 +74,6 @@ This function is called by:
 0023     sqnorm = sum(reshape(A, n*m, N).^2, 1)';
 0024 
 0025 <span class="keyword">end</span></pre></div>
-<hr><address>Generated on Tue 19-May-2020 18:46:12 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+<hr><address>Generated on Sun 05-Sep-2021 17:57:00 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
 </body>
 </html>

@@ -1,0 +1,149 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of ex_completion_rankadaptive</title>
+  <meta name="keywords" content="ex_completion_rankadaptive">
+  <meta name="description" content="Example script for RANK-ADAPTIVE TENSOR COMPLETION, see Algorithm RTTC described in">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../index.html">Home</a> &gt;  <a href="#">manopt</a> &gt; <a href="#">manifolds</a> &gt; <a href="../../index.html">ttfixedrank</a> &gt; <a href="../index.html">TTeMPS_1.1</a> &gt; <a href="index.html">examples</a> &gt; ex_completion_rankadaptive.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../index.html"><img alt="<" border="0" src="../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for manopt\manifolds\ttfixedrank\TTeMPS_1.1\examples&nbsp;<img alt=">" border="0" src="../../../../../right.png"></a></td></tr></table>-->
+
+<h1>ex_completion_rankadaptive
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../up.png"></a></h2>
+<div class="box"><strong>Example script for RANK-ADAPTIVE TENSOR COMPLETION, see Algorithm RTTC described in</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> Example script for RANK-ADAPTIVE TENSOR COMPLETION, see Algorithm RTTC described in  
+
+   Michael Steinlechner, Riemannian optimization for high-dimensional tensor completion,
+   Technical report, March 2015, revised December 2015. 
+   To appear in SIAM J. Sci. Comput. 
+
+ See this report for more details about the algorithms and the setup. 
+ In particular, the choices of 
+   
+   maxiter, maxiter_final,
+   tol, reltol, gradtol
+
+ can significantly influence the performance. They have to be chosen in such a
+ way so that the algorithm does not stay too long at each intermediate rank
+ (usually, less than 10 iteration per intermediate rank suffice completely).
+ The correct choice requires some testing w.r.t. to the underlying data.</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../matlabicon.gif)">
+<li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>	NORM Norm of a TT/MPS tensor.</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/orthogonalize.html" class="code" title="function x = orthogonalize( x, pos )">orthogonalize</a>	ORTHOGONALIZE Orthogonalize tensor.</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_block/norm.html" class="code" title="function res = norm( x )">norm</a>	NORM Norm of a TT/MPS block-mu tensor.</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_block/orthogonalize.html" class="code" title="function res = orthogonalize( x )">orthogonalize</a>	ORTHOGONALIZE Orthogonalize TT/MPS Block-mu tensor.</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/TTeMPS_rand.html" class="code" title="function x = TTeMPS_rand(r, n)">TTeMPS_rand</a>	TTEMPS_RAND Create random TTeMPS tensor</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/algorithms/completion/completion_rankincrease.html" class="code" title="function [X,cost,test,stats] = completion_rankincrease_adaptive_new2( method, A_Omega, Omega, A_Omega_C, Omega_C, A_Gamma, Gamma, X0, opts )">completion_rankincrease</a>	</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/algorithms/completion/makeOmegaSet_mod.html" class="code" title="function Omega = makeOmegaSet_mod( n, sizeOmega )">makeOmegaSet_mod</a>	TTeMPS Toolbox.</li><li><a href="../../../../../manopt/tools/orthogonalize.html" class="code" title="function [Q, R] = orthogonalize(M, x, A)">orthogonalize</a>	Orthonormalizes a basis of tangent vectors in the Manopt framework.</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../matlabicon.gif)">
+</ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">% Example script for RANK-ADAPTIVE TENSOR COMPLETION, see Algorithm RTTC described in</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">%   Michael Steinlechner, Riemannian optimization for high-dimensional tensor completion,</span>
+0004 <span class="comment">%   Technical report, March 2015, revised December 2015.</span>
+0005 <span class="comment">%   To appear in SIAM J. Sci. Comput.</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">% See this report for more details about the algorithms and the setup.</span>
+0008 <span class="comment">% In particular, the choices of</span>
+0009 <span class="comment">%</span>
+0010 <span class="comment">%   maxiter, maxiter_final,</span>
+0011 <span class="comment">%   tol, reltol, gradtol</span>
+0012 <span class="comment">%</span>
+0013 <span class="comment">% can significantly influence the performance. They have to be chosen in such a</span>
+0014 <span class="comment">% way so that the algorithm does not stay too long at each intermediate rank</span>
+0015 <span class="comment">% (usually, less than 10 iteration per intermediate rank suffice completely).</span>
+0016 <span class="comment">% The correct choice requires some testing w.r.t. to the underlying data.</span>
+0017 
+0018 <span class="comment">%   TTeMPS Toolbox.</span>
+0019 <span class="comment">%   Michael Steinlechner, 2013-2016</span>
+0020 <span class="comment">%   Questions and contact: michael.steinlechner@epfl.ch</span>
+0021 <span class="comment">%   BSD 2-clause license, see LICENSE.txt</span>
+0022 
+0023 rng(17);
+0024 
+0025 d = 5;
+0026 nn = 20;
+0027 maxrank = 7;
+0028 L = 1;
+0029 
+0030 n = nn*ones(1,d);
+0031 
+0032 opts_cg = struct(<span class="string">'maxiter'</span>, 10,<span class="string">'maxiter_final'</span>,10, <span class="string">'tol'</span>, 1e-6, <span class="string">'reltol'</span>, 1e-6, <span class="string">'gradtol'</span>, 0, <span class="string">'maxrank'</span>, maxrank,<span class="string">'epsilon'</span>,1e-8);
+0033 
+0034 dof = d*nn*maxrank^2;
+0035 sizeOmega = 10*dof;
+0036 sizeGamma = sizeOmega;
+0037 
+0038 Omega = <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/algorithms/completion/makeOmegaSet_mod.html" class="code" title="function Omega = makeOmegaSet_mod( n, sizeOmega )">makeOmegaSet_mod</a>(n, sizeOmega);
+0039 sizeOmega_C = 100;
+0040 sizeOmega = sizeOmega - sizeOmega_C;
+0041 Omega_C_ind = randperm( sizeOmega, sizeOmega_C );
+0042 Omega_C = Omega( Omega_C_ind, : );
+0043 Omega( Omega_C_ind, : ) = [];
+0044 Gamma = <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/algorithms/completion/makeOmegaSet_mod.html" class="code" title="function Omega = makeOmegaSet_mod( n, sizeOmega )">makeOmegaSet_mod</a>(n, sizeGamma);
+0045 
+0046 A_Omega = zeros(sizeOmega,1);
+0047 A_Omega_C = zeros(sizeOmega_C,1);
+0048 A_Gamma = zeros(sizeGamma,1);
+0049 
+0050 f = @(x) exp(-<a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>(x));
+0051 
+0052 <span class="keyword">for</span> i = 1:sizeOmega
+0053     A_Omega(i) = f( Omega(i,:)/(max(n)-1)*L );
+0054 <span class="keyword">end</span>
+0055 <span class="keyword">for</span> i = 1:sizeOmega_C
+0056     A_Omega_C(i) = f( Omega_C(i,:)/(max(n)-1)*L );
+0057 <span class="keyword">end</span>
+0058 <span class="keyword">for</span> i = 1:sizeGamma
+0059     A_Gamma(i) = f( Gamma(i,:)/(max(n)-1)*L );
+0060 <span class="keyword">end</span>
+0061 
+0062 r = [1, 1*ones(1,d-1), 1];
+0063 X0 = <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/TTeMPS_rand.html" class="code" title="function x = TTeMPS_rand(r, n)">TTeMPS_rand</a>( r, n );
+0064 X0 = <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/orthogonalize.html" class="code" title="function x = orthogonalize( x, pos )">orthogonalize</a>( X0, X0.order );
+0065 
+0066 [X,cost,test,stats] = <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/algorithms/completion/completion_rankincrease.html" class="code" title="function [X,cost,test,stats] = completion_rankincrease_adaptive_new2( method, A_Omega, Omega, A_Omega_C, Omega_C, A_Gamma, Gamma, X0, opts )">completion_rankincrease</a>( <span class="string">'GeomCG'</span>, A_Omega, Omega, A_Omega_C, Omega_C, A_Gamma, Gamma, X0, opts_cg );
+0067 
+0068 stats.rankidx = cumsum(stats.rankidx)
+0069 subplot(1,2,1)
+0070 semilogy( 1:length(cost), cost,<span class="string">'Markersize'</span>,8);
+0071 hold on
+0072 line = [1e-6,1e0];
+0073 <span class="keyword">for</span> i=1:length(stats.rankidx)
+0074     semilogy( [stats.rankidx(i), stats.rankidx(i)], line, <span class="string">'--'</span>,<span class="string">'color'</span>,[0.7,0.7,0.7]);
+0075 <span class="keyword">end</span>
+0076 title(<span class="string">'Reduction of cost function'</span>)
+0077 xlabel(<span class="string">'Number of individual RTTC iterations performed'</span>)
+0078 ylabel(<span class="string">'Cost function'</span>)
+0079 legend(<span class="string">'Cost function'</span>,<span class="string">'rank increase in one mode'</span>)
+0080 set(gca,<span class="string">'fontsize'</span>,16)
+0081 
+0082 subplot(1,2,2)
+0083 semilogy( 1:length(test), test,<span class="string">'Markersize'</span>,8);
+0084 title(<span class="string">'Reduction of rel. error on test set'</span>)
+0085 xlabel(<span class="string">'Number of full RTTC runs'</span>)
+0086 ylabel(<span class="string">'Rel. error after one RTTC run for a certain rank'</span>)
+0087 set(gca,<span class="string">'fontsize'</span>,16)</pre></div>
+<hr><address>Generated on Sun 05-Sep-2021 17:57:00 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

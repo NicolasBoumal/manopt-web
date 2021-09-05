@@ -1,0 +1,95 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of plus</title>
+  <meta name="keywords" content="plus">
+  <meta name="description" content="PLUS Addition of two TT/MPS operators.">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../index.html">Home</a> &gt;  <a href="#">manopt</a> &gt; <a href="#">manifolds</a> &gt; <a href="../../index.html">ttfixedrank</a> &gt; <a href="../index.html">TTeMPS_1.1</a> &gt; <a href="index.html">@TTeMPS_op</a> &gt; plus.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../index.html"><img alt="<" border="0" src="../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for manopt\manifolds\ttfixedrank\TTeMPS_1.1\@TTeMPS_op&nbsp;<img alt=">" border="0" src="../../../../../right.png"></a></td></tr></table>-->
+
+<h1>plus
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../up.png"></a></h2>
+<div class="box"><strong>PLUS Addition of two TT/MPS operators.</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../up.png"></a></h2>
+<div class="box"><strong>function z = plus( x, y ) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">PLUS Addition of two TT/MPS operators.
+   Z = PLUS(X,Y) adds to TT/MPS operators. The resulting TT/MPS operator 
+   has rank equal to the sum of the individual ranks.
+
+   TTeMPS Toolbox. 
+   Michael Steinlechner, 2013-2016
+   Questions and contact: michael.steinlechner@epfl.ch
+   BSD 2-clause license, see LICENSE.txt</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../matlabicon.gif)">
+<li><a href="TTeMPS_op.html" class="code" title="">TTeMPS_op</a>	</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../matlabicon.gif)">
+<li><a href="../../../../../manopt/manifolds/euclidean/skewsymmetricfactory.html" class="code" title="function M = skewsymmetricfactory(n, k)">skewsymmetricfactory</a>	Returns a manifold struct to optimize over k skew-symmetric matrices of size n</li><li><a href="../../../../../manopt/manifolds/euclidean/symmetricfactory.html" class="code" title="function M = symmetricfactory(n, k)">symmetricfactory</a>	Returns a manifold struct to optimize over k symmetric matrices of size n</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/TTeMPS.html" class="code" title="">TTeMPS</a>	</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/minus.html" class="code" title="function z = minus( x, y )">minus</a>	MINUS Substraction of two TT/MPS tensors.</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_block/TTeMPS_block.html" class="code" title="">TTeMPS_block</a>	</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_block/minus.html" class="code" title="function z = minus( x, y )">minus</a>	MINUS Substraction of two TT/MPS block-mu tensors.</li><li><a href="TTeMPS_op.html" class="code" title="">TTeMPS_op</a>	</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_tangent/TTeMPS_tangent.html" class="code" title="">TTeMPS_tangent</a>	</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_tangent_orth/TTeMPS_tangent_orth.html" class="code" title="">TTeMPS_tangent_orth</a>	</li><li><a href="../../../../../manopt/tools/lyapunov_symmetric_eig.html" class="code" title="function X = lyapunov_symmetric_eig(V, lambda, C, tol)">lyapunov_symmetric_eig</a>	Solves AX + XA = C when A = A', as a pseudo-inverse, given eig(A).</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function z = plus( x, y )</a>
+0002     <span class="comment">%PLUS Addition of two TT/MPS operators.</span>
+0003     <span class="comment">%   Z = PLUS(X,Y) adds to TT/MPS operators. The resulting TT/MPS operator</span>
+0004     <span class="comment">%   has rank equal to the sum of the individual ranks.</span>
+0005     <span class="comment">%</span>
+0006     <span class="comment">%   TTeMPS Toolbox.</span>
+0007     <span class="comment">%   Michael Steinlechner, 2013-2016</span>
+0008     <span class="comment">%   Questions and contact: michael.steinlechner@epfl.ch</span>
+0009     <span class="comment">%   BSD 2-clause license, see LICENSE.txt</span>
+0010 
+0011     
+0012     <span class="comment">% add sanity check...</span>
+0013     rx = x.rank;
+0014     ry = y.rank;
+0015 
+0016     z = <a href="TTeMPS_op.html" class="code" title="">TTeMPS_op</a>( cell(1, x.order) );
+0017         
+0018     <span class="comment">% first core:</span>
+0019     tmp = zeros( 1, x.size_col(1), x.size_row(1), rx(2)+ry(2) );
+0020     tmp( 1, :, :, 1:rx(2) ) = x.U{1};
+0021     tmp( 1, :, :, rx(2)+1:end ) = y.U{1};
+0022     z.U{1} = tmp;
+0023 
+0024     <span class="comment">%z.U{1} = reshape( [unfold( x.U{1}, 'left'), unfold( y.U{1}, 'left')], [1, x.size(1), x.rank(2) + y.rank(2)]);</span>
+0025 
+0026     <span class="comment">% central cores:</span>
+0027     <span class="keyword">for</span> i = 2:x.order-1
+0028         tmp = zeros( rx(i)+ry(i), x.size_col(i), x.size_row(i), rx(i+1)+ry(i+1) );
+0029         tmp( 1:rx(i), :, :, 1:rx(i+1) ) = x.U{i};
+0030         tmp( rx(i)+1:<span class="keyword">end</span>, :, :, rx(i+1)+1:end ) = y.U{i};
+0031         z.U{i} = tmp;
+0032     <span class="keyword">end</span>
+0033 
+0034     <span class="comment">% last core:</span>
+0035     tmp = zeros( rx(end-1)+ry(end-1), x.size_col(end), x.size_row(end), 1 );
+0036     tmp( 1:rx(end-1), :, :, 1 ) = x.U{end};
+0037     tmp( rx(end-1)+1:<span class="keyword">end</span>, :, :, 1 ) = y.U{end};
+0038     z.U{end} = tmp;
+0039 
+0040     z = update_properties( z );
+0041 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Sun 05-Sep-2021 17:57:00 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

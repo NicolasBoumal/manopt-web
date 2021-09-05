@@ -1,0 +1,78 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of full</title>
+  <meta name="keywords" content="full">
+  <meta name="description" content="FULL Convert TTeMPS tensor to full array">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../index.html">Home</a> &gt;  <a href="#">manopt</a> &gt; <a href="#">manifolds</a> &gt; <a href="../../index.html">ttfixedrank</a> &gt; <a href="../index.html">TTeMPS_1.1</a> &gt; <a href="index.html">@TTeMPS</a> &gt; full.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../index.html"><img alt="<" border="0" src="../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for manopt\manifolds\ttfixedrank\TTeMPS_1.1\@TTeMPS&nbsp;<img alt=">" border="0" src="../../../../../right.png"></a></td></tr></table>-->
+
+<h1>full
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../up.png"></a></h2>
+<div class="box"><strong>FULL Convert TTeMPS tensor to full array</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../up.png"></a></h2>
+<div class="box"><strong>function y = full( x ) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">FULL Convert TTeMPS tensor to full array
+   X = FULL(X) converts the TTeMPS tensor X to a (X.order)-dimensional full array of size
+   X.size(1) x X.size(2) x ... x X.size(X.order)
+
+    Use with care! Result can easily exceed available memory.
+
+   See also <a href="subsref.html" class="code" title="function out = subsref(x, s)">SUBSREF</a>.</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../matlabicon.gif)">
+<li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/unfold.html" class="code" title="function W = unfold( U, dir )">unfold</a>	UNFOLD Left/right-unfold a 3D array.</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../matlabicon.gif)">
+<li><a href="../../../../../examples/low_rank_tensor_completion_embedded.html" class="code" title="function low_rank_tensor_completion_embedded()">low_rank_tensor_completion_embedded</a>	Given partial observation of a low rank tensor (possibly including noise),</li><li><a href="../../../../../examples/shapefit_smoothed.html" class="code" title="function [T_hub, T_lsq, T_cvx] = shapefit_smoothed(V, J)">shapefit_smoothed</a>	ShapeFit formulation for sensor network localization from pair directions</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TT_weingarten.html" class="code" title="function Y = TT_weingarten(V, Z, ind)">TT_weingarten</a>	Weingarten map computation for the fixed TT-rank manifold.</li><li><a href="TTeMPS.html" class="code" title="">TTeMPS</a>	</li><li><a href="subsref.html" class="code" title="function out = subsref(x, s)">subsref</a>	SUBSREF Subscripted reference for TTeMPS.</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_block/TTeMPS_block.html" class="code" title="">TTeMPS_block</a>	</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_op/TTeMPS_op.html" class="code" title="">TTeMPS_op</a>	</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_op/full.html" class="code" title="function Afull = full( A )">full</a>	FULL Convert TTeMPS_op operator to full array</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_op_laplace/TTeMPS_op_laplace.html" class="code" title="">TTeMPS_op_laplace</a>	</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_op_laplace/TTeMPS_op_laplace_to_TTeMPS_op.html" class="code" title="function res = TTeMPS_op_laplace_to_TTeMPS_op( A )">TTeMPS_op_laplace_to_TTeMPS_op</a>	TTeMPS_op_laplace_to_TTeMPS Convert to TT_op_laplace to TTeMPS_op format.</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_op_laplace/contract.html" class="code" title="function res = contract( A, X, mu )">contract</a>	CONTRACT Contraction of two TT/MPS tensors with inner TT/MPS Laplace operator.</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_tangent/TTeMPS_tangent.html" class="code" title="">TTeMPS_tangent</a>	</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_tangent_orth/TTeMPS_tangent_orth.html" class="code" title="">TTeMPS_tangent_orth</a>	</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/operators/TTeMPS_op_NN.html" class="code" title="">TTeMPS_op_NN</a>	</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/operators/TTeMPS_op_NN_hermite.html" class="code" title="">TTeMPS_op_NN_hermite</a>	</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/operators/anisotropicdiffusion.html" class="code" title="">anisotropicdiffusion</a>	</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/operators/newton_potential.html" class="code" title="">newton_potential</a>	</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/fixedTTrankfactory.html" class="code" title="function M = fixedTTrankfactory(n, r, ind)">fixedTTrankfactory</a>	Manifold of tensors of fixed Tensor Train (TT) rank, embedded geometry</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function y = full( x )</a>
+0002     <span class="comment">%FULL Convert TTeMPS tensor to full array</span>
+0003     <span class="comment">%   X = FULL(X) converts the TTeMPS tensor X to a (X.order)-dimensional full array of size</span>
+0004     <span class="comment">%   X.size(1) x X.size(2) x ... x X.size(X.order)</span>
+0005     <span class="comment">%</span>
+0006     <span class="comment">%    Use with care! Result can easily exceed available memory.</span>
+0007     <span class="comment">%</span>
+0008     <span class="comment">%   See also SUBSREF.</span>
+0009 
+0010     <span class="comment">%   TTeMPS Toolbox.</span>
+0011     <span class="comment">%   Michael Steinlechner, 2013-2016</span>
+0012     <span class="comment">%   Questions and contact: michael.steinlechner@epfl.ch</span>
+0013     <span class="comment">%   BSD 2-clause license, see LICENSE.txt</span>
+0014     r = x.rank;
+0015     n = x.size;
+0016 
+0017     y = x.U{1};
+0018     y = reshape( y, [n(1), r(2) ]);
+0019     <span class="keyword">for</span> i = 2:x.order
+0020         U_temp = <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/unfold.html" class="code" title="function W = unfold( U, dir )">unfold</a>( x.U{i}, <span class="string">'right'</span>);
+0021         y = y * U_temp;
+0022         y = reshape( y, [ prod(n(1:i)), r(i+1) ]);
+0023     <span class="keyword">end</span>
+0024     y = reshape( y, n );
+0025 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Sun 05-Sep-2021 17:57:00 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

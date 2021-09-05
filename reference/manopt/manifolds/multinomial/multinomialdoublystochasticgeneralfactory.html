@@ -1,0 +1,295 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of multinomialdoublystochasticgeneralfactory</title>
+  <meta name="keywords" content="multinomialdoublystochasticgeneralfactory">
+  <meta name="description" content="Manifold of n-by-m postive matrices such that row sum is p and column sum is q.">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../index.html">Home</a> &gt;  <a href="#">manopt</a> &gt; <a href="#">manifolds</a> &gt; <a href="index.html">multinomial</a> &gt; multinomialdoublystochasticgeneralfactory.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../index.html"><img alt="<" border="0" src="../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for manopt\manifolds\multinomial&nbsp;<img alt=">" border="0" src="../../../right.png"></a></td></tr></table>-->
+
+<h1>multinomialdoublystochasticgeneralfactory
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>Manifold of n-by-m postive matrices such that row sum is p and column sum is q.</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function M = multinomialdoublystochasticgeneralfactory(n, m, p, q) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> Manifold of n-by-m postive matrices such that row sum is p and column sum is q.
+
+ function M = multinomialdoublystochasticgeneralfactory(n, m, p, q)
+
+  X &gt; 0.
+  X1 = p, p is a column positive vector of size n.
+  X'1 = q, q is a column positive vector of size m.
+ 
+ Ensure that p &gt; 0 and q &gt; 0. Also, ensure that sum(p) == sum(q).
+
+
+ Please cite the Manopt paper as well as the research papers:
+
+
+ @Techreport{mishra21a,
+   Title   = {Manifold optimization for optimal transport},
+   Author  = {Mishra, B. and Satya Dev, N. T. V., Kasai, H. and Jawanpuria, P.},
+   Journal = {Arxiv preprint arXiv:2103.00902},
+   Year    = {2021}
+ }
+
+ @article{douik2019manifold,
+ title={Manifold optimization over the set of doubly stochastic matrices: A second-order geometry},
+  author={Douik, A. and Hassibi, B.},
+  journal={IEEE Transactions on Signal Processing},
+  volume={67},
+  number={22},
+  pages={5761--5774},
+  year={2019}
+}
+
+
+ @article{shi21a,
+ title={Coupling matrix manifolds assisted optimization for optimal transport problems},
+  author={Shi, D. and Gao, J. and Hong, X. and Choy, ST. B. and Wang, Z.},
+  journal={Machine Learning},
+  pages={1--26},
+  year={2021}
+b}
+
+
+ The factory file extends the factory file
+ multinomialdoublystochasticfactory 
+ to handle general scaling of rows and columns.
+
+
+ See also multinomialdoublystochastic <a href="multinomialsymmetricfactory.html" class="code" title="function M = multinomialsymmetricfactory(n)">multinomialsymmetricfactory</a> <a href="multinomialfactory.html" class="code" title="function M = multinomialfactory(n, m)">multinomialfactory</a></pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="doubly_stochastic_general.html" class="code" title="function [B, d_2, d_1] = doubly_stochastic_general(A, p, q, maxiter, checkperiod)">doubly_stochastic_general</a>	Project a matrix to the doubly stochastic matrices (Sinkhorn's algorithm)</li><li><a href="../../../manopt/tools/hashmd5.html" class="code" title="function h = hashmd5(inp)">hashmd5</a>	Computes the MD5 hash of input data.</li><li><a href="../../../manopt/tools/matrixlincomb.html" class="code" title="function v = matrixlincomb(x, a1, d1, a2, d2) %#ok<INUSL>">matrixlincomb</a>	Linear combination function for tangent vectors represented as matrices.</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+</ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function [alpha, beta] = mylinearsolve(X, b)</a></li><li><a href="#_sub2" class="code">function Ax = mycompute(x)</a></li><li><a href="#_sub3" class="code">function ip = iproduct(X, eta, zeta)</a></li><li><a href="#_sub4" class="code">function X = random()</a></li><li><a href="#_sub5" class="code">function eta = randomvec(X)</a></li><li><a href="#_sub6" class="code">function etaproj = projection(X, eta)</a></li><li><a href="#_sub7" class="code">function rgrad = egrad2rgrad(X, egrad)</a></li><li><a href="#_sub8" class="code">function Y = retraction(X, eta, t)</a></li><li><a href="#_sub9" class="code">function rhess = ehess2rhess(X, egrad, ehess, eta)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function M = multinomialdoublystochasticgeneralfactory(n, m, p, q)</a>
+0002 <span class="comment">% Manifold of n-by-m postive matrices such that row sum is p and column sum is q.</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">% function M = multinomialdoublystochasticgeneralfactory(n, m, p, q)</span>
+0005 <span class="comment">%</span>
+0006 <span class="comment">%  X &gt; 0.</span>
+0007 <span class="comment">%  X1 = p, p is a column positive vector of size n.</span>
+0008 <span class="comment">%  X'1 = q, q is a column positive vector of size m.</span>
+0009 <span class="comment">%</span>
+0010 <span class="comment">% Ensure that p &gt; 0 and q &gt; 0. Also, ensure that sum(p) == sum(q).</span>
+0011 <span class="comment">%</span>
+0012 <span class="comment">%</span>
+0013 <span class="comment">% Please cite the Manopt paper as well as the research papers:</span>
+0014 <span class="comment">%</span>
+0015 <span class="comment">%</span>
+0016 <span class="comment">% @Techreport{mishra21a,</span>
+0017 <span class="comment">%   Title   = {Manifold optimization for optimal transport},</span>
+0018 <span class="comment">%   Author  = {Mishra, B. and Satya Dev, N. T. V., Kasai, H. and Jawanpuria, P.},</span>
+0019 <span class="comment">%   Journal = {Arxiv preprint arXiv:2103.00902},</span>
+0020 <span class="comment">%   Year    = {2021}</span>
+0021 <span class="comment">% }</span>
+0022 <span class="comment">%</span>
+0023 <span class="comment">% @article{douik2019manifold,</span>
+0024 <span class="comment">% title={Manifold optimization over the set of doubly stochastic matrices: A second-order geometry},</span>
+0025 <span class="comment">%  author={Douik, A. and Hassibi, B.},</span>
+0026 <span class="comment">%  journal={IEEE Transactions on Signal Processing},</span>
+0027 <span class="comment">%  volume={67},</span>
+0028 <span class="comment">%  number={22},</span>
+0029 <span class="comment">%  pages={5761--5774},</span>
+0030 <span class="comment">%  year={2019}</span>
+0031 <span class="comment">%}</span>
+0032 <span class="comment">%</span>
+0033 <span class="comment">%</span>
+0034 <span class="comment">% @article{shi21a,</span>
+0035 <span class="comment">% title={Coupling matrix manifolds assisted optimization for optimal transport problems},</span>
+0036 <span class="comment">%  author={Shi, D. and Gao, J. and Hong, X. and Choy, ST. B. and Wang, Z.},</span>
+0037 <span class="comment">%  journal={Machine Learning},</span>
+0038 <span class="comment">%  pages={1--26},</span>
+0039 <span class="comment">%  year={2021}</span>
+0040 <span class="comment">%b}</span>
+0041 <span class="comment">%</span>
+0042 <span class="comment">%</span>
+0043 <span class="comment">% The factory file extends the factory file</span>
+0044 <span class="comment">% multinomialdoublystochasticfactory</span>
+0045 <span class="comment">% to handle general scaling of rows and columns.</span>
+0046 <span class="comment">%</span>
+0047 <span class="comment">%</span>
+0048 <span class="comment">% See also multinomialdoublystochastic multinomialsymmetricfactory multinomialfactory</span>
+0049 
+0050 <span class="comment">% This file is part of Manopt: www.manopt.org.</span>
+0051 <span class="comment">% Original author: Bamdev Mishra, Oct 30, 2020.</span>
+0052 <span class="comment">% Contributors:</span>
+0053 <span class="comment">% Change log:</span>
+0054 
+0055     e1 = ones(n, 1);
+0056     e2 = ones(m, 1);
+0057 
+0058     maxDSiters = min(1000, n*m); <span class="comment">% Ideally it should be supplid by user.</span>
+0059 
+0060     <span class="keyword">if</span> size(p, 1) ~= n
+0061         error(<span class="string">'p should be a column vector of size n.'</span>);
+0062     <span class="keyword">end</span>
+0063 
+0064     <span class="keyword">if</span> size(q, 1) ~= m
+0065         error(<span class="string">'q should be a column vector of size m.'</span>);
+0066     <span class="keyword">end</span>
+0067 
+0068     <a name="_sub1" href="#_subfunctions" class="code">function [alpha, beta] = mylinearsolve(X, b) </a><span class="comment">% BM okay</span>
+0069         <span class="comment">% zeta = sparse(A)\b; % sparse might not be better perf.-wise.</span>
+0070         <span class="comment">% where A = [diag(p) X ; X' diag(q)];</span>
+0071         <span class="comment">%</span>
+0072         <span class="comment">% Even faster is to create a function handle</span>
+0073         <span class="comment">% computing A*x (x is a given vector).</span>
+0074         <span class="comment">% Make sure that A is not created, and X is only</span>
+0075         <span class="comment">% passed with mylinearsolve and not A.</span>
+0076         [zeta, ~, ~, iter] = pcg(@<a href="#_sub2" class="code" title="subfunction Ax = mycompute(x) ">mycompute</a>, b, 1e-6, 100);
+0077         <a name="_sub2" href="#_subfunctions" class="code">function Ax = mycompute(x) </a><span class="comment">% BM okay</span>
+0078             xtop = x(1:n,1); <span class="comment">% vector of size n akin to alpha</span>
+0079             xbottom = x(n+1:<span class="keyword">end</span>,1); <span class="comment">% vector of size m akin to beta</span>
+0080             Axtop = xtop.*p + X*xbottom;
+0081             Axbottom = X'*xtop + xbottom.*q;
+0082             Ax = [Axtop; Axbottom];
+0083         <span class="keyword">end</span>
+0084         alpha = zeta(1:n, 1);
+0085         beta = zeta(n+1:<span class="keyword">end</span>, 1);
+0086     <span class="keyword">end</span>
+0087 
+0088     M.name = @() sprintf(<span class="string">'%dx%d matrices with positive entries such that row sum is p and column sum is q'</span>, n, n);
+0089 
+0090     M.dim = @() (n-1)*(m-1); <span class="comment">% BM okay</span>
+0091 
+0092     <span class="comment">% Fisher metric</span>
+0093     M.inner = @<a href="#_sub3" class="code" title="subfunction ip = iproduct(X, eta, zeta)">iproduct</a>; <span class="comment">% BM okay</span>
+0094     <a name="_sub3" href="#_subfunctions" class="code">function ip = iproduct(X, eta, zeta)</a>
+0095         ip = sum((eta(:).*zeta(:))./X(:));
+0096     <span class="keyword">end</span>
+0097 
+0098     M.norm = @(X, eta) sqrt(M.inner(X, eta, eta)); <span class="comment">% BM okay</span>
+0099 
+0100     M.dist = @(X, Y) error(<span class="string">'multinomialdoublystochasticgeneralfactory.dist not implemented yet.'</span>);
+0101 
+0102     <span class="comment">% The manifold is not compact as a result of the choice of the metric,</span>
+0103     <span class="comment">% thus any choice here is arbitrary. This is notably used to pick</span>
+0104     <span class="comment">% default values of initial and maximal trust-region radius in the</span>
+0105     <span class="comment">% trustregions solver.</span>
+0106     M.typicaldist = @() m+n;
+0107 
+0108     <span class="comment">% Pick a random point on the manifold</span>
+0109     M.rand = @<a href="#_sub4" class="code" title="subfunction X = random()">random</a>; <span class="comment">% BM okay</span>
+0110     <a name="_sub4" href="#_subfunctions" class="code">function X = random()</a>
+0111         Z = abs(randn(n, m));     <span class="comment">% Random point in the ambient space</span>
+0112         X = <a href="doubly_stochastic_general.html" class="code" title="function [B, d_2, d_1] = doubly_stochastic_general(A, p, q, maxiter, checkperiod)">doubly_stochastic_general</a>(Z, p, q, maxDSiters); <span class="comment">% Projection on the Manifold</span>
+0113     <span class="keyword">end</span>
+0114 
+0115     <span class="comment">% Pick a random vector in the tangent space at X.</span>
+0116     M.randvec = @<a href="#_sub5" class="code" title="subfunction eta = randomvec(X) ">randomvec</a>; <span class="comment">% BM okay</span>
+0117     <a name="_sub5" href="#_subfunctions" class="code">function eta = randomvec(X) </a><span class="comment">% A random vector in the tangent space</span>
+0118         <span class="comment">% A random vector in the ambient space</span>
+0119         Z = randn(n, m);
+0120         <span class="comment">% Projection of the vector onto the tangent space</span>
+0121         b = [sum(Z, 2) ; sum(Z, 1)'];
+0122         [alpha, beta] = <a href="#_sub1" class="code" title="subfunction [alpha, beta] = mylinearsolve(X, b) ">mylinearsolve</a>(X, b);
+0123         eta = Z - (alpha*e2' + e1*beta').*X;
+0124         <span class="comment">% Normalizing the vector</span>
+0125         nrm = M.norm(X, eta);
+0126         eta = eta / nrm;
+0127     <span class="keyword">end</span>
+0128 
+0129     <span class="comment">% Projection of vector eta in the ambient space to the tangent space.</span>
+0130     M.proj = @<a href="#_sub6" class="code" title="subfunction etaproj = projection(X, eta) ">projection</a>;  <span class="comment">% BM okay</span>
+0131     <a name="_sub6" href="#_subfunctions" class="code">function etaproj = projection(X, eta) </a><span class="comment">% Projection of the vector eta in the ambeint space onto the tangent space</span>
+0132         b = [sum(eta, 2) ; sum(eta, 1)'];
+0133         [alpha, beta] = <a href="#_sub1" class="code" title="subfunction [alpha, beta] = mylinearsolve(X, b) ">mylinearsolve</a>(X, b);
+0134         etaproj = eta - (alpha*e2' + e1*beta').*X;
+0135     <span class="keyword">end</span>
+0136 
+0137     M.tangent = M.proj;
+0138     M.tangent2ambient = @(X, eta) eta; <span class="comment">% BM okay</span>
+0139 
+0140     <span class="comment">% Conversion of Euclidean to Riemannian gradient</span>
+0141     M.egrad2rgrad = @<a href="#_sub7" class="code" title="subfunction rgrad = egrad2rgrad(X, egrad) ">egrad2rgrad</a>; <span class="comment">% BM okay</span>
+0142     <a name="_sub7" href="#_subfunctions" class="code">function rgrad = egrad2rgrad(X, egrad) </a><span class="comment">% projection of the euclidean gradient</span>
+0143         mu = (X.*egrad); 
+0144         b = [sum(mu, 2) ; sum(mu, 1)'];
+0145         [alpha, beta] = <a href="#_sub1" class="code" title="subfunction [alpha, beta] = mylinearsolve(X, b) ">mylinearsolve</a>(X, b);
+0146         rgrad = mu - (alpha*e2' + e1*beta').*X;
+0147     <span class="keyword">end</span>
+0148 
+0149     <span class="comment">% First-order retraction</span>
+0150     M.retr = @<a href="#_sub8" class="code" title="subfunction Y = retraction(X, eta, t)">retraction</a>;
+0151     <a name="_sub8" href="#_subfunctions" class="code">function Y = retraction(X, eta, t)</a>
+0152         <span class="keyword">if</span> nargin &lt; 3
+0153             t = 1.0;
+0154         <span class="keyword">end</span>
+0155         Y = X.*exp(t*(eta./X));
+0156 
+0157         Y = min(Y, 1e50); <span class="comment">% For numerical stability</span>
+0158         Y = max(Y, 1e-50); <span class="comment">% For numerical stability</span>
+0159 
+0160         Y = <a href="doubly_stochastic_general.html" class="code" title="function [B, d_2, d_1] = doubly_stochastic_general(A, p, q, maxiter, checkperiod)">doubly_stochastic_general</a>(Y, p, q, maxDSiters);
+0161     <span class="keyword">end</span>
+0162 
+0163     <span class="comment">% Conversion of Euclidean to Riemannian Hessian</span>
+0164     M.ehess2rhess = @<a href="#_sub9" class="code" title="subfunction rhess = ehess2rhess(X, egrad, ehess, eta)">ehess2rhess</a>; <span class="comment">% BM okay</span>
+0165     <a name="_sub9" href="#_subfunctions" class="code">function rhess = ehess2rhess(X, egrad, ehess, eta)</a>
+0166 
+0167         <span class="comment">% Computing the directional derivative of the Riemannian</span>
+0168         <span class="comment">% gradient</span>
+0169         gamma = egrad.*X;
+0170         gammadot = ehess.*X + egrad.*eta;
+0171         
+0172         b = [sum(gamma, 2) ; sum(gamma, 1)'];
+0173         bdot = [sum(gammadot, 2) ; sum(gammadot, 1)'];
+0174         [alpha, beta] = <a href="#_sub1" class="code" title="subfunction [alpha, beta] = mylinearsolve(X, b) ">mylinearsolve</a>(X, b);
+0175         [alphadot, betadot] = <a href="#_sub1" class="code" title="subfunction [alpha, beta] = mylinearsolve(X, b) ">mylinearsolve</a>(X, bdot- [eta*beta; eta'*alpha]);
+0176         
+0177         S = (alpha*e2' + e1*beta');
+0178         deltadot = gammadot - (alphadot*e2' + e1*betadot').*X- S.*eta; <span class="comment">% rgraddot</span>
+0179 
+0180         <span class="comment">% Computing Riemannian gradient</span>
+0181         delta = gamma - S.*X; <span class="comment">% rgrad</span>
+0182 
+0183         <span class="comment">% Riemannian Hessian in the ambient space</span>
+0184         nabla = deltadot - 0.5*(delta.*eta)./X;
+0185 
+0186         <span class="comment">% Riemannian Hessian on the tangent space</span>
+0187         rhess = <a href="#_sub6" class="code" title="subfunction etaproj = projection(X, eta) ">projection</a>(X, nabla);
+0188     <span class="keyword">end</span>
+0189 
+0190 
+0191     <span class="comment">% Miscellaneous manifold functions % BM okay</span>
+0192     M.hash = @(X) [<span class="string">'z'</span> <a href="../../../manopt/tools/hashmd5.html" class="code" title="function h = hashmd5(inp)">hashmd5</a>(X(:))];
+0193     M.lincomb = @<a href="../../../manopt/tools/matrixlincomb.html" class="code" title="function v = matrixlincomb(x, a1, d1, a2, d2) %#ok<INUSL>">matrixlincomb</a>;
+0194     M.zerovec = @(X) zeros(n, m);
+0195     M.transp = @(X1, X2, d) <a href="#_sub6" class="code" title="subfunction etaproj = projection(X, eta) ">projection</a>(X2, d);
+0196     M.vec = @(X, U) U(:);
+0197     M.mat = @(X, u) reshape(u, n, m);
+0198     M.vecmatareisometries = @() false;
+0199     
+0200 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Sun 05-Sep-2021 17:57:00 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

@@ -4,7 +4,7 @@
 <head>
   <title>Description of multihconj</title>
   <meta name="keywords" content="multihconj">
-  <meta name="description" content="MULTIHCONJ  Hermitian conjugating arrays of matrices.">
+  <meta name="description" content="Hermitian-conjugate transpose the matrix slices of an N-D array">
   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
   <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
   <meta name="robots" content="index, follow">
@@ -21,85 +21,90 @@
 </h1>
 
 <h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
-<div class="box"><strong>MULTIHCONJ  Hermitian conjugating arrays of matrices.</strong></div>
+<div class="box"><strong>Hermitian-conjugate transpose the matrix slices of an N-D array</strong></div>
 
 <h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
-<div class="box"><strong>function b = multihconj(a, dim) </strong></div>
+<div class="box"><strong>function B = multihconj(A, unused) %#ok<INUSD> </strong></div>
 
 <h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
-<div class="fragment"><pre class="comment">MULTIHCONJ  Hermitian conjugating arrays of matrices.
-    B = MULTIHCONJ(A) is equivalent to B = MULTIHCONJ(A, DIM), where
-    DIM = 1.
+<div class="fragment"><pre class="comment"> Hermitian-conjugate transpose the matrix slices of an N-D array
 
-    B = MULTIHCONJ(A, DIM) is equivalent to
-    B = PERMUTE(A, [1:DIM-1, DIM+1, DIM, DIM+2:NDIMS(A)]), where A is an
-    array containing N P-by-Q matrices along its dimensions DIM and DIM+1,
-    and B is an array containing the Q-by-P Hermitian conjugate (') of
-    those N matrices along the same dimensions. N = NUMEL(A) / (P*Q), i.e.
-    N is equal to the number of elements in A divided by the number of
-    elements in each matrix.
+ function B = multihconj(A)
 
+ If A is a 3-D array, then B is a 3-D array such that
 
-    Example:
-       A 5-by-9-by-3-by-2 array may be considered to be a block array
-       containing ten 9-by-3 matrices along dimensions 2 and 3. In this
-       case, its size is so indicated:  5-by-(9-by-3)-by-2 or 5x(9x3)x2.
-       If A is ................ a 5x(9x3)x2 array of 9x3 matrices,
-       C = MULTIHCONJ(A, 2) is a 5x(3x9)x2 array of 3x9 matrices.
+     B(:, :, i) = A(:, :, i)'
 
-    See also <a href="multitransp.html" class="code" title="function b = multitransp(a, dim)">MULTITRANSP</a> <a href="multiherm.html" class="code" title="function Y = multiherm(X)">MULTIHERM</a>.</pre></div>
+ for each i. If A is an N-D array, then B is an N-D array with the slices
+ A(:, :, i, j, k, ...) Hermitian-conjugate transposed.
+
+ This function is just a wrapper for pagectranspose, with a fallback call
+ to multihconj_legacy in case pagectranspose is not available.
+ If pagectranspose is available, it is better to call it directly.
+ Note that pagemtimes also allows to compute products with (c)transposes
+ without explicitly (c)transposing arrays.
+
+ See also: <a href="multiprod.html" class="code" title="function C = multiprod(A, B, unused1, unused2) %#ok<INUSD>">multiprod</a> <a href="multitransp.html" class="code" title="function B = multitransp(A, unused) %#ok<INUSD>">multitransp</a> <a href="multiscale.html" class="code" title="function A = multiscale(scale, A)">multiscale</a> <a href="multiskew.html" class="code" title="function Y = multiskew(X)">multiskew</a> <a href="multiskewh.html" class="code" title="function Y = multiskewh(X)">multiskewh</a> <a href="multitrace.html" class="code" title="function tr = multitrace(A)">multitrace</a></pre></div>
 
 <!-- crossreference -->
 <h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
 This function calls:
 <ul style="list-style-image:url(../../matlabicon.gif)">
-<li><a href="multitransp.html" class="code" title="function b = multitransp(a, dim)">multitransp</a>	Transposing arrays of matrices.</li></ul>
+<li><a href="multihconj_legacy.html" class="code" title="function b = multihconj_legacy(a, dim)">multihconj_legacy</a>	MULTIHCONJ  Hermitian conjugating arrays of matrices.</li></ul>
 This function is called by:
 <ul style="list-style-image:url(../../matlabicon.gif)">
-<li><a href="../../manopt/manifolds/grassmann/grassmanncomplexfactory.html" class="code" title="function M = grassmanncomplexfactory(n, p, k)">grassmanncomplexfactory</a>	Returns a manifold struct to optimize over the set of subspaces in C^n.</li><li><a href="../../manopt/manifolds/rotations/unitaryfactory.html" class="code" title="function M = unitaryfactory(n, k)">unitaryfactory</a>	Returns a manifold structure to optimize over unitary matrices.</li><li><a href="../../manopt/manifolds/stiefel/stiefelcomplexfactory.html" class="code" title="function M = stiefelcomplexfactory(n, p, k)">stiefelcomplexfactory</a>	Returns a manifold struct. to optimize over complex orthonormal matrices.</li><li><a href="multiherm.html" class="code" title="function Y = multiherm(X)">multiherm</a>	Returns the Hermitian parts of the matrices in the 3D matrix X</li><li><a href="multiskewh.html" class="code" title="function Y = multiskewh(X)">multiskewh</a>	Returns the skew-Hermitian parts of the matrices in the 3D matrix X.</li></ul>
+<li><a href="../../manopt/manifolds/grassmann/grassmanncomplexfactory.html" class="code" title="function M = grassmanncomplexfactory(n, p, k)">grassmanncomplexfactory</a>	Returns a manifold struct to optimize over the set of subspaces in C^n.</li><li><a href="../../manopt/manifolds/rotations/unitaryfactory.html" class="code" title="function M = unitaryfactory(n, k)">unitaryfactory</a>	Returns a manifold structure to optimize over unitary matrices.</li><li><a href="../../manopt/manifolds/stiefel/stiefelcomplexfactory.html" class="code" title="function M = stiefelcomplexfactory(n, p, k)">stiefelcomplexfactory</a>	Returns a manifold struct. to optimize over complex orthonormal matrices.</li><li><a href="multiherm.html" class="code" title="function Y = multiherm(X)">multiherm</a>	Returns the Hermitian parts of the matrices in a 3D array</li><li><a href="multiskewh.html" class="code" title="function Y = multiskewh(X)">multiskewh</a>	Returns the skew-Hermitian parts of the matrices in the 3D matrix X.</li></ul>
 <!-- crossreference -->
 
 
 
 <h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
-<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function b = multihconj(a, dim)</a>
-0002 <span class="comment">%MULTIHCONJ  Hermitian conjugating arrays of matrices.</span>
-0003 <span class="comment">%    B = MULTIHCONJ(A) is equivalent to B = MULTIHCONJ(A, DIM), where</span>
-0004 <span class="comment">%    DIM = 1.</span>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function B = multihconj(A, unused) </a><span class="comment">%#ok&lt;INUSD&gt;</span>
+0002 <span class="comment">% Hermitian-conjugate transpose the matrix slices of an N-D array</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">% function B = multihconj(A)</span>
 0005 <span class="comment">%</span>
-0006 <span class="comment">%    B = MULTIHCONJ(A, DIM) is equivalent to</span>
-0007 <span class="comment">%    B = PERMUTE(A, [1:DIM-1, DIM+1, DIM, DIM+2:NDIMS(A)]), where A is an</span>
-0008 <span class="comment">%    array containing N P-by-Q matrices along its dimensions DIM and DIM+1,</span>
-0009 <span class="comment">%    and B is an array containing the Q-by-P Hermitian conjugate (') of</span>
-0010 <span class="comment">%    those N matrices along the same dimensions. N = NUMEL(A) / (P*Q), i.e.</span>
-0011 <span class="comment">%    N is equal to the number of elements in A divided by the number of</span>
-0012 <span class="comment">%    elements in each matrix.</span>
-0013 <span class="comment">%</span>
-0014 <span class="comment">%</span>
-0015 <span class="comment">%    Example:</span>
-0016 <span class="comment">%       A 5-by-9-by-3-by-2 array may be considered to be a block array</span>
-0017 <span class="comment">%       containing ten 9-by-3 matrices along dimensions 2 and 3. In this</span>
-0018 <span class="comment">%       case, its size is so indicated:  5-by-(9-by-3)-by-2 or 5x(9x3)x2.</span>
-0019 <span class="comment">%       If A is ................ a 5x(9x3)x2 array of 9x3 matrices,</span>
-0020 <span class="comment">%       C = MULTIHCONJ(A, 2) is a 5x(3x9)x2 array of 3x9 matrices.</span>
-0021 <span class="comment">%</span>
-0022 <span class="comment">%    See also MULTITRANSP MULTIHERM.</span>
-0023 
-0024 <span class="comment">% This file is part of Manopt: www.manopt.org.</span>
-0025 <span class="comment">% Original author: Hiroyuki Sato, April 27, 2015.</span>
-0026 <span class="comment">% Contributors:</span>
-0027 <span class="comment">% Change log:</span>
-0028 
-0029     <span class="comment">% Setting DIM if not supplied.</span>
-0030     <span class="keyword">if</span> nargin == 1, dim = 1; <span class="keyword">end</span>
-0031 
-0032     <span class="comment">% Transposing</span>
-0033     b = <a href="multitransp.html" class="code" title="function b = multitransp(a, dim)">multitransp</a>(a, dim);
-0034 
-0035     <span class="comment">%Conjugating</span>
-0036     b = conj(b);
-0037 
-0038 <span class="keyword">end</span></pre></div>
-<hr><address>Generated on Tue 19-May-2020 18:46:12 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+0006 <span class="comment">% If A is a 3-D array, then B is a 3-D array such that</span>
+0007 <span class="comment">%</span>
+0008 <span class="comment">%     B(:, :, i) = A(:, :, i)'</span>
+0009 <span class="comment">%</span>
+0010 <span class="comment">% for each i. If A is an N-D array, then B is an N-D array with the slices</span>
+0011 <span class="comment">% A(:, :, i, j, k, ...) Hermitian-conjugate transposed.</span>
+0012 <span class="comment">%</span>
+0013 <span class="comment">% This function is just a wrapper for pagectranspose, with a fallback call</span>
+0014 <span class="comment">% to multihconj_legacy in case pagectranspose is not available.</span>
+0015 <span class="comment">% If pagectranspose is available, it is better to call it directly.</span>
+0016 <span class="comment">% Note that pagemtimes also allows to compute products with (c)transposes</span>
+0017 <span class="comment">% without explicitly (c)transposing arrays.</span>
+0018 <span class="comment">%</span>
+0019 <span class="comment">% See also: multiprod multitransp multiscale multiskew multiskewh multitrace</span>
+0020 
+0021 <span class="comment">% This file is part of Manopt: www.manopt.org.</span>
+0022 <span class="comment">% Original author: Nicolas Boumal, Aug. 12, 2021.</span>
+0023 <span class="comment">% Contributors: Xiaowen Jiang</span>
+0024 <span class="comment">% Change log:</span>
+0025 <span class="comment">%</span>
+0026 <span class="comment">%   Aug. 12, 2021 (NB):</span>
+0027 <span class="comment">%       Matlab R2020b introduced a built-in function pagectranspose which</span>
+0028 <span class="comment">%       does essentially everything we ever needed to do with multihconj</span>
+0029 <span class="comment">%       in Manopt. Accordingly, multihconj became a wrapper for</span>
+0030 <span class="comment">%       pagectranspose, and the old code for multihconj remains available</span>
+0031 <span class="comment">%       as multihconj_legacy.</span>
+0032 
+0033     assert(nargin == 1, <span class="keyword">...</span>
+0034            <span class="string">'The new multihconj only takes one input. Check multihconj_legacy.'</span>);
+0035 
+0036     <span class="keyword">if</span> exist(<span class="string">'pagectranspose'</span>, <span class="string">'file'</span>) <span class="comment">% Added to Matlab R2020b</span>
+0037         B = pagectranspose(A);
+0038     <span class="keyword">else</span>
+0039     <span class="comment">%   warning('manopt:multi', ...</span>
+0040     <span class="comment">%          ['Matlab R2020b introduced pagectranspose.\n' ...</span>
+0041     <span class="comment">%           'Calling the old code multihconj_legacy instead.\n' ...</span>
+0042     <span class="comment">%           'To disable this warning: warning(''off'', ''manopt:multi'')']);</span>
+0043         B = <a href="multihconj_legacy.html" class="code" title="function b = multihconj_legacy(a, dim)">multihconj_legacy</a>(A);
+0044     <span class="keyword">end</span>
+0045 
+0046 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Sun 05-Sep-2021 17:57:00 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
 </body>
 </html>

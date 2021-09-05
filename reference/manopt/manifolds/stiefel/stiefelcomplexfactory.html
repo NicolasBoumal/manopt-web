@@ -74,7 +74,7 @@
 <h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
 This function calls:
 <ul style="list-style-image:url(../../../matlabicon.gif)">
-<li><a href="../../../manopt/tools/hashmd5.html" class="code" title="function h = hashmd5(inp)">hashmd5</a>	Computes the MD5 hash of input data.</li><li><a href="../../../manopt/tools/matrixlincomb.html" class="code" title="function v = matrixlincomb(x, a1, d1, a2, d2) %#ok<INUSL>">matrixlincomb</a>	Linear combination function for tangent vectors represented as matrices.</li><li><a href="../../../manopt/tools/multihconj.html" class="code" title="function b = multihconj(a, dim)">multihconj</a>	MULTIHCONJ  Hermitian conjugating arrays of matrices.</li><li><a href="../../../manopt/tools/multiherm.html" class="code" title="function Y = multiherm(X)">multiherm</a>	Returns the Hermitian parts of the matrices in the 3D matrix X</li><li><a href="../../../manopt/tools/multiprod.html" class="code" title="function c = multiprod(a, b, idA, idB)">multiprod</a>	Multiplying 1-D or 2-D subarrays contained in two N-D arrays.</li><li><a href="../../../manopt/tools/qr_unique.html" class="code" title="function [Q, R] = qr_unique(A)">qr_unique</a>	Thin QR factorization ensuring diagonal of R is real, positive if possible.</li></ul>
+<li><a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>	NORM Norm of a TT/MPS tensor.</li><li><a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_block/norm.html" class="code" title="function res = norm( x )">norm</a>	NORM Norm of a TT/MPS block-mu tensor.</li><li><a href="../../../manopt/tools/hashmd5.html" class="code" title="function h = hashmd5(inp)">hashmd5</a>	Computes the MD5 hash of input data.</li><li><a href="../../../manopt/tools/matrixlincomb.html" class="code" title="function v = matrixlincomb(x, a1, d1, a2, d2) %#ok<INUSL>">matrixlincomb</a>	Linear combination function for tangent vectors represented as matrices.</li><li><a href="../../../manopt/tools/multihconj.html" class="code" title="function B = multihconj(A, unused) %#ok<INUSD>">multihconj</a>	Hermitian-conjugate transpose the matrix slices of an N-D array</li><li><a href="../../../manopt/tools/multiherm.html" class="code" title="function Y = multiherm(X)">multiherm</a>	Returns the Hermitian parts of the matrices in a 3D array</li><li><a href="../../../manopt/tools/multiprod.html" class="code" title="function C = multiprod(A, B, unused1, unused2) %#ok<INUSD>">multiprod</a>	Matrix multiply 2-D slices of N-D arrays</li><li><a href="../../../manopt/tools/qr_unique.html" class="code" title="function [Q, R] = qr_unique(A)">qr_unique</a>	Thin QR factorization ensuring diagonal of R is real, positive if possible.</li></ul>
 This function is called by:
 <ul style="list-style-image:url(../../../matlabicon.gif)">
 </ul>
@@ -151,7 +151,7 @@ This function is called by:
 0064     
 0065     M.inner = @(x, d1, d2) real(d1(:)'*d2(:)); <span class="comment">%! trace -&gt; real-trace</span>
 0066     
-0067     M.norm = @(x, d) norm(d(:));
+0067     M.norm = @(x, d) <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>(d(:));
 0068     
 0069     M.dist = @(x, y) error(<span class="string">'stiefel.dist not implemented yet.'</span>);
 0070     
@@ -160,9 +160,9 @@ This function is called by:
 0073     M.proj = @<a href="#_sub1" class="code" title="subfunction Up = projection(X, U)">projection</a>;
 0074     <a name="_sub1" href="#_subfunctions" class="code">function Up = projection(X, U)</a>
 0075         
-0076         XHU = <a href="../../../manopt/tools/multiprod.html" class="code" title="function c = multiprod(a, b, idA, idB)">multiprod</a>(<a href="../../../manopt/tools/multihconj.html" class="code" title="function b = multihconj(a, dim)">multihconj</a>(X), U); <span class="comment">%! XtU -&gt; XHU, multitransp -&gt; multihconj</span>
+0076         XHU = <a href="../../../manopt/tools/multiprod.html" class="code" title="function C = multiprod(A, B, unused1, unused2) %#ok<INUSD>">multiprod</a>(<a href="../../../manopt/tools/multihconj.html" class="code" title="function B = multihconj(A, unused) %#ok<INUSD>">multihconj</a>(X), U); <span class="comment">%! XtU -&gt; XHU, multitransp -&gt; multihconj</span>
 0077         herXHU = <a href="../../../manopt/tools/multiherm.html" class="code" title="function Y = multiherm(X)">multiherm</a>(XHU); <span class="comment">%! symXtU -&gt; herXHU, multisym -&gt; multiherm</span>
-0078         Up = U - <a href="../../../manopt/tools/multiprod.html" class="code" title="function c = multiprod(a, b, idA, idB)">multiprod</a>(X, herXHU); <span class="comment">%! symXtU -&gt; herXHU</span>
+0078         Up = U - <a href="../../../manopt/tools/multiprod.html" class="code" title="function C = multiprod(A, B, unused1, unused2) %#ok<INUSD>">multiprod</a>(X, herXHU); <span class="comment">%! symXtU -&gt; herXHU</span>
 0079         
 0080     <span class="keyword">end</span>
 0081     
@@ -174,9 +174,9 @@ This function is called by:
 0087     
 0088     M.ehess2rhess = @<a href="#_sub2" class="code" title="subfunction rhess = ehess2rhess(X, egrad, ehess, H)">ehess2rhess</a>;
 0089     <a name="_sub2" href="#_subfunctions" class="code">function rhess = ehess2rhess(X, egrad, ehess, H)</a>
-0090         XHG = <a href="../../../manopt/tools/multiprod.html" class="code" title="function c = multiprod(a, b, idA, idB)">multiprod</a>(<a href="../../../manopt/tools/multihconj.html" class="code" title="function b = multihconj(a, dim)">multihconj</a>(X), egrad); <span class="comment">%! XtG -&gt; XHG, multitransp -&gt; multihconj</span>
+0090         XHG = <a href="../../../manopt/tools/multiprod.html" class="code" title="function C = multiprod(A, B, unused1, unused2) %#ok<INUSD>">multiprod</a>(<a href="../../../manopt/tools/multihconj.html" class="code" title="function B = multihconj(A, unused) %#ok<INUSD>">multihconj</a>(X), egrad); <span class="comment">%! XtG -&gt; XHG, multitransp -&gt; multihconj</span>
 0091         herXHG = <a href="../../../manopt/tools/multiherm.html" class="code" title="function Y = multiherm(X)">multiherm</a>(XHG); <span class="comment">%! symXtG -&gt; herXHG, multisym(XtG) -&gt; multiherm(XHG)</span>
-0092         HherXHG = <a href="../../../manopt/tools/multiprod.html" class="code" title="function c = multiprod(a, b, idA, idB)">multiprod</a>(H, herXHG); <span class="comment">%! HsymXtG -&gt; HherXHG, symXtG -&gt; herXHG</span>
+0092         HherXHG = <a href="../../../manopt/tools/multiprod.html" class="code" title="function C = multiprod(A, B, unused1, unused2) %#ok<INUSD>">multiprod</a>(H, herXHG); <span class="comment">%! HsymXtG -&gt; HherXHG, symXtG -&gt; herXHG</span>
 0093         rhess = <a href="#_sub1" class="code" title="subfunction Up = projection(X, U)">projection</a>(X, ehess - HherXHG); <span class="comment">%! HsymXtG -&gt; HherXHG</span>
 0094     <span class="keyword">end</span>
 0095     
@@ -217,7 +217,7 @@ This function is called by:
 0130     M.randvec = @<a href="#_sub5" class="code" title="subfunction U = randomvec(X)">randomvec</a>;
 0131     <a name="_sub5" href="#_subfunctions" class="code">function U = randomvec(X)</a>
 0132         U = <a href="#_sub1" class="code" title="subfunction Up = projection(X, U)">projection</a>(X, randn(n, p, k) + 1i*randn(n, p, k)); <span class="comment">%! Complex version</span>
-0133         U = U / norm(U(:));
+0133         U = U / <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>(U(:));
 0134     <span class="keyword">end</span>
 0135     
 0136     M.lincomb = @<a href="../../../manopt/tools/matrixlincomb.html" class="code" title="function v = matrixlincomb(x, a1, d1, a2, d2) %#ok<INUSL>">matrixlincomb</a>;
@@ -231,6 +231,6 @@ This function is called by:
 0144     M.vecmatareisometries = @() true;
 0145 
 0146 <span class="keyword">end</span></pre></div>
-<hr><address>Generated on Tue 19-May-2020 18:46:12 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+<hr><address>Generated on Sun 05-Sep-2021 17:57:00 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
 </body>
 </html>

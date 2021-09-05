@@ -1,0 +1,493 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of manoptAD</title>
+  <meta name="keywords" content="manoptAD">
+  <meta name="description" content="Preprocess automatic differentiation for a manopt problem structure">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../index.html">Home</a> &gt;  <a href="#">manopt</a> &gt; <a href="index.html">autodiff</a> &gt; manoptAD.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../index.html"><img alt="<" border="0" src="../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for manopt\autodiff&nbsp;<img alt=">" border="0" src="../../right.png"></a></td></tr></table>-->
+
+<h1>manoptAD
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+<div class="box"><strong>Preprocess automatic differentiation for a manopt problem structure</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+<div class="box"><strong>function problem = manoptAD(problem, flag) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> Preprocess automatic differentiation for a manopt problem structure
+
+ function problem = manoptAD(problem)
+ function problem = manoptAD(problem, 'nohess')
+ function problem = manoptAD(problem, 'hess')
+
+ Given a manopt problem structure with problem.cost and problem.M defined,
+ this tool adds the following fields to the problem structure:
+   problem.egrad
+   problem.costgrad
+   problem.ehess
+
+ A field problem.autogradfunc is also created for internal use.
+
+ The fields egrad and ehess correspond to Euclidean gradients and Hessian.
+ They are obtained through automatic differentation of the cost function.
+ Manopt converts them into Riemannian objects in the usual way via the
+ manifold's M.egrad2rgrad and M.ehess2rhess functions, automatically.
+
+ As an optional second input, the user may specify the flag string to be:
+   'nohess' -- in which case problem.ehess is not created.
+   'hess'   -- which corresponds to the default behavior.
+ If problem.egrad is already provided and the Hessian is requested, the
+ tool builds problem.ehess based on problem.egrad rather than the cost.
+ 
+ This function requires the following:
+   Matlab version R2021a or later.
+   Deep Learning Toolbox version 14.2 or later.
+
+ Support for complex variables in automatic differentation is added in
+   Matlab version R2021b or later.
+ There is also better support for Hessian computations in that version.
+ Otherwise, see manoptADhelp and complex_example_AD for a workaround, or
+ set the 'nohess' flag to tell Manopt not to compute Hessians with AD.
+
+ If AD fails for some reasons, the original problem structure 
+ is returned with a warning trying to hint at what the issue may be.
+ Mostly, issues arise because the manoptAD relies on the Deep Learning
+ Toolbox, which itself relies on the dlarray data type, and only a subset
+ of Matlab functions support dlarrays:
+ 
+   See manoptADhelp for more about limitations and workarounds.
+   See
+   https://ch.mathworks.com/help/deeplearning/ug/list-of-functions-with-dlarray-support.html
+   for an official list of functions that support dlarray.
+
+ In particular, sparse matrices are not supported, as well as certain
+ standard functions including trace() which can be replaced by ctrace().
+
+ There are a few limitations pertaining to specific manifolds.
+ For example:
+   fixedrankembeddedfactory: AD creates grad, not egrad; and no Hessian.
+   fixedranktensorembeddedfactory: no AD support.
+   fixedTTrankfactory: no AD support.
+   euclideansparsefactory: no AD support.
+
+ Importantly, while AD is convenient and efficient in terms of human time,
+ it is not efficient in terms of CPU time: it is expected that AD slows
+ down gradient computations by a factor of about 5. Moreover, while AD can
+ most often compute Hessians as well, it is often more efficient to
+ compute Hessians with finite differences (which is the default in Manopt
+ when the Hessian is not provided by the user).
+ Thus: it is often the case that
+   problem = manoptAD(problem, 'nohess');
+ leads to better overall runtime than
+   problem = manoptAD(problem);
+ when calling trustregions(problem).
+
+ Some manifold factories in Manopt support GPUs: automatic differentiation
+ should work with them too, as usual. See using_gpu_AD for more details.
+
+
+ See also: <a href="manoptADhelp.html" class="code" title="function manoptADhelp()">manoptADhelp</a> <a href="autograd.html" class="code" title="function autogradfunc = autograd(problem, fixedrankflag)">autograd</a> <a href="egradcompute.html" class="code" title="function egrad = egradcompute(problem, x, complexflag)">egradcompute</a> <a href="ehesscompute.html" class="code" title="function [ehess,store] = ehesscompute(problem, x, xdot, store, complexflag)">ehesscompute</a> complex_example_AD using_gpu_AD</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../matlabicon.gif)">
+<li><a href="autograd.html" class="code" title="function autogradfunc = autograd(problem, fixedrankflag)">autograd</a>	Apply automatic differentiation to computing the Euclidean gradient</li><li><a href="costgradcompute.html" class="code" title="function [cost, grad] = costgradcompute(problem, x, complexflag)">costgradcompute</a>	Computes the cost and the gradient at x via AD in one call</li><li><a href="costgradcomputefixedrankembedded.html" class="code" title="function [y,grad] = costgradcomputefixedrankembedded(problem,x)">costgradcomputefixedrankembedded</a>	Computes the Riemannian gradient and the cost at x via AD in one call for</li><li><a href="egradcompute.html" class="code" title="function egrad = egradcompute(problem, x, complexflag)">egradcompute</a>	Computes the Euclidean gradient of the cost function at x via AD.</li><li><a href="ehesscompute.html" class="code" title="function [ehess,store] = ehesscompute(problem, x, xdot, store, complexflag)">ehesscompute</a>	Computes the Euclidean Hessian of the cost function at x along xdot via AD.</li><li><a href="gradcomputefixedrankembedded.html" class="code" title="function grad = gradcomputefixedrankembedded(problem,x)">gradcomputefixedrankembedded</a>	Computes the Riemannian gradient of the cost function at x via AD for</li><li><a href="isNaNgeneral.html" class="code" title="function result = isNaNgeneral(x)">isNaNgeneral</a>	Determine if x contains a NaN value</li><li><a href="mat2dl.html" class="code" title="function dlx = mat2dl(x)">mat2dl</a>	Convert the data type of x from numeric into dlarray</li><li><a href="mat2dl_complex.html" class="code" title="function dlx = mat2dl_complex(x)">mat2dl_complex</a>	Convert x into a particular data structure to store complex numbers</li><li><a href="../../manopt/core/canGetGradient.html" class="code" title="function candoit = canGetGradient(problem)">canGetGradient</a>	Checks whether the gradient can be computed for a problem structure.</li><li><a href="../../manopt/core/canGetHessian.html" class="code" title="function candoit = canGetHessian(problem)">canGetHessian</a>	Checks whether the Hessian can be computed for a problem structure.</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../matlabicon.gif)">
+<li><a href="../../manopt/autodiff/basic_examples_AD/basic_example_AD.html" class="code" title="function basic_example_AD()">basic_example_AD</a>	A basic example that shows how to apply automatic differentiation to</li><li><a href="../../manopt/autodiff/basic_examples_AD/complex_example_AD.html" class="code" title="function complex_example_AD()">complex_example_AD</a>	A basic example that shows how to define the cost funtion for</li><li><a href="../../manopt/autodiff/basic_examples_AD/complextest_AD1.html" class="code" title="function complextest_AD1()">complextest_AD1</a>	Test AD for a complex optimization problem on a product manifold (struct)</li><li><a href="../../manopt/autodiff/basic_examples_AD/complextest_AD2.html" class="code" title="function complextest_AD2()">complextest_AD2</a>	Test AD for a complex optimization problem on a power manifold (cell)</li><li><a href="../../manopt/autodiff/basic_examples_AD/complextest_AD3.html" class="code" title="function complextest_AD3()">complextest_AD3</a>	Test AD for a complex optimization problem on a manifold which is stored</li><li><a href="../../manopt/autodiff/basic_examples_AD/realtest_AD1.html" class="code" title="function realtest_AD1()">realtest_AD1</a>	Test AD for a real optimization problem on a product manifold (struct)</li><li><a href="../../manopt/autodiff/basic_examples_AD/realtest_AD2.html" class="code" title="function realtest_AD2()">realtest_AD2</a>	Test AD for a real optimization problem on a power manifold (cell)</li><li><a href="../../manopt/autodiff/basic_examples_AD/realtest_AD3.html" class="code" title="function realtest_AD3()">realtest_AD3</a>	Test AD for a real optimization problem on a manifold which is stored in</li><li><a href="../../manopt/autodiff/basic_examples_AD/using_gpu_AD.html" class="code" title="function using_gpu_AD()">using_gpu_AD</a>	Manopt example on how to use GPU to compute the egrad and the ehess via AD.</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function problem = manoptAD(problem, flag) </a>
+0002 <span class="comment">% Preprocess automatic differentiation for a manopt problem structure</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">% function problem = manoptAD(problem)</span>
+0005 <span class="comment">% function problem = manoptAD(problem, 'nohess')</span>
+0006 <span class="comment">% function problem = manoptAD(problem, 'hess')</span>
+0007 <span class="comment">%</span>
+0008 <span class="comment">% Given a manopt problem structure with problem.cost and problem.M defined,</span>
+0009 <span class="comment">% this tool adds the following fields to the problem structure:</span>
+0010 <span class="comment">%   problem.egrad</span>
+0011 <span class="comment">%   problem.costgrad</span>
+0012 <span class="comment">%   problem.ehess</span>
+0013 <span class="comment">%</span>
+0014 <span class="comment">% A field problem.autogradfunc is also created for internal use.</span>
+0015 <span class="comment">%</span>
+0016 <span class="comment">% The fields egrad and ehess correspond to Euclidean gradients and Hessian.</span>
+0017 <span class="comment">% They are obtained through automatic differentation of the cost function.</span>
+0018 <span class="comment">% Manopt converts them into Riemannian objects in the usual way via the</span>
+0019 <span class="comment">% manifold's M.egrad2rgrad and M.ehess2rhess functions, automatically.</span>
+0020 <span class="comment">%</span>
+0021 <span class="comment">% As an optional second input, the user may specify the flag string to be:</span>
+0022 <span class="comment">%   'nohess' -- in which case problem.ehess is not created.</span>
+0023 <span class="comment">%   'hess'   -- which corresponds to the default behavior.</span>
+0024 <span class="comment">% If problem.egrad is already provided and the Hessian is requested, the</span>
+0025 <span class="comment">% tool builds problem.ehess based on problem.egrad rather than the cost.</span>
+0026 <span class="comment">%</span>
+0027 <span class="comment">% This function requires the following:</span>
+0028 <span class="comment">%   Matlab version R2021a or later.</span>
+0029 <span class="comment">%   Deep Learning Toolbox version 14.2 or later.</span>
+0030 <span class="comment">%</span>
+0031 <span class="comment">% Support for complex variables in automatic differentation is added in</span>
+0032 <span class="comment">%   Matlab version R2021b or later.</span>
+0033 <span class="comment">% There is also better support for Hessian computations in that version.</span>
+0034 <span class="comment">% Otherwise, see manoptADhelp and complex_example_AD for a workaround, or</span>
+0035 <span class="comment">% set the 'nohess' flag to tell Manopt not to compute Hessians with AD.</span>
+0036 <span class="comment">%</span>
+0037 <span class="comment">% If AD fails for some reasons, the original problem structure</span>
+0038 <span class="comment">% is returned with a warning trying to hint at what the issue may be.</span>
+0039 <span class="comment">% Mostly, issues arise because the manoptAD relies on the Deep Learning</span>
+0040 <span class="comment">% Toolbox, which itself relies on the dlarray data type, and only a subset</span>
+0041 <span class="comment">% of Matlab functions support dlarrays:</span>
+0042 <span class="comment">%</span>
+0043 <span class="comment">%   See manoptADhelp for more about limitations and workarounds.</span>
+0044 <span class="comment">%   See</span>
+0045 <span class="comment">%   https://ch.mathworks.com/help/deeplearning/ug/list-of-functions-with-dlarray-support.html</span>
+0046 <span class="comment">%   for an official list of functions that support dlarray.</span>
+0047 <span class="comment">%</span>
+0048 <span class="comment">% In particular, sparse matrices are not supported, as well as certain</span>
+0049 <span class="comment">% standard functions including trace() which can be replaced by ctrace().</span>
+0050 <span class="comment">%</span>
+0051 <span class="comment">% There are a few limitations pertaining to specific manifolds.</span>
+0052 <span class="comment">% For example:</span>
+0053 <span class="comment">%   fixedrankembeddedfactory: AD creates grad, not egrad; and no Hessian.</span>
+0054 <span class="comment">%   fixedranktensorembeddedfactory: no AD support.</span>
+0055 <span class="comment">%   fixedTTrankfactory: no AD support.</span>
+0056 <span class="comment">%   euclideansparsefactory: no AD support.</span>
+0057 <span class="comment">%</span>
+0058 <span class="comment">% Importantly, while AD is convenient and efficient in terms of human time,</span>
+0059 <span class="comment">% it is not efficient in terms of CPU time: it is expected that AD slows</span>
+0060 <span class="comment">% down gradient computations by a factor of about 5. Moreover, while AD can</span>
+0061 <span class="comment">% most often compute Hessians as well, it is often more efficient to</span>
+0062 <span class="comment">% compute Hessians with finite differences (which is the default in Manopt</span>
+0063 <span class="comment">% when the Hessian is not provided by the user).</span>
+0064 <span class="comment">% Thus: it is often the case that</span>
+0065 <span class="comment">%   problem = manoptAD(problem, 'nohess');</span>
+0066 <span class="comment">% leads to better overall runtime than</span>
+0067 <span class="comment">%   problem = manoptAD(problem);</span>
+0068 <span class="comment">% when calling trustregions(problem).</span>
+0069 <span class="comment">%</span>
+0070 <span class="comment">% Some manifold factories in Manopt support GPUs: automatic differentiation</span>
+0071 <span class="comment">% should work with them too, as usual. See using_gpu_AD for more details.</span>
+0072 <span class="comment">%</span>
+0073 <span class="comment">%</span>
+0074 <span class="comment">% See also: manoptADhelp autograd egradcompute ehesscompute complex_example_AD using_gpu_AD</span>
+0075 
+0076 <span class="comment">% This file is part of Manopt: www.manopt.org.</span>
+0077 <span class="comment">% Original author: Xiaowen Jiang, Aug. 31, 2021.</span>
+0078 <span class="comment">% Contributors: Nicolas Boumal</span>
+0079 <span class="comment">% Change log:</span>
+0080 
+0081 <span class="comment">% To do: Add AD to fixedTTrankfactory, fixedranktensorembeddedfactory</span>
+0082 <span class="comment">% and the product manifold which contains fixedrankembeddedfactory</span>
+0083 <span class="comment">% or anchoredrotationsfactory</span>
+0084 
+0085 <span class="comment">%% Check if AD can be applied to the manifold and the cost function</span>
+0086     
+0087     <span class="comment">% Check availability of the Deep Learning Toolbox.</span>
+0088     <span class="keyword">if</span> ~(exist(<span class="string">'dlarray'</span>, <span class="string">'file'</span>) == 2)
+0089         error(<span class="string">'manopt:AD:dl'</span>, <span class="keyword">...</span>
+0090         [<span class="string">'It seems the Deep Learning Toolbox is not installed.\n'</span> <span class="keyword">...</span>
+0091          <span class="string">'It is needed for automatic differentiation in Manopt.\n'</span> <span class="keyword">...</span>
+0092          <span class="string">'If possible, install the latest version of that toolbox and '</span> <span class="keyword">...</span>
+0093          <span class="string">'ideally also Matlab R2021b or later.'</span>]);
+0094     <span class="keyword">end</span>
+0095     
+0096     <span class="comment">% Check for a feature of recent versions of the Deep Learning Toolbox.</span>
+0097     <span class="keyword">if</span> ~(exist(<span class="string">'dlaccelerate'</span>, <span class="string">'file'</span>) == 2)
+0098         warning(<span class="string">'manopt:AD:dlaccelerate'</span>, <span class="keyword">...</span>
+0099            [<span class="string">'Function dlaccelerate not available:\n If possible, '</span> <span class="keyword">...</span>
+0100             <span class="string">'upgrade to Matlab R2021a or later and use the latest '</span> <span class="keyword">...</span>
+0101             <span class="string">'version of the Deep Learning Toolbox.\n'</span> <span class="keyword">...</span>
+0102             <span class="string">'Automatic differentiation may still work but be a lot '</span> <span class="keyword">...</span>
+0103             <span class="string">'slower.\nMoreover, the Hessian is not available in AD.\n'</span> <span class="keyword">...</span>
+0104             <span class="string">'Setting flag to ''nohess''. '</span>
+0105             <span class="string">'To disable this warning: '</span> <span class="keyword">...</span>
+0106             <span class="string">'warning(''off'', ''manopt:AD:dlaccelerate'');'</span>]);
+0107         flag = <span class="string">'nohess'</span>;
+0108     <span class="keyword">end</span>
+0109 
+0110     <span class="comment">% The problem structure must provide a manifold and a cost function.</span>
+0111     assert(isfield(problem, <span class="string">'M'</span>) &amp;&amp; isfield(problem, <span class="string">'cost'</span>), <span class="keyword">...</span><span class="comment"> </span>
+0112               <span class="string">'The problem structure must contain the fields M and cost.'</span>);
+0113     
+0114     <span class="comment">% Check the flag value if provided, or set its default value.</span>
+0115     <span class="keyword">if</span> exist(<span class="string">'flag'</span>, <span class="string">'var'</span>)
+0116         assert(strcmp(flag, <span class="string">'nohess'</span>) || strcmp(flag, <span class="string">'hess'</span>), <span class="keyword">...</span>
+0117            <span class="string">'The second argument should be either ''nohess'' or ''hess''.'</span>);
+0118     <span class="keyword">else</span>
+0119         flag = <span class="string">'hess'</span>; <span class="comment">% default behavior</span>
+0120     <span class="keyword">end</span>
+0121     
+0122     <span class="comment">% If the gradient and Hessian information is already provided, return.</span>
+0123     <span class="keyword">if</span> <a href="../../manopt/core/canGetGradient.html" class="code" title="function candoit = canGetGradient(problem)">canGetGradient</a>(problem) &amp;&amp; <a href="../../manopt/core/canGetHessian.html" class="code" title="function candoit = canGetHessian(problem)">canGetHessian</a>(problem)
+0124         warning(<span class="string">'manopt:AD:alreadydefined'</span>, <span class="keyword">...</span>
+0125           [<span class="string">'Gradient and Hessian already defined, skipping AD.\n'</span> <span class="keyword">...</span>
+0126            <span class="string">'To disable this warning: '</span> <span class="keyword">...</span>
+0127            <span class="string">'warning(''off'', ''manopt:AD:alreadydefined'');'</span>]);
+0128         <span class="keyword">return</span>;
+0129     <span class="keyword">end</span>
+0130     
+0131     <span class="comment">% Below, it is convenient for several purposes to have a point on the</span>
+0132     <span class="comment">% manifold. This makes it possible to investigate its representation.</span>
+0133     x = problem.M.rand();
+0134     
+0135     <span class="comment">% AD does not support certain manifolds.</span>
+0136     manifold_name = problem.M.name();
+0137     <span class="keyword">if</span> contains(manifold_name, <span class="string">'sparsity'</span>)
+0138          error(<span class="string">'manopt:AD:sparse'</span>, <span class="keyword">...</span>
+0139               [<span class="string">'Automatic differentiation currently does not support '</span> <span class="keyword">...</span>
+0140                <span class="string">'sparse matrices, e.g., euclideansparsefactory.'</span>]);
+0141     <span class="keyword">end</span>
+0142     <span class="keyword">if</span> ( startsWith(manifold_name, <span class="string">'Product manifold'</span>) &amp;&amp; <span class="keyword">...</span>
+0143         ((sum(isfield(x, {<span class="string">'U'</span>, <span class="string">'S'</span>, <span class="string">'V'</span>})) == 3) &amp;&amp; <span class="keyword">...</span>
+0144         (contains(manifold_name(), <span class="string">'rank'</span>, <span class="string">'IgnoreCase'</span>, true))) <span class="keyword">...</span>
+0145        ) || ( <span class="keyword">...</span>
+0146         exist(<span class="string">'tenrand'</span>, <span class="string">'file'</span>) == 2 &amp;&amp; isfield(x, <span class="string">'X'</span>) &amp;&amp; <span class="keyword">...</span>
+0147         isa(x.X, <span class="string">'ttensor'</span>) <span class="keyword">...</span>
+0148        ) || <span class="keyword">...</span>
+0149        isa(x, <span class="string">'TTeMPS'</span>)
+0150         error(<span class="string">'manopt:AD:fixedrankembedded'</span>, <span class="keyword">...</span>
+0151              [<span class="string">'Automatic differentiation '</span> <span class="keyword">...</span>
+0152               <span class="string">'does not support fixedranktensorembeddedfactory,\n'</span><span class="keyword">...</span>
+0153               <span class="string">'fixedTTrankfactory, and product manifolds containing '</span><span class="keyword">...</span>
+0154               <span class="string">'fixedrankembeddedfactory.'</span>]);
+0155     <span class="keyword">end</span>
+0156     
+0157     <span class="comment">% complexflag is used to detect if both of the following are true:</span>
+0158     <span class="comment">%   A) the problem variables contain complex numbers, and</span>
+0159     <span class="comment">%   B) the Matlab version is R2021a or earlier.</span>
+0160     <span class="comment">% If so, we attempt a workaround.</span>
+0161     <span class="comment">% If Matlab is R2021b or later, then it is not an issue to have</span>
+0162     <span class="comment">% complex numbers in the variables.</span>
+0163     complexflag = false;
+0164     <span class="comment">% Check if AD can be applied to the cost function by passing the point</span>
+0165     <span class="comment">% x we created earlier to problem.cost.</span>
+0166     <span class="keyword">try</span>
+0167         dlx = <a href="mat2dl.html" class="code" title="function dlx = mat2dl(x)">mat2dl</a>(x);
+0168         costtestdlx = problem.cost(dlx); <span class="comment">%#ok&lt;NASGU&gt;</span>
+0169     <span class="keyword">catch</span> ME
+0170         <span class="comment">% Detect complex number by looking in error message.</span>
+0171         <span class="comment">% Note: the error deep:dlarray:ComplexNotSupported is removed</span>
+0172         <span class="comment">% in Matlab R2021b or later</span>
+0173         <span class="keyword">if</span> (strcmp(ME.identifier, <span class="string">'deep:dlarray:ComplexNotSupported'</span>))
+0174             <span class="keyword">try</span>
+0175                 <span class="comment">% Let's try to run AD with 'complex' workaround.</span>
+0176                 dlx = <a href="mat2dl_complex.html" class="code" title="function dlx = mat2dl_complex(x)">mat2dl_complex</a>(x);
+0177                 costtestx = problem.cost(x); <span class="comment">%#ok&lt;NASGU&gt;</span>
+0178                 costtestdlx = problem.cost(dlx); <span class="comment">%#ok&lt;NASGU&gt;</span>
+0179             <span class="keyword">catch</span>
+0180                 error(<span class="string">'manopt:AD:complex'</span>, <span class="keyword">...</span>
+0181                      [<span class="string">'Automatic differentiation failed. '</span> <span class="keyword">...</span>
+0182                       <span class="string">'Problem defining the cost function.\n'</span> <span class="keyword">...</span>
+0183                       <span class="string">'Variables contain complex numbers. '</span> <span class="keyword">...</span>
+0184                       <span class="string">'Check your Matlab version and see\n'</span> <span class="keyword">...</span>
+0185                       <span class="string">'complex_example_AD.m and manoptADhelp.m for '</span> <span class="keyword">...</span>
+0186                       <span class="string">'help about how to deal with complex variables.'</span>]);
+0187             <span class="keyword">end</span>
+0188             <span class="comment">% If no error appears, set complexflag to true.</span>
+0189             complexflag = true;
+0190         <span class="keyword">else</span>
+0191             <span class="comment">% If the error is not related to complex numbers, then the</span>
+0192             <span class="comment">% issue is likely with the cost function definition.</span>
+0193             warning(<span class="string">'manopt:AD:cost'</span>, <span class="keyword">...</span>
+0194                [<span class="string">'Automatic differentiation failed. '</span><span class="keyword">...</span>
+0195                 <span class="string">'Problem defining the cost function.\n'</span><span class="keyword">...</span>
+0196                 <span class="string">'&lt;a href = &quot;https://www.mathworks.ch/help/deeplearning'</span><span class="keyword">...</span>
+0197                 <span class="string">'/ug/list-of-functions-with-dlarray-support.html&quot;&gt;'</span><span class="keyword">...</span>
+0198                 <span class="string">'Check the list of functions with AD support.&lt;/a&gt;'</span><span class="keyword">...</span>
+0199                 <span class="string">' and see manoptADhelp for more information.'</span>]);
+0200             <span class="keyword">return</span>;
+0201         <span class="keyword">end</span>
+0202     <span class="keyword">end</span>
+0203     
+0204 <span class="comment">%% Keep track of what we create with AD</span>
+0205     ADded_gradient = false;
+0206     ADded_hessian  = false;
+0207     
+0208 <span class="comment">%% Handle special case of fixedrankembeddedfactory first</span>
+0209 
+0210     <span class="comment">% Check if the manifold struct is fixed-rank matrices</span>
+0211     <span class="comment">% with an embedded geometry. For fixedrankembeddedfactory,</span>
+0212     <span class="comment">% only the Riemannian gradient can be computed via AD so far.</span>
+0213     fixedrankflag = false;
+0214     <span class="keyword">if</span> (sum(isfield(x, {<span class="string">'U'</span>, <span class="string">'S'</span>, <span class="string">'V'</span>})) == 3) &amp;&amp; <span class="keyword">...</span>
+0215         (contains(manifold_name, <span class="string">'rank'</span>, <span class="string">'IgnoreCase'</span>, true)) &amp;&amp; <span class="keyword">...</span>
+0216         (~startsWith(manifold_name, <span class="string">'Product manifold'</span>))
+0217     
+0218         <span class="keyword">if</span> ~strcmp(flag, <span class="string">'nohess'</span>)
+0219             warning(<span class="string">'manopt:AD:fixedrank'</span>, <span class="keyword">...</span>
+0220               [<span class="string">'Computating the exact Hessian via AD is not supported '</span> <span class="keyword">...</span>
+0221                <span class="string">'for fixedrankembeddedfactory.\n'</span> <span class="keyword">...</span>
+0222                <span class="string">'Setting flag to ''nohess''.\nTo disable this warning: '</span> <span class="keyword">...</span>
+0223                <span class="string">'warning(''off'', ''manopt:AD:fixedrank'');'</span>]);
+0224             flag = <span class="string">'nohess'</span>;
+0225         <span class="keyword">end</span>
+0226         
+0227         <span class="comment">% Set the fixedrankflag to true to prepare for autgrad.</span>
+0228         fixedrankflag = true;
+0229         <span class="comment">% If no gradient information is provided, compute grad using AD.</span>
+0230         <span class="comment">% Note that here we define the Riemannian gradient.</span>
+0231         <span class="keyword">if</span> ~<a href="../../manopt/core/canGetGradient.html" class="code" title="function candoit = canGetGradient(problem)">canGetGradient</a>(problem)
+0232             problem.autogradfunc = <a href="autograd.html" class="code" title="function autogradfunc = autograd(problem, fixedrankflag)">autograd</a>(problem, fixedrankflag);
+0233             problem.grad = @(x) <a href="gradcomputefixedrankembedded.html" class="code" title="function grad = gradcomputefixedrankembedded(problem,x)">gradcomputefixedrankembedded</a>(problem, x);
+0234             problem.costgrad = @(x) <a href="costgradcomputefixedrankembedded.html" class="code" title="function [y,grad] = costgradcomputefixedrankembedded(problem,x)">costgradcomputefixedrankembedded</a>(problem, x);
+0235             ADded_gradient = true;
+0236         <span class="keyword">end</span>
+0237         
+0238     <span class="keyword">end</span>
+0239     
+0240 <span class="comment">%% Compute the euclidean gradient and the euclidean Hessian via AD</span>
+0241     
+0242     <span class="comment">% Provide egrad and (if requested) ehess via AD.</span>
+0243     <span class="comment">% Manopt converts to Riemannian derivatives via egrad2rgrad and</span>
+0244     <span class="comment">% ehess2rhess as usual: no need to worry about this here.</span>
+0245     <span class="keyword">if</span> ~fixedrankflag
+0246         
+0247         <span class="keyword">if</span> ~<a href="../../manopt/core/canGetGradient.html" class="code" title="function candoit = canGetGradient(problem)">canGetGradient</a>(problem)
+0248             problem.autogradfunc = <a href="autograd.html" class="code" title="function autogradfunc = autograd(problem, fixedrankflag)">autograd</a>(problem);
+0249             problem.egrad = @(x) <a href="egradcompute.html" class="code" title="function egrad = egradcompute(problem, x, complexflag)">egradcompute</a>(problem, x, complexflag);
+0250             problem.costgrad = @(x) <a href="costgradcompute.html" class="code" title="function [cost, grad] = costgradcompute(problem, x, complexflag)">costgradcompute</a>(problem, x, complexflag);
+0251             ADded_gradient = true;
+0252         <span class="keyword">end</span>
+0253         
+0254         <span class="keyword">if</span> ~<a href="../../manopt/core/canGetHessian.html" class="code" title="function candoit = canGetHessian(problem)">canGetHessian</a>(problem) &amp;&amp; strcmp(flag, <span class="string">'hess'</span>)
+0255             problem.ehess = @(x, xdot, store) <span class="keyword">...</span>
+0256                                      <a href="ehesscompute.html" class="code" title="function [ehess,store] = ehesscompute(problem, x, xdot, store, complexflag)">ehesscompute</a>(problem, x, xdot, <span class="keyword">...</span>
+0257                                                   store, complexflag);
+0258             ADded_hessian = true;
+0259         <span class="keyword">end</span>
+0260         
+0261     <span class="keyword">end</span>
+0262             
+0263     
+0264 <span class="comment">%% Check whether the gradient / Hessian we AD'ded actually work.</span>
+0265 
+0266     <span class="comment">% Some functions are not supported to be differentiated with AD in the</span>
+0267     <span class="comment">% Deep Learning Toolbox, e.g., cat(3, A, B).</span>
+0268     <span class="comment">% In this clean-up phase, we check if things actually work, and we</span>
+0269     <span class="comment">% remove functions if they do not, with a warning.</span>
+0270     
+0271     <span class="keyword">if</span> ADded_gradient &amp;&amp; ~fixedrankflag
+0272         
+0273         <span class="keyword">try</span> 
+0274             egrad = problem.egrad(x);
+0275         <span class="keyword">catch</span>
+0276             warning(<span class="string">'manopt:AD:failgrad'</span>, <span class="keyword">...</span>
+0277                [<span class="string">'Automatic differentiation for gradient failed. '</span><span class="keyword">...</span>
+0278                 <span class="string">'Problem defining the cost function.\n'</span><span class="keyword">...</span>
+0279                 <span class="string">'&lt;a href = &quot;https://www.mathworks.ch/help/deeplearning'</span><span class="keyword">...</span>
+0280                 <span class="string">'/ug/list-of-functions-with-dlarray-support.html&quot;&gt;'</span><span class="keyword">...</span>
+0281                 <span class="string">'Check the list of functions with AD support.&lt;/a&gt;'</span><span class="keyword">...</span>
+0282                 <span class="string">' and see manoptADhelp for more information.'</span>]);
+0283             problem = rmfield(problem, <span class="string">'autogradfunc'</span>);
+0284             problem = rmfield(problem, <span class="string">'egrad'</span>);
+0285             problem = rmfield(problem, <span class="string">'costgrad'</span>);
+0286             <span class="keyword">if</span> ADded_hessian
+0287                 problem = rmfield(problem, <span class="string">'ehess'</span>);
+0288             <span class="keyword">end</span>
+0289             <span class="keyword">return</span>;
+0290         <span class="keyword">end</span>
+0291         
+0292         <span class="keyword">if</span> <a href="isNaNgeneral.html" class="code" title="function result = isNaNgeneral(x)">isNaNgeneral</a>(egrad)
+0293             warning(<span class="string">'manopt:AD:NaN'</span>, <span class="keyword">...</span>
+0294                    [<span class="string">'Automatic differentiation for gradient failed. '</span><span class="keyword">...</span>
+0295                     <span class="string">'Problem defining the cost function.\n'</span><span class="keyword">...</span>
+0296                     <span class="string">'NaN comes up in the computation of egrad via AD.\n'</span><span class="keyword">...</span>
+0297                     <span class="string">'Check the example thomson_problem.m for help.'</span>]);
+0298             problem = rmfield(problem, <span class="string">'autogradfunc'</span>);
+0299             problem = rmfield(problem, <span class="string">'egrad'</span>);
+0300             problem = rmfield(problem, <span class="string">'costgrad'</span>);
+0301             <span class="keyword">if</span> ADded_hessian
+0302                problem = rmfield(problem, <span class="string">'ehess'</span>);
+0303             <span class="keyword">end</span>
+0304             <span class="keyword">return</span>;
+0305         <span class="keyword">end</span>
+0306         
+0307     <span class="keyword">end</span>
+0308         
+0309     
+0310     <span class="keyword">if</span> ADded_hessian
+0311         
+0312         <span class="comment">% Randomly generate a vector in the tangent space at x.</span>
+0313         xdot = problem.M.randvec(x);
+0314         store = struct();
+0315         <span class="keyword">try</span> 
+0316             ehess = problem.ehess(x, xdot, store);
+0317         <span class="keyword">catch</span>
+0318             warning(<span class="string">'manopt:AD:failhess'</span>, <span class="keyword">...</span>
+0319                    [<span class="string">'Automatic differentiation for Hessian failed. '</span> <span class="keyword">...</span>
+0320                     <span class="string">'Problem defining the cost function.\n'</span> <span class="keyword">...</span>
+0321                     <span class="string">'&lt;a href = &quot;https://www.mathworks.ch/help/deeplearning'</span> <span class="keyword">...</span>
+0322                     <span class="string">'/ug/list-of-functions-with-dlarray-support.html&quot;&gt;'</span> <span class="keyword">...</span>
+0323                     <span class="string">'Check the list of functions with AD support.&lt;/a&gt;'</span> <span class="keyword">...</span>
+0324                     <span class="string">' and see manoptADhelp for more information.'</span>]);
+0325             problem = rmfield(problem, <span class="string">'ehess'</span>);
+0326             <span class="keyword">return</span>;
+0327         <span class="keyword">end</span>
+0328         
+0329         <span class="keyword">if</span> <a href="isNaNgeneral.html" class="code" title="function result = isNaNgeneral(x)">isNaNgeneral</a>(ehess)
+0330             warning(<span class="string">'manopt:AD:NaN'</span>, <span class="keyword">...</span>
+0331                    [<span class="string">'Automatic differentiation for Hessian failed. '</span> <span class="keyword">...</span>
+0332                     <span class="string">'Problem defining the cost function.\n'</span> <span class="keyword">...</span>
+0333                     <span class="string">'NaN comes up in the computation of egrad via AD.\n'</span> <span class="keyword">...</span>
+0334                     <span class="string">'Check the example thomson_problem.m for help.'</span>]);
+0335             problem = rmfield(problem, <span class="string">'ehess'</span>);
+0336             <span class="keyword">return</span>;
+0337         <span class="keyword">end</span>
+0338         
+0339     <span class="keyword">end</span>
+0340         
+0341     <span class="comment">% Check the case of fixed-rank matrices as embedded submanifold.</span>
+0342     <span class="keyword">if</span> ADded_gradient &amp;&amp; fixedrankflag
+0343         <span class="keyword">try</span> 
+0344             grad = problem.grad(x);
+0345         <span class="keyword">catch</span>
+0346             warning(<span class="string">'manopt:AD:costfixedrank'</span>, <span class="keyword">...</span>
+0347                    [<span class="string">'Automatic differentiation for gradient failed. '</span> <span class="keyword">...</span>
+0348                     <span class="string">'Problem defining the cost function.\n'</span> <span class="keyword">...</span>
+0349                     <span class="string">'&lt;a href = &quot;https://www.mathworks.ch/help/deeplearning'</span> <span class="keyword">...</span>
+0350                     <span class="string">'/ug/list-of-functions-with-dlarray-support.html&quot;&gt;'</span> <span class="keyword">...</span>
+0351                     <span class="string">'Check the list of functions with AD support.&lt;/a&gt;'</span> <span class="keyword">...</span>
+0352                     <span class="string">' and see manoptADhelp for more information.'</span>]);
+0353             problem = rmfield(problem, <span class="string">'autogradfunc'</span>);                
+0354             problem = rmfield(problem, <span class="string">'grad'</span>);
+0355             problem = rmfield(problem, <span class="string">'costgrad'</span>);
+0356             <span class="keyword">return</span>;
+0357         <span class="keyword">end</span>
+0358         
+0359         <span class="keyword">if</span> <a href="isNaNgeneral.html" class="code" title="function result = isNaNgeneral(x)">isNaNgeneral</a>(grad)
+0360             warning(<span class="string">'manopt:AD:NaN'</span>, <span class="keyword">...</span>
+0361                    [<span class="string">'Automatic differentiation for gradient failed. '</span> <span class="keyword">...</span>
+0362                     <span class="string">'Problem defining the cost function.\n'</span> <span class="keyword">...</span>
+0363                     <span class="string">'NaN comes up in the computation of grad via AD.\n'</span> <span class="keyword">...</span>
+0364                     <span class="string">'Check the example thomson_problem.m for help.'</span>]);
+0365             problem = rmfield(problem, <span class="string">'autogradfunc'</span>);
+0366             problem = rmfield(problem, <span class="string">'grad'</span>);
+0367             problem = rmfield(problem, <span class="string">'costgrad'</span>);
+0368             <span class="keyword">return</span>;
+0369         <span class="keyword">end</span>
+0370         
+0371     <span class="keyword">end</span>
+0372     
+0373     
+0374 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Sun 05-Sep-2021 17:57:00 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

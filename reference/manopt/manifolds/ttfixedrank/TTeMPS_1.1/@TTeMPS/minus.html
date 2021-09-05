@@ -1,0 +1,66 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of minus</title>
+  <meta name="keywords" content="minus">
+  <meta name="description" content="MINUS Substraction of two TT/MPS tensors.">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../index.html">Home</a> &gt;  <a href="#">manopt</a> &gt; <a href="#">manifolds</a> &gt; <a href="../../index.html">ttfixedrank</a> &gt; <a href="../index.html">TTeMPS_1.1</a> &gt; <a href="index.html">@TTeMPS</a> &gt; minus.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../index.html"><img alt="<" border="0" src="../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for manopt\manifolds\ttfixedrank\TTeMPS_1.1\@TTeMPS&nbsp;<img alt=">" border="0" src="../../../../../right.png"></a></td></tr></table>-->
+
+<h1>minus
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../up.png"></a></h2>
+<div class="box"><strong>MINUS Substraction of two TT/MPS tensors.</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../up.png"></a></h2>
+<div class="box"><strong>function z = minus( x, y ) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">MINUS Substraction of two TT/MPS tensors.
+   Z = MINUS(X,Y) substracts two TT/MPS tensors. The rank of the resulting
+   tensor is the sum of the individual ranks.
+
+   See also <a href="plus.html" class="code" title="function z = plus( x, y )">PLUS</a>, <a href="uminus.html" class="code" title="function x = uminus( x )">UMINUS</a>.</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../matlabicon.gif)">
+<li><a href="plus.html" class="code" title="function z = plus( x, y )">plus</a>	PLUS Addition of two TT/MPS tensors.</li><li><a href="uminus.html" class="code" title="function x = uminus( x )">uminus</a>	UMINUS Unary minus.</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_block/plus.html" class="code" title="function z = plus( x, y )">plus</a>	PLUS Addition of two TT/MPS block-mu tensors.</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_block/uminus.html" class="code" title="function x = uminus( x )">uminus</a>	UMINUS Unary minus.</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_op/plus.html" class="code" title="function z = plus( x, y )">plus</a>	PLUS Addition of two TT/MPS operators.</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../matlabicon.gif)">
+<li><a href="../../../../../examples/shapefit_smoothed.html" class="code" title="function [T_hub, T_lsq, T_cvx] = shapefit_smoothed(V, J)">shapefit_smoothed</a>	ShapeFit formulation for sensor network localization from pair directions</li><li><a href="../../../../../manopt/manifolds/euclidean/centeredmatrixfactory.html" class="code" title="function M = centeredmatrixfactory(m, n, rows_or_cols)">centeredmatrixfactory</a>	Linear manifold struct. for optimization over matrices with centered cols</li><li><a href="../../../../../manopt/manifolds/euclidean/shapefitfactory.html" class="code" title="function M = shapefitfactory(VJt)">shapefitfactory</a>	Linear manifold structure for optimization over the ShapeFit search space</li><li><a href="TTeMPS.html" class="code" title="">TTeMPS</a>	</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_block/TTeMPS_block.html" class="code" title="">TTeMPS_block</a>	</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_tangent_orth/TTeMPS_tangent_orth.html" class="code" title="">TTeMPS_tangent_orth</a>	</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function z = minus( x, y )</a>
+0002     <span class="comment">%MINUS Substraction of two TT/MPS tensors.</span>
+0003     <span class="comment">%   Z = MINUS(X,Y) substracts two TT/MPS tensors. The rank of the resulting</span>
+0004     <span class="comment">%   tensor is the sum of the individual ranks.</span>
+0005     <span class="comment">%</span>
+0006     <span class="comment">%   See also PLUS, UMINUS.</span>
+0007 
+0008     <span class="comment">%   TTeMPS Toolbox.</span>
+0009     <span class="comment">%   Michael Steinlechner, 2013-2016</span>
+0010     <span class="comment">%   Questions and contact: michael.steinlechner@epfl.ch</span>
+0011     <span class="comment">%   BSD 2-clause license, see LICENSE.txt</span>
+0012 
+0013     z = <a href="plus.html" class="code" title="function z = plus( x, y )">plus</a>(x, <a href="uminus.html" class="code" title="function x = uminus( x )">uminus</a>(y));
+0014 
+0015 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Sun 05-Sep-2021 17:57:00 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

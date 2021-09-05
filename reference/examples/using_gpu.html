@@ -40,7 +40,7 @@
 <h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
 This function calls:
 <ul style="list-style-image:url(../matlabicon.gif)">
-<li><a href="../manopt/manifolds/grassmann/grassmannfactory.html" class="code" title="function M = grassmannfactory(n, p, k, gpuflag)">grassmannfactory</a>	Returns a manifold struct to optimize over the space of vector subspaces.</li><li><a href="../manopt/solvers/trustregions/trustregions.html" class="code" title="function [x, cost, info, options] = trustregions(problem, x, options)">trustregions</a>	Riemannian trust-regions solver for optimization on manifolds.</li></ul>
+<li><a href="../manopt/manifolds/grassmann/grassmannfactory.html" class="code" title="function M = grassmannfactory(n, p, k, gpuflag)">grassmannfactory</a>	Returns a manifold struct to optimize over the space of vector subspaces.</li><li><a href="../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>	NORM Norm of a TT/MPS tensor.</li><li><a href="../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_block/norm.html" class="code" title="function res = norm( x )">norm</a>	NORM Norm of a TT/MPS block-mu tensor.</li><li><a href="../manopt/solvers/trustregions/trustregions.html" class="code" title="function [x, cost, info, options] = trustregions(problem, x, options)">trustregions</a>	Riemannian trust-regions solver for optimization on manifolds.</li></ul>
 This function is called by:
 <ul style="list-style-image:url(../matlabicon.gif)">
 </ul>
@@ -64,48 +64,54 @@ This function is called by:
 0013 <span class="comment">% Contributors:</span>
 0014 <span class="comment">% Change log:</span>
 0015 
-0016     <span class="keyword">if</span> gpuDeviceCount() &lt;= 0
-0017         warning(<span class="string">'manopt:usinggpu'</span>, <span class="string">'No GPU available: cannot run example.'</span>);
-0018         <span class="keyword">return</span>;
-0019     <span class="keyword">end</span>
-0020 
-0021     <span class="comment">% Construct a large problem to illustrate the use of GPU.</span>
-0022     <span class="comment">% Below, we will compute p left-most eigenvectors of A (symmetric).</span>
-0023     <span class="comment">% On a particular test computer, we found that for n = 100, 1000, CPU</span>
-0024     <span class="comment">% is faster, but for n = 10000, GPU tends to be 10x faster.</span>
-0025     p = 3;
-0026     n = 10000;
-0027     A = randn(n);
-0028     A = A+A';
-0029     
-0030     inner = @(U, V) U(:)'*V(:);
-0031     
-0032     <span class="comment">% First, setup and run the optimization problem on the CPU.</span>
-0033     problem.M = <a href="../manopt/manifolds/grassmann/grassmannfactory.html" class="code" title="function M = grassmannfactory(n, p, k, gpuflag)">grassmannfactory</a>(n, p, 1); <span class="comment">% 1 copy of Grassmann(n, p)</span>
-0034     problem.cost = @(X) .5*inner(X, A*X);  <span class="comment">% Rayleigh quotient to be minimized</span>
-0035     problem.egrad = @(X) A*X;              <span class="comment">% Could use caching to save here</span>
-0036     problem.ehess = @(X, Xdot) A*Xdot;
-0037     X0 = problem.M.rand();                 <span class="comment">% Random initial guess</span>
-0038     tic_cpu = tic();
-0039     X_cpu = <a href="../manopt/solvers/trustregions/trustregions.html" class="code" title="function [x, cost, info, options] = trustregions(problem, x, options)">trustregions</a>(problem, X0);     <span class="comment">% run any solver</span>
-0040     time_cpu = toc(tic_cpu);
-0041     
-0042     <span class="comment">% Then, move the data to the GPU, redefine the problem using the moved</span>
-0043     <span class="comment">% data, activate the GPU flag in the factory, and run it again.</span>
-0044     A = gpuArray(A);
-0045     problem.M = <a href="../manopt/manifolds/grassmann/grassmannfactory.html" class="code" title="function M = grassmannfactory(n, p, k, gpuflag)">grassmannfactory</a>(n, p, 1, true); <span class="comment">% true is the GPU flag;</span>
-0046     problem.cost = @(X) .5*inner(X, A*X);        <span class="comment">% Code for cost and gradient etc.</span>
-0047     problem.egrad = @(X) A*X;                    <span class="comment">% basically didn't change, but</span>
-0048     problem.ehess = @(X, Xdot) A*Xdot;           <span class="comment">% operates on gpuArrays now.</span>
-0049     X0 = gpuArray(X0);
-0050     tic_gpu = tic();
-0051     X_gpu = <a href="../manopt/solvers/trustregions/trustregions.html" class="code" title="function [x, cost, info, options] = trustregions(problem, x, options)">trustregions</a>(problem, X0);
-0052     time_gpu = toc(tic_gpu);
-0053     
-0054     fprintf(<span class="string">'Total time CPU: %g\nTotal time GPU: %g\nSolution difference: %g\n'</span>, <span class="keyword">...</span>
-0055             time_cpu, time_gpu, norm(X_cpu - X_gpu, <span class="string">'fro'</span>));
-0056     
-0057 <span class="keyword">end</span></pre></div>
-<hr><address>Generated on Tue 19-May-2020 18:46:12 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+0016 
+0017     <span class="keyword">if</span> exist(<span class="string">'OCTAVE_VERSION'</span>, <span class="string">'builtin'</span>)
+0018         warning(<span class="string">'manopt:usinggpu'</span>, <span class="string">'Octave does not handle GPUs at this time.'</span>);
+0019         <span class="keyword">return</span>;
+0020     <span class="keyword">end</span>
+0021 
+0022     <span class="keyword">if</span> gpuDeviceCount() &lt;= 0
+0023         warning(<span class="string">'manopt:usinggpu'</span>, <span class="string">'No GPU available: cannot run example.'</span>);
+0024         <span class="keyword">return</span>;
+0025     <span class="keyword">end</span>
+0026 
+0027     <span class="comment">% Construct a large problem to illustrate the use of GPU.</span>
+0028     <span class="comment">% Below, we will compute p left-most eigenvectors of A (symmetric).</span>
+0029     <span class="comment">% On a particular test computer, we found that for n = 100, 1000, CPU</span>
+0030     <span class="comment">% is faster, but for n = 10000, GPU tends to be 10x faster.</span>
+0031     p = 3;
+0032     n = 10000;
+0033     A = randn(n);
+0034     A = A+A';
+0035     
+0036     inner = @(U, V) U(:)'*V(:);
+0037     
+0038     <span class="comment">% First, setup and run the optimization problem on the CPU.</span>
+0039     problem.M = <a href="../manopt/manifolds/grassmann/grassmannfactory.html" class="code" title="function M = grassmannfactory(n, p, k, gpuflag)">grassmannfactory</a>(n, p, 1); <span class="comment">% 1 copy of Grassmann(n, p)</span>
+0040     problem.cost = @(X) .5*inner(X, A*X);  <span class="comment">% Rayleigh quotient to be minimized</span>
+0041     problem.egrad = @(X) A*X;              <span class="comment">% Could use caching to save here</span>
+0042     problem.ehess = @(X, Xdot) A*Xdot;
+0043     X0 = problem.M.rand();                 <span class="comment">% Random initial guess</span>
+0044     tic_cpu = tic();
+0045     X_cpu = <a href="../manopt/solvers/trustregions/trustregions.html" class="code" title="function [x, cost, info, options] = trustregions(problem, x, options)">trustregions</a>(problem, X0);     <span class="comment">% run any solver</span>
+0046     time_cpu = toc(tic_cpu);
+0047     
+0048     <span class="comment">% Then, move the data to the GPU, redefine the problem using the moved</span>
+0049     <span class="comment">% data, activate the GPU flag in the factory, and run it again.</span>
+0050     A = gpuArray(A);
+0051     problem.M = <a href="../manopt/manifolds/grassmann/grassmannfactory.html" class="code" title="function M = grassmannfactory(n, p, k, gpuflag)">grassmannfactory</a>(n, p, 1, true); <span class="comment">% true is the GPU flag;</span>
+0052     problem.cost = @(X) .5*inner(X, A*X);        <span class="comment">% Code for cost and gradient etc.</span>
+0053     problem.egrad = @(X) A*X;                    <span class="comment">% basically didn't change, but</span>
+0054     problem.ehess = @(X, Xdot) A*Xdot;           <span class="comment">% operates on gpuArrays now.</span>
+0055     X0 = gpuArray(X0);
+0056     tic_gpu = tic();
+0057     X_gpu = <a href="../manopt/solvers/trustregions/trustregions.html" class="code" title="function [x, cost, info, options] = trustregions(problem, x, options)">trustregions</a>(problem, X0);
+0058     time_gpu = toc(tic_gpu);
+0059     
+0060     fprintf(<span class="string">'Total time CPU: %g\nTotal time GPU: %g\nSolution difference: %g\n'</span>, <span class="keyword">...</span>
+0061             time_cpu, time_gpu, <a href="../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>(X_cpu - X_gpu, <span class="string">'fro'</span>));
+0062     
+0063 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Sun 05-Sep-2021 17:57:00 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
 </body>
 </html>

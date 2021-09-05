@@ -93,7 +93,7 @@ This function is called by:
 
 <h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
 <ul style="list-style-image:url(../../matlabicon.gif)">
-<li><a href="#_sub1" class="code">function stats = thestatsfun(problem, x, stats, store)</a></li></ul>
+<li><a href="#_sub1" class="code">function stats = thestatsfun(S, problem, x, stats, store)</a></li></ul>
 
 <h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
 <div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function statsfun = statsfunhelper(inp1, inp2)</a>
@@ -155,39 +155,41 @@ This function is called by:
 0057 <span class="comment">% Original author: Nicolas Boumal, Dec. 17, 2014.</span>
 0058 <span class="comment">% Contributors:</span>
 0059 <span class="comment">% Change log:</span>
-0060 
-0061     <span class="keyword">if</span> (nargin == 1) &amp;&amp; isstruct(inp1)
-0062         S = inp1;
-0063     <span class="keyword">elseif</span> (nargin == 2)
-0064         S = struct(inp1, inp2);
-0065     <span class="keyword">else</span>
-0066         error(<span class="string">'statsfunhelper takes 1 or 2 inputs. If 1 input, it must be a structure.'</span>);
-0067     <span class="keyword">end</span>
-0068 
-0069 
-0070     <a name="_sub1" href="#_subfunctions" class="code">function stats = thestatsfun(problem, x, stats, store)</a>
-0071         names = fieldnames(S);
-0072         <span class="keyword">for</span> it = 1 : length(names)
-0073             name = names{it};
-0074             fun = S.(name);
-0075             <span class="keyword">switch</span> nargin(fun)
-0076                 <span class="keyword">case</span> 1
-0077                     stats.(name) = fun(x);
-0078                 <span class="keyword">case</span> 2
-0079                     stats.(name) = fun(problem, x);
-0080                 <span class="keyword">case</span> 3
-0081                     stats.(name) = fun(problem, x, stats);
-0082                 <span class="keyword">case</span> 4
-0083                     stats.(name) = fun(problem, x, stats, store);
-0084                 <span class="keyword">otherwise</span>
-0085                     error(<span class="string">'The functions passed to statsfunhelper must take 1 to 4 inputs.'</span>);
-0086             <span class="keyword">end</span>
-0087         <span class="keyword">end</span>
-0088     <span class="keyword">end</span>
-0089 
-0090     statsfun = @<a href="#_sub1" class="code" title="subfunction stats = thestatsfun(problem, x, stats, store)">thestatsfun</a>;
-0091 
-0092 <span class="keyword">end</span></pre></div>
-<hr><address>Generated on Tue 19-May-2020 18:46:12 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+0060 <span class="comment">%     Jan 2, 2021 (NB):</span>
+0061 <span class="comment">%         Passing S to thestatsfun explicitly for compatibility with Octave 6.</span>
+0062 
+0063     <span class="keyword">if</span> (nargin == 1) &amp;&amp; isstruct(inp1)
+0064         S = inp1;
+0065     <span class="keyword">elseif</span> (nargin == 2)
+0066         S = struct(inp1, inp2);
+0067     <span class="keyword">else</span>
+0068         error(<span class="string">'statsfunhelper takes 1 or 2 inputs. If 1 input, it must be a structure.'</span>);
+0069     <span class="keyword">end</span>
+0070 
+0071     statsfun = @(problem, x, stats, store) <a href="#_sub1" class="code" title="subfunction stats = thestatsfun(S, problem, x, stats, store)">thestatsfun</a>(S, problem, x, stats, store);
+0072 
+0073     
+0074     <a name="_sub1" href="#_subfunctions" class="code">function stats = thestatsfun(S, problem, x, stats, store)</a>
+0075         names = fieldnames(S);
+0076         <span class="keyword">for</span> it = 1 : length(names)
+0077             name = names{it};
+0078             fun = S.(name);
+0079             <span class="keyword">switch</span> nargin(fun)
+0080                 <span class="keyword">case</span> 1
+0081                     stats.(name) = fun(x);
+0082                 <span class="keyword">case</span> 2
+0083                     stats.(name) = fun(problem, x);
+0084                 <span class="keyword">case</span> 3
+0085                     stats.(name) = fun(problem, x, stats);
+0086                 <span class="keyword">case</span> 4
+0087                     stats.(name) = fun(problem, x, stats, store);
+0088                 <span class="keyword">otherwise</span>
+0089                     error(<span class="string">'The functions passed to statsfunhelper must take 1 to 4 inputs.'</span>);
+0090             <span class="keyword">end</span>
+0091         <span class="keyword">end</span>
+0092     <span class="keyword">end</span>
+0093 
+0094 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Sun 05-Sep-2021 17:57:00 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
 </body>
 </html>

@@ -1,0 +1,124 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of cmultiscale</title>
+  <meta name="keywords" content="cmultiscale">
+  <meta name="description" content="Multiplies the 2D slices in a 3D array by individual scalars.">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../index.html">Home</a> &gt;  <a href="#">manopt</a> &gt; <a href="../index.html">autodiff</a> &gt; <a href="index.html">functions_AD</a> &gt; cmultiscale.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../index.html"><img alt="<" border="0" src="../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for manopt\autodiff\functions_AD&nbsp;<img alt=">" border="0" src="../../../right.png"></a></td></tr></table>-->
+
+<h1>cmultiscale
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>Multiplies the 2D slices in a 3D array by individual scalars.</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function Ascale = cmultiscale(scale, A) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> Multiplies the 2D slices in a 3D array by individual scalars.
+
+ function Ascale = cmultiscale(scale, A)
+
+ Basically the same as multiscale but is compatible with structs with
+ fields real and imag, which means this can be used for automatic
+ differentiation with complex arrays in older Matlab versions.
+
+ See also: manoptADhelp multiscale</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="cdottimes.html" class="code" title="function cdottimesAB = cdottimes(A, B)">cdottimes</a>	Computes the element-wise multiplication between A and B</li><li><a href="tocstruct.html" class="code" title="function B = tocstruct(A)">tocstruct</a>	</li><li><a href="../../../manopt/tools/multiscale.html" class="code" title="function A = multiscale(scale, A)">multiscale</a>	Multiplies the 2D slices in a 3D matrix by individual scalars.</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+</ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function Ascale = cmultiscale(scale, A)</a>
+0002 <span class="comment">% Multiplies the 2D slices in a 3D array by individual scalars.</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">% function Ascale = cmultiscale(scale, A)</span>
+0005 <span class="comment">%</span>
+0006 <span class="comment">% Basically the same as multiscale but is compatible with structs with</span>
+0007 <span class="comment">% fields real and imag, which means this can be used for automatic</span>
+0008 <span class="comment">% differentiation with complex arrays in older Matlab versions.</span>
+0009 <span class="comment">%</span>
+0010 <span class="comment">% See also: manoptADhelp multiscale</span>
+0011 
+0012 <span class="comment">% This file is part of Manopt: www.manopt.org.</span>
+0013 <span class="comment">% Original author: Xiaowen Jiang, Aug. 31, 2021.</span>
+0014 <span class="comment">% Contributors: Nicolas Boumal</span>
+0015 <span class="comment">% Change log:</span>
+0016 
+0017     <span class="keyword">if</span> isnumeric(A) &amp;&amp; isnumeric(scale)
+0018         
+0019         Ascale = <a href="../../../manopt/tools/multiscale.html" class="code" title="function A = multiscale(scale, A)">multiscale</a>(scale, A);
+0020         
+0021     <span class="keyword">else</span>
+0022         
+0023         A = <a href="tocstruct.html" class="code" title="function B = tocstruct(A)">tocstruct</a>(A);
+0024         scale = <a href="tocstruct.html" class="code" title="function B = tocstruct(A)">tocstruct</a>(scale);
+0025         
+0026         assert(ndims(A.real) == 3, <span class="keyword">...</span>
+0027            <span class="string">'cmultiscale is only well defined for 3D arrays.'</span>);
+0028        
+0029         [~, ~, N] = size(A.real);
+0030         
+0031         assert(numel(scale.real) == N, <span class="keyword">...</span>
+0032            [<span class="string">'scale must be a vector whose length equals the third '</span> <span class="keyword">...</span>
+0033             <span class="string">'dimension of A, that is, the number of 2D matrix slices '</span> <span class="keyword">...</span>
+0034             <span class="string">'in the 3D array A. It can also be a struct with fields '</span> <span class="keyword">...</span><span class="comment"> </span>
+0035             <span class="string">'real and imag with size as stated above.'</span>]);
+0036         
+0037         scale.real = reshape(scale.real, 1, 1, N);
+0038         scale.imag = reshape(scale.imag, 1, 1, N);
+0039         Ascale = <a href="cdottimes.html" class="code" title="function cdottimesAB = cdottimes(A, B)">cdottimes</a>(A, scale);
+0040 
+0041     <span class="keyword">end</span>
+0042 
+0043 <span class="keyword">end</span>
+0044 
+0045 
+0046 <span class="comment">% Test code</span>
+0047 <span class="comment">% n = 3; m = 5; N = 17;</span>
+0048 <span class="comment">% A = randn(n, m, N);</span>
+0049 <span class="comment">% scale = randn(N, 1);</span>
+0050 <span class="comment">% Z = multiscale(scale, A) - cmultiscale(scale, A);</span>
+0051 <span class="comment">% norm(Z(:))</span>
+0052 <span class="comment">% A = randn(n, m, N) + 1i*randn(n, m, N);</span>
+0053 <span class="comment">% Z = multiscale(scale, A) - cmultiscale(scale, A);</span>
+0054 <span class="comment">% norm(Z(:))</span>
+0055 <span class="comment">% scale = randn(N, 1) + 1i*randn(N, 1);</span>
+0056 <span class="comment">% Z = multiscale(scale, A) - cmultiscale(scale, A);</span>
+0057 <span class="comment">% norm(Z(:))</span>
+0058 <span class="comment">% B.real = real(A); B.imag = imag(A);</span>
+0059 <span class="comment">% Z = cmultiscale(scale, B);</span>
+0060 <span class="comment">% Zr = real(multiscale(scale, A)) - Z.real;</span>
+0061 <span class="comment">% Zi = imag(multiscale(scale, A)) - Z.imag;</span>
+0062 <span class="comment">% norm(Zr(:))</span>
+0063 <span class="comment">% norm(Zi(:))</span>
+0064 <span class="comment">% scalebis = tocstruct(scale);</span>
+0065 <span class="comment">% Z = cmultiscale(scalebis, B);</span>
+0066 <span class="comment">% Zr = real(multiscale(scale, A)) - Z.real;</span>
+0067 <span class="comment">% Zi = imag(multiscale(scale, A)) - Z.imag;</span>
+0068 <span class="comment">% norm(Zr(:))</span>
+0069 <span class="comment">% norm(Zi(:))</span></pre></div>
+<hr><address>Generated on Sun 05-Sep-2021 17:57:00 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

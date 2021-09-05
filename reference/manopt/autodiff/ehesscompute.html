@@ -1,0 +1,236 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of ehesscompute</title>
+  <meta name="keywords" content="ehesscompute">
+  <meta name="description" content="Computes the Euclidean Hessian of the cost function at x along xdot via AD.">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../index.html">Home</a> &gt;  <a href="#">manopt</a> &gt; <a href="index.html">autodiff</a> &gt; ehesscompute.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../index.html"><img alt="<" border="0" src="../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for manopt\autodiff&nbsp;<img alt=">" border="0" src="../../right.png"></a></td></tr></table>-->
+
+<h1>ehesscompute
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+<div class="box"><strong>Computes the Euclidean Hessian of the cost function at x along xdot via AD.</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+<div class="box"><strong>function [ehess,store] = ehesscompute(problem, x, xdot, store, complexflag) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> Computes the Euclidean Hessian of the cost function at x along xdot via AD.
+
+ function [ehess, store] = ehesscompute(problem, x, xdot)
+ function [ehess, store] = ehesscompute(problem, x, xdot, store)
+ function [ehess, store] = ehesscompute(problem, x, xdot, store, complexflag)
+
+ This file requires Matlab R2021a or later.
+
+ Returns the Euclidean Hessian of the cost function described in the
+ problem structure at the point x along xdot. Returns store structure 
+ which stores the Euclidean gradient and AD trace in order to avoid
+ redundant computation of hessian by-vector product at the same point x.
+
+ complexflag is bool variable which indicates whether or not the cost  
+ function and the manifold described in the problem structure involves 
+ complex numbers and meanwhile the Matlab version is R2021a or earlier.
+
+ Note: the Euclidean hessian by-vector product is computed through
+ differentiating the inner product between egrad and xdot, thus the 
+ result is valid only when second-order partial derivatives commute. 
+ When the egrad function has already been specified by the user, the
+ euclidean gradient is computed according to the egrad and otherwise 
+ according to the cost function.
+
+ See also: <a href="manoptAD.html" class="code" title="function problem = manoptAD(problem, flag)">manoptAD</a> <a href="mat2dl.html" class="code" title="function dlx = mat2dl(x)">mat2dl</a> <a href="dl2mat.html" class="code" title="function x = dl2mat(dlx)">dl2mat</a> <a href="dl2mat_complex.html" class="code" title="function x = dl2mat_complex(dlx)">dl2mat_complex</a> <a href="mat2dl_complex.html" class="code" title="function dlx = mat2dl_complex(x)">mat2dl_complex</a> <a href="innerprodgeneral.html" class="code" title="function innerpro = innerprodgeneral(x,y)">innerprodgeneral</a> cinnerprodgeneral</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../matlabicon.gif)">
+<li><a href="dl2mat.html" class="code" title="function x = dl2mat(dlx)">dl2mat</a>	Convert the data type of x from dlarray into double</li><li><a href="dl2mat_complex.html" class="code" title="function x = dl2mat_complex(dlx)">dl2mat_complex</a>	Convert dlx which stores complex numbers in a structure into double</li><li><a href="findA_anchors.html" class="code" title="function A = findA_anchors(problem)">findA_anchors</a>	Find the indices of the anchors for the anchoredrotationsfactory</li><li><a href="../../manopt/autodiff/functions_AD/cinnerprodgeneral.html" class="code" title="function innerpro = cinnerprodgeneral(x, y)">cinnerprodgeneral</a>	Computes the Euclidean inner product between x and y in the complex case</li><li><a href="../../manopt/autodiff/functions_AD/creal.html" class="code" title="function Xreal = creal(X)">creal</a>	Extracts the real part of x</li><li><a href="../../manopt/autodiff/functions_AD/iscstruct.html" class="code" title="function flag = iscstruct(A)">iscstruct</a>	</li><li><a href="innerprodgeneral.html" class="code" title="function innerpro = innerprodgeneral(x,y)">innerprodgeneral</a>	Compute the Euclidean inner product between x and y</li><li><a href="mat2dl.html" class="code" title="function dlx = mat2dl(x)">mat2dl</a>	Convert the data type of x from numeric into dlarray</li><li><a href="mat2dl_complex.html" class="code" title="function dlx = mat2dl_complex(x)">mat2dl_complex</a>	Convert x into a particular data structure to store complex numbers</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../matlabicon.gif)">
+<li><a href="manoptAD.html" class="code" title="function problem = manoptAD(problem, flag)">manoptAD</a>	Preprocess automatic differentiation for a manopt problem structure</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+<ul style="list-style-image:url(../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function [dlx,dlegrad] = subautograd(costfunction,complexflag,x)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [ehess,store] = ehesscompute(problem, x, xdot, store, complexflag)</a>
+0002 <span class="comment">% Computes the Euclidean Hessian of the cost function at x along xdot via AD.</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">% function [ehess, store] = ehesscompute(problem, x, xdot)</span>
+0005 <span class="comment">% function [ehess, store] = ehesscompute(problem, x, xdot, store)</span>
+0006 <span class="comment">% function [ehess, store] = ehesscompute(problem, x, xdot, store, complexflag)</span>
+0007 <span class="comment">%</span>
+0008 <span class="comment">% This file requires Matlab R2021a or later.</span>
+0009 <span class="comment">%</span>
+0010 <span class="comment">% Returns the Euclidean Hessian of the cost function described in the</span>
+0011 <span class="comment">% problem structure at the point x along xdot. Returns store structure</span>
+0012 <span class="comment">% which stores the Euclidean gradient and AD trace in order to avoid</span>
+0013 <span class="comment">% redundant computation of hessian by-vector product at the same point x.</span>
+0014 <span class="comment">%</span>
+0015 <span class="comment">% complexflag is bool variable which indicates whether or not the cost</span>
+0016 <span class="comment">% function and the manifold described in the problem structure involves</span>
+0017 <span class="comment">% complex numbers and meanwhile the Matlab version is R2021a or earlier.</span>
+0018 <span class="comment">%</span>
+0019 <span class="comment">% Note: the Euclidean hessian by-vector product is computed through</span>
+0020 <span class="comment">% differentiating the inner product between egrad and xdot, thus the</span>
+0021 <span class="comment">% result is valid only when second-order partial derivatives commute.</span>
+0022 <span class="comment">% When the egrad function has already been specified by the user, the</span>
+0023 <span class="comment">% euclidean gradient is computed according to the egrad and otherwise</span>
+0024 <span class="comment">% according to the cost function.</span>
+0025 <span class="comment">%</span>
+0026 <span class="comment">% See also: manoptAD mat2dl dl2mat dl2mat_complex mat2dl_complex innerprodgeneral cinnerprodgeneral</span>
+0027 
+0028 <span class="comment">% This file is part of Manopt: www.manopt.org.</span>
+0029 <span class="comment">% Original author: Xiaowen Jiang, Aug. 31, 2021.</span>
+0030 <span class="comment">% Contributors: Nicolas Boumal</span>
+0031 <span class="comment">% Change log:</span>
+0032 
+0033     <span class="comment">%% Prepare Euclidean gradient</span>
+0034    
+0035     <span class="comment">% check availability</span>
+0036     assert(isfield(problem,<span class="string">'M'</span>) &amp;&amp; isfield(problem,<span class="string">'cost'</span>),<span class="keyword">...</span><span class="comment">,</span>
+0037     <span class="string">'problem structure must contain fields M and cost.'</span>);
+0038     assert(exist(<span class="string">'dlarray'</span>, <span class="string">'file'</span>) == 2, [<span class="string">'Deep learning tool box is '</span><span class="keyword">...</span><span class="comment"> </span>
+0039     <span class="string">'needed for automatic differentiation'</span>]);
+0040     assert(exist(<span class="string">'dlaccelerate'</span>, <span class="string">'file'</span>) == 2, [<span class="string">'AD failed when computing'</span><span class="keyword">...</span>
+0041         <span class="string">'the hessian. Please upgrade to Matlab R2021a or later.'</span>])
+0042 
+0043     <span class="comment">% check whether the user has specified the egrad already</span>
+0044     egradflag = false;
+0045     <span class="keyword">if</span> isfield(problem,<span class="string">'egrad'</span>) &amp;&amp; ~isfield(problem,<span class="string">'autogradfunc'</span>)
+0046         egradflag = true;
+0047     <span class="keyword">end</span>
+0048 
+0049     <span class="comment">% check the Matlab version and the complex number</span>
+0050     <span class="keyword">if</span> ~exist(<span class="string">'complexflag'</span>,<span class="string">'var'</span>)
+0051         complexflag = false;
+0052     <span class="keyword">end</span>
+0053     <span class="comment">% obtain cost funtion via problem</span>
+0054     costfunction = problem.cost;
+0055     
+0056     <span class="comment">% prepare euclidean gradient if not yet</span>
+0057     <span class="keyword">if</span> (~exist(<span class="string">'store'</span>,<span class="string">'var'</span>) || ~isfield(store,<span class="string">'dlegrad'</span>)) 
+0058         
+0059         <span class="comment">% create a tape and start recording the trace that records the</span>
+0060         <span class="comment">% computation of the Euclidean gradient. the destruction of record</span>
+0061         <span class="comment">% object cleans up the tape, which is done at the same time when</span>
+0062         <span class="comment">% the store is renewed after each iteration,</span>
+0063         tm = deep.internal.recording.TapeManager();
+0064         record = deep.internal.startTracingAndSetupCleanup(tm);
+0065         
+0066         <span class="comment">% compute the euclidean gradient of the cost function at x</span>
+0067         [dlx,dlegrad] = <a href="#_sub1" class="code" title="subfunction [dlx,dlegrad] = subautograd(costfunction,complexflag,x)">subautograd</a>(costfunction,complexflag,x);
+0068         
+0069         <span class="comment">% store the trace, euclidean gradient and the point dlx</span>
+0070         store.dlegrad = dlegrad;
+0071         store.dlx = dlx;
+0072         store.tm = tm;
+0073         store.record = record;
+0074        
+0075     <span class="keyword">end</span>
+0076     
+0077     <span class="comment">% define gradient computation function which is similar to autograd</span>
+0078     <a name="_sub1" href="#_subfunctions" class="code">function [dlx,dlegrad] = subautograd(costfunction,complexflag,x)</a>
+0079         
+0080         <span class="comment">% convert x into dlarrays to prepare for AD</span>
+0081         <span class="keyword">if</span> complexflag == true
+0082             dlx = <a href="mat2dl_complex.html" class="code" title="function dlx = mat2dl_complex(x)">mat2dl_complex</a>(x);
+0083         <span class="keyword">else</span>
+0084             dlx = <a href="mat2dl.html" class="code" title="function dlx = mat2dl(x)">mat2dl</a>(x);
+0085         <span class="keyword">end</span>
+0086         
+0087         <span class="comment">% convert dlx into recording arrays</span>
+0088         dlx = deep.internal.recording.recordContainer(dlx);
+0089         
+0090         <span class="comment">% if the user has defined the egrad, compute the Euclidean gradient</span>
+0091         <span class="comment">% and keep the trace</span>
+0092         <span class="keyword">if</span> egradflag
+0093             <span class="keyword">try</span> 
+0094                 dlegrad = problem.egrad(dlx);
+0095             <span class="keyword">catch</span>
+0096                 egradflag = false;
+0097             <span class="keyword">end</span>
+0098         <span class="keyword">end</span>
+0099 
+0100         <span class="comment">% otherwise, compute the Euclidean gradient from the cost function</span>
+0101         <span class="keyword">if</span> ~egradflag
+0102             y = costfunction(dlx);
+0103             <span class="comment">% in case that the user forgot to take the real part of the cost</span>
+0104             <span class="comment">% when dealing with complex problems and meanwhile the Matlab</span>
+0105             <span class="comment">% version is R2021a or earlier, take the real part for AD</span>
+0106             <span class="keyword">if</span> <a href="../../manopt/autodiff/functions_AD/iscstruct.html" class="code" title="function flag = iscstruct(A)">iscstruct</a>(y)
+0107                 y = <a href="../../manopt/autodiff/functions_AD/creal.html" class="code" title="function Xreal = creal(X)">creal</a>(y);
+0108             <span class="keyword">end</span>
+0109             <span class="comment">% call dlgradient to compute the Euclidean gradient</span>
+0110             <span class="comment">% trace the backward pass in order to compute higher order</span>
+0111             <span class="comment">% derivatives in the further steps</span>
+0112             dlegrad = dlgradient(y,dlx,<span class="string">'RetainData'</span>,true,<span class="string">'EnableHigherDerivatives'</span>,true);
+0113         <span class="keyword">end</span>
+0114     <span class="keyword">end</span>
+0115     
+0116     <span class="comment">%% compute the Euclidean Hessian of the cost function at x along xdot</span>
+0117     
+0118     <span class="comment">% prepare ingredients</span>
+0119     tm = store.tm; <span class="comment">%#ok&lt;NASGU&gt;</span>
+0120     record = store.record; <span class="comment">%#ok&lt;NASGU&gt;</span>
+0121     dlegrad = store.dlegrad;
+0122     dlx = store.dlx;
+0123     
+0124     <span class="comment">% To compute Euclidean Hessian vector product, rotations manifold,</span>
+0125     <span class="comment">% unitary manifold and essential manifold requires first converting</span>
+0126     <span class="comment">% the representation of the tangent vector into the ambient space.</span>
+0127     <span class="comment">% if the problem is a product manifold, in addition to the above</span>
+0128     <span class="comment">% manifolds, the xdot of the other manifolds remain the same</span>
+0129     <span class="keyword">if</span> contains(problem.M.name(),<span class="string">'Rotations manifold SO'</span>,<span class="string">'IgnoreCase'</span>,true)<span class="keyword">...</span><span class="comment">, </span>
+0130             ||  contains(problem.M.name(),<span class="string">'Unitary manifold'</span>,<span class="string">'IgnoreCase'</span>,true)<span class="keyword">...</span><span class="comment">,</span>
+0131             || (contains(problem.M.name(),<span class="string">'Product rotations manifold'</span>,<span class="string">'IgnoreCase'</span>,true) &amp;&amp;<span class="keyword">...</span><span class="comment">, </span>
+0132             contains(problem.M.name(),<span class="string">'anchors'</span>))<span class="keyword">...</span><span class="comment">,</span>
+0133             || contains(problem.M.name(),<span class="string">'essential'</span>,<span class="string">'IgnoreCase'</span>,true)
+0134         xdot = problem.M.tangent2ambient(x, xdot);
+0135     <span class="keyword">end</span> 
+0136     
+0137     <span class="comment">% compute the inner product between the Euclidean gradient and xdot</span>
+0138     <span class="keyword">if</span> complexflag == true
+0139         z = <a href="../../manopt/autodiff/functions_AD/cinnerprodgeneral.html" class="code" title="function innerpro = cinnerprodgeneral(x, y)">cinnerprodgeneral</a>(dlegrad, xdot);
+0140     <span class="keyword">else</span>
+0141         z = <a href="innerprodgeneral.html" class="code" title="function innerpro = innerprodgeneral(x,y)">innerprodgeneral</a>(dlegrad, xdot);
+0142     <span class="keyword">end</span>
+0143     
+0144     <span class="comment">% compute derivatives of the inner product w.r.t. dlx</span>
+0145     ehess = dlgradient(z,dlx,<span class="string">'RetainData'</span>,false,<span class="string">'EnableHigherDerivatives'</span>,false);
+0146     
+0147     <span class="comment">% obtain the numerical representation</span>
+0148     <span class="keyword">if</span> complexflag == true
+0149         ehess = <a href="dl2mat_complex.html" class="code" title="function x = dl2mat_complex(dlx)">dl2mat_complex</a>(ehess);
+0150     <span class="keyword">else</span>
+0151         ehess = <a href="dl2mat.html" class="code" title="function x = dl2mat(dlx)">dl2mat</a>(ehess);
+0152     <span class="keyword">end</span>
+0153     
+0154     
+0155     <span class="comment">% in case that the user is optimizing over anchoredrotationsfactory</span>
+0156     <span class="comment">% ehess of anchors with indices in A should be zero</span>
+0157     <span class="keyword">if</span> (contains(problem.M.name(),<span class="string">'Product rotations manifold'</span>) &amp;&amp;<span class="keyword">...</span><span class="comment">, </span>
+0158             contains(problem.M.name(),<span class="string">'anchors'</span>))
+0159         A = <a href="findA_anchors.html" class="code" title="function A = findA_anchors(problem)">findA_anchors</a>(problem);
+0160         ehess(:, :, A) = 0;
+0161     <span class="keyword">end</span>
+0162     
+0163 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Sun 05-Sep-2021 17:57:00 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

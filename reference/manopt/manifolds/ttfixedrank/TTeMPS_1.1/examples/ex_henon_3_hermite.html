@@ -1,0 +1,188 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of ex_henon_3_hermite</title>
+  <meta name="keywords" content="ex_henon_3_hermite">
+  <meta name="description" content="Example for the algorithms described in">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../index.html">Home</a> &gt;  <a href="#">manopt</a> &gt; <a href="#">manifolds</a> &gt; <a href="../../index.html">ttfixedrank</a> &gt; <a href="../index.html">TTeMPS_1.1</a> &gt; <a href="index.html">examples</a> &gt; ex_henon_3_hermite.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../index.html"><img alt="<" border="0" src="../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for manopt\manifolds\ttfixedrank\TTeMPS_1.1\examples&nbsp;<img alt=">" border="0" src="../../../../../right.png"></a></td></tr></table>-->
+
+<h1>ex_henon_3_hermite
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../up.png"></a></h2>
+<div class="box"><strong>Example for the algorithms described in</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> Example for the algorithms described in 
+
+       D. Kressner, M. Steinlechner, A. Uschmajew:
+        Low-rank tensor methods with subspace correction for symmetric eigenvalue problems
+        SIAM J. Sci. Comput., 36(5):A2346-A2368, 2014.
+
+ Code to produce Figure 4.4: Three Eigenvalues for Henon-Heiles with 
+ with n=28, d=10</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../matlabicon.gif)">
+<li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/algorithms/eigenvalue/amen_eigenvalue.html" class="code" title="function [X, C, evalue, residuums, micro_res, objective, elapsed_time] = amen_eigenvalue(A, prec, p, rr, opts)">amen_eigenvalue</a>	AMEN_EIGENVALUE Calculate p smallest eigenvalues of a TTeMPS operator</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/algorithms/eigenvalue/block_eigenvalue.html" class="code" title="function [X, C, evalue, residuums, micro_res, objective, elapsed_time] = block_eigenvalue(A, p, rr, opts)">block_eigenvalue</a>	BLOCK_EIGENVALUE Calculate p smallest eigenvalues of a TTeMPS operator</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/operators/TTeMPS_op_NN_hermite.html" class="code" title="">TTeMPS_op_NN_hermite</a>	</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../matlabicon.gif)">
+</ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">% Example for the algorithms described in</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">%       D. Kressner, M. Steinlechner, A. Uschmajew:</span>
+0004 <span class="comment">%        Low-rank tensor methods with subspace correction for symmetric eigenvalue problems</span>
+0005 <span class="comment">%        SIAM J. Sci. Comput., 36(5):A2346-A2368, 2014.</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">% Code to produce Figure 4.4: Three Eigenvalues for Henon-Heiles with</span>
+0008 <span class="comment">% with n=28, d=10</span>
+0009 
+0010 <span class="comment">%   TTeMPS Toolbox.</span>
+0011 <span class="comment">%   Michael Steinlechner, 2013-2016</span>
+0012 <span class="comment">%   Questions and contact: michael.steinlechner@epfl.ch</span>
+0013 <span class="comment">%   BSD 2-clause license, see LICENSE.txt</span>
+0014 <span class="comment">% =========================================================================</span>
+0015 clear all
+0016 close all
+0017 
+0018 n = 28;
+0019 d = 10;
+0020 A = <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/operators/TTeMPS_op_NN_hermite.html" class="code" title="">TTeMPS_op_NN_hermite</a>(n, d);
+0021 p = 3;
+0022 r = 1;
+0023 
+0024 <span class="comment">% Run block eigenvalue procedure:</span>
+0025 <span class="comment">% =========================================================================</span>
+0026 
+0027 <span class="keyword">if</span> ~exist(<span class="string">'hh_3_blk_hermite.mat'</span>,<span class="string">'file'</span>)
+0028     opts = struct( <span class="string">'maxiter'</span>, 3, <span class="keyword">...</span>
+0029                    <span class="string">'maxrank'</span>, 40, <span class="keyword">...</span>
+0030                    <span class="string">'tol'</span>, 1e-8, <span class="keyword">...</span><span class="comment"> </span>
+0031                    <span class="string">'tolOP'</span>, 1e-3, <span class="keyword">...</span><span class="comment"> </span>
+0032                    <span class="string">'tolLOBPCG'</span>, 1e-6, <span class="keyword">...</span><span class="comment"> </span>
+0033                    <span class="string">'maxiterLOBPCG'</span>, 500, <span class="keyword">...</span><span class="comment"> </span>
+0034                    <span class="string">'verbose'</span>, true , <span class="keyword">...</span>
+0035                    <span class="string">'precInner'</span>, true);
+0036 
+0037     rng(11)
+0038     rr = [1, 1 * ones(1, d-1), 1];
+0039     [X_blk_hermite, C_blk_hermite, evalue_blk_hermite, residuums_blk_hermite, micro_res_blk_hermite, objective_blk_hermite, t_blk_hermite] = <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/algorithms/eigenvalue/block_eigenvalue.html" class="code" title="function [X, C, evalue, residuums, micro_res, objective, elapsed_time] = block_eigenvalue(A, p, rr, opts)">block_eigenvalue</a>( A, p, rr, opts);
+0040     save(<span class="string">'hh_3_blk_hermite'</span>, <span class="string">'X_blk_hermite'</span>, <span class="string">'C_blk_hermite'</span>, <span class="string">'evalue_blk_hermite'</span>, <span class="string">'residuums_blk_hermite'</span>, <span class="string">'micro_res_blk_hermite'</span>, <span class="string">'objective_blk_hermite'</span>,<span class="string">'t_blk_hermite'</span>);
+0041 <span class="keyword">else</span>
+0042     load(<span class="string">'hh_3_blk_hermite.mat'</span>)
+0043 <span class="keyword">end</span>
+0044 
+0045 <span class="comment">% Run EVAMEn:</span>
+0046 <span class="comment">% =========================================================================</span>
+0047 
+0048 <span class="keyword">if</span> ~exist(<span class="string">'hh_3_evamen_hermite.mat'</span>,<span class="string">'file'</span>)
+0049     opts = struct( <span class="string">'maxiter'</span>, 3, <span class="keyword">...</span>
+0050                    <span class="string">'maxrank'</span>, 40, <span class="keyword">...</span>
+0051                    <span class="string">'maxrankRes'</span>, 2, <span class="keyword">...</span>
+0052                    <span class="string">'tol'</span>, 1e-8, <span class="keyword">...</span><span class="comment"> </span>
+0053                    <span class="string">'tolOP'</span>, 1e-3, <span class="keyword">...</span><span class="comment"> </span>
+0054                    <span class="string">'tolLOBPCG'</span>, 1e-6, <span class="keyword">...</span><span class="comment"> </span>
+0055                    <span class="string">'maxiterLOBPCG'</span>, 500, <span class="keyword">...</span><span class="comment"> </span>
+0056                    <span class="string">'verbose'</span>, true , <span class="keyword">...</span>
+0057                    <span class="string">'precInner'</span>, true);
+0058     rng(11)
+0059     rr = [1, 1 * ones(1, d-1), 1];
+0060     [X_evamen_hermite, C_evamen_hermite, evalue_evamen_hermite, residuums_evamen_hermite, micro_res_evamen_hermite, objective_evamen_hermite, t_evamen_hermite] = <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/algorithms/eigenvalue/amen_eigenvalue.html" class="code" title="function [X, C, evalue, residuums, micro_res, objective, elapsed_time] = amen_eigenvalue(A, prec, p, rr, opts)">amen_eigenvalue</a>( A, 1, p, rr, opts);
+0061     save(<span class="string">'hh_3_evamen_hermite'</span>, <span class="string">'X_evamen_hermite'</span>, <span class="string">'C_evamen_hermite'</span>, <span class="string">'evalue_evamen_hermite'</span>, <span class="string">'residuums_evamen_hermite'</span>, <span class="string">'micro_res_evamen_hermite'</span>, <span class="string">'objective_evamen_hermite'</span>,<span class="string">'t_evamen_hermite'</span>);
+0062 <span class="keyword">else</span>
+0063     load(<span class="string">'hh_3_evamen_hermite.mat'</span>)
+0064 <span class="keyword">end</span>
+0065 
+0066 
+0067 <span class="comment">% Prepare data for plotting:</span>
+0068 <span class="comment">% =========================================================================</span>
+0069 
+0070 evalue_end = repmat(evalue_blk_hermite(:,end), [1,size(evalue_blk_hermite,2)-1]);
+0071 ev_blk_hermite = abs(evalue_blk_hermite(:,1:end-1) - evalue_end);
+0072 ev_evamen_hermite = abs(evalue_evamen_hermite(:,1:end-1) - evalue_end);
+0073 
+0074 
+0075 <span class="comment">% Plot vs. Iterations</span>
+0076 <span class="comment">% =========================================================================</span>
+0077 f = figure
+0078 set(0,<span class="string">'defaultlinelinewidth'</span>,2)
+0079 subplot(1,2,1)
+0080 
+0081 semilogy( sqrt(sum(micro_res_blk_hermite.^2, 1)), <span class="string">'-b'</span> )
+0082 hold on
+0083 semilogy( sqrt(sum(micro_res_evamen_hermite.^2, 1)), <span class="string">'-k'</span> )
+0084 
+0085 semilogy( sum(ev_blk_hermite,1), <span class="string">'--b'</span> )
+0086 semilogy( sum(ev_evamen_hermite,1), <span class="string">'--k'</span> )
+0087 
+0088 res_blk_hermite         = sqrt(sum(micro_res_blk_hermite.^2, 1))
+0089 res_evamen_hermite  = sqrt(sum(micro_res_evamen_hermite.^2, 1))
+0090 
+0091 semilogy((d-1):(d-1):length(micro_res_blk_hermite),res_blk_hermite(:,(d-1):(d-1):end),<span class="string">'ob'</span>)
+0092 semilogy((d-1):(d-1):length(micro_res_evamen_hermite),res_evamen_hermite(:,(d-1):(d-1):end),<span class="string">'ok'</span>)
+0093 
+0094 semilogy((d-1):(d-1):length(ev_blk_hermite),sum(ev_blk_hermite(:,(d-1):(d-1):end),1),<span class="string">'ob'</span>)
+0095 semilogy((d-1):(d-1):length(ev_evamen_hermite),sum(ev_evamen_hermite(:,(d-1):(d-1):end),1),<span class="string">'ok'</span>)
+0096 
+0097 set(gca,<span class="string">'fontsize'</span>,20)
+0098 xlabel(<span class="string">'Microiterations'</span>)
+0099 ylabel(<span class="string">'Residual and eigenvalue error'</span>)  
+0100 
+0101 <span class="comment">% Plot vs. Time</span>
+0102 <span class="comment">% =========================================================================</span>
+0103 
+0104 subplot(1,2,2)
+0105 semilogy( t_blk_hermite, sqrt(sum(micro_res_blk_hermite.^2, 1)), <span class="string">'-b'</span> )
+0106 hold on
+0107 semilogy( t_evamen_hermite, sqrt(sum(micro_res_evamen_hermite.^2, 1)), <span class="string">'-k'</span> )
+0108 
+0109 semilogy( t_blk_hermite, sum(ev_blk_hermite,1), <span class="string">'--b'</span> )
+0110 semilogy( t_evamen_hermite, sum(ev_evamen_hermite,1), <span class="string">'--k'</span> )
+0111 
+0112 semilogy(t_blk_hermite((d-1):(d-1):end),res_blk_hermite(:,(d-1):(d-1):end),<span class="string">'ob'</span>)
+0113 semilogy(t_evamen_hermite((d-1):(d-1):end),res_evamen_hermite(:,(d-1):(d-1):end),<span class="string">'ok'</span>)
+0114 
+0115 semilogy(t_blk_hermite((d-1):(d-1):end),sum(ev_blk_hermite(:,(d-1):(d-1):end),1),<span class="string">'ob'</span>)
+0116 semilogy(t_evamen_hermite((d-1):(d-1):end),sum(ev_evamen_hermite(:,(d-1):(d-1):end),1),<span class="string">'ok'</span>)
+0117 
+0118 semilogy(t_blk_hermite((d-1):(d-1):end),        res_blk_hermite(:,(d-1):(d-1):end),<span class="string">'ob'</span>)
+0119 semilogy(t_evamen_hermite((d-1):(d-1):end), res_evamen_hermite(:,(d-1):(d-1):end),<span class="string">'ok'</span>)
+0120 
+0121 semilogy(t_blk_hermite((d-1):(d-1):end),        sum(ev_blk_hermite(:,(d-1):(d-1):end),1),<span class="string">'ob'</span>)
+0122 semilogy(t_evamen_hermite((d-1):(d-1):end), sum(ev_evamen_hermite(:,(d-1):(d-1):end),1),<span class="string">'ok'</span>)
+0123 
+0124 
+0125 h_leg = legend(<span class="string">'Res. err., Block-ALS'</span>,<span class="keyword">...</span><span class="comment"> </span>
+0126        <span class="string">'Res. err. EVAMEn, prec.'</span>,<span class="keyword">...</span>
+0127        <span class="string">'EV. err., Block-ALS'</span>,<span class="keyword">...</span><span class="comment"> </span>
+0128        <span class="string">'EV. err. EVAMEn, prec.'</span>)
+0129 set(gca,<span class="string">'fontsize'</span>,20)
+0130 set(h_leg, <span class="string">'fontsize'</span>,16)
+0131 xlabel(<span class="string">'Time [s]'</span>)
+0132 ylabel(<span class="string">'Residual and eigenvalue error'</span>)  
+0133 
+0134 set(f, <span class="string">'Position'</span>, [0 0 1200 700])</pre></div>
+<hr><address>Generated on Sun 05-Sep-2021 17:57:00 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

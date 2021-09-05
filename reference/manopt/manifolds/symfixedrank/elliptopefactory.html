@@ -42,7 +42,7 @@
  The diagonal constraints on X (X(i, i) == 1 for all i) translate to
  unit-norm constraints on the rows of Y: norm(Y(i, :)) == 1 for all i.
  The set of such Y's forms the oblique manifold. But because for any
- orthogonal Q of size k, it holds that (YQ)(YQ)' = YY', we &quot;group&quot; all
+ orthogonal Q of size k it holds that (YQ)(YQ)' = YY', we &quot;group&quot; all
  matrices of the form YQ in an equivalence class. The set of equivalence
  classes is a Riemannian quotient manifold, implemented here.
 
@@ -77,7 +77,7 @@
 <h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
 This function calls:
 <ul style="list-style-image:url(../../../matlabicon.gif)">
-<li><a href="../../../manopt/tools/hashmd5.html" class="code" title="function h = hashmd5(inp)">hashmd5</a>	Computes the MD5 hash of input data.</li><li><a href="../../../manopt/tools/lyapunov_symmetric.html" class="code" title="function X = lyapunov_symmetric(A, C, tol)">lyapunov_symmetric</a>	Solves AX + XA = C when A = A', as a pseudo-inverse.</li><li><a href="../../../manopt/tools/matrixlincomb.html" class="code" title="function v = matrixlincomb(x, a1, d1, a2, d2) %#ok<INUSL>">matrixlincomb</a>	Linear combination function for tangent vectors represented as matrices.</li></ul>
+<li><a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>	NORM Norm of a TT/MPS tensor.</li><li><a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_block/norm.html" class="code" title="function res = norm( x )">norm</a>	NORM Norm of a TT/MPS block-mu tensor.</li><li><a href="../../../manopt/tools/hashmd5.html" class="code" title="function h = hashmd5(inp)">hashmd5</a>	Computes the MD5 hash of input data.</li><li><a href="../../../manopt/tools/lyapunov_symmetric.html" class="code" title="function X = lyapunov_symmetric(A, C, tol)">lyapunov_symmetric</a>	Solves AX + XA = C when A = A', as a pseudo-inverse.</li><li><a href="../../../manopt/tools/matrixlincomb.html" class="code" title="function v = matrixlincomb(x, a1, d1, a2, d2) %#ok<INUSL>">matrixlincomb</a>	Linear combination function for tangent vectors represented as matrices.</li></ul>
 This function is called by:
 <ul style="list-style-image:url(../../../matlabicon.gif)">
 <li><a href="../../../examples/maxcut.html" class="code" title="function [x, cutvalue, cutvalue_upperbound, Y] = maxcut(L, r)">maxcut</a>	Algorithm to (try to) compute a maximum cut of a graph, via SDP approach.</li></ul>
@@ -104,7 +104,7 @@ This function is called by:
 0014 <span class="comment">% The diagonal constraints on X (X(i, i) == 1 for all i) translate to</span>
 0015 <span class="comment">% unit-norm constraints on the rows of Y: norm(Y(i, :)) == 1 for all i.</span>
 0016 <span class="comment">% The set of such Y's forms the oblique manifold. But because for any</span>
-0017 <span class="comment">% orthogonal Q of size k, it holds that (YQ)(YQ)' = YY', we &quot;group&quot; all</span>
+0017 <span class="comment">% orthogonal Q of size k it holds that (YQ)(YQ)' = YY', we &quot;group&quot; all</span>
 0018 <span class="comment">% matrices of the form YQ in an equivalence class. The set of equivalence</span>
 0019 <span class="comment">% classes is a Riemannian quotient manifold, implemented here.</span>
 0020 <span class="comment">%</span>
@@ -301,9 +301,9 @@ This function is called by:
 0211 <a name="_sub8" href="#_subfunctions" class="code">function eta = randomvec(Y)</a>
 0212     eta = randn(size(Y));
 0213     eta = <a href="#_sub3" class="code" title="subfunction etaproj = projection(Y, eta)">projection</a>(Y, eta);
-0214     nrm = norm(eta, <span class="string">'fro'</span>);
+0214     nrm = <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>(eta, <span class="string">'fro'</span>);
 0215     eta = eta / nrm;
 0216 <span class="keyword">end</span></pre></div>
-<hr><address>Generated on Tue 19-May-2020 18:46:12 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+<hr><address>Generated on Sun 05-Sep-2021 17:57:00 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
 </body>
 </html>

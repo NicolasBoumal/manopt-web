@@ -34,13 +34,13 @@
  Y is a 3D matrix the same size as X. Each slice Y(:, :, i) is the
  skew-Hermitian part of the slice X(:, :, i).
 
- See also: <a href="multiskew.html" class="code" title="function Y = multiskew(X)">multiskew</a> <a href="multiprod.html" class="code" title="function c = multiprod(a, b, idA, idB)">multiprod</a> <a href="multitransp.html" class="code" title="function b = multitransp(a, dim)">multitransp</a> <a href="multiscale.html" class="code" title="function A = multiscale(scale, A)">multiscale</a> <a href="multisym.html" class="code" title="function Y = multisym(X)">multisym</a> <a href="multiherm.html" class="code" title="function Y = multiherm(X)">multiherm</a></pre></div>
+ See also: <a href="multiskew.html" class="code" title="function Y = multiskew(X)">multiskew</a> <a href="multisym.html" class="code" title="function Y = multisym(X)">multisym</a> <a href="multiherm.html" class="code" title="function Y = multiherm(X)">multiherm</a> <a href="multiprod.html" class="code" title="function C = multiprod(A, B, unused1, unused2) %#ok<INUSD>">multiprod</a> <a href="multitransp.html" class="code" title="function B = multitransp(A, unused) %#ok<INUSD>">multitransp</a> <a href="multiscale.html" class="code" title="function A = multiscale(scale, A)">multiscale</a></pre></div>
 
 <!-- crossreference -->
 <h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
 This function calls:
 <ul style="list-style-image:url(../../matlabicon.gif)">
-<li><a href="multihconj.html" class="code" title="function b = multihconj(a, dim)">multihconj</a>	MULTIHCONJ  Hermitian conjugating arrays of matrices.</li></ul>
+<li><a href="multihconj.html" class="code" title="function B = multihconj(A, unused) %#ok<INUSD>">multihconj</a>	Hermitian-conjugate transpose the matrix slices of an N-D array</li></ul>
 This function is called by:
 <ul style="list-style-image:url(../../matlabicon.gif)">
 <li><a href="../../manopt/manifolds/rotations/unitaryfactory.html" class="code" title="function M = unitaryfactory(n, k)">unitaryfactory</a>	Returns a manifold structure to optimize over unitary matrices.</li></ul>
@@ -57,16 +57,16 @@ This function is called by:
 0006 <span class="comment">% Y is a 3D matrix the same size as X. Each slice Y(:, :, i) is the</span>
 0007 <span class="comment">% skew-Hermitian part of the slice X(:, :, i).</span>
 0008 <span class="comment">%</span>
-0009 <span class="comment">% See also: multiskew multiprod multitransp multiscale multisym multiherm</span>
+0009 <span class="comment">% See also: multiskew multisym multiherm multiprod multitransp multiscale</span>
 0010 
 0011 <span class="comment">% This file is part of Manopt: www.manopt.org.</span>
 0012 <span class="comment">% Original author: Nicolas Boumal, June 18, 2019.</span>
 0013 <span class="comment">% Contributors:</span>
 0014 <span class="comment">% Change log:</span>
 0015 
-0016     Y = .5*(X - <a href="multihconj.html" class="code" title="function b = multihconj(a, dim)">multihconj</a>(X));
+0016     Y = .5*(X - <a href="multihconj.html" class="code" title="function B = multihconj(A, unused) %#ok<INUSD>">multihconj</a>(X));
 0017     
 0018 <span class="keyword">end</span></pre></div>
-<hr><address>Generated on Tue 19-May-2020 18:46:12 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+<hr><address>Generated on Sun 05-Sep-2021 17:57:00 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
 </body>
 </html>

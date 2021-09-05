@@ -1,0 +1,173 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of doubly_stochastic_general</title>
+  <meta name="keywords" content="doubly_stochastic_general">
+  <meta name="description" content="Project a matrix to the doubly stochastic matrices (Sinkhorn's algorithm)">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../index.html">Home</a> &gt;  <a href="#">manopt</a> &gt; <a href="#">manifolds</a> &gt; <a href="index.html">multinomial</a> &gt; doubly_stochastic_general.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../index.html"><img alt="<" border="0" src="../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for manopt\manifolds\multinomial&nbsp;<img alt=">" border="0" src="../../../right.png"></a></td></tr></table>-->
+
+<h1>doubly_stochastic_general
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>Project a matrix to the doubly stochastic matrices (Sinkhorn's algorithm)</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function [B, d_2, d_1] = doubly_stochastic_general(A, p, q, maxiter, checkperiod) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> Project a matrix to the doubly stochastic matrices (Sinkhorn's algorithm)
+
+ function [B, d_2, d_1] = doubly_stochastic_general(A, p, q)
+ function [B, d_2, d_1] = doubly_stochastic_general(A, p, q, maxiter)
+ function [B, d_2, d_1] = doubly_stochastic_general(A, p, q, [], checkperiod)
+ function [B, d_2, d_1] = doubly_stochastic_general(A, p, q, maxiter, checkperiod)
+
+ Given an element-wise non-negative matrix A of size nxm, returns a
+ matrix B of size nxn by applying Sinkhorn's algorithm
+ to A.
+ 
+ maxiter (optional):
+    Strictly positive integer representing the maximum 
+    number of iterations of Sinkhorn's algorithm. 
+    The default value of maxiter is n*m.
+ checkperiod (optional):
+    Only check stopping criteria every checkperiod iterations,
+    to reduce computational burden.
+
+ The file is based on developments in the research paper
+ Philip A. Knight, &quot;The Sinkhorn–Knopp Algorithm: Convergence and 
+ Applications&quot; in SIAM Journal on Matrix Analysis and Applications 30(1), 
+ 261-275, 2008.
+
+ Please cite the Manopt paper as well as the above research paper.
+ 
+
+ See also <a href="doubly_stochastic.html" class="code" title="function B = doubly_stochastic(A, maxiter, mode, checkperiod)">doubly_stochastic</a></pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="multinomialdoublystochasticgeneralfactory.html" class="code" title="function M = multinomialdoublystochasticgeneralfactory(n, m, p, q)">multinomialdoublystochasticgeneralfactory</a>	Manifold of n-by-m postive matrices such that row sum is p and column sum is q.</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [B, d_2, d_1] = doubly_stochastic_general(A, p, q, maxiter, checkperiod)</a>
+0002 <span class="comment">% Project a matrix to the doubly stochastic matrices (Sinkhorn's algorithm)</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">% function [B, d_2, d_1] = doubly_stochastic_general(A, p, q)</span>
+0005 <span class="comment">% function [B, d_2, d_1] = doubly_stochastic_general(A, p, q, maxiter)</span>
+0006 <span class="comment">% function [B, d_2, d_1] = doubly_stochastic_general(A, p, q, [], checkperiod)</span>
+0007 <span class="comment">% function [B, d_2, d_1] = doubly_stochastic_general(A, p, q, maxiter, checkperiod)</span>
+0008 <span class="comment">%</span>
+0009 <span class="comment">% Given an element-wise non-negative matrix A of size nxm, returns a</span>
+0010 <span class="comment">% matrix B of size nxn by applying Sinkhorn's algorithm</span>
+0011 <span class="comment">% to A.</span>
+0012 <span class="comment">%</span>
+0013 <span class="comment">% maxiter (optional):</span>
+0014 <span class="comment">%    Strictly positive integer representing the maximum</span>
+0015 <span class="comment">%    number of iterations of Sinkhorn's algorithm.</span>
+0016 <span class="comment">%    The default value of maxiter is n*m.</span>
+0017 <span class="comment">% checkperiod (optional):</span>
+0018 <span class="comment">%    Only check stopping criteria every checkperiod iterations,</span>
+0019 <span class="comment">%    to reduce computational burden.</span>
+0020 <span class="comment">%</span>
+0021 <span class="comment">% The file is based on developments in the research paper</span>
+0022 <span class="comment">% Philip A. Knight, &quot;The Sinkhorn–Knopp Algorithm: Convergence and</span>
+0023 <span class="comment">% Applications&quot; in SIAM Journal on Matrix Analysis and Applications 30(1),</span>
+0024 <span class="comment">% 261-275, 2008.</span>
+0025 <span class="comment">%</span>
+0026 <span class="comment">% Please cite the Manopt paper as well as the above research paper.</span>
+0027 <span class="comment">%</span>
+0028 <span class="comment">%</span>
+0029 <span class="comment">% See also doubly_stochastic</span>
+0030 
+0031 <span class="comment">% This file is part of Manopt: www.manopt.org.</span>
+0032 <span class="comment">% Original author: Bamdev Mishra, Oct 30, 2020.</span>
+0033 <span class="comment">% Contributors:</span>
+0034 <span class="comment">% Change log:</span>
+0035 
+0036     tol = eps;
+0037 
+0038     n = size(A, 1);
+0039     m = size(A, 2);
+0040     
+0041     <span class="keyword">if</span> ~exist(<span class="string">'p'</span>, <span class="string">'var'</span>) || isempty(p)
+0042         p = (1/n)*ones(n,1);
+0043     <span class="keyword">end</span>
+0044 
+0045     <span class="keyword">if</span> ~exist(<span class="string">'q'</span>, <span class="string">'var'</span>) || isempty(q)
+0046         q = (1/m)*ones(m,1);
+0047     <span class="keyword">end</span>
+0048 
+0049     <span class="keyword">if</span> ~exist(<span class="string">'maxiter'</span>, <span class="string">'var'</span>) || isempty(maxiter)
+0050         maxiter = n*m;
+0051     <span class="keyword">end</span>
+0052     
+0053     <span class="keyword">if</span> ~exist(<span class="string">'checkperiod'</span>, <span class="string">'var'</span>) || isempty(checkperiod)
+0054         checkperiod = 100;
+0055     <span class="keyword">end</span>
+0056         
+0057     C = A;
+0058     
+0059 
+0060     iter = 0;
+0061     d_1 = (q')./sum(C); <span class="comment">% row vector of size m</span>
+0062     d_2 = p./(C * d_1.'); <span class="comment">% column vector of size n</span>
+0063     gap = inf;
+0064     <span class="keyword">while</span> iter &lt; maxiter
+0065         iter = iter + 1;
+0066         row = d_2.' * C;
+0067 
+0068         <span class="comment">% Check gap condition only at checkperiod intervals.</span>
+0069         <span class="comment">% It saves computations for large-scale scenarios.</span>
+0070         <span class="keyword">if</span> mod(iter, checkperiod) == 0 
+0071             gap = max(abs(row .* d_1 - q'));
+0072             <span class="keyword">if</span> isnan(gap)
+0073                 <span class="keyword">break</span>;
+0074             <span class="keyword">end</span>
+0075             <span class="keyword">if</span> gap &lt;= tol
+0076                 <span class="keyword">break</span>;
+0077             <span class="keyword">end</span>
+0078         <span class="keyword">end</span>
+0079         
+0080         d_1_prev = d_1;
+0081         d_2_prev = d_2;
+0082 
+0083         d_1 = (q')./row;
+0084         d_2 = p./(C * d_1.');
+0085 
+0086         <span class="keyword">if</span> any(isinf(d_2)) || any(isnan(d_2)) || any(isinf(d_1)) || any(isnan(d_1))
+0087             warning(<span class="string">'DoublyStochasticGeneralProjection:NanInfEncountered'</span>, <span class="keyword">...</span>
+0088                     <span class="string">'Nan or Inf occured at iter %d \n'</span>, iter);
+0089             d_1 = d_1_prev;
+0090             d_2 = d_2_prev;
+0091             <span class="keyword">break</span>;
+0092         <span class="keyword">end</span>
+0093     <span class="keyword">end</span>
+0094     
+0095     B = C .* (d_2 * d_1);
+0096 
+0097     fprintf(<span class="string">'Iter %d, gap %e \n'</span>, iter, gap);
+0098 
+0099 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Sun 05-Sep-2021 17:57:00 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

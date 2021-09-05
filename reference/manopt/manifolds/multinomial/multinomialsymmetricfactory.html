@@ -75,7 +75,7 @@ This function is called by:
 
 <h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
 <ul style="list-style-image:url(../../../matlabicon.gif)">
-<li><a href="#_sub1" class="code">function ip = iproduct(X, eta, zeta)</a></li><li><a href="#_sub2" class="code">function X = random()</a></li><li><a href="#_sub3" class="code">function eta = randomvec(X)</a></li><li><a href="#_sub4" class="code">function etaproj = projection(X, eta)</a></li><li><a href="#_sub5" class="code">function rgrad = egrad2rgrad(X, egrad)</a></li><li><a href="#_sub6" class="code">function Y = retraction(X, eta, t)</a></li><li><a href="#_sub7" class="code">function rhess = ehess2rhess(X, egrad, ehess, eta)</a></li></ul>
+<li><a href="#_sub1" class="code">function ip = iproduct(X, eta, zeta)</a></li><li><a href="#_sub2" class="code">function X = random()</a></li><li><a href="#_sub3" class="code">function eta = randomvec(X)</a></li><li><a href="#_sub4" class="code">function etaproj = projection(X, eta)</a></li><li><a href="#_sub5" class="code">function rgrad = egrad2rgrad(X, egrad)</a></li><li><a href="#_sub6" class="code">function Y = retraction(X, eta, t)</a></li><li><a href="#_sub7" class="code">function rhess = ehess2rhess(X, egrad, ehess, eta)</a></li><li><a href="#_sub8" class="code">function U = transp(X1, X2, d)</a></li><li><a href="#_sub9" class="code">function A = symm(Z)</a></li></ul>
 
 <h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
 <div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function M = multinomialsymmetricfactory(n)</a>
@@ -122,11 +122,11 @@ This function is called by:
 0042 <span class="comment">%</span>
 0043 <span class="comment">%    Sep. 6, 2018 (NB):</span>
 0044 <span class="comment">%        Removed M.exp() as it was not implemented.</span>
-0045 
-0046     <span class="comment">% Helpers</span>
-0047     e = ones(n, 1);
-0048     symm = @(X) .5*(X+X');
-0049     maxDSiters = 100 + 2*n;
+0045 <span class="comment">%</span>
+0046 <span class="comment">%   Jan. 4, 2021 (NB):</span>
+0047 <span class="comment">%       Compatibility with Octave 6.1.0, at the cost of having duplicated</span>
+0048 <span class="comment">%       the definition of maxDSiters and of having replaced all occurrences</span>
+0049 <span class="comment">%       of 'e' with its formerly defined value, namely, ones(n, 1).</span>
 0050 
 0051     M.name = @() sprintf(<span class="string">'%dx%d symmetric doubly-stochastic matrices with positive entries'</span>, n, n);
 0052 
@@ -151,88 +151,98 @@ This function is called by:
 0071     <span class="comment">% Pick a random point on the manifold</span>
 0072     M.rand = @<a href="#_sub2" class="code" title="subfunction X = random()">random</a>;
 0073     <a name="_sub2" href="#_subfunctions" class="code">function X = random()</a>
-0074         Z = symm(abs(randn(n, n)));     <span class="comment">% Random point in the ambient space</span>
-0075         X = symm(<a href="doubly_stochastic.html" class="code" title="function B = doubly_stochastic(A, maxiter, mode, checkperiod)">doubly_stochastic</a>(Z, maxDSiters)); <span class="comment">% Projection on the manifold</span>
-0076     <span class="keyword">end</span>
-0077 
-0078     <span class="comment">% Pick a random vector in the tangent space at X, of norm 1</span>
-0079     M.randvec = @<a href="#_sub3" class="code" title="subfunction eta = randomvec(X)">randomvec</a>;
-0080     <a name="_sub3" href="#_subfunctions" class="code">function eta = randomvec(X)</a>
-0081         <span class="comment">% A random vector in the ambient space</span>
-0082         Z = symm(randn(n, n)) ; 
-0083         <span class="comment">% Projection to the tangent space</span>
-0084         alpha = sum((eye(n) + X)\(Z),2) ;
-0085         eta = Z - (alpha*e' + e*alpha').*X ;
-0086         <span class="comment">% Normalizing the vector</span>
-0087         nrm = M.norm(X, eta);
-0088         eta = eta / nrm;
-0089     <span class="keyword">end</span>
-0090 
-0091     <span class="comment">% Orthogonal projection of the vector eta in the ambient space to the</span>
-0092     <span class="comment">% tangent space.</span>
-0093     M.proj = @<a href="#_sub4" class="code" title="subfunction etaproj = projection(X, eta)">projection</a>; 
-0094     <a name="_sub4" href="#_subfunctions" class="code">function etaproj = projection(X, eta)</a>
-0095         alpha = sum((eye(n) + X)\(eta), 2);
-0096         etaproj = eta - (alpha*e' + e*alpha').*X;
-0097     <span class="keyword">end</span>
-0098 
-0099     M.tangent = M.proj;
-0100     M.tangent2ambient = @(X, eta) eta;
-0101 
-0102     <span class="comment">% Conversion of Euclidean to Riemannian gradient</span>
-0103     M.egrad2rgrad = @<a href="#_sub5" class="code" title="subfunction rgrad = egrad2rgrad(X, egrad)">egrad2rgrad</a>;
-0104     <a name="_sub5" href="#_subfunctions" class="code">function rgrad = egrad2rgrad(X, egrad)</a>
-0105         mu = sum((X.*egrad), 2);
-0106         alpha = (eye(n) + X)\mu;
-0107         rgrad = (egrad - alpha*e' - e*alpha').*X; 
-0108     <span class="keyword">end</span>
-0109 
-0110     <span class="comment">% First-order retraction</span>
-0111     M.retr = @<a href="#_sub6" class="code" title="subfunction Y = retraction(X, eta, t)">retraction</a>;
-0112     <a name="_sub6" href="#_subfunctions" class="code">function Y = retraction(X, eta, t)</a>
-0113         <span class="keyword">if</span> nargin &lt; 3
-0114             t = 1.0;
-0115         <span class="keyword">end</span>
-0116         Y = X.*exp(t*(eta./X));
-0117         Y = symm(<a href="doubly_stochastic.html" class="code" title="function B = doubly_stochastic(A, maxiter, mode, checkperiod)">doubly_stochastic</a>(Y, maxDSiters));
-0118         Y = max(Y, eps);
-0119     <span class="keyword">end</span>
-0120 
-0121     <span class="comment">% Conversion of Euclidean to Riemannian Hessian</span>
-0122     M.ehess2rhess = @<a href="#_sub7" class="code" title="subfunction rhess = ehess2rhess(X, egrad, ehess, eta)">ehess2rhess</a>;
-0123     <a name="_sub7" href="#_subfunctions" class="code">function rhess = ehess2rhess(X, egrad, ehess, eta)</a>
-0124 
-0125         <span class="comment">% Computing the directional derivative of the Riemannian</span>
-0126         <span class="comment">% gradient</span>
-0127         gamma = egrad.*X ;
-0128         gammadot = ehess.*X + egrad.*eta;
-0129         alpha = sum((eye(n) + X)\(gamma), 2);
-0130         m = (eye(n)+X)\eta;
-0131         alphadot = sum((eye(n) + X)\(gammadot - m*gamma), 2);
-0132         S = (alpha*e' + e*alpha');
-0133         deltadot = gammadot - (alphadot*e' + e*alphadot').*X - S.*eta;
-0134 
-0135         <span class="comment">% Projecting gamma</span>
-0136         delta = gamma - S.*X; 
-0137 
-0138         <span class="comment">% Computing and projecting nabla</span>
-0139         nabla = deltadot - 0.5*(delta.*eta)./X;
-0140         w = sum((eye(n) + X)\(nabla), 2);
-0141         rhess = nabla - (w*e' + e*w').*X; 
-0142         
-0143     <span class="keyword">end</span>
-0144 
-0145     
-0146     <span class="comment">% Miscellaneous manifold functions</span>
-0147     M.hash = @(X) [<span class="string">'z'</span> <a href="../../../manopt/tools/hashmd5.html" class="code" title="function h = hashmd5(inp)">hashmd5</a>(X(:))];
-0148     M.lincomb = @<a href="../../../manopt/tools/matrixlincomb.html" class="code" title="function v = matrixlincomb(x, a1, d1, a2, d2) %#ok<INUSL>">matrixlincomb</a>;
-0149     M.zerovec = @(X) zeros(n, n);
-0150     M.transp = @(X1, X2, d) <a href="#_sub4" class="code" title="subfunction etaproj = projection(X, eta)">projection</a>(X2, d);
-0151     M.vec = @(X, U) U(:);
-0152     M.mat = @(X, u) reshape(u, n, n);
-0153     M.vecmatareisometries = @() false;
-0154         
-0155 <span class="keyword">end</span></pre></div>
-<hr><address>Generated on Tue 19-May-2020 18:46:12 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+0074         maxDSiters = 100 + 2*n;
+0075         Z = <a href="#_sub9" class="code" title="subfunction A = symm(Z)">symm</a>(abs(randn(n, n)));     <span class="comment">% Random point in the ambient space</span>
+0076         X = <a href="#_sub9" class="code" title="subfunction A = symm(Z)">symm</a>(<a href="doubly_stochastic.html" class="code" title="function B = doubly_stochastic(A, maxiter, mode, checkperiod)">doubly_stochastic</a>(Z, maxDSiters)); <span class="comment">% Projection on the manifold</span>
+0077     <span class="keyword">end</span>
+0078 
+0079     <span class="comment">% Pick a random vector in the tangent space at X, of norm 1</span>
+0080     M.randvec = @<a href="#_sub3" class="code" title="subfunction eta = randomvec(X)">randomvec</a>;
+0081     <a name="_sub3" href="#_subfunctions" class="code">function eta = randomvec(X)</a>
+0082         <span class="comment">% A random vector in the ambient space</span>
+0083         Z = <a href="#_sub9" class="code" title="subfunction A = symm(Z)">symm</a>(randn(n, n)) ; 
+0084         <span class="comment">% Projection to the tangent space</span>
+0085         alpha = sum((eye(n) + X)\(Z),2) ;
+0086         eta = Z - (alpha*ones(n, 1)' + ones(n, 1)*alpha').*X ;
+0087         <span class="comment">% Normalizing the vector</span>
+0088         nrm = M.norm(X, eta);
+0089         eta = eta / nrm;
+0090     <span class="keyword">end</span>
+0091 
+0092     <span class="comment">% Orthogonal projection of the vector eta in the ambient space to the</span>
+0093     <span class="comment">% tangent space.</span>
+0094     M.proj = @<a href="#_sub4" class="code" title="subfunction etaproj = projection(X, eta)">projection</a>; 
+0095     <a name="_sub4" href="#_subfunctions" class="code">function etaproj = projection(X, eta)</a>
+0096         alpha = sum((eye(n) + X)\(eta), 2);
+0097         etaproj = eta - (alpha*ones(n, 1)' + ones(n, 1)*alpha').*X;
+0098     <span class="keyword">end</span>
+0099 
+0100     M.tangent = M.proj;
+0101     M.tangent2ambient = @(X, eta) eta;
+0102 
+0103     <span class="comment">% Conversion of Euclidean to Riemannian gradient</span>
+0104     M.egrad2rgrad = @<a href="#_sub5" class="code" title="subfunction rgrad = egrad2rgrad(X, egrad)">egrad2rgrad</a>;
+0105     <a name="_sub5" href="#_subfunctions" class="code">function rgrad = egrad2rgrad(X, egrad)</a>
+0106         mu = sum((X.*egrad), 2);
+0107         alpha = (eye(n) + X)\mu;
+0108         rgrad = (egrad - alpha*ones(n, 1)' - ones(n, 1)*alpha').*X; 
+0109     <span class="keyword">end</span>
+0110 
+0111     <span class="comment">% First-order retraction</span>
+0112     M.retr = @<a href="#_sub6" class="code" title="subfunction Y = retraction(X, eta, t)">retraction</a>;
+0113     <a name="_sub6" href="#_subfunctions" class="code">function Y = retraction(X, eta, t)</a>
+0114         <span class="keyword">if</span> nargin &lt; 3
+0115             t = 1.0;
+0116         <span class="keyword">end</span>
+0117         maxDSiters = 100 + 2*n;
+0118         Y = X.*exp(t*(eta./X));
+0119         Y = <a href="#_sub9" class="code" title="subfunction A = symm(Z)">symm</a>(<a href="doubly_stochastic.html" class="code" title="function B = doubly_stochastic(A, maxiter, mode, checkperiod)">doubly_stochastic</a>(Y, maxDSiters));
+0120         Y = max(Y, eps);
+0121     <span class="keyword">end</span>
+0122 
+0123     <span class="comment">% Conversion of Euclidean to Riemannian Hessian</span>
+0124     M.ehess2rhess = @<a href="#_sub7" class="code" title="subfunction rhess = ehess2rhess(X, egrad, ehess, eta)">ehess2rhess</a>;
+0125     <a name="_sub7" href="#_subfunctions" class="code">function rhess = ehess2rhess(X, egrad, ehess, eta)</a>
+0126 
+0127         <span class="comment">% Computing the directional derivative of the Riemannian</span>
+0128         <span class="comment">% gradient</span>
+0129         gamma = egrad.*X ;
+0130         gammadot = ehess.*X + egrad.*eta;
+0131         alpha = sum((eye(n) + X)\(gamma), 2);
+0132         m = (eye(n)+X)\eta;
+0133         alphadot = sum((eye(n) + X)\(gammadot - m*gamma), 2);
+0134         S = (alpha*ones(n, 1)' + ones(n, 1)*alpha');
+0135         deltadot = gammadot - (alphadot*ones(n, 1)' + ones(n, 1)*alphadot').*X - S.*eta;
+0136 
+0137         <span class="comment">% Projecting gamma</span>
+0138         delta = gamma - S.*X; 
+0139 
+0140         <span class="comment">% Computing and projecting nabla</span>
+0141         nabla = deltadot - 0.5*(delta.*eta)./X;
+0142         w = sum((eye(n) + X)\(nabla), 2);
+0143         rhess = nabla - (w*ones(n, 1)' + ones(n, 1)*w').*X; 
+0144         
+0145     <span class="keyword">end</span>
+0146 
+0147     
+0148     <span class="comment">% Miscellaneous manifold functions</span>
+0149     M.hash = @(X) [<span class="string">'z'</span> <a href="../../../manopt/tools/hashmd5.html" class="code" title="function h = hashmd5(inp)">hashmd5</a>(X(:))];
+0150     M.lincomb = @<a href="../../../manopt/tools/matrixlincomb.html" class="code" title="function v = matrixlincomb(x, a1, d1, a2, d2) %#ok<INUSL>">matrixlincomb</a>;
+0151     M.zerovec = @(X) zeros(n, n);
+0152     M.vec = @(X, U) U(:);
+0153     M.mat = @(X, u) reshape(u, n, n);
+0154     M.vecmatareisometries = @() false;
+0155     
+0156     M.transp = @<a href="#_sub8" class="code" title="subfunction U = transp(X1, X2, d)">transp</a>;
+0157     <a name="_sub8" href="#_subfunctions" class="code">function U = transp(X1, X2, d)</a>
+0158         U = <a href="#_sub4" class="code" title="subfunction etaproj = projection(X, eta)">projection</a>(X2, d);
+0159     <span class="keyword">end</span>
+0160         
+0161 <span class="keyword">end</span>
+0162 
+0163 <a name="_sub9" href="#_subfunctions" class="code">function A = symm(Z)</a>
+0164     A = .5*(Z+Z');
+0165 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Sun 05-Sep-2021 17:57:00 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
 </body>
 </html>

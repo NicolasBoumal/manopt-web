@@ -1,0 +1,189 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of TTeMPS_block</title>
+  <meta name="keywords" content="TTeMPS_block">
+  <meta name="description" content="">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../index.html">Home</a> &gt;  <a href="#">manopt</a> &gt; <a href="#">manifolds</a> &gt; <a href="../../index.html">ttfixedrank</a> &gt; <a href="../index.html">TTeMPS_1.1</a> &gt; <a href="index.html">@TTeMPS_block</a> &gt; TTeMPS_block.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../index.html"><img alt="<" border="0" src="../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for manopt\manifolds\ttfixedrank\TTeMPS_1.1\@TTeMPS_block&nbsp;<img alt=">" border="0" src="../../../../../right.png"></a></td></tr></table>-->
+
+<h1>TTeMPS_block
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../up.png"></a></h2>
+<div class="box"><strong></strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment"></pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../matlabicon.gif)">
+<li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/TTeMPS.html" class="code" title="">TTeMPS</a>	</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/contract.html" class="code" title="function res = contract( x, y, idx )">contract</a>	CONTRACT Contraction of two TT/MPS tensors.</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/disp.html" class="code" title="function disp( x, name )">disp</a>	DISP Display TT/MPS tensor.</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/display.html" class="code" title="function display(x)">display</a>	DISP Display TT/MPS tensor as a tensor network</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/full.html" class="code" title="function y = full( x )">full</a>	FULL Convert TTeMPS tensor to full array</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/gauge_matrices.html" class="code" title="function [xL, xR, G] = gauge_matrices( x )">gauge_matrices</a>	GAUGE_MATRICES Right and left orthogonalization with storage of gauge matrices</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/hadamard.html" class="code" title="function z = hadamard( x, y, idx )">hadamard</a>	HADAMARD Hadamard product of two TT/MPS tensors.</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/innerprod.html" class="code" title="function res = innerprod( x, y, dir, upto, storeParts )">innerprod</a>	INNERPROD Inner product between two TT/MPS tensors.</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/minus.html" class="code" title="function z = minus( x, y )">minus</a>	MINUS Substraction of two TT/MPS tensors.</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/mtimes.html" class="code" title="function x = mtimes( a, x )">mtimes</a>	MINUS Multiplication of TT/MPS tensor by scalar.</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>	NORM Norm of a TT/MPS tensor.</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/orth_at.html" class="code" title="function [x, R] = orth_at(x, pos, dir, apply)">orth_at</a>	ORTH_AT Orthogonalize single core.</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/plus.html" class="code" title="function z = plus( x, y )">plus</a>	PLUS Addition of two TT/MPS tensors.</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/round.html" class="code" title="function x = round( x, tol )">round</a>	ROUND Approximate TTeMPS tensor within a prescribed tolerance.</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/truncate.html" class="code" title="function x = truncate( x, r )">truncate</a>	TRUNCATE Truncate TTeMPS tensor to prescribed rank.</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/uminus.html" class="code" title="function x = uminus( x )">uminus</a>	UMINUS Unary minus.</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/uplus.html" class="code" title="function x = uplus( x )">uplus</a>	UPLUS Unary plus.</li><li><a href="TTeMPS_block.html" class="code" title="">TTeMPS_block</a>	</li><li><a href="disp.html" class="code" title="function disp( x, name )">disp</a>	DISP Display TT/MPS block-mu tensor.</li><li><a href="display.html" class="code" title="function display(x)">display</a>	DISP Display TT/MPS tensor as a tensor network</li><li><a href="full.html" class="code" title="function y = full( x )">full</a>	FULL Convert TTeMPS tensor to full array</li><li><a href="innerprod.html" class="code" title="function res = innerprod( x, y, dir, upto )">innerprod</a>	INNERPROD Inner product between two TT/MPS tensors.</li><li><a href="minus.html" class="code" title="function z = minus( x, y )">minus</a>	MINUS Substraction of two TT/MPS block-mu tensors.</li><li><a href="mtimes.html" class="code" title="function x = mtimes( a, x )">mtimes</a>	MINUS Multiplication of TT/MPS block tensor by scalar or vector</li><li><a href="norm.html" class="code" title="function res = norm( x )">norm</a>	NORM Norm of a TT/MPS block-mu tensor.</li><li><a href="plus.html" class="code" title="function z = plus( x, y )">plus</a>	PLUS Addition of two TT/MPS block-mu tensors.</li><li><a href="round.html" class="code" title="function x = round( x, tol )">round</a>	ROUND Approximate TTeMPS tensor within a prescribed tolerance.</li><li><a href="shift.html" class="code" title="function x = shift( x, nu, tol, maxrank )">shift</a>	TTeMPS Toolbox.</li><li><a href="truncate.html" class="code" title="function x = round( x, r )">truncate</a>	ROUND Approximate TTeMPS tensor within a prescribed tolerance.</li><li><a href="uminus.html" class="code" title="function x = uminus( x )">uminus</a>	UMINUS Unary minus.</li><li><a href="uplus.html" class="code" title="function x = uplus( x )">uplus</a>	UPLUS Unary plus.</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_op/apply.html" class="code" title="function y = apply( A, x, idx )">apply</a>	APPLY Application of TT/MPS operator to a TT/MPS tensor</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_op/contract.html" class="code" title="function res = contract( A, X, mu )">contract</a>	CONTRACT Contraction of two TT/MPS tensors with inner TT/MPS operator.</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_op/disp.html" class="code" title="function disp( x, name )">disp</a>	DISP Display TT/MPS operator.</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_op/display.html" class="code" title="function display(x)">display</a>	DISPLAY Display TT/MPS tensor as a tensor network</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_op/full.html" class="code" title="function Afull = full( A )">full</a>	FULL Convert TTeMPS_op operator to full array</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_op/mtimes.html" class="code" title="function A = mtimes( B, A )">mtimes</a>	MINUS Multiplication of TT/MPS operator by scalar.</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_op/plus.html" class="code" title="function z = plus( x, y )">plus</a>	PLUS Addition of two TT/MPS operators.</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_op/round.html" class="code" title="function A = round(A, tol )">round</a>	ROUND Approximate TTeMPS operator within a prescribed tolerance.</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_op_laplace/apply.html" class="code" title="function y = apply( A, x, idx )">apply</a>	APPLY Application of TT/MPS Laplace-like operator to a TT/MPS tensor</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_op_laplace/contract.html" class="code" title="function res = contract( A, X, mu )">contract</a>	CONTRACT Contraction of two TT/MPS tensors with inner TT/MPS Laplace operator.</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_op_laplace/disp.html" class="code" title="function disp( x, name )">disp</a>	DISP Display TT/MPS operator.</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_op_laplace/display.html" class="code" title="function display(x)">display</a>	DISP Display TT/MPS tensor as a tensor network</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_op_laplace/mtimes.html" class="code" title="function A = mtimes( B, A )">mtimes</a>	MINUS Multiplication of TT/MPS Laplace operator by scalar.</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../matlabicon.gif)">
+<li><a href="TTeMPS_block.html" class="code" title="">TTeMPS_block</a>	</li><li><a href="plus.html" class="code" title="function z = plus( x, y )">plus</a>	PLUS Addition of two TT/MPS block-mu tensors.</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_op/apply.html" class="code" title="function y = apply( A, x, idx )">apply</a>	APPLY Application of TT/MPS operator to a TT/MPS tensor</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function rank_ = get.rank(x)</a></li><li><a href="#_sub2" class="code">function size_ = get.size(x)</a></li><li><a href="#_sub3" class="code">function order_ = get.order(x)</a></li><li><a href="#_sub4" class="code">function x = TTeMPS_block(varargin)</a></li><li><a href="#_sub5" class="code">function res = TTeMPS_block_to_TTeMPS( x )</a></li><li><a href="#_sub6" class="code">function res = getVector( x, idx, condense )</a></li><li><a href="#_sub7" class="code">function res = TTeMPS_to_TTeMPS_block( x, mu, p )</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 classdef <a href="TTeMPS_block.html" class="code" title="">TTeMPS_block</a>
+0002 <span class="comment">% TTeMPS_block</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">%   A MATLAB class for representing and manipulating tensors</span>
+0005 <span class="comment">%   in the TT/MPS Block-mu format.</span>
+0006 <span class="comment">%</span>
+0007 
+0008 <span class="comment">%   TTeMPS Toolbox.</span>
+0009 <span class="comment">%   Michael Steinlechner, 2013-2016</span>
+0010 <span class="comment">%   Questions and contact: michael.steinlechner@epfl.ch</span>
+0011 <span class="comment">%   BSD 2-clause license, see LICENSE.txt</span>
+0012 
+0013 properties( SetAccess = public, GetAccess = public )
+0014 
+0015     U           <span class="comment">% core tensors</span>
+0016     mu          <span class="comment">% position of superblock</span>
+0017     p           <span class="comment">% size of block</span>
+0018 <span class="keyword">end</span>
+0019 
+0020 <span class="comment">% Dependent properties</span>
+0021 properties( Dependent = true, SetAccess = private, GetAccess = public )
+0022 
+0023     rank
+0024     order
+0025     size
+0026 
+0027 <span class="keyword">end</span>
+0028 
+0029 <span class="comment">% Get methods for dependent properties (computed on-the-fly)</span>
+0030 methods
+0031 
+0032     <a name="_sub0" href="#_subfunctions" class="code">function rank_ = get.rank(x)</a>
+0033         rank_ = cellfun( @(x) size(x,1), x.U);
+0034         rank_ = [rank_, size(x.U{end},3)];
+0035     <span class="keyword">end</span>
+0036    
+0037     <a name="_sub1" href="#_subfunctions" class="code">function size_ = get.size(x)</a>
+0038         size_ = cellfun( @(y) size(y,2), x.U);
+0039     <span class="keyword">end</span>
+0040 
+0041     <a name="_sub2" href="#_subfunctions" class="code">function order_ = get.order(x)</a>
+0042         order_ = length( x.size );
+0043     <span class="keyword">end</span>
+0044 <span class="keyword">end</span>
+0045 
+0046 
+0047 methods( Access = public )
+0048 
+0049     <a name="_sub3" href="#_subfunctions" class="code">function x = TTeMPS_block(varargin)</a>
+0050     <span class="comment">%TTEMPS_BLOCK Construct a tensor in TT/MPS block-mu format and return TTeMPS_block object.</span>
+0051     <span class="comment">%</span>
+0052     <span class="comment">%   X = TTEMPS_BLOCK() creates a zero TT/MPS tensor</span>
+0053     <span class="comment">%</span>
+0054     <span class="comment">%   X = TTEMPS_BLOCK(CORES) creates a TT/MPS tensor with core tensors C taken</span>
+0055     <span class="comment">%   from the cell array CORES</span>
+0056     <span class="comment">%</span>
+0057     <span class="comment">%   X = TTEMPS_BLOCK(CORES, ORTH) creates a TT/MPS tensor with core tensors C</span>
+0058     <span class="comment">%   taken from the cell array CORES. ORTH specifies the position of</span>
+0059     <span class="comment">%   orthogonalization (default = 0, no orthogonalization).</span>
+0060     <span class="comment">%</span>
+0061 
+0062         <span class="comment">% Default constructor</span>
+0063         <span class="keyword">if</span> (nargin == 0)
+0064           
+0065             x = <a href="TTeMPS_block.html" class="code" title="">TTeMPS_block</a>( {0 0 0}, 1 );
+0066             <span class="keyword">return</span>;
+0067           
+0068         <span class="keyword">elseif</span> (nargin == 2)
+0069 
+0070             <span class="comment">% CAREFUL, add sanity check here</span>
+0071             U = varargin{1};
+0072             mu = varargin{2}; 
+0073             x = <a href="TTeMPS_block.html" class="code" title="">TTeMPS_block</a>( U, mu, size(U{mu},4) );
+0074             <span class="keyword">return</span>;
+0075 
+0076         <span class="keyword">elseif</span> (nargin == 3)
+0077 
+0078             x.U = varargin{1};
+0079             x.mu = varargin{2};
+0080             x.p = varargin{3};
+0081 
+0082         <span class="keyword">else</span>
+0083             error(<span class="string">'Invalid number of arguments.'</span>)
+0084         <span class="keyword">end</span>
+0085     <span class="keyword">end</span>
+0086 
+0087     <a name="_sub4" href="#_subfunctions" class="code">function res = TTeMPS_block_to_TTeMPS( x )</a>
+0088         mu = x.mu;
+0089         tmp = permute( x.U{mu}, [1 2 4 3] );
+0090         tmp = reshape( tmp, [x.rank(mu), x.size(mu)*x.p, x.rank(mu+1)]);
+0091 
+0092         res = <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/TTeMPS.html" class="code" title="">TTeMPS</a>({x.U{1:mu-1}, tmp, x.U{mu+1:end}});
+0093     <span class="keyword">end</span>
+0094 
+0095     <a name="_sub5" href="#_subfunctions" class="code">function res = getVector( x, idx, condense )</a>
+0096         <span class="keyword">if</span> ~exist( <span class="string">'condense'</span>, <span class="string">'var'</span> )
+0097             condense = false;
+0098         <span class="keyword">end</span>
+0099         tmp = x.U{x.mu}(:,:,:,idx);
+0100         res = <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/TTeMPS.html" class="code" title="">TTeMPS</a>({x.U{1:x.mu-1}, tmp, x.U{x.mu+1:end}});
+0101         <span class="keyword">if</span> condense
+0102             res = <a href="round.html" class="code" title="function x = round( x, tol )">round</a>(res, 1e-16);
+0103         <span class="keyword">end</span>
+0104     <span class="keyword">end</span>
+0105 
+0106 
+0107     <span class="comment">% Other public functions</span>
+0108     y = <a href="full.html" class="code" title="function y = full( x )">full</a>( x );
+0109     [x, r] = <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/orth_at.html" class="code" title="function [x, R] = orth_at(x, pos, dir, apply)">orth_at</a>( x, pos, dir, <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_op/apply.html" class="code" title="function y = apply( A, x, idx )">apply</a> );
+0110     res = <a href="innerprod.html" class="code" title="function res = innerprod( x, y, dir, upto )">innerprod</a>( x, y, dir, upto, storeParts );
+0111     res = <a href="shift.html" class="code" title="function x = shift( x, nu, tol, maxrank )">shift</a>( x, nu, tol, maxrank);
+0112     res = <a href="norm.html" class="code" title="function res = norm( x )">norm</a>( x );
+0113     res = <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/contract.html" class="code" title="function res = contract( x, y, idx )">contract</a>( x, y, idx );
+0114     x = <a href="round.html" class="code" title="function x = round( x, tol )">round</a>( x, tol );
+0115     x = <a href="truncate.html" class="code" title="function x = round( x, r )">truncate</a>( x, r );
+0116     x = <a href="uminus.html" class="code" title="function x = uminus( x )">uminus</a>( x );
+0117     x = <a href="uplus.html" class="code" title="function x = uplus( x )">uplus</a>( x );
+0118     z = <a href="plus.html" class="code" title="function z = plus( x, y )">plus</a>( x, y );
+0119     z = <a href="minus.html" class="code" title="function z = minus( x, y )">minus</a>( x, y );
+0120     x = <a href="mtimes.html" class="code" title="function x = mtimes( a, x )">mtimes</a>( a, x );
+0121     z = <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/hadamard.html" class="code" title="function z = hadamard( x, y, idx )">hadamard</a>( x, y, idx );
+0122     [xl,xr,g] = <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/gauge_matrices.html" class="code" title="function [xL, xR, G] = gauge_matrices( x )">gauge_matrices</a>( x );
+0123     <a href="disp.html" class="code" title="function disp( x, name )">disp</a>( x, name );
+0124     <a href="display.html" class="code" title="function display(x)">display</a>( x );
+0125     
+0126 <span class="keyword">end</span>
+0127 
+0128 methods( Static, Access = public )
+0129 
+0130     <a name="_sub6" href="#_subfunctions" class="code">function res = TTeMPS_to_TTeMPS_block( x, mu, p )</a>
+0131 
+0132         U = x.U;
+0133         tmp = reshape( U{mu}, [x.rank(mu), x.size(mu)/p, p, x.rank(mu+1)]);
+0134         tmp = permute( tmp, [1 2 4 3] );
+0135         res = <a href="TTeMPS_block.html" class="code" title="">TTeMPS_block</a>({U{1:mu-1}, tmp, U{mu+1:x.order}}, mu, p);
+0136     <span class="keyword">end</span>
+0137 
+0138 <span class="keyword">end</span>
+0139 
+0140 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Sun 05-Sep-2021 17:57:00 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

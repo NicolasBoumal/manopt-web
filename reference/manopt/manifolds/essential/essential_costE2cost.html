@@ -39,7 +39,7 @@
 <h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
 This function calls:
 <ul style="list-style-image:url(../../../matlabicon.gif)">
-<li><a href="../../../manopt/tools/multiprod.html" class="code" title="function c = multiprod(a, b, idA, idB)">multiprod</a>	Multiplying 1-D or 2-D subarrays contained in two N-D arrays.</li><li><a href="../../../manopt/tools/multitransp.html" class="code" title="function b = multitransp(a, dim)">multitransp</a>	Transposing arrays of matrices.</li></ul>
+<li><a href="../../../manopt/tools/multiprod.html" class="code" title="function C = multiprod(A, B, unused1, unused2) %#ok<INUSD>">multiprod</a>	Matrix multiply 2-D slices of N-D arrays</li><li><a href="../../../manopt/tools/multitransp.html" class="code" title="function B = multitransp(A, unused) %#ok<INUSD>">multitransp</a>	Transpose the matrix slices of an N-D array (no complex conjugate)</li></ul>
 This function is called by:
 <ul style="list-style-image:url(../../../matlabicon.gif)">
 <li><a href="../../../examples/essential_svd.html" class="code" title="function essential_svd">essential_svd</a>	Sample solution of an optimization problem on the essential manifold.</li></ul>
@@ -65,10 +65,10 @@ This function is called by:
 0015     
 0016     RA = X(:,1:3,:); 
 0017     RB = X(:,4:6,:); 
-0018     E = <a href="../../../manopt/tools/multiprod.html" class="code" title="function c = multiprod(a, b, idA, idB)">multiprod</a>(<a href="../../../manopt/tools/multiprod.html" class="code" title="function c = multiprod(a, b, idA, idB)">multiprod</a>(<a href="../../../manopt/tools/multitransp.html" class="code" title="function b = multitransp(a, dim)">multitransp</a>(RA), e3hat), RB); 
+0018     E = <a href="../../../manopt/tools/multiprod.html" class="code" title="function C = multiprod(A, B, unused1, unused2) %#ok<INUSD>">multiprod</a>(<a href="../../../manopt/tools/multiprod.html" class="code" title="function C = multiprod(A, B, unused1, unused2) %#ok<INUSD>">multiprod</a>(<a href="../../../manopt/tools/multitransp.html" class="code" title="function B = multitransp(A, unused) %#ok<INUSD>">multitransp</a>(RA), e3hat), RB); 
 0019     
 0020     val = costE(E);
 0021 <span class="keyword">end</span></pre></div>
-<hr><address>Generated on Tue 19-May-2020 18:46:12 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+<hr><address>Generated on Sun 05-Sep-2021 17:57:00 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
 </body>
 </html>

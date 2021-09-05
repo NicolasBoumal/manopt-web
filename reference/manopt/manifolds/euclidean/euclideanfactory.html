@@ -50,7 +50,7 @@
 <h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
 This function calls:
 <ul style="list-style-image:url(../../../matlabicon.gif)">
-<li><a href="../../../manopt/tools/hashmd5.html" class="code" title="function h = hashmd5(inp)">hashmd5</a>	Computes the MD5 hash of input data.</li><li><a href="../../../manopt/tools/matrixlincomb.html" class="code" title="function v = matrixlincomb(x, a1, d1, a2, d2) %#ok<INUSL>">matrixlincomb</a>	Linear combination function for tangent vectors represented as matrices.</li></ul>
+<li><a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>	NORM Norm of a TT/MPS tensor.</li><li><a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_block/norm.html" class="code" title="function res = norm( x )">norm</a>	NORM Norm of a TT/MPS block-mu tensor.</li><li><a href="../../../manopt/tools/hashmd5.html" class="code" title="function h = hashmd5(inp)">hashmd5</a>	Computes the MD5 hash of input data.</li><li><a href="../../../manopt/tools/matrixlincomb.html" class="code" title="function v = matrixlincomb(x, a1, d1, a2, d2) %#ok<INUSL>">matrixlincomb</a>	Linear combination function for tangent vectors represented as matrices.</li></ul>
 This function is called by:
 <ul style="list-style-image:url(../../../matlabicon.gif)">
 <li><a href="../../../examples/generalized_procrustes.html" class="code" title="function [A, R] = generalized_procrustes(A_measure)">generalized_procrustes</a>	Rotationally align clouds of points (generalized Procrustes problem)</li><li><a href="../../../manopt/manifolds/specialeuclidean/specialeuclideanfactory.html" class="code" title="function M = specialeuclideanfactory(n, k)">specialeuclideanfactory</a>	Returns a manifold structure to optimize over the special Euclidean group</li></ul>
@@ -113,9 +113,9 @@ This function is called by:
 0050     
 0051     M.inner = @(x, d1, d2) d1(:).'*d2(:);
 0052     
-0053     M.norm = @(x, d) norm(d(:), <span class="string">'fro'</span>);
+0053     M.norm = @(x, d) <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>(d(:), <span class="string">'fro'</span>);
 0054     
-0055     M.dist = @(x, y) norm(x(:) - y(:), <span class="string">'fro'</span>);
+0055     M.dist = @(x, y) <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>(x(:) - y(:), <span class="string">'fro'</span>);
 0056     
 0057     M.typicaldist = @() sqrt(prod(dimensions_vec));
 0058     
@@ -147,7 +147,7 @@ This function is called by:
 0084     M.randvec = @<a href="#_sub2" class="code" title="subfunction u = randvec(x) ">randvec</a>;
 0085     <a name="_sub2" href="#_subfunctions" class="code">function u = randvec(x) </a><span class="comment">%#ok&lt;INUSD&gt;</span>
 0086         u = randn(dimensions_vec);
-0087         u = u / norm(u(:), <span class="string">'fro'</span>);
+0087         u = u / <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>(u(:), <span class="string">'fro'</span>);
 0088     <span class="keyword">end</span>
 0089     
 0090     M.lincomb = @<a href="../../../manopt/tools/matrixlincomb.html" class="code" title="function v = matrixlincomb(x, a1, d1, a2, d2) %#ok<INUSL>">matrixlincomb</a>;
@@ -164,6 +164,6 @@ This function is called by:
 0101     M.vecmatareisometries = @() true;
 0102 
 0103 <span class="keyword">end</span></pre></div>
-<hr><address>Generated on Tue 19-May-2020 18:46:12 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+<hr><address>Generated on Sun 05-Sep-2021 17:57:00 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
 </body>
 </html>

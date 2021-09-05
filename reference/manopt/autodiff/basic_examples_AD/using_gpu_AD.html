@@ -1,0 +1,113 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of using_gpu_AD</title>
+  <meta name="keywords" content="using_gpu_AD">
+  <meta name="description" content="Manopt example on how to use GPU to compute the egrad and the ehess via AD.">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../index.html">Home</a> &gt;  <a href="#">manopt</a> &gt; <a href="../index.html">autodiff</a> &gt; <a href="index.html">basic_examples_AD</a> &gt; using_gpu_AD.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../index.html"><img alt="<" border="0" src="../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for manopt\autodiff\basic_examples_AD&nbsp;<img alt=">" border="0" src="../../../right.png"></a></td></tr></table>-->
+
+<h1>using_gpu_AD
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>Manopt example on how to use GPU to compute the egrad and the ehess via AD.</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function using_gpu_AD() </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> Manopt example on how to use GPU to compute the egrad and the ehess via AD.
+
+ This file is basically the same as using_gpu.m.
+
+ See also: using_gpu</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="../../../manopt/autodiff/manoptAD.html" class="code" title="function problem = manoptAD(problem, flag)">manoptAD</a>	Preprocess automatic differentiation for a manopt problem structure</li><li><a href="../../../manopt/manifolds/grassmann/grassmannfactory.html" class="code" title="function M = grassmannfactory(n, p, k, gpuflag)">grassmannfactory</a>	Returns a manifold struct to optimize over the space of vector subspaces.</li><li><a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>	NORM Norm of a TT/MPS tensor.</li><li><a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_block/norm.html" class="code" title="function res = norm( x )">norm</a>	NORM Norm of a TT/MPS block-mu tensor.</li><li><a href="../../../manopt/solvers/trustregions/trustregions.html" class="code" title="function [x, cost, info, options] = trustregions(problem, x, options)">trustregions</a>	Riemannian trust-regions solver for optimization on manifolds.</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+</ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function using_gpu_AD()</a>
+0002 <span class="comment">% Manopt example on how to use GPU to compute the egrad and the ehess via AD.</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">% This file is basically the same as using_gpu.m.</span>
+0005 <span class="comment">%</span>
+0006 <span class="comment">% See also: using_gpu</span>
+0007 
+0008 <span class="comment">% This file is part of Manopt: www.manopt.org.</span>
+0009 <span class="comment">% Original author: Nicolas Boumal, Xiaowen Jiang, Aug. 21, 2021.</span>
+0010 <span class="comment">% Contributors:</span>
+0011 <span class="comment">% Change log:</span>
+0012 
+0013     <span class="comment">% Verify that the deep learning tool box was installed</span>
+0014     assert(exist(<span class="string">'dlarray'</span>, <span class="string">'file'</span>) == 2, [<span class="string">'Deep learning tool box is '</span><span class="keyword">...</span><span class="comment"> </span>
+0015     <span class="string">'needed for automatic differentiation.\n Please install the'</span><span class="keyword">...</span>
+0016     <span class="string">'latest version of the deep learning tool box and \nupgrade to Matlab'</span><span class="keyword">...</span>
+0017     <span class="string">' R2021b if possible.'</span>])
+0018 
+0019     <span class="keyword">if</span> exist(<span class="string">'OCTAVE_VERSION'</span>, <span class="string">'builtin'</span>)
+0020         warning(<span class="string">'manopt:usinggpu'</span>, <span class="string">'Octave does not handle GPUs at this time.'</span>);
+0021         <span class="keyword">return</span>;
+0022     <span class="keyword">end</span>
+0023 
+0024     <span class="keyword">if</span> gpuDeviceCount() &lt;= 0
+0025         warning(<span class="string">'manopt:usinggpu'</span>, <span class="string">'No GPU available: cannot run example.'</span>);
+0026         <span class="keyword">return</span>;
+0027     <span class="keyword">end</span>
+0028 
+0029     <span class="comment">% Construct a large problem to illustrate the use of GPU.</span>
+0030     <span class="comment">% Below, we will compute p left-most eigenvectors of A (symmetric).</span>
+0031     <span class="comment">% On a particular test computer.</span>
+0032     p = 3;
+0033     n = 10000;
+0034     A = randn(n);
+0035     A = A+A';
+0036     
+0037     inner = @(U, V) U(:)'*V(:);
+0038     
+0039     <span class="comment">% First, setup and run the optimization problem on the CPU.</span>
+0040     problem_cpu.M = <a href="../../../manopt/manifolds/grassmann/grassmannfactory.html" class="code" title="function M = grassmannfactory(n, p, k, gpuflag)">grassmannfactory</a>(n, p, 1); <span class="comment">% 1 copy of Grassmann(n, p)</span>
+0041     problem_cpu.cost = @(X) .5*inner(X, A*X);  <span class="comment">% Rayleigh quotient to be minimized</span>
+0042     problem_cpu = <a href="../../../manopt/autodiff/manoptAD.html" class="code" title="function problem = manoptAD(problem, flag)">manoptAD</a>(problem_cpu);       <span class="comment">% Obtain the egrad and ehess via AD</span>
+0043     X0 = problem_cpu.M.rand();                 <span class="comment">% Random initial guess</span>
+0044     tic_cpu = tic();
+0045     X_cpu = <a href="../../../manopt/solvers/trustregions/trustregions.html" class="code" title="function [x, cost, info, options] = trustregions(problem, x, options)">trustregions</a>(problem_cpu, X0);     <span class="comment">% run any solver</span>
+0046     time_cpu = toc(tic_cpu);
+0047     
+0048     <span class="comment">% Then, move the data to the GPU, redefine the problem</span>
+0049     <span class="comment">% activate the GPU flag in the factory, and run it again.</span>
+0050     A = gpuArray(A);
+0051     problem_gpu.M = <a href="../../../manopt/manifolds/grassmann/grassmannfactory.html" class="code" title="function M = grassmannfactory(n, p, k, gpuflag)">grassmannfactory</a>(n, p, 1, true); <span class="comment">% true is the GPU flag;</span>
+0052     problem_gpu.cost = @(X) .5*inner(X, A*X);        <span class="comment">% Code for cost</span>
+0053     problem_gpu = <a href="../../../manopt/autodiff/manoptAD.html" class="code" title="function problem = manoptAD(problem, flag)">manoptAD</a>(problem_gpu);         <span class="comment">% Work on gpu now</span>
+0054     X0 = gpuArray(X0);
+0055     tic_gpu = tic();
+0056     X_gpu = <a href="../../../manopt/solvers/trustregions/trustregions.html" class="code" title="function [x, cost, info, options] = trustregions(problem, x, options)">trustregions</a>(problem_gpu, X0);
+0057     time_gpu = toc(tic_gpu);
+0058     
+0059     fprintf(<span class="string">'Total time CPU: %g\nTotal time GPU: %g\nSolution difference: %g\n'</span>, <span class="keyword">...</span>
+0060             time_cpu, time_gpu, <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>(X_cpu - X_gpu, <span class="string">'fro'</span>));
+0061     
+0062 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Sun 05-Sep-2021 17:57:00 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

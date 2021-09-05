@@ -92,7 +92,7 @@
 <h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
 This function calls:
 <ul style="list-style-image:url(../../../matlabicon.gif)">
-<li><a href="../../../manopt/core/getHessian.html" class="code" title="function hess = getHessian(problem, x, d, storedb, key)">getHessian</a>	Computes the Hessian of the cost function at x along d.</li><li><a href="../../../manopt/core/mergeOptions.html" class="code" title="function opts = mergeOptions(opts_sub, opts_master)">mergeOptions</a>	Merges two options structures with one having precedence over the other.</li><li><a href="minimize_cubic_newton.html" class="code" title="function [y, iter, lambda, status] = minimize_cubic_newton(H, g, sigma, options)">minimize_cubic_newton</a>	Minimize a cubicly regularized quadratic via Newton root finding.</li><li><a href="../../../manopt/tools/lincomb.html" class="code" title="function vec = lincomb(M, x, vecs, coeffs)">lincomb</a>	Computes a linear combination of tangent vectors in the Manopt framework.</li></ul>
+<li><a href="../../../manopt/core/getHessian.html" class="code" title="function hess = getHessian(problem, x, d, storedb, key)">getHessian</a>	Computes the Hessian of the cost function at x along d.</li><li><a href="../../../manopt/core/mergeOptions.html" class="code" title="function opts = mergeOptions(opts_sub, opts_master)">mergeOptions</a>	Merges two options structures with one having precedence over the other.</li><li><a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>	NORM Norm of a TT/MPS tensor.</li><li><a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_block/norm.html" class="code" title="function res = norm( x )">norm</a>	NORM Norm of a TT/MPS block-mu tensor.</li><li><a href="minimize_cubic_newton.html" class="code" title="function [y, iter, lambda, status] = minimize_cubic_newton(H, g, sigma, options)">minimize_cubic_newton</a>	Minimize a cubicly regularized quadratic via Newton root finding.</li><li><a href="../../../manopt/tools/lincomb.html" class="code" title="function vec = lincomb(M, x, vecs, coeffs)">lincomb</a>	Computes a linear combination of tangent vectors in the Manopt framework.</li></ul>
 This function is called by:
 <ul style="list-style-image:url(../../../matlabicon.gif)">
 </ul>
@@ -304,18 +304,18 @@ This function is called by:
 0201         <span class="comment">% step 'Qy' (linear combination of the Q's with coefficients y.)</span>
 0202         <span class="comment">% We actually compute the norm of a vector of coordinates for the</span>
 0203         <span class="comment">% gradient of the model in the basis Q{1}, ..., Q{j+1}.</span>
-0204         model_gradnorm = norm(gradnorm*eye(j+1, 1) + <span class="keyword">...</span>
+0204         model_gradnorm = <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>(gradnorm*eye(j+1, 1) + <span class="keyword">...</span>
 0205                               T(1:j+1, 1:j)*y + <span class="keyword">...</span>
-0206                               sigma*norm(y)*[y ; 0]);
+0206                               sigma*<a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>(y)*[y ; 0]);
 0207         gradnorms(j) = model_gradnorm;
-0208         func_values(j) = y(1)*gradnorm + 0.5 * dot(y, T(1:j, 1:j)*y) + (sigma/3) * norm(y)^3;
+0208         func_values(j) = y(1)*gradnorm + 0.5 * dot(y, T(1:j, 1:j)*y) + (sigma/3) * <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>(y)^3;
 0209 
 0210         <span class="keyword">if</span> options.verbosity &gt;= 4
-0211             fprintf(<span class="string">'\nModel grad norm: %.16e, Iterate norm: %.16e'</span>, model_gradnorm, norm(y));
+0211             fprintf(<span class="string">'\nModel grad norm: %.16e, Iterate norm: %.16e'</span>, model_gradnorm, <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>(y));
 0212         <span class="keyword">end</span>
 0213         
 0214         <span class="comment">% Check termination condition</span>
-0215         <span class="keyword">if</span> model_gradnorm &lt;= options.theta*norm(y)^2
+0215         <span class="keyword">if</span> model_gradnorm &lt;= options.theta*<a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>(y)^2
 0216             stop_str = <span class="string">'Model grad norm condition satisfied'</span>;
 0217             gradnorm_reached = true;
 0218             <span class="keyword">break</span>;
@@ -360,6 +360,6 @@ This function is called by:
 0257     <span class="keyword">end</span>
 0258         
 0259 <span class="keyword">end</span></pre></div>
-<hr><address>Generated on Tue 19-May-2020 18:46:12 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+<hr><address>Generated on Sun 05-Sep-2021 17:57:00 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
 </body>
 </html>

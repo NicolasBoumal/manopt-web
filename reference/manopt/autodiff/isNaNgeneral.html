@@ -1,0 +1,126 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of isNaNgeneral</title>
+  <meta name="keywords" content="isNaNgeneral">
+  <meta name="description" content="Determine if x contains a NaN value">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../index.html">Home</a> &gt;  <a href="#">manopt</a> &gt; <a href="index.html">autodiff</a> &gt; isNaNgeneral.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../index.html"><img alt="<" border="0" src="../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for manopt\autodiff&nbsp;<img alt=">" border="0" src="../../right.png"></a></td></tr></table>-->
+
+<h1>isNaNgeneral
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+<div class="box"><strong>Determine if x contains a NaN value</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+<div class="box"><strong>function result = isNaNgeneral(x) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> Determine if x contains a NaN value
+
+ function result = isNaNgeneral(x)
+
+ Returns a logical value which indicates whether or not the input x 
+ contains a NaN value. The input x can be defined recursively by arrays, 
+ structs and cells.
+
+ See also:</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../../matlabicon.gif)">
+<li><a href="manoptAD.html" class="code" title="function problem = manoptAD(problem, flag)">manoptAD</a>	Preprocess automatic differentiation for a manopt problem structure</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+<ul style="list-style-image:url(../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function result = isNaN_struct(x)</a></li><li><a href="#_sub2" class="code">function result = isNaN_cell(x)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function result = isNaNgeneral(x)</a>
+0002 <span class="comment">% Determine if x contains a NaN value</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">% function result = isNaNgeneral(x)</span>
+0005 <span class="comment">%</span>
+0006 <span class="comment">% Returns a logical value which indicates whether or not the input x</span>
+0007 <span class="comment">% contains a NaN value. The input x can be defined recursively by arrays,</span>
+0008 <span class="comment">% structs and cells.</span>
+0009 <span class="comment">%</span>
+0010 <span class="comment">% See also:</span>
+0011 
+0012 <span class="comment">% This file is part of Manopt: www.manopt.org.</span>
+0013 <span class="comment">% Original author: Xiaowen Jiang, Aug. 31, 2021.</span>
+0014 <span class="comment">% Contributors: Nicolas Boumal</span>
+0015 <span class="comment">% Change log:</span>
+0016 
+0017     <span class="keyword">if</span> ~isstruct(x) &amp;&amp; ~iscell(x) &amp;&amp; ~isnumeric(x)
+0018         up = MException(<span class="string">'manopt:isNaNgeneral'</span>, <span class="keyword">...</span>
+0019                     <span class="string">'isNaNgeneral should only accept structs, cells or arrays.'</span>);
+0020         throw(up);
+0021     <span class="keyword">end</span>
+0022     
+0023     <span class="comment">% recursively find NaN for each part of x</span>
+0024     <span class="keyword">if</span> isstruct(x)
+0025         result = <a href="#_sub1" class="code" title="subfunction result = isNaN_struct(x)">isNaN_struct</a>(x);
+0026         <span class="keyword">if</span> result &gt; 0
+0027             result = true;
+0028         <span class="keyword">end</span>
+0029     <span class="keyword">elseif</span> iscell(x)
+0030         result = <a href="#_sub2" class="code" title="subfunction result = isNaN_cell(x)">isNaN_cell</a>(x);
+0031         <span class="keyword">if</span> result &gt; 0
+0032             result = true;
+0033         <span class="keyword">end</span>
+0034     <span class="keyword">else</span>
+0035         result = any(isnan(x(:)));
+0036     <span class="keyword">end</span>
+0037 
+0038     <span class="comment">% when x is a struct</span>
+0039     <a name="_sub1" href="#_subfunctions" class="code">function result = isNaN_struct(x)</a>
+0040         elems = fieldnames(x);
+0041         nelems = numel(elems);
+0042         result = false;
+0043         <span class="keyword">for</span> ii = 1:nelems
+0044             <span class="keyword">if</span> isstruct(x.(elems{ii}))
+0045                 result = result + <a href="#_sub1" class="code" title="subfunction result = isNaN_struct(x)">isNaN_struct</a>(x.(elems{ii}));
+0046             <span class="keyword">elseif</span> iscell(x.(elems{ii}))
+0047                 result = result + <a href="#_sub2" class="code" title="subfunction result = isNaN_cell(x)">isNaN_cell</a>(x.(elems{ii}));
+0048             <span class="keyword">else</span>
+0049                 result = result + any(isnan(x.(elems{ii})(:)));
+0050             <span class="keyword">end</span>
+0051         <span class="keyword">end</span>
+0052     <span class="keyword">end</span>
+0053 
+0054     <span class="comment">% when x is a cell</span>
+0055     <a name="_sub2" href="#_subfunctions" class="code">function result = isNaN_cell(x)</a>
+0056         ncell = length(x);
+0057         result = false;
+0058         <span class="keyword">for</span> ii = 1:ncell
+0059             <span class="keyword">if</span> isstruct(x{ii})
+0060                 result = result + <a href="#_sub1" class="code" title="subfunction result = isNaN_struct(x)">isNaN_struct</a>(x{ii});
+0061             <span class="keyword">elseif</span> iscell(x{ii})
+0062                 result = result + <a href="#_sub2" class="code" title="subfunction result = isNaN_cell(x)">isNaN_cell</a>(x{ii});
+0063             <span class="keyword">else</span>
+0064                 result = result + any(isnan(x{ii}(:)));
+0065             <span class="keyword">end</span>
+0066         <span class="keyword">end</span>
+0067     <span class="keyword">end</span>
+0068 <span class="keyword">end</span>
+0069</pre></div>
+<hr><address>Generated on Sun 05-Sep-2021 17:57:00 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

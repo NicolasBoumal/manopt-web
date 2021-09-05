@@ -1,0 +1,125 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of makeOmegaSet_slice</title>
+  <meta name="keywords" content="makeOmegaSet_slice">
+  <meta name="description" content="TTeMPS Toolbox.">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../index.html">Home</a> &gt;  <a href="#">manopt</a> &gt; <a href="#">manifolds</a> &gt; <a href="../../../index.html">ttfixedrank</a> &gt; <a href="../../index.html">TTeMPS_1.1</a> &gt; <a href="../index.html">algorithms</a> &gt; <a href="index.html">completion</a> &gt; makeOmegaSet_slice.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../index.html"><img alt="<" border="0" src="../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for manopt\manifolds\ttfixedrank\TTeMPS_1.1\algorithms\completion&nbsp;<img alt=">" border="0" src="../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>makeOmegaSet_slice
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="box"><strong>TTeMPS Toolbox.</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="box"><strong>function Omega = makeOmegaSet_slice( n, numSlice, cross ) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">   TTeMPS Toolbox. 
+   Michael Steinlechner, 2013-2016
+   Questions and contact: michael.steinlechner@epfl.ch
+   BSD 2-clause license, see LICENSE.txt</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../matlabicon.gif)">
+</ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">%   TTeMPS Toolbox.</span>
+0002 <span class="comment">%   Michael Steinlechner, 2013-2016</span>
+0003 <span class="comment">%   Questions and contact: michael.steinlechner@epfl.ch</span>
+0004 <span class="comment">%   BSD 2-clause license, see LICENSE.txt</span>
+0005 <a name="_sub0" href="#_subfunctions" class="code">function Omega = makeOmegaSet_slice( n, numSlice, cross )</a>
+0006     
+0007     d = length(n);
+0008 
+0009     <span class="keyword">if</span> cross
+0010         subs_slice = zeros( numSlice, d );
+0011         
+0012         <span class="keyword">for</span> i = 1:d
+0013             subs_slice(:,i) = randi( n(i), numSlice, 1 );
+0014         <span class="keyword">end</span>
+0015         
+0016         Omega = unique( subs_slice, <span class="string">'rows'</span> );
+0017         m = size(Omega, 1);
+0018         
+0019         <span class="keyword">while</span> m &lt; numSlice
+0020             subs_slice(1:m,:) = Omega;         
+0021             <span class="keyword">for</span> i=1:d
+0022                  subs_slice(m+1:numSlice, i) = randi( n(i), numSlice-m, 1 );
+0023             <span class="keyword">end</span>
+0024             Omega = unique( subs_slice, <span class="string">'rows'</span> );
+0025             m = size(Omega, 1);
+0026         <span class="keyword">end</span>
+0027 
+0028         subs_slice = Omega;
+0029 
+0030         subs = [];
+0031         <span class="keyword">for</span> j = 1:numSlice
+0032             <span class="keyword">for</span> i = 1:d
+0033                 sub_new = repmat( subs_slice(j,:), n(i), 1 );
+0034                 subs = [subs; [sub_new(:,1:i-1), (1:n(i))', sub_new(:,i+1:end)]];
+0035             <span class="keyword">end</span>
+0036         <span class="keyword">end</span>
+0037 
+0038         Omega = subs;
+0039         <span class="comment">%Omega = unique( subs, 'rows' );</span>
+0040     <span class="keyword">else</span>
+0041         sizeOmega = numSlice*d;
+0042         subs_slice = zeros( sizeOmega, d );
+0043         
+0044         <span class="keyword">for</span> i = 1:d
+0045             subs_slice(:,i) = randi( n(i), sizeOmega, 1 );
+0046         <span class="keyword">end</span>
+0047         
+0048         Omega = unique( subs_slice, <span class="string">'rows'</span> );
+0049         m = size(Omega, 1);
+0050         
+0051         <span class="keyword">while</span> m &lt; sizeOmega
+0052             subs_slice(1:m,:) = Omega;         
+0053             <span class="keyword">for</span> i=1:d
+0054                  subs_slice(m+1:sizeOmega, i) = randi( n(i), sizeOmega-m, 1 );
+0055             <span class="keyword">end</span>
+0056             Omega = unique( subs_slice, <span class="string">'rows'</span> );
+0057             m = size(Omega, 1);
+0058         <span class="keyword">end</span>
+0059 
+0060         subs_slice = Omega;
+0061 
+0062         subs = [];
+0063         <span class="keyword">for</span> j = 1:numSlice
+0064             <span class="keyword">for</span> i = 1:d
+0065                 sub_new = repmat( subs_slice((j-1)*d+i,:), n(i), 1 );
+0066                 subs = [subs; [sub_new(:,1:i-1), (1:n(i))', sub_new(:,i+1:end)]];
+0067             <span class="keyword">end</span>
+0068         <span class="keyword">end</span>
+0069 
+0070         <span class="comment">%Omega = subs;</span>
+0071         Omega = unique( subs, <span class="string">'rows'</span> );
+0072         
+0073     <span class="keyword">end</span>
+0074 
+0075 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Sun 05-Sep-2021 17:57:00 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

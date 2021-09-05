@@ -34,7 +34,7 @@
  For a 3-dimensional matrix A of size n-by-n-by-N, returns a column vector
  tr of length N such that tr(k) = trace(A(:, :, k));
 
- See also: <a href="multiprod.html" class="code" title="function c = multiprod(a, b, idA, idB)">multiprod</a> <a href="multitransp.html" class="code" title="function b = multitransp(a, dim)">multitransp</a> <a href="multiscale.html" class="code" title="function A = multiscale(scale, A)">multiscale</a></pre></div>
+ See also: <a href="multiprod.html" class="code" title="function C = multiprod(A, B, unused1, unused2) %#ok<INUSD>">multiprod</a> <a href="multitransp.html" class="code" title="function B = multitransp(A, unused) %#ok<INUSD>">multitransp</a> <a href="multiscale.html" class="code" title="function A = multiscale(scale, A)">multiscale</a></pre></div>
 
 <!-- crossreference -->
 <h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
@@ -67,11 +67,11 @@ This function is called by:
 0016     
 0017     assert(ndims(A) &lt;= 3, <span class="keyword">...</span>
 0018            [<span class="string">'multitrace is only well defined for matrix arrays of 3 '</span> <span class="keyword">...</span>
-0019             <span class="string">'or less dimensions.'</span>]);
+0019             <span class="string">'or fewer dimensions.'</span>]);
 0020 
 0021     tr = <a href="diagsum.html" class="code" title="function [tracedtensor] = diagsum(tensor1, d1, d2)">diagsum</a>(A, 1, 2);
-0022 
+0022     
 0023 <span class="keyword">end</span></pre></div>
-<hr><address>Generated on Tue 19-May-2020 18:46:12 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+<hr><address>Generated on Sun 05-Sep-2021 17:57:00 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
 </body>
 </html>

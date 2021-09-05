@@ -1,0 +1,71 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of check_precond_laplace</title>
+  <meta name="keywords" content="check_precond_laplace">
+  <meta name="description" content="TTeMPS Toolbox.">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../index.html">Home</a> &gt;  <a href="#">manopt</a> &gt; <a href="#">manifolds</a> &gt; <a href="../../../index.html">ttfixedrank</a> &gt; <a href="../../index.html">TTeMPS_1.1</a> &gt; <a href="../index.html">algorithms</a> &gt; <a href="index.html">linearsystem</a> &gt; check_precond_laplace.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../index.html"><img alt="<" border="0" src="../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for manopt\manifolds\ttfixedrank\TTeMPS_1.1\algorithms\linearsystem&nbsp;<img alt=">" border="0" src="../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>check_precond_laplace
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="box"><strong>TTeMPS Toolbox.</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="box"><strong>function check_precond_laplace(P, grad, P_grad) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">   TTeMPS Toolbox. 
+   Michael Steinlechner, 2013-2016
+   Questions and contact: michael.steinlechner@epfl.ch
+   BSD 2-clause license, see LICENSE.txt</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../matlabicon.gif)">
+<li><a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>	NORM Norm of a TT/MPS tensor.</li><li><a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_block/norm.html" class="code" title="function res = norm( x )">norm</a>	NORM Norm of a TT/MPS block-mu tensor.</li><li><a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/unfold.html" class="code" title="function W = unfold( U, dir )">unfold</a>	UNFOLD Left/right-unfold a 3D array.</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../matlabicon.gif)">
+</ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">%   TTeMPS Toolbox.</span>
+0002 <span class="comment">%   Michael Steinlechner, 2013-2016</span>
+0003 <span class="comment">%   Questions and contact: michael.steinlechner@epfl.ch</span>
+0004 <span class="comment">%   BSD 2-clause license, see LICENSE.txt</span>
+0005 
+0006 <a name="_sub0" href="#_subfunctions" class="code">function check_precond_laplace(P, grad, P_grad)</a>
+0007 
+0008 d = grad.order;
+0009 
+0010 
+0011 <span class="comment">% first check whether P_grad is correctly gauged</span>
+0012 <span class="keyword">for</span> ii=1:d-1
+0013     orth_err(ii) = <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>( <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/unfold.html" class="code" title="function W = unfold( U, dir )">unfold</a>(P_grad.dU{ii},<span class="string">'left'</span>)'*<a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/unfold.html" class="code" title="function W = unfold( U, dir )">unfold</a>(grad.U{ii},<span class="string">'left'</span>) , 2 ) / <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>( <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/unfold.html" class="code" title="function W = unfold( U, dir )">unfold</a>(P_grad.dU{ii},<span class="string">'left'</span>), 2 );
+0014 <span class="keyword">end</span>
+0015 
+0016 <span class="keyword">if</span> max(orth_err) &gt; 1e-12
+0017     orth_err
+0018     warning(<span class="string">'precond_laplace.m returned an inaccurate result'</span>)
+0019 <span class="keyword">end</span>
+0020 
+0021 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Sun 05-Sep-2021 17:57:00 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

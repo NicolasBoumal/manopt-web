@@ -92,7 +92,7 @@ This function is called by:
 0025 <span class="comment">%    to reduce computational burden.</span>
 0026 
 0027 <span class="comment">% The file is based on developments in the research paper</span>
-0028 <span class="comment">% Philip A. Knight, &quot;The Sinkhorn–Knopp Algorithm: Convergence and</span>
+0028 <span class="comment">% Philip A. Knight, &quot;The Sinkhornâ€“Knopp Algorithm: Convergence and</span>
 0029 <span class="comment">% Applications&quot; in SIAM Journal on Matrix Analysis and Applications 30(1),</span>
 0030 <span class="comment">% 261-275, 2008.</span>
 0031 <span class="comment">%</span>
@@ -152,7 +152,7 @@ This function is called by:
 0085 
 0086         <span class="keyword">if</span> any(isinf(d_2)) || any(isnan(d_2)) || any(isinf(d_1)) || any(isnan(d_1))
 0087             warning(<span class="string">'DoublyStochasticProjection:NanInfEncountered'</span>, <span class="keyword">...</span>
-0088                     <span class="string">'Nan or Inf occured at iter %d, error ! %e \n'</span>, iter, gap);
+0088                     <span class="string">'Nan or Inf occured at iter %d. \n'</span>, iter);
 0089             d_1 = d_1_prev;
 0090             d_2 = d_2_prev;
 0091             <span class="keyword">break</span>;
@@ -167,6 +167,6 @@ This function is called by:
 0100     <span class="keyword">end</span>
 0101          
 0102 <span class="keyword">end</span></pre></div>
-<hr><address>Generated on Tue 19-May-2020 18:46:12 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+<hr><address>Generated on Sun 05-Sep-2021 17:57:00 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
 </body>
 </html>

@@ -49,7 +49,7 @@
 <h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
 This function calls:
 <ul style="list-style-image:url(../../../matlabicon.gif)">
-<li><a href="../../../manopt/tools/hashmd5.html" class="code" title="function h = hashmd5(inp)">hashmd5</a>	Computes the MD5 hash of input data.</li><li><a href="../../../manopt/tools/matrixlincomb.html" class="code" title="function v = matrixlincomb(x, a1, d1, a2, d2) %#ok<INUSL>">matrixlincomb</a>	Linear combination function for tangent vectors represented as matrices.</li></ul>
+<li><a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>	NORM Norm of a TT/MPS tensor.</li><li><a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_block/norm.html" class="code" title="function res = norm( x )">norm</a>	NORM Norm of a TT/MPS block-mu tensor.</li><li><a href="../../../manopt/tools/hashmd5.html" class="code" title="function h = hashmd5(inp)">hashmd5</a>	Computes the MD5 hash of input data.</li><li><a href="../../../manopt/tools/matrixlincomb.html" class="code" title="function v = matrixlincomb(x, a1, d1, a2, d2) %#ok<INUSL>">matrixlincomb</a>	Linear combination function for tangent vectors represented as matrices.</li></ul>
 This function is called by:
 <ul style="list-style-image:url(../../../matlabicon.gif)">
 <li><a href="../../../examples/elliptope_SDP.html" class="code" title="function [Y, problem, S] = elliptope_SDP(A, p, Y0)">elliptope_SDP</a>	Solver for semidefinite programs (SDP's) with unit diagonal constraints.</li><li><a href="../../../examples/packing_on_the_sphere.html" class="code" title="function [X, maxdot] = packing_on_the_sphere(d, n, epsilon, X0)">packing_on_the_sphere</a>	Return a set of points spread out on the sphere.</li><li><a href="../../../examples/thomson_problem.html" class="code" title="function X = thomson_problem(n, d)">thomson_problem</a>	Simple attempt at computing n well distributed points on a sphere in R^d.</li></ul>
@@ -134,9 +134,9 @@ This function is called by:
 0072     
 0073     M.inner = @(x, d1, d2) d1(:)'*d2(:);
 0074     
-0075     M.norm = @(x, d) norm(d(:));
+0075     M.norm = @(x, d) <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>(d(:));
 0076     
-0077     M.dist = @(x, y) norm(real(2*asin(.5*sqrt(sum(trnsp(x - y).^2, 1)))));
+0077     M.dist = @(x, y) <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>(real(2*asin(.5*sqrt(sum(trnsp(x - y).^2, 1)))));
 0078     
 0079     M.typicaldist = @() pi*sqrt(m);
 0080     
@@ -309,9 +309,9 @@ This function is called by:
 0247 
 0248     d = randn(n, m);
 0249     d = <a href="#_sub8" class="code" title="subfunction PXH = projection(X, H)">projection</a>(x, d);
-0250     d = d / norm(d(:));
+0250     d = d / <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>(d(:));
 0251 
 0252 <span class="keyword">end</span></pre></div>
-<hr><address>Generated on Tue 19-May-2020 18:46:12 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+<hr><address>Generated on Sun 05-Sep-2021 17:57:00 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
 </body>
 </html>

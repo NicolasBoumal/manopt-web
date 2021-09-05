@@ -42,7 +42,7 @@
 <h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
 This function calls:
 <ul style="list-style-image:url(../../../matlabicon.gif)">
-<li><a href="../../../manopt/tools/hashmd5.html" class="code" title="function h = hashmd5(inp)">hashmd5</a>	Computes the MD5 hash of input data.</li><li><a href="../../../manopt/tools/matrixlincomb.html" class="code" title="function v = matrixlincomb(x, a1, d1, a2, d2) %#ok<INUSL>">matrixlincomb</a>	Linear combination function for tangent vectors represented as matrices.</li></ul>
+<li><a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>	NORM Norm of a TT/MPS tensor.</li><li><a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_block/norm.html" class="code" title="function res = norm( x )">norm</a>	NORM Norm of a TT/MPS block-mu tensor.</li><li><a href="../../../manopt/tools/hashmd5.html" class="code" title="function h = hashmd5(inp)">hashmd5</a>	Computes the MD5 hash of input data.</li><li><a href="../../../manopt/tools/matrixlincomb.html" class="code" title="function v = matrixlincomb(x, a1, d1, a2, d2) %#ok<INUSL>">matrixlincomb</a>	Linear combination function for tangent vectors represented as matrices.</li></ul>
 This function is called by:
 <ul style="list-style-image:url(../../../matlabicon.gif)">
 </ul>
@@ -88,9 +88,9 @@ This function is called by:
 0033     
 0034     M.inner = @(x, d1, d2) d1(:).'*d2(:);
 0035     
-0036     M.norm = @(x, d) norm(d, <span class="string">'fro'</span>);
+0036     M.norm = @(x, d) <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>(d, <span class="string">'fro'</span>);
 0037     
-0038     M.dist = @(x, y) real(2*asin(.5*norm(x - y, <span class="string">'fro'</span>)));
+0038     M.dist = @(x, y) real(2*asin(.5*<a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>(x - y, <span class="string">'fro'</span>)));
 0039     
 0040     M.typicaldist = @() pi;
 0041     
@@ -124,7 +124,7 @@ This function is called by:
 0069         di = M.dist(x1, x2);
 0070         <span class="comment">% If the two points are &quot;far apart&quot;, correct the norm.</span>
 0071         <span class="keyword">if</span> di &gt; 1e-6
-0072             nv = norm(v, <span class="string">'fro'</span>);
+0072             nv = <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>(v, <span class="string">'fro'</span>);
 0073             v = v * (di / nv);
 0074         <span class="keyword">end</span>
 0075     <span class="keyword">end</span>
@@ -144,7 +144,7 @@ This function is called by:
 0089     M.pairmean = @<a href="#_sub4" class="code" title="subfunction y = pairmean(x1, x2)">pairmean</a>;
 0090     <a name="_sub4" href="#_subfunctions" class="code">function y = pairmean(x1, x2)</a>
 0091         y = x1+x2;
-0092         y = y / norm(y, <span class="string">'fro'</span>);
+0092         y = y / <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>(y, <span class="string">'fro'</span>);
 0093     <span class="keyword">end</span>
 0094 
 0095     <span class="comment">% TODO : check isometry and fix.</span>
@@ -164,7 +164,7 @@ This function is called by:
 0109         td = t*d;
 0110     <span class="keyword">end</span>
 0111     
-0112     nrm_td = norm(td, <span class="string">'fro'</span>);
+0112     nrm_td = <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>(td, <span class="string">'fro'</span>);
 0113     
 0114     <span class="keyword">if</span> nrm_td &gt; 0
 0115         y = x*cos(nrm_td) + td*(sin(nrm_td)/nrm_td);
@@ -182,7 +182,7 @@ This function is called by:
 0127     <span class="keyword">end</span>
 0128     
 0129     y = x + t*d;
-0130     y = y / norm(y, <span class="string">'fro'</span>);
+0130     y = y / <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>(y, <span class="string">'fro'</span>);
 0131 
 0132 <span class="keyword">end</span>
 0133 
@@ -191,7 +191,7 @@ This function is called by:
 0136 
 0137     x = randn(n);
 0138     x = (x + x.')/2;
-0139     x = x/norm(x, <span class="string">'fro'</span>);
+0139     x = x/<a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>(x, <span class="string">'fro'</span>);
 0140 
 0141 <span class="keyword">end</span>
 0142 
@@ -201,9 +201,9 @@ This function is called by:
 0146     d = randn(n);
 0147     d = (d + d.')/2;
 0148     d = d - x*(x(:).'*d(:));
-0149     d = d / norm(d, <span class="string">'fro'</span>);
+0149     d = d / <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>(d, <span class="string">'fro'</span>);
 0150 
 0151 <span class="keyword">end</span></pre></div>
-<hr><address>Generated on Tue 19-May-2020 18:46:12 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+<hr><address>Generated on Sun 05-Sep-2021 17:57:00 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
 </body>
 </html>

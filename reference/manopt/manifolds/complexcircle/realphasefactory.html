@@ -78,7 +78,7 @@
 <h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
 This function calls:
 <ul style="list-style-image:url(../../../matlabicon.gif)">
-<li><a href="../../../manopt/tools/hashmd5.html" class="code" title="function h = hashmd5(inp)">hashmd5</a>	Computes the MD5 hash of input data.</li><li><a href="../../../manopt/tools/matrixlincomb.html" class="code" title="function v = matrixlincomb(x, a1, d1, a2, d2) %#ok<INUSL>">matrixlincomb</a>	Linear combination function for tangent vectors represented as matrices.</li></ul>
+<li><a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>	NORM Norm of a TT/MPS tensor.</li><li><a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/round.html" class="code" title="function x = round( x, tol )">round</a>	ROUND Approximate TTeMPS tensor within a prescribed tolerance.</li><li><a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_block/norm.html" class="code" title="function res = norm( x )">norm</a>	NORM Norm of a TT/MPS block-mu tensor.</li><li><a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_block/round.html" class="code" title="function x = round( x, tol )">round</a>	ROUND Approximate TTeMPS tensor within a prescribed tolerance.</li><li><a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_op/round.html" class="code" title="function A = round(A, tol )">round</a>	ROUND Approximate TTeMPS operator within a prescribed tolerance.</li><li><a href="../../../manopt/tools/hashmd5.html" class="code" title="function h = hashmd5(inp)">hashmd5</a>	Computes the MD5 hash of input data.</li><li><a href="../../../manopt/tools/matrixlincomb.html" class="code" title="function v = matrixlincomb(x, a1, d1, a2, d2) %#ok<INUSL>">matrixlincomb</a>	Linear combination function for tangent vectors represented as matrices.</li></ul>
 This function is called by:
 <ul style="list-style-image:url(../../../matlabicon.gif)">
 </ul>
@@ -146,9 +146,9 @@ This function is called by:
 0055 <span class="comment">%       The distance function is now more accurate. Improved logarithm</span>
 0056 <span class="comment">%       accordingly.</span>
 0057 
-0058     assert(n == round(n) &amp;&amp; n &gt;= 3, <span class="string">'n must be an integer &gt;= 3.'</span>);
+0058     assert(n == <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/round.html" class="code" title="function x = round( x, tol )">round</a>(n) &amp;&amp; n &gt;= 3, <span class="string">'n must be an integer &gt;= 3.'</span>);
 0059     
-0060     even_n = (round(n/2) == n/2);
+0060     even_n = (<a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/round.html" class="code" title="function x = round( x, tol )">round</a>(n/2) == n/2);
 0061     
 0062     <span class="keyword">if</span> ~exist(<span class="string">'z0'</span>, <span class="string">'var'</span>) || isempty(z0)
 0063         z0 = 1;
@@ -170,9 +170,9 @@ This function is called by:
 0079     
 0080     M.inner = @(z, v, w) real(v'*w);
 0081     
-0082     M.norm = @(z, u) norm(u);
+0082     M.norm = @(z, u) <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>(u);
 0083     
-0084     M.dist = @(z1, z2) norm(real(2*asin(.5*abs(z1 - z2))));
+0084     M.dist = @(z1, z2) <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>(real(2*asin(.5*abs(z1 - z2))));
 0085     
 0086     M.typicaldist = @() pi*sqrt(n/2);
 0087     
@@ -262,7 +262,7 @@ This function is called by:
 0171     M.randvec = @<a href="#_sub7" class="code" title="subfunction v = randomvec(z)">randomvec</a>;
 0172     <a name="_sub7" href="#_subfunctions" class="code">function v = randomvec(z)</a>
 0173         v = M.proj(z, randn(n, 1) + 1i*randn(n, 1));
-0174         v = v / norm(v);
+0174         v = v / <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>(v);
 0175     <span class="keyword">end</span>
 0176     
 0177     M.lincomb = @<a href="../../../manopt/tools/matrixlincomb.html" class="code" title="function v = matrixlincomb(x, a1, d1, a2, d2) %#ok<INUSL>">matrixlincomb</a>;
@@ -294,6 +294,6 @@ This function is called by:
 0203     M.vecmatareisometries = @() true;
 0204     
 0205 <span class="keyword">end</span></pre></div>
-<hr><address>Generated on Tue 19-May-2020 18:46:12 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+<hr><address>Generated on Sun 05-Sep-2021 17:57:00 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
 </body>
 </html>

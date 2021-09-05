@@ -1,0 +1,128 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of innerprod</title>
+  <meta name="keywords" content="innerprod">
+  <meta name="description" content="INNERPROD Inner product between two TT/MPS tensors.">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../index.html">Home</a> &gt;  <a href="#">manopt</a> &gt; <a href="#">manifolds</a> &gt; <a href="../../index.html">ttfixedrank</a> &gt; <a href="../index.html">TTeMPS_1.1</a> &gt; <a href="index.html">@TTeMPS</a> &gt; innerprod.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../index.html"><img alt="<" border="0" src="../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for manopt\manifolds\ttfixedrank\TTeMPS_1.1\@TTeMPS&nbsp;<img alt=">" border="0" src="../../../../../right.png"></a></td></tr></table>-->
+
+<h1>innerprod
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../up.png"></a></h2>
+<div class="box"><strong>INNERPROD Inner product between two TT/MPS tensors.</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../up.png"></a></h2>
+<div class="box"><strong>function res = innerprod( x, y, dir, upto, storeParts ) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">INNERPROD Inner product between two TT/MPS tensors.
+   innerprod(X,Y) computes the inner product between the TT/MPS tensors X and Y.
+   Assumes that the first rank of both tensors, X.rank(1) and Y.rank(1), is 1. 
+   The last rank may be different from 1, resulting in a matrix of size 
+   [X.rank(end), Y.rank(end)].
+
+   See also <a href="norm.html" class="code" title="function res = norm( x, safe )">NORM</a></pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../matlabicon.gif)">
+<li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod.html" class="code" title="function res = tensorprod( U, A, mode, apply_inv )">tensorprod</a>	TENSORPROD Tensor-times-Matrix product.</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/unfold.html" class="code" title="function W = unfold( U, dir )">unfold</a>	UNFOLD Left/right-unfold a 3D array.</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../matlabicon.gif)">
+<li><a href="../../../../../manopt/manifolds/fixedranktensors/fixedranktensorembeddedfactory.html" class="code" title="function M = fixedranktensorembeddedfactory(tensor_size, tensor_rank)">fixedranktensorembeddedfactory</a>	Manifold of tensors with fixed multilinear rank in Tucker format</li><li><a href="TTeMPS.html" class="code" title="">TTeMPS</a>	</li><li><a href="contract.html" class="code" title="function res = contract( x, y, idx )">contract</a>	CONTRACT Contraction of two TT/MPS tensors.</li><li><a href="norm.html" class="code" title="function res = norm( x, safe )">norm</a>	NORM Norm of a TT/MPS tensor.</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_block/TTeMPS_block.html" class="code" title="">TTeMPS_block</a>	</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_op/contract.html" class="code" title="function res = contract( A, X, mu )">contract</a>	CONTRACT Contraction of two TT/MPS tensors with inner TT/MPS operator.</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_op_laplace/constr_precond_inner.html" class="code" title="function expB = constr_precond_inner( A, X, mu )">constr_precond_inner</a>	TTeMPS Toolbox.</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_op_laplace/contract.html" class="code" title="function res = contract( A, X, mu )">contract</a>	CONTRACT Contraction of two TT/MPS tensors with inner TT/MPS Laplace operator.</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_tangent/TTeMPS_tangent.html" class="code" title="">TTeMPS_tangent</a>	</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_tangent_orth/TTeMPS_tangent_orth.html" class="code" title="">TTeMPS_tangent_orth</a>	</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/algorithms/completion/completion.html" class="code" title="function [X,cost,test] = completion( A_Omega, Omega, A_Gamma, Gamma, X, maxiter, cg )">completion</a>	Completion for Tensor train but without individual orthogonalization</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/algorithms/completion/completion_orth.html" class="code" title="function [xL,cost,test,stats] = completion_orth( A_Omega, Omega, A_Gamma, Gamma, X, opts )">completion_orth</a>	RTTC: Riemannian Tensor Train Completion</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/algorithms/completion/completion_orth_lambda.html" class="code" title="function [xL,cost,test,stats] = completion_orth_lambda( A_Omega, Omega, A_Gamma, Gamma, X, opts, lambda )">completion_orth_lambda</a>	RTTC: Riemannian Tensor Train Completion</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/algorithms/eigenvalue/amen_eigenvalue.html" class="code" title="function [X, C, evalue, residuums, micro_res, objective, elapsed_time] = amen_eigenvalue(A, prec, p, rr, opts)">amen_eigenvalue</a>	AMEN_EIGENVALUE Calculate p smallest eigenvalues of a TTeMPS operator</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/algorithms/eigenvalue/block_eigenvalue.html" class="code" title="function [X, C, evalue, residuums, micro_res, objective, elapsed_time] = block_eigenvalue(A, p, rr, opts)">block_eigenvalue</a>	BLOCK_EIGENVALUE Calculate p smallest eigenvalues of a TTeMPS operator</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/algorithms/linearsystem/RiemannLinsolve.html" class="code" title="function [xR, residuum, gradnorm, cost, times] = RiemannLinsolve( L, F, X0, Lh, Ph, opts )">RiemannLinsolve</a>	Riemannian approx. Newton for linear systems. For more information, we refer to the report</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/algorithms/linearsystem/RiemannPrecondSteep.html" class="code" title="function [xR, residuum, gradnorm, cost, times] = RiemannPrecondSteep( L, F, X0, Lh, Ph, opts )">RiemannPrecondSteep</a>	TTeMPS Toolbox.</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/algorithms/linearsystem/alsLinsolve.html" class="code" title="function [X, residuum, cost] = alsLinsolve( L, F, X, opts )">alsLinsolve</a>	TTeMPS Toolbox.</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/algorithms/linearsystem/alsLinsolve_fast.html" class="code" title="function [X, residuum, cost, times] = alsLinsolve_fast( L, F, X, opts )">alsLinsolve_fast</a>	TTeMPS Toolbox.</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/algorithms/linearsystem/alsLinsolve_rankOne.html" class="code" title="function [X, residuum, cost, times] = alsLinsolve_rankOne( L, F, X, opts )">alsLinsolve_rankOne</a>	TTeMPS Toolbox.</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/algorithms/linearsystem/amen.html" class="code" title="function [X, residual, cost] = amen( L, F, X, opts )">amen</a>	TTeMPS Toolbox.</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/algorithms/linearsystem/amen_fast.html" class="code" title="function [X, residual, cost, times] = amen_fast( L, F, X, opts )">amen_fast</a>	TTeMPS Toolbox.</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/algorithms/linearsystem/construct_initial_guess.html" class="code" title="function X = construct_initial_guess(L, F, r, n)">construct_initial_guess</a>	TTeMPS Toolbox.</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/algorithms/linearsystem/construct_initial_guess_rankOne.html" class="code" title="function X = construct_initial_guess(L, F, r, n)">construct_initial_guess_rankOne</a>	TTeMPS Toolbox.</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/algorithms/linearsystem/precond_laplace_noorth.html" class="code" title="function [eta] = precond_laplace_noorth( L, xi, xL, xR, G )">precond_laplace_noorth</a>	TTeMPS Toolbox.</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/algorithms/linearsystem/precond_laplace_overlapGS.html" class="code" title="function [eta,Yeta] = precond_laplace_overlapGS( L, xi, xL, xR, G, Lapl )">precond_laplace_overlapGS</a>	TTeMPS Toolbox.</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/algorithms/linearsystem/precond_laplace_overlapJacobi.html" class="code" title="function [eta, B1,B3] = precond_laplace_overlapJacobi( L, xi, xL, xR, G, B1, B3 )">precond_laplace_overlapJacobi</a>	TTeMPS Toolbox.</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/algorithms/linearsystem/precond_rankOne.html" class="code" title="function [eta] = precond_rankOne( A, xi, xL, xR  )">precond_rankOne</a>	TTeMPS Toolbox.</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/examples/example.html" class="code" title="">example</a>	TTeMPS Toolbox.</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/examples/linearsystem_compare.html" class="code" title="">linearsystem_compare</a>	Example code for the algorithms described in</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/operators/TTeMPS_op_NN.html" class="code" title="">TTeMPS_op_NN</a>	</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/operators/TTeMPS_op_NN_hermite.html" class="code" title="">TTeMPS_op_NN_hermite</a>	</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/operators/anisotropicdiffusion.html" class="code" title="">anisotropicdiffusion</a>	</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/operators/newton_potential.html" class="code" title="">newton_potential</a>	</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/fixedTTrankfactory.html" class="code" title="function M = fixedTTrankfactory(n, r, ind)">fixedTTrankfactory</a>	Manifold of tensors of fixed Tensor Train (TT) rank, embedded geometry</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function res = innerprod( x, y, dir, upto, storeParts )</a>
+0002     <span class="comment">%INNERPROD Inner product between two TT/MPS tensors.</span>
+0003     <span class="comment">%   innerprod(X,Y) computes the inner product between the TT/MPS tensors X and Y.</span>
+0004     <span class="comment">%   Assumes that the first rank of both tensors, X.rank(1) and Y.rank(1), is 1.</span>
+0005     <span class="comment">%   The last rank may be different from 1, resulting in a matrix of size</span>
+0006     <span class="comment">%   [X.rank(end), Y.rank(end)].</span>
+0007     <span class="comment">%</span>
+0008     <span class="comment">%   See also NORM</span>
+0009 
+0010     <span class="comment">%   TTeMPS Toolbox.</span>
+0011     <span class="comment">%   Michael Steinlechner, 2013-2016</span>
+0012     <span class="comment">%   Questions and contact: michael.steinlechner@epfl.ch</span>
+0013     <span class="comment">%   BSD 2-clause license, see LICENSE.txt</span>
+0014 
+0015     <span class="keyword">if</span> ~exist( <span class="string">'dir'</span>, <span class="string">'var'</span> )
+0016         dir = <span class="string">'LR'</span>;
+0017     <span class="keyword">end</span>
+0018     <span class="keyword">if</span> ~exist( <span class="string">'upto'</span>, <span class="string">'var'</span> )
+0019         <span class="keyword">if</span> strcmpi( dir, <span class="string">'LR'</span>)
+0020             upto = x.order;
+0021         <span class="keyword">else</span>
+0022             upto = 1;
+0023         <span class="keyword">end</span>
+0024     <span class="keyword">end</span>
+0025     <span class="keyword">if</span> ~exist( <span class="string">'storeParts'</span>, <span class="string">'var'</span> )
+0026         storeParts = false;
+0027     <span class="keyword">end</span>
+0028     <span class="keyword">if</span> storeParts
+0029         res = cell(1, x.order);
+0030     <span class="keyword">end</span>
+0031 
+0032     <span class="comment">% Left-to-Right procedure</span>
+0033     <span class="keyword">if</span> strcmpi( dir, <span class="string">'LR'</span>)
+0034         
+0035         <span class="keyword">if</span> storeParts
+0036             res{1} = <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/unfold.html" class="code" title="function W = unfold( U, dir )">unfold</a>( x.U{1}, <span class="string">'left'</span>)' * <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/unfold.html" class="code" title="function W = unfold( U, dir )">unfold</a>( y.U{1}, <span class="string">'left'</span>);
+0037         <span class="keyword">else</span>
+0038             res = <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/unfold.html" class="code" title="function W = unfold( U, dir )">unfold</a>( x.U{1}, <span class="string">'left'</span>)' * <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/unfold.html" class="code" title="function W = unfold( U, dir )">unfold</a>( y.U{1}, <span class="string">'left'</span>);
+0039         <span class="keyword">end</span>
+0040 
+0041         <span class="keyword">for</span> i = 2:upto
+0042             <span class="keyword">if</span> storeParts
+0043                 tmp = <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod.html" class="code" title="function res = tensorprod( U, A, mode, apply_inv )">tensorprod</a>( x.U{i}, res{i-1}', 1);
+0044                 res{i} = <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/unfold.html" class="code" title="function W = unfold( U, dir )">unfold</a>( tmp, <span class="string">'left'</span>)' * <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/unfold.html" class="code" title="function W = unfold( U, dir )">unfold</a>( y.U{i}, <span class="string">'left'</span>);
+0045             <span class="keyword">else</span>
+0046                 tmp = <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod.html" class="code" title="function res = tensorprod( U, A, mode, apply_inv )">tensorprod</a>( x.U{i}, res', 1);
+0047                 res = <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/unfold.html" class="code" title="function W = unfold( U, dir )">unfold</a>( tmp, <span class="string">'left'</span>)' * <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/unfold.html" class="code" title="function W = unfold( U, dir )">unfold</a>( y.U{i}, <span class="string">'left'</span>);
+0048             <span class="keyword">end</span>
+0049         <span class="keyword">end</span>
+0050 
+0051     <span class="comment">% Right-to-Left procedure</span>
+0052     <span class="keyword">elseif</span> strcmpi( dir, <span class="string">'RL'</span>)
+0053         d = x.order;
+0054         <span class="keyword">if</span> storeParts
+0055             res{d} = conj(<a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/unfold.html" class="code" title="function W = unfold( U, dir )">unfold</a>( x.U{d}, <span class="string">'right'</span>)) * <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/unfold.html" class="code" title="function W = unfold( U, dir )">unfold</a>( y.U{d}, <span class="string">'right'</span>).';
+0056         <span class="keyword">else</span>
+0057             res = conj(<a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/unfold.html" class="code" title="function W = unfold( U, dir )">unfold</a>( x.U{d}, <span class="string">'right'</span>)) * <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/unfold.html" class="code" title="function W = unfold( U, dir )">unfold</a>( y.U{d}, <span class="string">'right'</span>).';
+0058         <span class="keyword">end</span>
+0059         
+0060         <span class="keyword">for</span> i = d-1:-1:upto
+0061             <span class="keyword">if</span> storeParts
+0062                 tmp = <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod.html" class="code" title="function res = tensorprod( U, A, mode, apply_inv )">tensorprod</a>( x.U{i}, res{i+1}', 3);
+0063                 res{i} = conj(<a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/unfold.html" class="code" title="function W = unfold( U, dir )">unfold</a>( tmp, <span class="string">'right'</span>)) * <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/unfold.html" class="code" title="function W = unfold( U, dir )">unfold</a>( y.U{i}, <span class="string">'right'</span>).';
+0064             <span class="keyword">else</span>
+0065                 tmp = <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod.html" class="code" title="function res = tensorprod( U, A, mode, apply_inv )">tensorprod</a>( x.U{i}, res', 3);
+0066                 res = conj(<a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/unfold.html" class="code" title="function W = unfold( U, dir )">unfold</a>( tmp, <span class="string">'right'</span>)) * <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/unfold.html" class="code" title="function W = unfold( U, dir )">unfold</a>( y.U{i}, <span class="string">'right'</span>).';
+0067             <span class="keyword">end</span>
+0068         <span class="keyword">end</span>
+0069 
+0070     <span class="keyword">else</span>
+0071         error(<span class="string">'Unknown direction specified. Choose either LR (default) or RL'</span>)
+0072     <span class="keyword">end</span>
+0073 
+0074 <span class="keyword">end</span>
+0075</pre></div>
+<hr><address>Generated on Sun 05-Sep-2021 17:57:00 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

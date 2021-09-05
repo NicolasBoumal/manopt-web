@@ -44,7 +44,7 @@
 <h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
 This function calls:
 <ul style="list-style-image:url(../../../matlabicon.gif)">
-<li><a href="../../../manopt/tools/hashmd5.html" class="code" title="function h = hashmd5(inp)">hashmd5</a>	Computes the MD5 hash of input data.</li><li><a href="../../../manopt/tools/matrixlincomb.html" class="code" title="function v = matrixlincomb(x, a1, d1, a2, d2) %#ok<INUSL>">matrixlincomb</a>	Linear combination function for tangent vectors represented as matrices.</li><li><a href="../../../manopt/tools/multisym.html" class="code" title="function Y = multisym(X)">multisym</a>	Returns the symmetric parts of the matrices in the 3D matrix X</li><li><a href="../../../manopt/tools/multitransp.html" class="code" title="function b = multitransp(a, dim)">multitransp</a>	Transposing arrays of matrices.</li></ul>
+<li><a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>	NORM Norm of a TT/MPS tensor.</li><li><a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/plus.html" class="code" title="function z = plus( x, y )">plus</a>	PLUS Addition of two TT/MPS tensors.</li><li><a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_block/norm.html" class="code" title="function res = norm( x )">norm</a>	NORM Norm of a TT/MPS block-mu tensor.</li><li><a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_block/plus.html" class="code" title="function z = plus( x, y )">plus</a>	PLUS Addition of two TT/MPS block-mu tensors.</li><li><a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_op/plus.html" class="code" title="function z = plus( x, y )">plus</a>	PLUS Addition of two TT/MPS operators.</li><li><a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/matricize.html" class="code" title="function res = matricize( U, mode )">matricize</a>	MATRICIZE Matricize 3D Matlab array.</li><li><a href="../../../manopt/tools/hashmd5.html" class="code" title="function h = hashmd5(inp)">hashmd5</a>	Computes the MD5 hash of input data.</li><li><a href="../../../manopt/tools/matrixlincomb.html" class="code" title="function v = matrixlincomb(x, a1, d1, a2, d2) %#ok<INUSL>">matrixlincomb</a>	Linear combination function for tangent vectors represented as matrices.</li><li><a href="../../../manopt/tools/multisym.html" class="code" title="function Y = multisym(X)">multisym</a>	Returns the symmetric parts of the matrices in a 3D array</li><li><a href="../../../manopt/tools/multitransp.html" class="code" title="function B = multitransp(A, unused) %#ok<INUSD>">multitransp</a>	Transpose the matrix slices of an N-D array (no complex conjugate)</li></ul>
 This function is called by:
 <ul style="list-style-image:url(../../../matlabicon.gif)">
 </ul>
@@ -89,9 +89,9 @@ This function is called by:
 0032     
 0033     M.inner = @(x, d1, d2) d1(:).'*d2(:);
 0034     
-0035     M.norm = @(x, d) norm(d(:), <span class="string">'fro'</span>);
+0035     M.norm = @(x, d) <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>(d(:), <span class="string">'fro'</span>);
 0036     
-0037     M.dist = @(x, y) norm(x(:)-y(:), <span class="string">'fro'</span>);
+0037     M.dist = @(x, y) <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>(x(:)-y(:), <span class="string">'fro'</span>);
 0038     
 0039     M.typicaldist = @() sqrt(k)*n;
 0040     
@@ -123,7 +123,7 @@ This function is called by:
 0066     M.randvec = @<a href="#_sub2" class="code" title="subfunction u = randvec(x) ">randvec</a>;
 0067     <a name="_sub2" href="#_subfunctions" class="code">function u = randvec(x) </a><span class="comment">%#ok&lt;INUSD&gt;</span>
 0068         u = <a href="../../../manopt/tools/multisym.html" class="code" title="function Y = multisym(X)">multisym</a>(randn(n, n, k));
-0069         u = u / norm(u(:), <span class="string">'fro'</span>);
+0069         u = u / <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>(u(:), <span class="string">'fro'</span>);
 0070     <span class="keyword">end</span>
 0071     
 0072     M.lincomb = @<a href="../../../manopt/tools/matrixlincomb.html" class="code" title="function v = matrixlincomb(x, a1, d1, a2, d2) %#ok<INUSL>">matrixlincomb</a>;
@@ -137,12 +137,12 @@ This function is called by:
 0080     
 0081     <span class="comment">% Elaborate list of indices of diagonal entries of an nxnxk matrix.</span>
 0082     single_diag_entries = (1:(n+1):n^2)';
-0083     all_diag_entries = bsxfun(@plus, single_diag_entries, n^2*(0:(k-1)));
+0083     all_diag_entries = bsxfun(@<a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/plus.html" class="code" title="function z = plus( x, y )">plus</a>, single_diag_entries, n^2*(0:(k-1)));
 0084     all_diag_entries = all_diag_entries(:);
 0085     
 0086     <span class="comment">% Likewise, elaborate list of indices of upper-triangular entries.</span>
 0087     single_upper_triangle = find(triu(ones(n), 1));
-0088     all_upper_triangle = bsxfun(@plus, single_upper_triangle, n^2*(0:(k-1)));
+0088     all_upper_triangle = bsxfun(@<a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/plus.html" class="code" title="function z = plus( x, y )">plus</a>, single_upper_triangle, n^2*(0:(k-1)));
 0089     all_upper_triangle = all_upper_triangle(:);
 0090     
 0091     <span class="comment">% To vectorize a matrix, we extract all diagonal entries, then all</span>
@@ -154,11 +154,11 @@ This function is called by:
 0097     <span class="comment">% intrinsic dimension of the space they live in.</span>
 0098     M.vec = @(x, u_mat) [u_mat(all_diag_entries) ; <span class="keyword">...</span>
 0099                          sqrt(2)*u_mat(all_upper_triangle)];
-0100     M.mat = @<a href="#_sub3" class="code" title="subfunction u_mat = matricize(X, u_vec) ">matricize</a>;
+0100     M.mat = @<a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/matricize.html" class="code" title="function res = matricize( U, mode )">matricize</a>;
 0101     <a name="_sub3" href="#_subfunctions" class="code">function u_mat = matricize(X, u_vec) </a><span class="comment">%#ok&lt;INUSL&gt;</span>
 0102         u_mat = zeros(n, n, k);
 0103         u_mat(all_upper_triangle) = u_vec((k*n+1):end) / sqrt(2);
-0104         u_mat = u_mat + <a href="../../../manopt/tools/multitransp.html" class="code" title="function b = multitransp(a, dim)">multitransp</a>(u_mat);
+0104         u_mat = u_mat + <a href="../../../manopt/tools/multitransp.html" class="code" title="function B = multitransp(A, unused) %#ok<INUSD>">multitransp</a>(u_mat);
 0105         u_mat(all_diag_entries) = u_vec(1:(k*n));
 0106     <span class="keyword">end</span>
 0107     M.vecmatareisometries = @() true;
@@ -170,6 +170,6 @@ This function is called by:
 0113 <span class="comment">% M.vec = @(x, u_mat) u_mat(:);</span>
 0114 <span class="comment">% M.mat = @(x, u_vec) reshape(u_vec, [m, n]);</span>
 0115 <span class="comment">% M.vecmatareisometries = @() true;</span></pre></div>
-<hr><address>Generated on Tue 19-May-2020 18:46:12 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+<hr><address>Generated on Sun 05-Sep-2021 17:57:00 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
 </body>
 </html>

@@ -33,7 +33,7 @@
 <h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
 This function calls:
 <ul style="list-style-image:url(../matlabicon.gif)">
-</ul>
+<li><a href="../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/disp.html" class="code" title="function disp( x, name )">disp</a>	DISP Display TT/MPS tensor.</li><li><a href="../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_block/disp.html" class="code" title="function disp( x, name )">disp</a>	DISP Display TT/MPS block-mu tensor.</li><li><a href="../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_op/disp.html" class="code" title="function disp( x, name )">disp</a>	DISP Display TT/MPS operator.</li><li><a href="../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_op_laplace/disp.html" class="code" title="function disp( x, name )">disp</a>	DISP Display TT/MPS operator.</li></ul>
 This function is called by:
 <ul style="list-style-image:url(../matlabicon.gif)">
 </ul>
@@ -42,16 +42,30 @@ This function is called by:
 
 
 <h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
-<div class="fragment"><pre>0001 
-0002 list = ls(<span class="string">'*.m'</span>);
-0003 
-0004 <span class="keyword">for</span> k = 1 : size(list, 1)
-0005     s = strtrim(list(k, :));
-0006     s = s(1:end-2); <span class="comment">% remove '.m'</span>
-0007     <span class="keyword">if</span> ~strcmp(s, mfilename()) <span class="comment">% don't run yourself</span>
-0008         eval([s, <span class="string">';'</span>]);
-0009     <span class="keyword">end</span>
-0010 <span class="keyword">end</span></pre></div>
-<hr><address>Generated on Tue 19-May-2020 18:46:12 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+<div class="fragment"><pre>0001 clear all; <span class="comment">%#ok&lt;CLALL&gt;</span>
+0002 close all;
+0003 clc;
+0004 
+0005 list = dir(<span class="string">'*.m'</span>);
+0006 
+0007 issues = {};
+0008 
+0009 <span class="keyword">for</span> k = 1 : numel(list)
+0010     s = list(k).name;
+0011     s = s(1:end-2); <span class="comment">% remove '.m'</span>
+0012     <span class="keyword">if</span> ~strcmp(s, mfilename()) <span class="comment">% don't run yourself</span>
+0013         <span class="keyword">try</span>
+0014             eval([s, <span class="string">';'</span>]);
+0015         <span class="keyword">catch</span>
+0016             issues{end+1} = s; <span class="comment">%#ok&lt;SAGROW&gt;</span>
+0017         <span class="keyword">end</span>
+0018     <span class="keyword">end</span>
+0019 <span class="keyword">end</span>
+0020 
+0021 <span class="keyword">if</span> ~isempty(issues)
+0022     warning(<span class="string">'There were issues running the following scripts:'</span>);
+0023     <a href="../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/disp.html" class="code" title="function disp( x, name )">disp</a>(issues);
+0024 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Sun 05-Sep-2021 17:57:00 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
 </body>
 </html>

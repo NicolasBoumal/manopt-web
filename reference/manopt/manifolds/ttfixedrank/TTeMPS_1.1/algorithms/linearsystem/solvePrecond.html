@@ -1,0 +1,97 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of solvePrecond</title>
+  <meta name="keywords" content="solvePrecond">
+  <meta name="description" content="TTeMPS Toolbox.">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../index.html">Home</a> &gt;  <a href="#">manopt</a> &gt; <a href="#">manifolds</a> &gt; <a href="../../../index.html">ttfixedrank</a> &gt; <a href="../../index.html">TTeMPS_1.1</a> &gt; <a href="../index.html">algorithms</a> &gt; <a href="index.html">linearsystem</a> &gt; solvePrecond.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../index.html"><img alt="<" border="0" src="../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for manopt\manifolds\ttfixedrank\TTeMPS_1.1\algorithms\linearsystem&nbsp;<img alt=">" border="0" src="../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>solvePrecond
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="box"><strong>TTeMPS Toolbox.</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="box"><strong>function xi = solvePrecond(L, P, rhs, xL, xR, opts  ) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">   TTeMPS Toolbox. 
+   Michael Steinlechner, 2013-2016
+   Questions and contact: michael.steinlechner@epfl.ch
+   BSD 2-clause license, see LICENSE.txt</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../matlabicon.gif)">
+<li><a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_op/apply.html" class="code" title="function y = apply( A, x, idx )">apply</a>	APPLY Application of TT/MPS operator to a TT/MPS tensor</li><li><a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_op_laplace/apply.html" class="code" title="function y = apply( A, x, idx )">apply</a>	APPLY Application of TT/MPS Laplace-like operator to a TT/MPS tensor</li><li><a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_tangent_orth/TTeMPS_tangent_orth.html" class="code" title="">TTeMPS_tangent_orth</a>	</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../matlabicon.gif)">
+</ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function y = fun_A(x)</a></li><li><a href="#_sub2" class="code">function y = fun_P(x)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">%   TTeMPS Toolbox.</span>
+0002 <span class="comment">%   Michael Steinlechner, 2013-2016</span>
+0003 <span class="comment">%   Questions and contact: michael.steinlechner@epfl.ch</span>
+0004 <span class="comment">%   BSD 2-clause license, see LICENSE.txt</span>
+0005 
+0006 <a name="_sub0" href="#_subfunctions" class="code">function xi = solvePrecond(L, P, rhs, xL, xR, opts  )</a>
+0007 
+0008 <span class="keyword">if</span> nargin==5
+0009     opts.precond_tol = 1e-5;   <span class="comment">% 1e-8 has the same performace, just to be sure...</span>
+0010     opts.precond_maxit = 5;
+0011 <span class="keyword">end</span>
+0012 
+0013 P_rhs = precond_laplace( P, rhs );
+0014 
+0015 
+0016             
+0017     <a name="_sub1" href="#_subfunctions" class="code">function y = fun_A(x)        </a>
+0018         <span class="comment">% x is a vectorized tangent</span>
+0019         x_tangent = fill_with_vectorized( dummy, x );        
+0020         x_ttemps = tangent_to_TTeMPS( x_tangent );
+0021         y_ttemps = <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_op/apply.html" class="code" title="function y = apply( A, x, idx )">apply</a>(L, x_ttemps);
+0022         y_tangent = <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_tangent_orth/TTeMPS_tangent_orth.html" class="code" title="">TTeMPS_tangent_orth</a>( xL, xR, y_ttemps );
+0023         y = vectorize_tangent( y_tangent );
+0024     <span class="keyword">end</span>
+0025 
+0026     <a name="_sub2" href="#_subfunctions" class="code">function y = fun_P(x)        </a>
+0027         x_tangent = fill_with_vectorized( dummy, x );        
+0028         eta = precond_laplace( P, x_tangent );
+0029         y = vectorize_tangent( eta );
+0030     <span class="keyword">end</span>
+0031 
+0032 <span class="keyword">if</span> opts.precond_maxit &gt; 1
+0033     dummy = rhs;
+0034         
+0035     tol = opts.precond_tol;
+0036     maxit = opts.precond_maxit-1;  <span class="comment">% minus one !!</span>
+0037 
+0038     [xi_vec,flag,relres,iter] = pcg(@<a href="#_sub1" class="code" title="subfunction y = fun_A(x)">fun_A</a>, vectorize_tangent(rhs), tol, maxit, @<a href="#_sub2" class="code" title="subfunction y = fun_P(x)">fun_P</a>, [], vectorize_tangent(P_rhs) );
+0039     iter
+0040     xi = fill_with_vectorized( dummy, xi_vec );
+0041 <span class="keyword">else</span>
+0042     xi = P_rhs;
+0043 <span class="keyword">end</span>
+0044 
+0045 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Sun 05-Sep-2021 17:57:00 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

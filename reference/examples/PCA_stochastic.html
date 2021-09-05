@@ -55,7 +55,7 @@
 <h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
 This function calls:
 <ul style="list-style-image:url(../matlabicon.gif)">
-<li><a href="../manopt/manifolds/stiefel/stiefelfactory.html" class="code" title="function M = stiefelfactory(n, p, k, gpuflag)">stiefelfactory</a>	Returns a manifold structure to optimize over orthonormal matrices.</li><li><a href="../manopt/solvers/stochasticgradient/stochasticgradient.html" class="code" title="function [x, info, options] = stochasticgradient(problem, x, options)">stochasticgradient</a>	Stochastic gradient (SG) minimization algorithm for Manopt.</li><li><a href="../manopt/tools/statsfunhelper.html" class="code" title="function statsfun = statsfunhelper(inp1, inp2)">statsfunhelper</a>	Helper tool to create a statsfun for the options structure of solvers.</li></ul>
+<li><a href="../manopt/manifolds/stiefel/stiefelfactory.html" class="code" title="function M = stiefelfactory(n, p, k, gpuflag)">stiefelfactory</a>	Returns a manifold structure to optimize over orthonormal matrices.</li><li><a href="../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>	NORM Norm of a TT/MPS tensor.</li><li><a href="../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_block/norm.html" class="code" title="function res = norm( x )">norm</a>	NORM Norm of a TT/MPS block-mu tensor.</li><li><a href="../manopt/solvers/stochasticgradient/stochasticgradient.html" class="code" title="function [x, info, options] = stochasticgradient(problem, x, options)">stochasticgradient</a>	Stochastic gradient (SG) minimization algorithm for Manopt.</li><li><a href="../manopt/tools/statsfunhelper.html" class="code" title="function statsfun = statsfunhelper(inp1, inp2)">statsfunhelper</a>	Helper tool to create a statsfun for the options structure of solvers.</li></ul>
 This function is called by:
 <ul style="list-style-image:url(../matlabicon.gif)">
 </ul>
@@ -159,7 +159,7 @@ This function is called by:
 0091     <span class="comment">% not counted in times reported in the info structure returned by the</span>
 0092     <span class="comment">% solver.</span>
 0093     options.checkperiod = 10;
-0094     options.statsfun = <a href="../manopt/tools/statsfunhelper.html" class="code" title="function statsfun = statsfunhelper(inp1, inp2)">statsfunhelper</a>(<span class="string">'metric'</span>, @(X) norm(A*X, <span class="string">'fro'</span>));
+0094     options.statsfun = <a href="../manopt/tools/statsfunhelper.html" class="code" title="function statsfun = statsfunhelper(inp1, inp2)">statsfunhelper</a>(<span class="string">'metric'</span>, @(X) <a href="../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>(A*X, <span class="string">'fro'</span>));
 0095     
 0096     <span class="comment">% Set the parameters for the solver: stochastic gradient algorithms</span>
 0097     <span class="comment">% tend to be quite sensitive to proper tuning, especially regarding</span>
@@ -188,13 +188,13 @@ This function is called by:
 0120     [V, ~] = svds(A', k);
 0121     fprintf(<span class="string">'done: %g [s] (note: svd may be faster)\n'</span>, toc(t));
 0122     hold all;
-0123     bound = norm(A*V, <span class="string">'fro'</span>);
+0123     bound = <a href="../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>(A*V, <span class="string">'fro'</span>);
 0124     plot([info.iter], bound*ones(size([info.iter])), <span class="string">'--'</span>);
 0125     hold off;
 0126     
 0127     legend(<span class="string">'Algorithm'</span>, <span class="string">'SVD bound'</span>, <span class="string">'Location'</span>, <span class="string">'SouthEast'</span>);
 0128     
 0129 <span class="keyword">end</span></pre></div>
-<hr><address>Generated on Tue 19-May-2020 18:46:12 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+<hr><address>Generated on Sun 05-Sep-2021 17:57:00 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
 </body>
 </html>

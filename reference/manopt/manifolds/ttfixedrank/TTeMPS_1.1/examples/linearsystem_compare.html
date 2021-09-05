@@ -1,0 +1,373 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of linearsystem_compare</title>
+  <meta name="keywords" content="linearsystem_compare">
+  <meta name="description" content="Example code for the algorithms described in">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../index.html">Home</a> &gt;  <a href="#">manopt</a> &gt; <a href="#">manifolds</a> &gt; <a href="../../index.html">ttfixedrank</a> &gt; <a href="../index.html">TTeMPS_1.1</a> &gt; <a href="index.html">examples</a> &gt; linearsystem_compare.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../index.html"><img alt="<" border="0" src="../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for manopt\manifolds\ttfixedrank\TTeMPS_1.1\examples&nbsp;<img alt=">" border="0" src="../../../../../right.png"></a></td></tr></table>-->
+
+<h1>linearsystem_compare
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../up.png"></a></h2>
+<div class="box"><strong>Example code for the algorithms described in</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> Example code for the algorithms described in 
+
+   D. Kressner, M. Steinlechner, and B. Vandereycken.
+   Preconditioned low-rank Riemannian optimization for linear systems with tensor product structure.
+   Technical report, July 2015. Revised February 2016. To appear in SIAM J. Sci. Comput.</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../matlabicon.gif)">
+<li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/disp.html" class="code" title="function disp( x, name )">disp</a>	DISP Display TT/MPS tensor.</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/innerprod.html" class="code" title="function res = innerprod( x, y, dir, upto, storeParts )">innerprod</a>	INNERPROD Inner product between two TT/MPS tensors.</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>	NORM Norm of a TT/MPS tensor.</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_block/disp.html" class="code" title="function disp( x, name )">disp</a>	DISP Display TT/MPS block-mu tensor.</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_block/innerprod.html" class="code" title="function res = innerprod( x, y, dir, upto )">innerprod</a>	INNERPROD Inner product between two TT/MPS tensors.</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_block/norm.html" class="code" title="function res = norm( x )">norm</a>	NORM Norm of a TT/MPS block-mu tensor.</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_op/apply.html" class="code" title="function y = apply( A, x, idx )">apply</a>	APPLY Application of TT/MPS operator to a TT/MPS tensor</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_op/disp.html" class="code" title="function disp( x, name )">disp</a>	DISP Display TT/MPS operator.</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_op_laplace/TTeMPS_op_laplace.html" class="code" title="">TTeMPS_op_laplace</a>	</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_op_laplace/apply.html" class="code" title="function y = apply( A, x, idx )">apply</a>	APPLY Application of TT/MPS Laplace-like operator to a TT/MPS tensor</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_op_laplace/disp.html" class="code" title="function disp( x, name )">disp</a>	DISP Display TT/MPS operator.</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/TTeMPS_rand.html" class="code" title="function x = TTeMPS_rand(r, n)">TTeMPS_rand</a>	TTEMPS_RAND Create random TTeMPS tensor</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/algorithms/linearsystem/RiemannLinsolve.html" class="code" title="function [xR, residuum, gradnorm, cost, times] = RiemannLinsolve( L, F, X0, Lh, Ph, opts )">RiemannLinsolve</a>	Riemannian approx. Newton for linear systems. For more information, we refer to the report</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/algorithms/linearsystem/alsLinsolve_fast.html" class="code" title="function [X, residuum, cost, times] = alsLinsolve_fast( L, F, X, opts )">alsLinsolve_fast</a>	TTeMPS Toolbox.</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/algorithms/linearsystem/amen_fast.html" class="code" title="function [X, residual, cost, times] = amen_fast( L, F, X, opts )">amen_fast</a>	TTeMPS Toolbox.</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/operators/anisotropicdiffusion.html" class="code" title="">anisotropicdiffusion</a>	</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/operators/newton_potential.html" class="code" title="">newton_potential</a>	</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/fixedTTrankfactory.html" class="code" title="function M = fixedTTrankfactory(n, r, ind)">fixedTTrankfactory</a>	Manifold of tensors of fixed Tensor Train (TT) rank, embedded geometry</li><li><a href="../../../../../manopt/solvers/trustregions/trustregions.html" class="code" title="function [x, cost, info, options] = trustregions(problem, x, options)">trustregions</a>	Riemannian trust-regions solver for optimization on manifolds.</li><li><a href="../../../../../manopt/tools/checkgradient.html" class="code" title="function checkgradient(problem, x, d)">checkgradient</a>	Checks the consistency of the cost function and the gradient.</li><li><a href="../../../../../manopt/tools/checkhessian.html" class="code" title="function checkhessian(problem, x, d)">checkhessian</a>	Checks the consistency of the cost function and the Hessian.</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../matlabicon.gif)">
+</ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function c = cost_lin(X, A, F)</a></li><li><a href="#_sub2" class="code">function g = euclidgrad(X, A, F)</a></li><li><a href="#_sub3" class="code">function h = euclidhess(u, A)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">% Example code for the algorithms described in</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">%   D. Kressner, M. Steinlechner, and B. Vandereycken.</span>
+0004 <span class="comment">%   Preconditioned low-rank Riemannian optimization for linear systems with tensor product structure.</span>
+0005 <span class="comment">%   Technical report, July 2015. Revised February 2016. To appear in SIAM J. Sci. Comput.</span>
+0006 
+0007 <span class="comment">%   TTeMPS Toolbox.</span>
+0008 <span class="comment">%   Michael Steinlechner, 2013-2016</span>
+0009 <span class="comment">%   Questions and contact: michael.steinlechner@epfl.ch</span>
+0010 <span class="comment">%   BSD 2-clause license, see LICENSE.txt</span>
+0011 
+0012 clear all;
+0013 close all;
+0014 clc;
+0015 
+0016 rng(11);
+0017 n = 20;
+0018 d = 5;
+0019 r = 5;
+0020 
+0021 nn = n*ones(1,d);
+0022 <span class="comment">% rr = [1, r*ones(1,d-1), 1];</span>
+0023 rr = [1 15 20 20 15 1];
+0024 
+0025 <span class="comment">% Choose one.</span>
+0026 <span class="comment">% operatorname = 'diffusion';</span>
+0027 operatorname = <span class="string">'newton'</span>;
+0028 
+0029 <span class="keyword">if</span> strcmpi(operatorname,<span class="string">'diffusion'</span>)
+0030     A = <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/operators/anisotropicdiffusion.html" class="code" title="">anisotropicdiffusion</a>( n, d );
+0031 <span class="keyword">elseif</span> strcmpi(operatorname,<span class="string">'newton'</span>)
+0032     A = <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/operators/newton_potential.html" class="code" title="">newton_potential</a>( n, d );
+0033 <span class="keyword">else</span>
+0034     error(<span class="string">'Unknown operator requested.'</span>)
+0035 <span class="keyword">end</span>
+0036 
+0037 filename = [operatorname, <span class="string">'_d'</span>, num2str(d), <span class="string">'_n'</span>, num2str(n), <span class="string">'_r'</span>, num2str(r)];
+0038 
+0039 
+0040 <span class="keyword">if</span> ~exist([<span class="string">'amen/'</span>, filename, <span class="string">'.mat'</span>],<span class="string">'file'</span>)
+0041 
+0042     <span class="comment">% rng(11);</span>
+0043 
+0044     <span class="comment">% Lapl_op   : pure dD Laplacian as TTeMPS_op_laplace for preconditioning</span>
+0045     Riem_CG_TOL = 1e-5; <span class="comment">% can be low</span>
+0046     ALS_CG_TOL = 1e-10; <span class="comment">% cannot be too low, stagnates for d = 10; n = 100; r = 40; otherwise</span>
+0047     
+0048     Lapl_op = <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_op_laplace/TTeMPS_op_laplace.html" class="code" title="">TTeMPS_op_laplace</a>( A.L0, d ); 
+0049     Lapl_op = initialize_precond( Lapl_op );
+0050   
+0051     <span class="comment">% rhs is rank one of all ones, scaled to Frobenius norm one</span>
+0052     <span class="comment">% setup rhs as rank 1 of all ones</span>
+0053     rr1 = [1, 1*ones(1,d-1), 1];
+0054     F = <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/TTeMPS_rand.html" class="code" title="function x = TTeMPS_rand(r, n)">TTeMPS_rand</a>( rr1, nn );
+0055     <span class="keyword">for</span> i = 1:d
+0056         F.U{i} = ones(size(F.U{i}));
+0057     <span class="keyword">end</span>
+0058     F = 1/<a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>(F) * F;
+0059 
+0060     <span class="comment">% Choose operators:</span>
+0061     <span class="comment">%    A is actual system</span>
+0062     <span class="comment">%    prec_L_op is the approximate Hessian that will be solved</span>
+0063     <span class="comment">%    prec_P_op is the preconditioner for prec_L_op. HAS TO BE of Laplace structure</span>
+0064     prec_L_op = Lapl_op;
+0065     prec_P_op = Lapl_op;
+0066 
+0067     <span class="comment">% One micro step of ALS decreases the error by a huge</span>
+0068     <span class="comment">% factor. Make the result of one micro step the initial guess.</span>
+0069     <span class="comment">% X0 = construct_initial_guess(A, F, rr, nn);</span>
+0070     X0 = <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/TTeMPS_rand.html" class="code" title="function x = TTeMPS_rand(r, n)">TTeMPS_rand</a>(rr, nn);
+0071     X0_amen = X0;<span class="keyword">...</span><span class="comment">construct_initial_guess(A, F, [1,1*ones(1,d-1),1], nn);</span>
+0072 
+0073     <span class="comment">%%%%%%%%%%%%%%%%%%%%%%% MANOPT NEW TEST CASE %%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+0074     <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/disp.html" class="code" title="function disp( x, name )">disp</a>(<span class="string">'Now testing: Trust Regions!!'</span>)
+0075 
+0076     <span class="comment">% Initialize TT fixed rank factory</span>
+0077     TT = <a href="../../../../../manopt/manifolds/ttfixedrank/fixedTTrankfactory.html" class="code" title="function M = fixedTTrankfactory(n, r, ind)">fixedTTrankfactory</a>(nn, rr);
+0078 
+0079     <span class="comment">% Set up problem in Manopt</span>
+0080     problem.M = TT;
+0081 
+0082     <span class="comment">% Setting up the original tensor competion problem for Manopt</span>
+0083     problem.cost = @(x) <a href="#_sub1" class="code" title="subfunction c = cost_lin(X, A, F)">cost_lin</a>(x, A, F);
+0084     problem.egrad = @(x) <a href="#_sub2" class="code" title="subfunction g = euclidgrad(X, A, F)">euclidgrad</a>(x, A, F);
+0085     problem.ehess = @(x, u) <a href="#_sub3" class="code" title="subfunction h = euclidhess(u, A)">euclidhess</a>(u, A);
+0086     <span class="comment">% problem.precon = @(x, u) precond_laplace_noSaddle(prec_P_op, u);</span>
+0087     
+0088     alpha_0 = 1;
+0089 
+0090     options.Delta0 = alpha_0;
+0091     options.Delta_bar = 1e50;
+0092     options.maxiter = 400;
+0093     options.maxinner = 1000;
+0094     options.maxtime = inf;
+0095     options.tolgradnorm = 1e-10;
+0096     <span class="comment">% Collects cost on test points throughout iterations</span>
+0097     <span class="comment">% options.statsfun = @(problem, x, stats) stats_test(problem, x, stats, A_Gamma, Gamma);</span>
+0098 
+0099     <a href="../../../../../manopt/tools/checkgradient.html" class="code" title="function checkgradient(problem, x, d)">checkgradient</a>(problem);
+0100     <a href="../../../../../manopt/tools/checkhessian.html" class="code" title="function checkhessian(problem, x, d)">checkhessian</a>(problem);
+0101     pause;
+0102 
+0103     <span class="comment">% [xL, costManopt, stats] = trustregions(problem, X0, options);</span>
+0104 
+0105     <span class="comment">% norm(xL)</span>
+0106     pause;
+0107 
+0108     <span class="comment">% alpha_0 = 1;</span>
+0109 
+0110     <span class="comment">% options.Delta0 = alpha_0;</span>
+0111     <span class="comment">% options.Delta_bar = 1e50;</span>
+0112     <span class="comment">% options.maxiter = 400;</span>
+0113     <span class="comment">% options.maxinner = 1000;</span>
+0114     <span class="comment">% options.maxtime = inf;</span>
+0115     <span class="comment">% options.tolgradnorm = 1e-10;</span>
+0116 
+0117     <span class="comment">% problem.ehess = @(x, u) euclidhess(u, A);</span>
+0118 
+0119     <span class="comment">% [xL2, costManopt, stats] = trustregions(problem, xL, options);</span>
+0120 
+0121     <span class="comment">% ==============================</span>
+0122     <span class="comment">% TEST CASE 1: SIMPLE AMEn</span>
+0123     <span class="comment">% ==============================</span>
+0124     <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/disp.html" class="code" title="function disp( x, name )">disp</a>(<span class="string">'TEST CASE 1: Prec. AMEn, max rank res = 4'</span>);
+0125     <span class="comment">% !!! ALS is always preconditioned with Laplacian part</span>
+0126     opts = struct( <span class="string">'nSweeps'</span>, 3, <span class="keyword">...</span>
+0127                    <span class="string">'solver'</span>, <span class="string">'pcg'</span>, <span class="keyword">...</span>
+0128                    <span class="string">'maxrankRes'</span>, 4, <span class="keyword">...</span>
+0129                    <span class="string">'prec'</span>, true)
+0130                    
+0131     tic
+0132     [X_amen_prec1, residuum_amen_prec1, cost_amen_prec1, times_amen_prec1] = <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/algorithms/linearsystem/amen_fast.html" class="code" title="function [X, residual, cost, times] = amen_fast( L, F, X, opts )">amen_fast</a>( A, F, X0_amen, opts )
+0133     t_amen_prec1 = toc;
+0134     <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>(X_amen_prec1)
+0135     pause;
+0136 
+0137     [xL, costManopt, stats] = <a href="../../../../../manopt/solvers/trustregions/trustregions.html" class="code" title="function [x, cost, info, options] = trustregions(problem, x, options)">trustregions</a>(problem, X_amen_prec1, options);
+0138 
+0139     <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>(xL)
+0140     pause;
+0141 
+0142     <span class="comment">% ==============================</span>
+0143     <span class="comment">% TEST CASE 1: SIMPLE AMEn</span>
+0144     <span class="comment">% ==============================</span>
+0145     <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/disp.html" class="code" title="function disp( x, name )">disp</a>(<span class="string">'TEST CASE 1: Prec. AMEn, max rank res = 8'</span>);
+0146     <span class="comment">% !!! ALS is always preconditioned with Laplacian part</span>
+0147     opts = struct( <span class="string">'nSweeps'</span>, 3, <span class="keyword">...</span>
+0148                    <span class="string">'solver'</span>, <span class="string">'pcg'</span>, <span class="keyword">...</span>
+0149                    <span class="string">'maxrankRes'</span>, 8, <span class="keyword">...</span>
+0150                    <span class="string">'prec'</span>, true)
+0151                    
+0152     tic
+0153     [X_amen_prec2, residuum_amen_prec2, cost_amen_prec2, times_amen_prec2] = <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/algorithms/linearsystem/amen_fast.html" class="code" title="function [X, residual, cost, times] = amen_fast( L, F, X, opts )">amen_fast</a>( A, F, X0_amen, opts )
+0154     t_amen_prec2 = toc;
+0155     <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>(X_amen_prec2)
+0156     pause;
+0157     
+0158     
+0159     <span class="comment">% ==============================</span>
+0160     <span class="comment">% TEST CASE 1: SIMPLE ALS</span>
+0161     <span class="comment">% ==============================</span>
+0162     <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/disp.html" class="code" title="function disp( x, name )">disp</a>(<span class="string">'TEST CASE 1: Simple ALS'</span>);
+0163     <span class="comment">% !!! ALS is always preconditioned with Laplacian part</span>
+0164     opts = struct( <span class="string">'nSweeps'</span>, 3, <span class="keyword">...</span>
+0165                    <span class="string">'solver'</span>, <span class="string">'pcg'</span>, <span class="keyword">...</span>
+0166                    <span class="string">'pcg_accuracy'</span>, ALS_CG_TOL);
+0167                    
+0168     tic
+0169     [X_als, residuum_als, cost_als, times_als] = <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/algorithms/linearsystem/alsLinsolve_fast.html" class="code" title="function [X, residuum, cost, times] = alsLinsolve_fast( L, F, X, opts )">alsLinsolve_fast</a>( A, F, X0, opts )
+0170     t_als = toc;
+0171 
+0172     <span class="comment">% ==============================</span>
+0173     <span class="comment">% TEST CASE 2: Riemannian SD with 1 application of Prec.</span>
+0174     <span class="comment">% ==============================</span>
+0175     <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/disp.html" class="code" title="function disp( x, name )">disp</a>(<span class="string">'TEST CASE 2: Riemannian SD with 1 steps of the approx. prec.'</span>);
+0176     opts = struct(<span class="string">'maxiter'</span>, 30, <span class="keyword">...</span>
+0177                   <span class="string">'precond_tol'</span>, Riem_CG_TOL, <span class="keyword">...</span>
+0178                   <span class="string">'precond_maxit'</span>, 1)
+0179     
+0180     opts.precond_tol = Riem_CG_TOL;
+0181     opts.precond_maxit = 1; <span class="comment">% 1 application of prec_P_op</span>
+0182         
+0183     tic;
+0184     [X_SD1, residuum_SD1, gradnorm_SD1, cost_SD1, times_SD1] = <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/algorithms/linearsystem/RiemannLinsolve.html" class="code" title="function [xR, residuum, gradnorm, cost, times] = RiemannLinsolve( L, F, X0, Lh, Ph, opts )">RiemannLinsolve</a>( A, F, X0, prec_L_op, prec_P_op, opts )
+0185     t_pcg = toc;
+0186     
+0187     <span class="comment">% ==============================</span>
+0188     <span class="comment">%% TEST CASE 4: Truncated (Gauss-)Newton with approx. Prec</span>
+0189     <span class="comment">%% ==============================</span>
+0190     <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/disp.html" class="code" title="function disp( x, name )">disp</a>(<span class="string">'TEST CASE 4: Truncated (Gauss-)Newton.'</span>);
+0191     opts = struct(<span class="string">'maxiter'</span>, 20, <span class="keyword">...</span>
+0192                   <span class="string">'truncatedNewton'</span>, true);
+0193     tic
+0194     [X_tn, residuum_tn, gradnorm_tn, cost_tn, times_tn] = <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/algorithms/linearsystem/RiemannLinsolve.html" class="code" title="function [xR, residuum, gradnorm, cost, times] = RiemannLinsolve( L, F, X0, Lh, Ph, opts )">RiemannLinsolve</a>( A, F, X0, prec_L_op, prec_P_op, opts )
+0195     t_tn = toc;
+0196 
+0197     save([filename, <span class="string">'.mat'</span>], <span class="string">'X_als'</span>,<span class="string">'residuum_als'</span>, <span class="string">'cost_als'</span>, <span class="string">'times_als'</span>, <span class="keyword">...</span>
+0198                    <span class="string">'X_amen_prec1'</span>,<span class="string">'residuum_amen_prec1'</span>, <span class="string">'cost_amen_prec1'</span>, <span class="string">'times_amen_prec1'</span>, <span class="keyword">...</span>
+0199                    <span class="string">'X_amen_prec2'</span>,<span class="string">'residuum_amen_prec2'</span>, <span class="string">'cost_amen_prec2'</span>, <span class="string">'times_amen_prec2'</span>, <span class="keyword">...</span>
+0200                    <span class="string">'X_SD1'</span>,<span class="string">'residuum_SD1'</span>, <span class="string">'gradnorm_SD1'</span>, <span class="string">'cost_SD1'</span>, <span class="string">'times_SD1'</span>, <span class="keyword">...</span>
+0201                    <span class="string">'X_tn'</span>, <span class="string">'residuum_tn'</span>, <span class="string">'gradnorm_tn'</span>, <span class="string">'cost_tn'</span>, <span class="string">'times_tn'</span>)
+0202 
+0203 
+0204     
+0205 <span class="keyword">else</span>
+0206     load([<span class="string">'amen/'</span>, filename, <span class="string">'.mat'</span>])
+0207 <span class="keyword">end</span>
+0208 
+0209 
+0210 <span class="comment">% setup plotting</span>
+0211 col = lines(5);
+0212 leg = {};
+0213 
+0214 <span class="comment">% dummy plot for legend entry</span>
+0215 figure(1)
+0216 semilogy(1,residuum_als(1), <span class="string">'-o'</span>, <span class="string">'Color'</span>, col(1,:),<span class="string">'linewidth'</span>,2)
+0217 hold on
+0218 figure(2)
+0219 semilogy(times_als(1), residuum_als(1), <span class="string">'-o'</span>, <span class="string">'Color'</span>, col(1,:),<span class="string">'linewidth'</span>,2)
+0220 hold on
+0221 drawnow
+0222 
+0223 figure(1)
+0224 semilogy(1,residuum_amen_prec1(1), <span class="string">'-o'</span>, <span class="string">'Color'</span>, col(3,:),<span class="string">'linewidth'</span>,2)
+0225 hold on
+0226 figure(2)
+0227 semilogy(times_amen_prec1(1), residuum_amen_prec1(1), <span class="string">'-o'</span>, <span class="string">'Color'</span>, col(3,:),<span class="string">'linewidth'</span>,2)
+0228 hold on
+0229 drawnow
+0230 
+0231 figure(1)
+0232 semilogy(1,residuum_amen_prec2(1), <span class="string">'-o'</span>, <span class="string">'Color'</span>, col(2,:),<span class="string">'linewidth'</span>,2)
+0233 hold on
+0234 figure(2)
+0235 semilogy(times_amen_prec2(1), residuum_amen_prec2(1), <span class="string">'-o'</span>, <span class="string">'Color'</span>, col(2,:),<span class="string">'linewidth'</span>,2)
+0236 hold on
+0237 drawnow
+0238 
+0239 <span class="comment">% Start drawing the graphs</span>
+0240 leg = [leg, <span class="string">'ALS'</span>, <span class="string">'AMEn, max. rank res. = 4'</span>, <span class="string">'AMEn, max. rank res. = 8'</span>];
+0241 
+0242 figure(1)
+0243 semilogy(residuum_SD1, <span class="string">'--'</span>, <span class="string">'Color'</span>, col(5,:),<span class="string">'linewidth'</span>,2)
+0244 figure(2)
+0245 semilogy(times_SD1, residuum_SD1, <span class="string">'--'</span>, <span class="string">'Color'</span>, col(5,:),<span class="string">'linewidth'</span>,2)
+0246 drawnow
+0247 
+0248 leg = [leg, <span class="string">'Prec. steepest descent'</span>];
+0249 
+0250 figure(1)
+0251 semilogy(residuum_tn, <span class="string">'-k'</span>,<span class="string">'linewidth'</span>,2)
+0252 figure(2)
+0253 semilogy(times_tn, residuum_tn, <span class="string">'-k'</span>,<span class="string">'linewidth'</span>,2)
+0254 leg = [leg, <span class="string">'Approx. Newton'</span>];
+0255 drawnow
+0256 
+0257 figure(1)
+0258 semilogy(residuum_als, <span class="string">'-'</span>, <span class="string">'Color'</span>, col(1,:),<span class="string">'linewidth'</span>,2)
+0259 iterations = 1:length(residuum_als);
+0260 semilogy(iterations(1:d:end),residuum_als(1:d:end), <span class="string">'o'</span>, <span class="string">'Color'</span>, col(1,:),<span class="string">'linewidth'</span>,2)
+0261 hold on
+0262 figure(2)
+0263 semilogy(times_als, residuum_als, <span class="string">'-'</span>, <span class="string">'Color'</span>, col(1,:),<span class="string">'linewidth'</span>,2)
+0264 semilogy(times_als(1:d:end), residuum_als(1:d:end), <span class="string">'o'</span>, <span class="string">'Color'</span>, col(1,:),<span class="string">'linewidth'</span>,2)
+0265 hold on
+0266 drawnow
+0267 
+0268 figure(1)
+0269 semilogy(residuum_amen_prec1, <span class="string">'-'</span>, <span class="string">'Color'</span>, col(3,:),<span class="string">'linewidth'</span>,2)
+0270 iterations = 1:length(residuum_amen_prec1);
+0271 semilogy(iterations(1:d:end),residuum_amen_prec1(1:d:end), <span class="string">'o'</span>, <span class="string">'Color'</span>, col(3,:),<span class="string">'linewidth'</span>,2)
+0272 hold on
+0273 figure(2)
+0274 semilogy(times_amen_prec1, residuum_amen_prec1, <span class="string">'-'</span>, <span class="string">'Color'</span>, col(3,:),<span class="string">'linewidth'</span>,2)
+0275 semilogy(times_amen_prec1(1:d:end), residuum_amen_prec1(1:d:end), <span class="string">'o'</span>, <span class="string">'Color'</span>, col(3,:),<span class="string">'linewidth'</span>,2)
+0276 hold on
+0277 drawnow
+0278 
+0279 figure(1)
+0280 semilogy(residuum_amen_prec2, <span class="string">'-'</span>, <span class="string">'Color'</span>, col(2,:),<span class="string">'linewidth'</span>,2)
+0281 iterations = 1:length(residuum_amen_prec2);
+0282 semilogy(iterations(1:d:end),residuum_amen_prec2(1:d:end), <span class="string">'o'</span>, <span class="string">'Color'</span>, col(2,:),<span class="string">'linewidth'</span>,2)
+0283 hold on
+0284 figure(2)
+0285 semilogy(times_amen_prec2, residuum_amen_prec2, <span class="string">'-'</span>, <span class="string">'Color'</span>, col(2,:),<span class="string">'linewidth'</span>,2)
+0286 semilogy(times_amen_prec2(1:d:end), residuum_amen_prec2(1:d:end), <span class="string">'o'</span>, <span class="string">'Color'</span>, col(2,:),<span class="string">'linewidth'</span>,2)
+0287 hold on
+0288 drawnow
+0289 
+0290 figure(1)
+0291 legend(leg);
+0292 set(gca,<span class="string">'fontsize'</span>,16)
+0293 xlabel(<span class="string">'Iterations'</span>)
+0294 ylabel(<span class="string">'Relative residual'</span>)
+0295 set(gca,<span class="string">'fontsize'</span>,16)
+0296 ylim([1e-10,1e1])
+0297 
+0298 figure(2)
+0299 legend(leg);
+0300 set(gca,<span class="string">'fontsize'</span>,16)
+0301 xlabel(<span class="string">'Time [s]'</span>)
+0302 ylabel(<span class="string">'Relative residual'</span>)
+0303 set(gca,<span class="string">'fontsize'</span>,16)
+0304 ylim([1e-10,1e1])
+0305 
+0306 
+0307 <a name="_sub0" href="#_subfunctions" class="code">function c = cost_lin(X, A, F)</a>
+0308     grad = <a href="#_sub2" class="code" title="subfunction g = euclidgrad(X, A, F)">euclidgrad</a>(X, A, F);
+0309     c = 0.5 * <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/innerprod.html" class="code" title="function res = innerprod( x, y, dir, upto, storeParts )">innerprod</a>( X, grad);
+0310 <span class="keyword">end</span>
+0311 
+0312 
+0313 <a name="_sub1" href="#_subfunctions" class="code">function g = euclidgrad(X, A, F)</a>
+0314     g = (1/ (20^5))*(<a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_op/apply.html" class="code" title="function y = apply( A, x, idx )">apply</a>(A, X) - F);
+0315 <span class="keyword">end</span>
+0316 
+0317 <a name="_sub2" href="#_subfunctions" class="code">function h = euclidhess(u, A)</a>
+0318     uTT = tangent_to_TTeMPS(u);
+0319     h = (1/ (20^5))*<a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_op/apply.html" class="code" title="function y = apply( A, x, idx )">apply</a>(A, uTT);
+0320 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Sun 05-Sep-2021 17:57:00 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

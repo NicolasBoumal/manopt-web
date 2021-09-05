@@ -31,11 +31,11 @@
 
  function A = multiscale(scale, A)
 
- Given a vector scale of length N and a 3-dimensional matrix A of size
- n-by-m-by-N, returns a matrix A of same size such that
- A(:, :, k) := scale(k) * A(:, :, k);
+ Given a vector scale of length N and a 3-D array A of size
+ n-by-m-by-N, returns an array B of same size as A such that
+ B(:, :, k) = scale(k) * A(:, :, k);
 
- See also: <a href="multiprod.html" class="code" title="function c = multiprod(a, b, idA, idB)">multiprod</a> <a href="multitransp.html" class="code" title="function b = multitransp(a, dim)">multitransp</a> <a href="multitrace.html" class="code" title="function tr = multitrace(A)">multitrace</a></pre></div>
+ See also: <a href="multiprod.html" class="code" title="function C = multiprod(A, B, unused1, unused2) %#ok<INUSD>">multiprod</a> <a href="multitransp.html" class="code" title="function B = multitransp(A, unused) %#ok<INUSD>">multitransp</a> <a href="multitrace.html" class="code" title="function tr = multitrace(A)">multitrace</a> cmultiscale</pre></div>
 
 <!-- crossreference -->
 <h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
@@ -44,7 +44,7 @@ This function calls:
 </ul>
 This function is called by:
 <ul style="list-style-image:url(../../matlabicon.gif)">
-<li><a href="../../examples/robust_pca.html" class="code" title="function [U, cost] = robust_pca(X, d)">robust_pca</a>	Computes a robust version of PCA (principal component analysis) on data.</li></ul>
+<li><a href="../../examples/robust_pca.html" class="code" title="function [U, cost] = robust_pca(X, d)">robust_pca</a>	Computes a robust version of PCA (principal component analysis) on data.</li><li><a href="../../manopt/autodiff/functions_AD/cmultiscale.html" class="code" title="function Ascale = cmultiscale(scale, A)">cmultiscale</a>	Multiplies the 2D slices in a 3D array by individual scalars.</li></ul>
 <!-- crossreference -->
 
 
@@ -55,31 +55,42 @@ This function is called by:
 0003 <span class="comment">%</span>
 0004 <span class="comment">% function A = multiscale(scale, A)</span>
 0005 <span class="comment">%</span>
-0006 <span class="comment">% Given a vector scale of length N and a 3-dimensional matrix A of size</span>
-0007 <span class="comment">% n-by-m-by-N, returns a matrix A of same size such that</span>
-0008 <span class="comment">% A(:, :, k) := scale(k) * A(:, :, k);</span>
+0006 <span class="comment">% Given a vector scale of length N and a 3-D array A of size</span>
+0007 <span class="comment">% n-by-m-by-N, returns an array B of same size as A such that</span>
+0008 <span class="comment">% B(:, :, k) = scale(k) * A(:, :, k);</span>
 0009 <span class="comment">%</span>
-0010 <span class="comment">% See also: multiprod multitransp multitrace</span>
+0010 <span class="comment">% See also: multiprod multitransp multitrace cmultiscale</span>
 0011 
 0012 <span class="comment">% This file is part of Manopt: www.manopt.org.</span>
 0013 <span class="comment">% Original author: Nicolas Boumal, Dec. 30, 2012.</span>
 0014 <span class="comment">% Contributors:</span>
 0015 <span class="comment">% Change log:</span>
-0016 
-0017 
-0018     assert(ndims(A) &lt;= 3, <span class="keyword">...</span>
-0019            [<span class="string">'multiscale is only well defined for matrix arrays of 3 '</span> <span class="keyword">...</span>
-0020             <span class="string">'or less dimensions.'</span>]);
-0021     [n, m, N] = size(A);
-0022     assert(numel(scale) == N, <span class="keyword">...</span>
-0023            [<span class="string">'scale must be a vector whose length equals the third '</span> <span class="keyword">...</span>
-0024             <span class="string">'dimension of A, that is, the number of 2D matrix slices '</span> <span class="keyword">...</span>
-0025             <span class="string">'in the 3D matrix A.'</span>]);
-0026 
-0027     scale = scale(:);
-0028     A = reshape(bsxfun(@times, reshape(A, n*m, N), scale'), n, m, N);
-0029 
-0030 <span class="keyword">end</span></pre></div>
-<hr><address>Generated on Tue 19-May-2020 18:46:12 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+0016 <span class="comment">%   Aug. 29, 2021 (NB):</span>
+0017 <span class="comment">%       Corrected bug that occurred for complex 'scale' vector.</span>
+0018 <span class="comment">%   Sep.  5, 2021 (NB):</span>
+0019 <span class="comment">%       Using .* rather than bxsfun as a preferred way: this is faster.</span>
+0020 <span class="comment">%       Kept the bsxfun code in a try/catch in case this causes trouble</span>
+0021 <span class="comment">%       with older versions of Matlab (unsure whether it would).</span>
+0022 
+0023     assert(ndims(A) &lt;= 3, <span class="keyword">...</span>
+0024            [<span class="string">'multiscale is only defined for arrays of 3 or fewer '</span> <span class="keyword">...</span>
+0025             <span class="string">'dimensions.'</span>]);
+0026         
+0027     [n, m, N] = size(A);
+0028     
+0029     assert(numel(scale) == N, <span class="keyword">...</span>
+0030            [<span class="string">'scale must be a vector whose length equals the third '</span> <span class="keyword">...</span>
+0031             <span class="string">'dimension of A, that is, the number of 2D matrix slices '</span> <span class="keyword">...</span>
+0032             <span class="string">'in the 3D array A.'</span>]);
+0033 
+0034     <span class="keyword">try</span>
+0035         A = A .* reshape(scale, [1, 1, N]);
+0036     <span class="keyword">catch</span>
+0037         scale = scale(:);
+0038         A = reshape(bsxfun(@times, reshape(A, n*m, N), scale.'), n, m, N);
+0039     <span class="keyword">end</span>
+0040 
+0041 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Sun 05-Sep-2021 17:57:00 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
 </body>
 </html>

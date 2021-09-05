@@ -1,0 +1,191 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of completion_orth_lambda</title>
+  <meta name="keywords" content="completion_orth_lambda">
+  <meta name="description" content="RTTC: Riemannian Tensor Train Completion">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../../../index.html">Home</a> &gt;  <a href="#">manopt</a> &gt; <a href="#">manifolds</a> &gt; <a href="../../../index.html">ttfixedrank</a> &gt; <a href="../../index.html">TTeMPS_1.1</a> &gt; <a href="../index.html">algorithms</a> &gt; <a href="index.html">completion</a> &gt; completion_orth_lambda.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../../../index.html"><img alt="<" border="0" src="../../../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for manopt\manifolds\ttfixedrank\TTeMPS_1.1\algorithms\completion&nbsp;<img alt=">" border="0" src="../../../../../../right.png"></a></td></tr></table>-->
+
+<h1>completion_orth_lambda
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="box"><strong>RTTC: Riemannian Tensor Train Completion</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="box"><strong>function [xL,cost,test,stats] = completion_orth_lambda( A_Omega, Omega, A_Gamma, Gamma, X, opts, lambda ) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> RTTC: Riemannian Tensor Train Completion
+ as described in 
+   
+   Michael Steinlechner, Riemannian optimization for high-dimensional tensor completion,
+   Technical report, March 2015, revised December 2015. 
+   To appear in SIAM J. Sci. Comput.</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../../../matlabicon.gif)">
+<li><a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/disp.html" class="code" title="function disp( x, name )">disp</a>	DISP Display TT/MPS tensor.</li><li><a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/innerprod.html" class="code" title="function res = innerprod( x, y, dir, upto, storeParts )">innerprod</a>	INNERPROD Inner product between two TT/MPS tensors.</li><li><a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>	NORM Norm of a TT/MPS tensor.</li><li><a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/orthogonalize.html" class="code" title="function x = orthogonalize( x, pos )">orthogonalize</a>	ORTHOGONALIZE Orthogonalize tensor.</li><li><a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_block/disp.html" class="code" title="function disp( x, name )">disp</a>	DISP Display TT/MPS block-mu tensor.</li><li><a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_block/innerprod.html" class="code" title="function res = innerprod( x, y, dir, upto )">innerprod</a>	INNERPROD Inner product between two TT/MPS tensors.</li><li><a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_block/norm.html" class="code" title="function res = norm( x )">norm</a>	NORM Norm of a TT/MPS block-mu tensor.</li><li><a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_block/orthogonalize.html" class="code" title="function res = orthogonalize( x )">orthogonalize</a>	ORTHOGONALIZE Orthogonalize TT/MPS Block-mu tensor.</li><li><a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_op/disp.html" class="code" title="function disp( x, name )">disp</a>	DISP Display TT/MPS operator.</li><li><a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_op_laplace/disp.html" class="code" title="function disp( x, name )">disp</a>	DISP Display TT/MPS operator.</li><li><a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_tangent_orth/TTeMPS_tangent_orth.html" class="code" title="">TTeMPS_tangent_orth</a>	</li><li><a href="../../../../../../manopt/tools/orthogonalize.html" class="code" title="function [Q, R] = orthogonalize(M, x, A)">orthogonalize</a>	Orthonormalizes a basis of tangent vectors in the Manopt framework.</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../../../matlabicon.gif)">
+</ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function res = func(A_Omega, X, Omega)</a></li><li><a href="#_sub2" class="code">function res = euclidgrad(A_Omega, X, Omega)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">% RTTC: Riemannian Tensor Train Completion</span>
+0002 <span class="comment">% as described in</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">%   Michael Steinlechner, Riemannian optimization for high-dimensional tensor completion,</span>
+0005 <span class="comment">%   Technical report, March 2015, revised December 2015.</span>
+0006 <span class="comment">%   To appear in SIAM J. Sci. Comput.</span>
+0007 <span class="comment">%</span>
+0008 
+0009 <span class="comment">%   TTeMPS Toolbox.</span>
+0010 <span class="comment">%   Michael Steinlechner, 2013-2016</span>
+0011 <span class="comment">%   Questions and contact: michael.steinlechner@epfl.ch</span>
+0012 <span class="comment">%   BSD 2-clause license, see LICENSE.txt</span>
+0013 <a name="_sub0" href="#_subfunctions" class="code">function [xL,cost,test,stats] = completion_orth_lambda( A_Omega, Omega, A_Gamma, Gamma, X, opts, lambda )</a>
+0014     
+0015     <span class="keyword">if</span> ~isfield( opts, <span class="string">'maxiter'</span>);  opts.maxiter = 100;     <span class="keyword">end</span>
+0016     <span class="keyword">if</span> ~isfield( opts, <span class="string">'cg'</span>);       opts.cg = true;         <span class="keyword">end</span>
+0017     <span class="keyword">if</span> ~isfield( opts, <span class="string">'tol'</span>);      opts.tol = 1e-6;        <span class="keyword">end</span>
+0018     <span class="keyword">if</span> ~isfield( opts, <span class="string">'reltol'</span>);   opts.reltol = 1e-6;     <span class="keyword">end</span>
+0019     <span class="keyword">if</span> ~isfield( opts, <span class="string">'gradtol'</span>);  opts.gradtol = 10*eps;  <span class="keyword">end</span>
+0020     <span class="keyword">if</span> ~isfield( opts, <span class="string">'verbose'</span>);  opts.verbose = false;   <span class="keyword">end</span>
+0021     
+0022 
+0023     n = X.size;
+0024     nn = prod(n);
+0025     sizeOmega = numel(A_Omega);
+0026     r = X.rank;
+0027     
+0028     xL = X;
+0029     xR = <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/orthogonalize.html" class="code" title="function x = orthogonalize( x, pos )">orthogonalize</a>(X, 1);
+0030 
+0031     norm_A_Omega = <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>( A_Omega );
+0032     norm_A_Gamma = <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>( A_Gamma );
+0033     
+0034     cost = zeros(opts.maxiter,1);
+0035     test = zeros(opts.maxiter,1);
+0036 
+0037     t = tic;
+0038     stats.time = [];
+0039     stats.conv = false;
+0040 
+0041     <span class="keyword">for</span> i = 1:opts.maxiter
+0042         grad = <a href="#_sub2" class="code" title="subfunction res = euclidgrad(A_Omega, X, Omega)">euclidgrad</a>(A_Omega, xL, Omega);
+0043         xi = <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_tangent_orth/TTeMPS_tangent_orth.html" class="code" title="">TTeMPS_tangent_orth</a>(xL, xR, grad, Omega);
+0044         
+0045         <span class="comment">% This is where we add normalization</span>
+0046         d = xL.order;
+0047         xi.dU{d} = xi.dU{d} + (lambda * sizeOmega / nn) * xL.U{d};
+0048         ip_xi_xi = <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/innerprod.html" class="code" title="function res = innerprod( x, y, dir, upto, storeParts )">innerprod</a>(xi, xi);
+0049 
+0050         <span class="keyword">if</span> sqrt( abs(ip_xi_xi) ) &lt; opts.gradtol 
+0051             <span class="keyword">if</span> cost(i) &lt; opts.tol
+0052                 <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/disp.html" class="code" title="function disp( x, name )">disp</a>(sprintf(<span class="string">'CONVERGED AFTER %i STEPS. Gradient is smaller than %0.3g'</span>, <span class="keyword">...</span>
+0053                       i, opts.gradtol))
+0054                 stats.conv = true;
+0055             <span class="keyword">else</span>
+0056                 <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/disp.html" class="code" title="function disp( x, name )">disp</a>(<span class="string">'No more progress in gradient change, but not converged. Aborting!'</span>)
+0057                 stats.conv = false;
+0058             <span class="keyword">end</span>
+0059             cost = cost(1:i,1);
+0060             test = test(1:i,1);
+0061             stats.time = [stats.time toc(t)];
+0062             <span class="keyword">return</span>
+0063         <span class="keyword">end</span>
+0064 
+0065         <span class="keyword">if</span> (i == 1) || (~opts.cg) 
+0066             eta = -xi;
+0067         <span class="keyword">else</span>
+0068             ip_xitrans_xi = <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/innerprod.html" class="code" title="function res = innerprod( x, y, dir, upto, storeParts )">innerprod</a>( xi_trans, xi );
+0069             theta = ip_xitrans_xi / ip_xi_xi;
+0070             <span class="keyword">if</span> theta &gt;= 0.1
+0071                 <span class="keyword">if</span> opts.verbose, <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/disp.html" class="code" title="function disp( x, name )">disp</a>(<span class="string">'steepest descent step'</span>), <span class="keyword">end</span>
+0072                 eta = -xi;
+0073             <span class="keyword">else</span>
+0074                 <span class="keyword">if</span> opts.verbose, <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/disp.html" class="code" title="function disp( x, name )">disp</a>(<span class="string">'CG step'</span>), <span class="keyword">end</span>
+0075                 beta = ip_xi_xi/ip_xi_xi_old;
+0076                 eta = -xi + beta*<a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_tangent_orth/TTeMPS_tangent_orth.html" class="code" title="">TTeMPS_tangent_orth</a>( xL, xR, eta );
+0077             <span class="keyword">end</span>
+0078         <span class="keyword">end</span>
+0079         
+0080         <span class="comment">%line search</span>
+0081         <span class="comment">% Note we have to include normalization for this explicit line search</span>
+0082         eta_Omega = at_Omega( eta, Omega );
+0083         alpha = -(eta_Omega'*grad + (lambda * sizeOmega / nn) * xL.U{d}(:)' * eta.dU{d}(:)) / (<a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>(eta_Omega)^2 + (lambda * sizeOmega / nn) * <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/innerprod.html" class="code" title="function res = innerprod( x, y, dir, upto, storeParts )">innerprod</a>(eta, eta));
+0084         
+0085         X = tangentAdd( eta, alpha, true );
+0086         xL = <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/orthogonalize.html" class="code" title="function x = orthogonalize( x, pos )">orthogonalize</a>( X, X.order );
+0087         xR = <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/orthogonalize.html" class="code" title="function x = orthogonalize( x, pos )">orthogonalize</a>( X, 1 );
+0088         cost(i) = sqrt(2*<a href="#_sub1" class="code" title="subfunction res = func(A_Omega, X, Omega)">func</a>(A_Omega, xL, Omega )) / norm_A_Omega;
+0089         test(i) = sqrt(2*<a href="#_sub1" class="code" title="subfunction res = func(A_Omega, X, Omega)">func</a>(A_Gamma, xL, Gamma )) / norm_A_Gamma;
+0090 
+0091         <span class="keyword">if</span> cost(i) &lt; opts.tol
+0092             <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/disp.html" class="code" title="function disp( x, name )">disp</a>(sprintf(<span class="string">'CONVERGED AFTER %i STEPS. Rel. residual smaller than %0.3g'</span>, <span class="keyword">...</span>
+0093                           i, opts.tol))
+0094             stats.conv = true;
+0095             cost = cost(1:i,1);
+0096             test = test(1:i,1);
+0097             stats.time = [stats.time toc(t)];
+0098             <span class="keyword">return</span>
+0099         <span class="keyword">end</span>
+0100 
+0101         <span class="keyword">if</span> i &gt; 1
+0102             reltol = abs(cost(i) - cost(i-1)) / cost(i);
+0103             <span class="keyword">if</span> reltol &lt; opts.reltol
+0104                 <span class="keyword">if</span> cost(i) &lt; opts.tol
+0105                     <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/disp.html" class="code" title="function disp( x, name )">disp</a>(sprintf(<span class="string">'CONVERGED AFTER %i STEPS. Relative change is smaller than %0.3g'</span>, <span class="keyword">...</span>
+0106                               i, opts.reltol))
+0107                     stats.conv = true;
+0108                 <span class="keyword">else</span>
+0109                     <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/disp.html" class="code" title="function disp( x, name )">disp</a>(<span class="string">'No more progress in relative change, but not converged. Aborting!'</span>)
+0110                     stats.conv = false;
+0111                 <span class="keyword">end</span>
+0112 
+0113                 cost = cost(1:i,1);
+0114                 test = test(1:i,1);
+0115                 stats.time = [stats.time toc(t)];
+0116                 <span class="keyword">return</span>
+0117             <span class="keyword">end</span>
+0118         <span class="keyword">end</span>
+0119 
+0120         ip_xi_xi_old = ip_xi_xi;
+0121         xi_trans = <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_tangent_orth/TTeMPS_tangent_orth.html" class="code" title="">TTeMPS_tangent_orth</a>( xL, xR, xi );
+0122 
+0123         stats.time = [stats.time toc(t)];
+0124     <span class="keyword">end</span>
+0125 
+0126     
+0127 
+0128 <span class="keyword">end</span>
+0129 
+0130 
+0131 <a name="_sub1" href="#_subfunctions" class="code">function res = func(A_Omega, X, Omega)</a>
+0132     res = 0.5*<a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>( A_Omega - X(Omega) )^2;
+0133 <span class="keyword">end</span>
+0134 
+0135 <a name="_sub2" href="#_subfunctions" class="code">function res = euclidgrad(A_Omega, X, Omega)</a>
+0136     res = X(Omega) - A_Omega;
+0137 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Sun 05-Sep-2021 17:57:00 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

@@ -34,13 +34,13 @@
  Y is a 3D matrix the same size as X. Each slice Y(:, :, i) is the
  skew-symmetric part of the slice X(:, :, i).
 
- See also: <a href="multiskewh.html" class="code" title="function Y = multiskewh(X)">multiskewh</a> <a href="multiprod.html" class="code" title="function c = multiprod(a, b, idA, idB)">multiprod</a> <a href="multitransp.html" class="code" title="function b = multitransp(a, dim)">multitransp</a> <a href="multiscale.html" class="code" title="function A = multiscale(scale, A)">multiscale</a> <a href="multisym.html" class="code" title="function Y = multisym(X)">multisym</a></pre></div>
+ See also: <a href="multiskewh.html" class="code" title="function Y = multiskewh(X)">multiskewh</a> <a href="multiprod.html" class="code" title="function C = multiprod(A, B, unused1, unused2) %#ok<INUSD>">multiprod</a> <a href="multitransp.html" class="code" title="function B = multitransp(A, unused) %#ok<INUSD>">multitransp</a> <a href="multiscale.html" class="code" title="function A = multiscale(scale, A)">multiscale</a> <a href="multisym.html" class="code" title="function Y = multisym(X)">multisym</a></pre></div>
 
 <!-- crossreference -->
 <h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
 This function calls:
 <ul style="list-style-image:url(../../matlabicon.gif)">
-<li><a href="multitransp.html" class="code" title="function b = multitransp(a, dim)">multitransp</a>	Transposing arrays of matrices.</li></ul>
+<li><a href="multitransp.html" class="code" title="function B = multitransp(A, unused) %#ok<INUSD>">multitransp</a>	Transpose the matrix slices of an N-D array (no complex conjugate)</li></ul>
 This function is called by:
 <ul style="list-style-image:url(../../matlabicon.gif)">
 <li><a href="../../manopt/manifolds/essential/essentialfactory.html" class="code" title="function M = essentialfactory(k, strSigned)">essentialfactory</a>	Manifold structure to optimize over the space of essential matrices.</li><li><a href="../../manopt/manifolds/euclidean/skewsymmetricfactory.html" class="code" title="function M = skewsymmetricfactory(n, k)">skewsymmetricfactory</a>	Returns a manifold struct to optimize over k skew-symmetric matrices of size n</li><li><a href="../../manopt/manifolds/rotations/rotationsfactory.html" class="code" title="function M = rotationsfactory(n, k)">rotationsfactory</a>	Returns a manifold structure to optimize over rotation matrices.</li></ul>
@@ -64,9 +64,9 @@ This function is called by:
 0013 <span class="comment">% Contributors:</span>
 0014 <span class="comment">% Change log:</span>
 0015 
-0016     Y = .5*(X - <a href="multitransp.html" class="code" title="function b = multitransp(a, dim)">multitransp</a>(X));
+0016     Y = .5*(X - <a href="multitransp.html" class="code" title="function B = multitransp(A, unused) %#ok<INUSD>">multitransp</a>(X));
 0017     
 0018 <span class="keyword">end</span></pre></div>
-<hr><address>Generated on Tue 19-May-2020 18:46:12 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+<hr><address>Generated on Sun 05-Sep-2021 17:57:00 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
 </body>
 </html>

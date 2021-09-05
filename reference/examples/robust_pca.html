@@ -68,7 +68,7 @@
 <h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
 This function calls:
 <ul style="list-style-image:url(../matlabicon.gif)">
-<li><a href="../manopt/manifolds/grassmann/grassmannfactory.html" class="code" title="function M = grassmannfactory(n, p, k, gpuflag)">grassmannfactory</a>	Returns a manifold struct to optimize over the space of vector subspaces.</li><li><a href="../manopt/solvers/trustregions/trustregions.html" class="code" title="function [x, cost, info, options] = trustregions(problem, x, options)">trustregions</a>	Riemannian trust-regions solver for optimization on manifolds.</li><li><a href="../manopt/tools/multiprod.html" class="code" title="function c = multiprod(a, b, idA, idB)">multiprod</a>	Multiplying 1-D or 2-D subarrays contained in two N-D arrays.</li><li><a href="../manopt/tools/multiscale.html" class="code" title="function A = multiscale(scale, A)">multiscale</a>	Multiplies the 2D slices in a 3D matrix by individual scalars.</li><li><a href="../manopt/tools/multitransp.html" class="code" title="function b = multitransp(a, dim)">multitransp</a>	Transposing arrays of matrices.</li></ul>
+<li><a href="../manopt/manifolds/grassmann/grassmannfactory.html" class="code" title="function M = grassmannfactory(n, p, k, gpuflag)">grassmannfactory</a>	Returns a manifold struct to optimize over the space of vector subspaces.</li><li><a href="../manopt/solvers/trustregions/trustregions.html" class="code" title="function [x, cost, info, options] = trustregions(problem, x, options)">trustregions</a>	Riemannian trust-regions solver for optimization on manifolds.</li><li><a href="../manopt/tools/multiprod.html" class="code" title="function C = multiprod(A, B, unused1, unused2) %#ok<INUSD>">multiprod</a>	Matrix multiply 2-D slices of N-D arrays</li><li><a href="../manopt/tools/multiscale.html" class="code" title="function A = multiscale(scale, A)">multiscale</a>	Multiplies the 2D slices in a 3D matrix by individual scalars.</li><li><a href="../manopt/tools/multitransp.html" class="code" title="function B = multitransp(A, unused) %#ok<INUSD>">multitransp</a>	Transpose the matrix slices of an N-D array (no complex conjugate)</li></ul>
 This function is called by:
 <ul style="list-style-image:url(../matlabicon.gif)">
 </ul>
@@ -130,114 +130,123 @@ This function is called by:
 0049 <span class="comment">%</span>
 0050 <span class="comment">%   April 8, 2015 (NB):</span>
 0051 <span class="comment">%       Built-in test data for quick tests; added comment about centering.</span>
-0052 
-0053 
-0054 
-0055     <span class="comment">% If no inputs, generate random data for illustration purposes.</span>
-0056     <span class="keyword">if</span> nargin == 0
-0057         <span class="comment">% Generate some data points aligned on a subspace</span>
-0058         X = rand(2, 1)*(1:30) + .05*randn(2, 30).*[(1:30);(1:30)];
-0059         <span class="comment">% And add some random outliers to the mix</span>
-0060         P = randperm(size(X, 2));
-0061         outliers = 10;
-0062         X(:, P(1:outliers)) = 30*randn(2, outliers);
-0063         <span class="comment">% Center the data</span>
-0064         <span class="comment">% X = X - repmat(mean(X, 2), [1, size(X, 2)]);</span>
-0065         d = 1;
-0066     <span class="keyword">end</span>
-0067 
-0068 
+0052 <span class="comment">%</span>
+0053 <span class="comment">%   Aug  20, 2021 (XJ):</span>
+0054 <span class="comment">%       Added AD to compute the egrad</span>
+0055 
+0056 
+0057     <span class="comment">% If no inputs, generate random data for illustration purposes.</span>
+0058     <span class="keyword">if</span> nargin == 0
+0059         <span class="comment">% Generate some data points aligned on a subspace</span>
+0060         X = rand(2, 1)*(1:30) + .05*randn(2, 30).*[(1:30);(1:30)];
+0061         <span class="comment">% And add some random outliers to the mix</span>
+0062         P = randperm(size(X, 2));
+0063         outliers = 10;
+0064         X(:, P(1:outliers)) = 30*randn(2, outliers);
+0065         <span class="comment">% Center the data</span>
+0066         <span class="comment">% X = X - repmat(mean(X, 2), [1, size(X, 2)]);</span>
+0067         d = 1;
+0068     <span class="keyword">end</span>
 0069 
 0070 
 0071 
-0072     <span class="comment">% Prepare a Manopt problem structure for optimization of the given</span>
-0073     <span class="comment">% cost (defined below) over the Grassmann manifold.</span>
-0074     [p, n] = size(X);
-0075     manifold = <a href="../manopt/manifolds/grassmann/grassmannfactory.html" class="code" title="function M = grassmannfactory(n, p, k, gpuflag)">grassmannfactory</a>(p, d);
-0076     problem.M = manifold;
-0077     problem.cost = @<a href="#_sub1" class="code" title="subfunction value = robustpca_cost(U)">robustpca_cost</a>;
-0078     problem.egrad = @<a href="#_sub2" class="code" title="subfunction G = robustpca_gradient(U)">robustpca_gradient</a>;
-0079     
-0080     <span class="comment">% Do classical PCA for the initial guess.</span>
-0081     <span class="comment">% This is just one idea: it is not necessarily useful or ideal.</span>
-0082     <span class="comment">% Using a random initial guess, and starting over for a few different</span>
-0083     <span class="comment">% ones is probably much better. For this example, we keep it simple.</span>
-0084     [U, ~, ~] = svds(X, d);
-0085 
-0086     
-0087     <span class="comment">% Iteratively reduce the smoothing constant epsilon and optimize</span>
-0088     <span class="comment">% the cost function over Grassmann.</span>
-0089     epsilon = 1;
-0090     n_iterations = 6;
-0091     reduction = .5;
-0092     options.verbosity = 2; <span class="comment">% Change this number for more or less output</span>
-0093     warning(<span class="string">'off'</span>, <span class="string">'manopt:getHessian:approx'</span>);
-0094     <span class="keyword">for</span> iter = 1 : n_iterations
-0095         U = <a href="../manopt/solvers/trustregions/trustregions.html" class="code" title="function [x, cost, info, options] = trustregions(problem, x, options)">trustregions</a>(problem, U, options);
-0096         epsilon = epsilon * reduction;
-0097     <span class="keyword">end</span>
-0098     warning(<span class="string">'on'</span>, <span class="string">'manopt:getHessian:approx'</span>);
-0099     
-0100     
-0101     <span class="comment">% Return the cost as the actual sum of distances, not smoothed.</span>
-0102     epsilon = 0;
-0103     cost = <a href="#_sub1" class="code" title="subfunction value = robustpca_cost(U)">robustpca_cost</a>(U);
-0104     
-0105     
-0106     
-0107     <span class="comment">% If working with the auto-generated input, plot the results.</span>
-0108     <span class="keyword">if</span> nargin == 0
-0109         scatter(X(1,:), X(2,:));
-0110         hold on;
-0111         plot(U(1)*[-1, 1]*100, U(2)*[-1 1]*100, <span class="string">'r'</span>);
-0112         hold off;
-0113         <span class="comment">% Compare to a standard PCA</span>
-0114         [Upca, ~, ~] = svds(X,1);
-0115         hold on;
-0116         plot(Upca(1)*[-1, 1]*100, Upca(2)*[-1 1]*100, <span class="string">'k'</span>);
-0117         hold off;
-0118         xlim(1.1*[min(X(1,:)), max(X(1,:))]);
-0119         ylim(1.1*[min(X(2,:)), max(X(2,:))]);
-0120         legend(<span class="string">'data points'</span>, <span class="string">'Robust PCA fit'</span>, <span class="string">'Standard PCA fit'</span>);
-0121     <span class="keyword">end</span>
-0122 
-0123     
-0124     
-0125     <span class="comment">% Smoothed cost</span>
-0126     <a name="_sub1" href="#_subfunctions" class="code">function value = robustpca_cost(U)</a>
-0127 
-0128         vecs = U*(U'*X) - X;
-0129         sqnrms = sum(vecs.^2, 1);
-0130         vals = sqrt(sqnrms + epsilon^2) - epsilon;
-0131         value = mean(vals);
-0132 
-0133     <span class="keyword">end</span>
-0134 
-0135     <span class="comment">% Euclidean gradient of the smoothed cost (it will be transformed into</span>
-0136     <span class="comment">% the Riemannian gradient automatically by Manopt).</span>
-0137     <a name="_sub2" href="#_subfunctions" class="code">function G = robustpca_gradient(U)</a>
-0138 
-0139         <span class="comment">% Note that the computation of vecs and sqnrms is redundant</span>
-0140         <span class="comment">% with their computation in the cost function. To speed</span>
-0141         <span class="comment">% up the code, it would be wise to use the caching capabilities</span>
-0142         <span class="comment">% of Manopt (the store structure). See online documentation.</span>
-0143         <span class="comment">% It is not done here to keep the code a bit simpler.</span>
-0144         UtX = U'*X;
-0145         vecs = U*UtX-X;
-0146         sqnrms = sum(vecs.^2, 1);
-0147         <span class="comment">% This explicit loop is a bit slow: the code below is equivalent</span>
-0148         <span class="comment">% and faster to compute the gradient.</span>
-0149         <span class="comment">% G = zeros(p, d);</span>
-0150         <span class="comment">% for i=1:n</span>
-0151         <span class="comment">%     G = G + (1/sqrt(sqnrms(i) + epsilon^2)) * vecs(:,i) * UtX(:,i)';</span>
-0152         <span class="comment">% end</span>
-0153         <span class="comment">% G = G/n;</span>
-0154         G = mean(<a href="../manopt/tools/multiscale.html" class="code" title="function A = multiscale(scale, A)">multiscale</a>(1./sqrt(sqnrms + epsilon^2), <span class="keyword">...</span>
-0155                            <a href="../manopt/tools/multiprod.html" class="code" title="function c = multiprod(a, b, idA, idB)">multiprod</a>(reshape(vecs, [p, 1, n]), <span class="keyword">...</span>
-0156                               <a href="../manopt/tools/multitransp.html" class="code" title="function b = multitransp(a, dim)">multitransp</a>(reshape(UtX, [d, 1, n])))), 3);
-0157     <span class="keyword">end</span>
-0158 
-0159 <span class="keyword">end</span></pre></div>
-<hr><address>Generated on Tue 19-May-2020 18:46:12 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+0072 
+0073 
+0074     <span class="comment">% Prepare a Manopt problem structure for optimization of the given</span>
+0075     <span class="comment">% cost (defined below) over the Grassmann manifold.</span>
+0076     [p, n] = size(X);
+0077     manifold = <a href="../manopt/manifolds/grassmann/grassmannfactory.html" class="code" title="function M = grassmannfactory(n, p, k, gpuflag)">grassmannfactory</a>(p, d);
+0078     problem.M = manifold;
+0079     problem.cost = @<a href="#_sub1" class="code" title="subfunction value = robustpca_cost(U)">robustpca_cost</a>;
+0080     problem.egrad = @<a href="#_sub2" class="code" title="subfunction G = robustpca_gradient(U)">robustpca_gradient</a>;
+0081     
+0082     <span class="comment">% Do classical PCA for the initial guess.</span>
+0083     <span class="comment">% This is just one idea: it is not necessarily useful or ideal.</span>
+0084     <span class="comment">% Using a random initial guess, and starting over for a few different</span>
+0085     <span class="comment">% ones is probably much better. For this example, we keep it simple.</span>
+0086     [U, ~, ~] = svds(X, d);
+0087 
+0088     
+0089     <span class="comment">% Iteratively reduce the smoothing constant epsilon and optimize</span>
+0090     <span class="comment">% the cost function over Grassmann.</span>
+0091     epsilon = 1;
+0092     n_iterations = 6;
+0093     reduction = .5;
+0094     options.verbosity = 2; <span class="comment">% Change this number for more or less output</span>
+0095     warning(<span class="string">'off'</span>, <span class="string">'manopt:getHessian:approx'</span>);
+0096     
+0097     <span class="comment">% An alternative way to compute the egrad is to use automatic</span>
+0098     <span class="comment">% differentiation provided in the deep learning toolbox (slower).</span>
+0099     <span class="comment">% Call manoptAD to automatically obtain the egrad</span>
+0100     <span class="comment">% problem = manoptAD(problem,'egrad');</span>
+0101     
+0102     <span class="keyword">for</span> iter = 1 : n_iterations
+0103         U = <a href="../manopt/solvers/trustregions/trustregions.html" class="code" title="function [x, cost, info, options] = trustregions(problem, x, options)">trustregions</a>(problem, U, options);
+0104         epsilon = epsilon * reduction;
+0105     <span class="keyword">end</span>
+0106     warning(<span class="string">'on'</span>, <span class="string">'manopt:getHessian:approx'</span>);
+0107     
+0108     
+0109     <span class="comment">% Return the cost as the actual sum of distances, not smoothed.</span>
+0110     epsilon = 0;
+0111     cost = <a href="#_sub1" class="code" title="subfunction value = robustpca_cost(U)">robustpca_cost</a>(U);
+0112     
+0113     
+0114     
+0115     <span class="comment">% If working with the auto-generated input, plot the results.</span>
+0116     <span class="keyword">if</span> nargin == 0
+0117         figure;
+0118         scatter(X(1,:), X(2,:));
+0119         hold on;
+0120         plot(U(1)*[-1, 1]*100, U(2)*[-1 1]*100, <span class="string">'r'</span>);
+0121         hold off;
+0122         <span class="comment">% Compare to a standard PCA</span>
+0123         [Upca, ~, ~] = svds(X,1);
+0124         hold on;
+0125         plot(Upca(1)*[-1, 1]*100, Upca(2)*[-1 1]*100, <span class="string">'k'</span>);
+0126         hold off;
+0127         xlim(1.1*[min(X(1,:)), max(X(1,:))]);
+0128         ylim(1.1*[min(X(2,:)), max(X(2,:))]);
+0129         legend(<span class="string">'data points'</span>, <span class="string">'Robust PCA fit'</span>, <span class="string">'Standard PCA fit'</span>);
+0130     <span class="keyword">end</span>
+0131 
+0132     
+0133     
+0134     <span class="comment">% Smoothed cost</span>
+0135     <a name="_sub1" href="#_subfunctions" class="code">function value = robustpca_cost(U)</a>
+0136 
+0137         vecs = U*(U'*X) - X;
+0138         sqnrms = sum(vecs.^2, 1);
+0139         vals = sqrt(sqnrms + epsilon^2) - epsilon;
+0140         value = mean(vals);
+0141 
+0142     <span class="keyword">end</span>
+0143 
+0144     <span class="comment">% Euclidean gradient of the smoothed cost (it will be transformed into</span>
+0145     <span class="comment">% the Riemannian gradient automatically by Manopt).</span>
+0146     <a name="_sub2" href="#_subfunctions" class="code">function G = robustpca_gradient(U)</a>
+0147 
+0148         <span class="comment">% Note that the computation of vecs and sqnrms is redundant</span>
+0149         <span class="comment">% with their computation in the cost function. To speed</span>
+0150         <span class="comment">% up the code, it would be wise to use the caching capabilities</span>
+0151         <span class="comment">% of Manopt (the store structure). See online documentation.</span>
+0152         <span class="comment">% It is not done here to keep the code a bit simpler.</span>
+0153         UtX = U'*X;
+0154         vecs = U*UtX-X;
+0155         sqnrms = sum(vecs.^2, 1);
+0156         <span class="comment">% This explicit loop is a bit slow: the code below is equivalent</span>
+0157         <span class="comment">% and faster to compute the gradient.</span>
+0158         <span class="comment">% G = zeros(p, d);</span>
+0159         <span class="comment">% for i=1:n</span>
+0160         <span class="comment">%     G = G + (1/sqrt(sqnrms(i) + epsilon^2)) * vecs(:,i) * UtX(:,i)';</span>
+0161         <span class="comment">% end</span>
+0162         <span class="comment">% G = G/n;</span>
+0163         G = mean(<a href="../manopt/tools/multiscale.html" class="code" title="function A = multiscale(scale, A)">multiscale</a>(1./sqrt(sqnrms + epsilon^2), <span class="keyword">...</span>
+0164                            <a href="../manopt/tools/multiprod.html" class="code" title="function C = multiprod(A, B, unused1, unused2) %#ok<INUSD>">multiprod</a>(reshape(vecs, [p, 1, n]), <span class="keyword">...</span>
+0165                               <a href="../manopt/tools/multitransp.html" class="code" title="function B = multitransp(A, unused) %#ok<INUSD>">multitransp</a>(reshape(UtX, [d, 1, n])))), 3);
+0166     <span class="keyword">end</span>
+0167 
+0168 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Sun 05-Sep-2021 17:57:00 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
 </body>
 </html>
