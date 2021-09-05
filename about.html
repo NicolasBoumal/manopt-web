@@ -87,8 +87,8 @@ body {
                 title="PyManopt" target="_blank">PyManopt.org</a> and <a href="https://www.manoptjl.org"
                 title="Manopt.jl" target="_blank">Manoptjl.org</a> for
               information about the Python and Julia projects.</p>
-            <p>These two books can be helpful to learn the relevant mathematics
-              (both are available online for free):</p>
+            <p>The two following books can be helpful to learn the relevant
+              mathematics (both are available online for free):</p>
             <ul>
               <li><a target="_blank" href="https://press.princeton.edu/absil">Optimization
                   Algorithms on Matrix Manifolds</a> by Pierre-Antoine Absil, <a
@@ -100,9 +100,9 @@ body {
                 Nicolas Boumal, available online, 2020.</li>
             </ul>
             <p>The toolbox is stable and can be used right away. Being research
-              software, it is also work in progress. We welcome contributions,
-              bug reports and feedback. <a href="#contactmodal" data-toggle="modal">Let
-                us know</a> what you think! </p>
+              software, it is also perpetually work in progress. We welcome
+              contributions, bug reports and feedback. <a href="#contactmodal"
+                data-toggle="modal">Let us know</a> what you think! </p>
             <p>If you use the Matlab toolbox, please cite <a href="http://jmlr.org/papers/v15/boumal14a.html">the
                 Manopt paper</a> published in the Journal of Machine Learning
               Research (notice the 'o' in Manopt is lowercase):</p>
@@ -256,17 +256,27 @@ body {
               releasing their excellent software under an open source license,
               which allowed us to build upon it. It is packaged in Manopt with
               small modifications.</p>
+            <p><a href="https://github.com/Xiaowen-Jiang" target="_blank">Xiaowen
+                Jiang</a> worked in Nicolas' group to add support for automatic
+              differentiation during the summer of 2021, based on <a href="https://www.mathworks.com/products/deep-learning.html"
+                target="_blank">Matlab's Deep Learning Toolbox</a>. This aligns
+              well with Manopt's overarching goal, which is to lower the
+              entrance barrier for people who would like to give Riemannian
+              optimization a try -- thanks a lot, Xiaowen!</p>
             <p>Here is a list of open-source code that proved useful to develop
               the toolbox:</p>
             <ul>
               <li>The <code>multitransp</code> / <code>multiprod</code> pair
                 is code by <a target="_blank" href="http://www.mathworks.com/matlabcentral/fileexchange/8773-multiple-matrix-multiplications-with-array-expansion-enabled">Paolo
-                  de Leva</a> ;</li>
+                  de Leva</a> (no longer used: <code>multiprod</code> now calls
+                <a href="https://ch.mathworks.com/help/matlab/ref/pagemtimes.html"
+                  target="_blank">pagemtimes</a>);</li>
               <li><code>multitrace</code> is a wrapper around <code>diagsum</code>,
                 which is code by <a target="_blank" href="http://www.mathworks.com/matlabcentral/fileexchange/10062-multi-dimensional-matrix-product-outer-product-and-partial-trace">Wynton
                   Moore</a> ;</li>
               <li>The <code>hashmd5</code> tool is a stripped version of more
-                general hashing code (no longer available) by Michael Kleder.</li>
+                general hashing code (no longer available) by Michael Kleder (no
+                longer used).</li>
             </ul>
           </section>
           <section id="offspring">
@@ -276,9 +286,9 @@ body {
             <p>We see a growing number of papers in various disciplines where
               researchers use Manopt. A list is available on <a target="_blank"
                 href="https://scholar.google.fr/scholar?hl=en&amp;as_sdt=2005&amp;cites=16406862999391922406&amp;scipsc=&amp;q=&amp;scisbd=1">Google
-                Scholar</a> with over 600 citations. We single out a few
+                Scholar</a> with over 700 citations. We single out a few
               projects we think illustrate some of the flexibility of the
-              toolbox (<em>this list is dated</em>):</p>
+              toolbox (<em>this is a very old list...</em>):</p>
             <ul>
               <li>Artiom Kovnatsky, Klaus Glashoff and Michael M. Bronstein
                 proposed <a target="_blank" href="http://arxiv.org/abs/1505.07676">MADMM:
