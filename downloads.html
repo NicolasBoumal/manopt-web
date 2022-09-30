@@ -117,25 +117,38 @@
           <ul>
             <li><a href="download.html">Manopt 7.1</a>, packaged Sep. 30, 2022</li>
             <ul>
-              <li>Core functionalities</li>
+              <li>Solvers</li>
               <ul>
-                <li></li>
+                <li>Sizeable improvements to <code>trustregions</code> (the main solver):
+                  <ul>
+                    <li>Refactored <code>trustregions</code> to accommodate new subproblem solvers.</li>
+                    <li>Sped up <code>trs_tCG</code> (the main subproblem solver for trustregions) by recycling computations after a step rejection.</li>
+                    <li>Added new subproblem solver <code>trs_gep</code> to find a global optimum (based on code by Yuji Nakatsukasa).</li>
+                    <li>Improved information logged and displayed.</li>
+                  </ul>
+                </li>
+                <li>Added Liu-Storey rule for <code>conjugategradient</code> solver.</li>
+                <li>Added constant step-size line-search helper <code>linesearch_constant</code>.</li>
               </ul>
               <li>Manifolds</li>
               <ul>
-                <li></li>
+                <li>Added sympositivedefinitesimplexfactory.</li>
+                <li>Added sympositivedefinitesimplexcomplexfactory.</li>
+                <li>Rotations factory now uses Rodrigues formulas when $n = 3$ for exp/log.</li>
+                <li>Several manifolds which are Lie groups now have a method <code>M.lie_identity()</code>: this returns the identity element of that group.</li>
               </ul>
               <li>Tools</li>
               <ul>
-                <li></li>
-              </ul>
-              <li>Solvers</li>
-              <ul>
-                <li></li>
+                <li>Added <code>sinxoverx</code>, which computes $\sin(x)/x$ such that $\sin(0)/0 = 1$.</li>
+                <li>Added <code>getsize</code>, which estimates the memory footprint of an input (used to monitor caching).</li>
+                <li>Tool <code>tangentorthobasis</code> now accepts an initial set of vectors to build on.</li>
               </ul>
               <li>Other changes</li>
               <ul>
-                <li></li>
+                <li>Small improvements (mostly numerical) for spherefactory, obliquefactory, obliquecomplexfactory, sympositivedefinitefactory.</li>
+                <li>Renamed <code>tensorprod</code> to <code>tensorprod_ttemps</code> for better compatibility with new Matlab versions.</li>
+                <li>Updated and renamed example <code>positive_definite_karcher_mean.m</code> to <code>positive_definite_intrinsic_mean.m</code>.</li>
+                <li>Made importmanopt script more robust.</li>
               </ul>
             </ul>
           </ul>
