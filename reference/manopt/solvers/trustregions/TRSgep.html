@@ -1,0 +1,314 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of TRSgep</title>
+  <meta name="keywords" content="TRSgep">
+  <meta name="description" content="Solves trust-region subproblem by a generalized eigenvalue problem.">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../index.html">Home</a> &gt;  <a href="#">manopt</a> &gt; <a href="#">solvers</a> &gt; <a href="index.html">trustregions</a> &gt; TRSgep.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../index.html"><img alt="<" border="0" src="../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for manopt\solvers\trustregions&nbsp;<img alt=">" border="0" src="../../../right.png"></a></td></tr></table>-->
+
+<h1>TRSgep
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>Solves trust-region subproblem by a generalized eigenvalue problem.</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function [x, limitedbyTR, eigstrouble, accurate] = TRSgep(A, a, Del) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> Solves trust-region subproblem by a generalized eigenvalue problem.
+ 
+ function [x, limitedbyTR, eigstrouble] = TRSgep(A, a, Del)
+ function [x, limitedbyTR, eigstrouble, accurate] = TRSgep(A, a, Del)
+ 
+ This function returns a solution x to the following optimization problem:
+ 
+     minimize .5*(x.'*A*x) + a.'*x
+     subject to x.'*x &lt;= Del^2
+ 
+ The boolean 'limitedbyTR' is true if the solution would have been
+ different absent the norm constraint. In that case, the norm of x is Del.
+
+ The boolean 'eigstrouble' is false if the call to eigs went as planned
+ (no NaN values returned). If is true otherwise. Even when true, the
+ output x may still be good, but it is not certain.
+
+ Inputs:
+   A: nxn symmetric
+   a: nx1 vector, both real
+   Del: trust-region radius (positive real)
+
+ If called with three outputs, then computationally expensive checks are
+ run to verify the accuracy of the output. If the output appears to be
+ globally optimal (as expected) within some demanding numerical
+ tolerances, then 'accurate' is true; otherwise it is false.
+
+ The iterative solver pcg sometimes issues a warning.
+ It can be disabled with:
+   warning('off', 'MATLAB:pcg:tooSmallTolerance');
+ It is adviseable to re-enable it (with 'on' instead of 'off') when done.
+
+ Code adapted from Yuji Nakatsukasa's code for the
+ paper by Satoru Adachi, Satoru Iwata, Yuji Nakatsukasa, and Akiko Takeda
+
+ Original code: https://people.maths.ox.ac.uk/nakatsukasa/codes/TRSgep.m
+ Reference paper: https://epubs.siam.org/doi/abs/10.1137/16M1058200
+
+ The authors kindly allowed us to include their code in Manopt under the 
+ same license as Manopt.
+
+ See also: <a href="trs_gep.html" class="code" title="function trsoutput = trs_gep(problem, trsinput, options, ~, ~)">trs_gep</a> <a href="trs_tCG_cached.html" class="code" title="function trsoutput = trs_tCG_cached(problem, trsinput, options, storedb, key)">trs_tCG_cached</a> <a href="trs_tCG.html" class="code" title="function trsoutput = trs_tCG(problem, trsinput, options, storedb, key)">trs_tCG</a> <a href="trustregions.html" class="code" title="function [x, cost, info, options] = trustregions(problem, x, options)">trustregions</a></pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>	NORM Norm of a TT/MPS tensor.</li><li><a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_block/norm.html" class="code" title="function res = norm( x )">norm</a>	NORM Norm of a TT/MPS block-mu tensor.</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="trs_gep.html" class="code" title="function trsoutput = trs_gep(problem, trsinput, options, ~, ~)">trs_gep</a>	Solves trust-region subproblem with TRSgep in a subspace of tangent space.</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function y = MM0timesx(A, g, Delta, x)</a></li><li><a href="#_sub2" class="code">function y = pcgforAtilde(A, lamA, Pvect, alpha1, x)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [x, limitedbyTR, eigstrouble, accurate] = TRSgep(A, a, Del)</a>
+0002 <span class="comment">% Solves trust-region subproblem by a generalized eigenvalue problem.</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">% function [x, limitedbyTR, eigstrouble] = TRSgep(A, a, Del)</span>
+0005 <span class="comment">% function [x, limitedbyTR, eigstrouble, accurate] = TRSgep(A, a, Del)</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">% This function returns a solution x to the following optimization problem:</span>
+0008 <span class="comment">%</span>
+0009 <span class="comment">%     minimize .5*(x.'*A*x) + a.'*x</span>
+0010 <span class="comment">%     subject to x.'*x &lt;= Del^2</span>
+0011 <span class="comment">%</span>
+0012 <span class="comment">% The boolean 'limitedbyTR' is true if the solution would have been</span>
+0013 <span class="comment">% different absent the norm constraint. In that case, the norm of x is Del.</span>
+0014 <span class="comment">%</span>
+0015 <span class="comment">% The boolean 'eigstrouble' is false if the call to eigs went as planned</span>
+0016 <span class="comment">% (no NaN values returned). If is true otherwise. Even when true, the</span>
+0017 <span class="comment">% output x may still be good, but it is not certain.</span>
+0018 <span class="comment">%</span>
+0019 <span class="comment">% Inputs:</span>
+0020 <span class="comment">%   A: nxn symmetric</span>
+0021 <span class="comment">%   a: nx1 vector, both real</span>
+0022 <span class="comment">%   Del: trust-region radius (positive real)</span>
+0023 <span class="comment">%</span>
+0024 <span class="comment">% If called with three outputs, then computationally expensive checks are</span>
+0025 <span class="comment">% run to verify the accuracy of the output. If the output appears to be</span>
+0026 <span class="comment">% globally optimal (as expected) within some demanding numerical</span>
+0027 <span class="comment">% tolerances, then 'accurate' is true; otherwise it is false.</span>
+0028 <span class="comment">%</span>
+0029 <span class="comment">% The iterative solver pcg sometimes issues a warning.</span>
+0030 <span class="comment">% It can be disabled with:</span>
+0031 <span class="comment">%   warning('off', 'MATLAB:pcg:tooSmallTolerance');</span>
+0032 <span class="comment">% It is adviseable to re-enable it (with 'on' instead of 'off') when done.</span>
+0033 <span class="comment">%</span>
+0034 <span class="comment">% Code adapted from Yuji Nakatsukasa's code for the</span>
+0035 <span class="comment">% paper by Satoru Adachi, Satoru Iwata, Yuji Nakatsukasa, and Akiko Takeda</span>
+0036 <span class="comment">%</span>
+0037 <span class="comment">% Original code: https://people.maths.ox.ac.uk/nakatsukasa/codes/TRSgep.m</span>
+0038 <span class="comment">% Reference paper: https://epubs.siam.org/doi/abs/10.1137/16M1058200</span>
+0039 <span class="comment">%</span>
+0040 <span class="comment">% The authors kindly allowed us to include their code in Manopt under the</span>
+0041 <span class="comment">% same license as Manopt.</span>
+0042 <span class="comment">%</span>
+0043 <span class="comment">% See also: trs_gep trs_tCG_cached trs_tCG trustregions</span>
+0044 
+0045 <span class="comment">% This file is part of Manopt: www.manopt.org.</span>
+0046 <span class="comment">% Original author: Yuji Nakatsukasa, 2015.</span>
+0047 <span class="comment">% Contributors: Revised by Nikitas Rontsis, December 2018</span>
+0048 <span class="comment">% Change log:</span>
+0049 <span class="comment">%   VL June 29, 2022:</span>
+0050 <span class="comment">%       Modified original code to return limitedbyTR boolean and change</span>
+0051 <span class="comment">%       ellipsoid norm constraint to unweighted norm.</span>
+0052 <span class="comment">%   NB Aug. 19, 2022:</span>
+0053 <span class="comment">%       Comments + cosmetic changes.</span>
+0054 <span class="comment">%       Corrected determination of limitedbyTR.</span>
+0055 <span class="comment">%       Added support for input a = 0.</span>
+0056 <span class="comment">%       Clarified the logic around picking the Newton step or not.</span>
+0057 <span class="comment">%   NB Aug. 26, 2022:</span>
+0058 <span class="comment">%       Added optional accuracy checks.</span>
+0059 
+0060     n = size(A, 1);
+0061 
+0062     eigstrouble = false;
+0063 
+0064     <span class="comment">% We set this flag to true iff the solution x we eventually return is</span>
+0065     <span class="comment">% limited by the trust-region boundary.</span>
+0066     limitedbyTR = true;
+0067 
+0068     <span class="comment">% Tolerance for hard-case.</span>
+0069     <span class="comment">% If this triggers, then the solver works harder to check itself.</span>
+0070     tolhardcase = 1e-4;
+0071 
+0072     <span class="comment">% If a is exactly zero, pcg (called below) abandons on the first</span>
+0073     <span class="comment">% iteration. Instead, we give it a small input and re-check at the end.</span>
+0074     a_is_zero = (<a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>(a) == 0);
+0075     <span class="keyword">if</span> a_is_zero
+0076         a = eps*randn(n, 1);
+0077     <span class="keyword">end</span>
+0078 
+0079     <span class="comment">% Compute the Newton step p1 up to some accuracy.</span>
+0080     <span class="comment">% pcg sometimes issues a warning: see help above.</span>
+0081     [p1, ~, relres, ~] = pcg(A, -a, 1e-12, 500);
+0082 
+0083     <span class="comment">% If the Newton step is computed accurately and it is in the trust</span>
+0084     <span class="comment">% region, then it may very well be the solution to the TRS.</span>
+0085     <span class="comment">% We make a note of it, and will re-check at the end.</span>
+0086     newton_step_may_be_solution = (relres &lt; 1e-5 &amp;&amp; (p1'*p1 &lt;= Del^2));
+0087 
+0088     <span class="comment">% This is the core of the code.</span>
+0089     MM1 = [sparse(n, n) speye(n) ; speye(n) sparse(n, n)];
+0090     [V, lam1] = eigs(@(x) <a href="#_sub1" class="code" title="subfunction y = MM0timesx(A, g, Delta, x)">MM0timesx</a>(A, a, Del, x), 2*n, -MM1, 1, <span class="string">'lr'</span>);
+0091 
+0092     <span class="comment">% Sometimes the output is complex.</span>
+0093     <span class="keyword">if</span> <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>(real(V)) &lt; 1e-3
+0094         V = imag(V);
+0095     <span class="keyword">else</span>
+0096         V = real(V);
+0097     <span class="keyword">end</span>
+0098     lam1 = real(lam1);
+0099 
+0100     <span class="comment">% This is parallel to the solution:</span>
+0101     x = V(1:n);
+0102     normx = <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>(x);
+0103 
+0104     <span class="comment">% In the easy case, this naive normalization improves accuracy.</span>
+0105     x = x/normx*Del;
+0106     <span class="comment">% Take the correct sign.</span>
+0107     <span class="keyword">if</span> x'*a &gt; 0
+0108         x = -x;
+0109     <span class="keyword">end</span>
+0110     
+0111     <span class="comment">% If we suspect a (numerically) hard case, work harder.</span>
+0112     <span class="keyword">if</span> normx &lt; tolhardcase
+0113 
+0114         <span class="comment">% Sometimes, eigs fails: it issues a warning and sets lam1 to NaN.</span>
+0115         <span class="comment">% The vector V may still be defined and partially useable though.</span>
+0116         <span class="comment">% Here, we estimate what lam1 ought to be (see also the code below</span>
+0117         <span class="comment">% that checks accuracy) and use to proceed.</span>
+0118         <span class="keyword">if</span> isnan(lam1)
+0119             lam1 = -(x'*(A*x + a))/(x'*x);
+0120             eigstrouble = true;
+0121         <span class="keyword">end</span>
+0122 
+0123         x1 = V(n+1:end);
+0124         alpha1 = lam1;
+0125         Pvect = x1;
+0126         <span class="comment">% First try only k = 1, that is almost always enough.</span>
+0127         <span class="comment">% pcg sometimes issues a warning: see help above.</span>
+0128         Afun = @(x) <a href="#_sub2" class="code" title="subfunction y = pcgforAtilde(A, lamA, Pvect, alpha1, x)">pcgforAtilde</a>(A, lam1, Pvect, alpha1, x);
+0129         [x2, ~] = pcg(Afun, -a, 1e-12, 500);
+0130         <span class="comment">% If large residual, repeat</span>
+0131         <span class="keyword">if</span> <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>((A+lam1)*x2 + a) &gt; tolhardcase*<a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>(a)
+0132             <span class="keyword">for</span> ii = [3, 6, 9]
+0133                 [Pvect, ~] = eigs(A, speye(n), ii, <span class="string">'sa'</span>);
+0134                 <span class="comment">% pcg sometimes issues a warning: see help above.</span>
+0135                 Afun = @(x) <a href="#_sub2" class="code" title="subfunction y = pcgforAtilde(A, lamA, Pvect, alpha1, x)">pcgforAtilde</a>(A, lam1, Pvect, alpha1, x);
+0136                 [x2, ~] = pcg(Afun, -a, 1e-8, 500);
+0137                 <span class="keyword">if</span> <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>((A+lam1)*x2 + a) &lt; tolhardcase*<a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>(a)
+0138                     <span class="keyword">break</span>;
+0139                 <span class="keyword">end</span>
+0140             <span class="keyword">end</span>
+0141         <span class="keyword">end</span>
+0142 
+0143         aa = x1'*x1;
+0144         bb = 2*(x2'*x1);
+0145         cc = x2'*x2 - Del^2;
+0146         <span class="comment">% Move to the boundary: set alp such that norm(x2+alp*x1) = Delta.</span>
+0147         <span class="comment">% alp = (-bb + sqrt(bb^2 - 4*aa*cc))/(2*aa);</span>
+0148         alp = max(real(roots([aa, bb, cc])));
+0149         x = x2 + alp*x1;
+0150     <span class="keyword">end</span>
+0151 
+0152     <span class="comment">% If we suspected that the Newton step might be the solution to the</span>
+0153     <span class="comment">% TRS, we compare it to the boundary solution we just computed and pick</span>
+0154     <span class="comment">% the best one.</span>
+0155     <span class="keyword">if</span> newton_step_may_be_solution
+0156         <span class="keyword">if</span> (p1'*A*p1)/2 + a'*p1 &lt; (x'*A*x)/2 + a'*x
+0157             x = p1;
+0158             limitedbyTR = false;
+0159         <span class="keyword">end</span>
+0160     <span class="keyword">end</span>
+0161 
+0162     <span class="comment">% If the input a was zero, then earlier in the code we replaced it with</span>
+0163     <span class="comment">% a tiny random vector. Two things may have happened afterwards:</span>
+0164     <span class="comment">% If A is positive definite, then the solution x is also a tiny vector.</span>
+0165     <span class="comment">% In all likelihood, it did not hit the TR: then we know to replace x</span>
+0166     <span class="comment">% with zero.</span>
+0167     <span class="comment">% Otherwise, at least one eigenvalue of A is &lt;= 0, and there exists a</span>
+0168     <span class="comment">% solution on the boundary of the trust-region: that is what should</span>
+0169     <span class="comment">% have been computed already, hence we do nothing.</span>
+0170     <span class="keyword">if</span> a_is_zero &amp;&amp; ~limitedbyTR
+0171         x = zeros(n, 1);
+0172     <span class="keyword">end</span>
+0173 
+0174 
+0175     <span class="comment">% This is for debugging purposes only: it is expensive to run.</span>
+0176     <span class="comment">% The code checks via a dual certificate that x is a global optimum,</span>
+0177     <span class="comment">% up to some numerical tolerances. It also checks limitedbyTR.</span>
+0178     <span class="keyword">if</span> nargout &gt;= 3
+0179         tol = 1e-13;
+0180         mineig = min(eig(A));
+0181         <span class="keyword">if</span> <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>(x) ~= 0
+0182             <span class="comment">% Estimate the dual variable for the norm constraint.</span>
+0183             mu = -(x'*(A*x + a))/(x'*x);
+0184             <span class="comment">% The vector x is optimal iff:</span>
+0185             <span class="comment">%   norm(x) &lt;= Del,</span>
+0186             <span class="comment">%   M = A + mu*I is psd and mu &gt;= 0,</span>
+0187             <span class="comment">%   M*x + b = 0, and</span>
+0188             <span class="comment">%   mu = 0 whenever we are not limited by TR.</span>
+0189             <span class="comment">% We also need that limitedbyTR =&gt; norm(x) == Del.</span>
+0190             reltol = @(c) c + tol*max(1, c); <span class="comment">% to check a &lt;~ c with c &gt;= 0.</span>
+0191             accurate = (<a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>(x) &lt;= reltol(Del) &amp;&amp; <span class="keyword">...</span>
+0192                         max(0, -mineig) &lt;= reltol(mu) &amp;&amp; <span class="keyword">...</span>
+0193                         all(abs(A*x+a + mu*x) &lt;= reltol(abs(mu*x))) &amp;&amp; <span class="keyword">...</span>
+0194                         ( limitedbyTR || mu &lt;= reltol(0)) &amp;&amp; <span class="keyword">...</span>
+0195                         (~limitedbyTR || Del &lt;= reltol(<a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>(x))));
+0196         <span class="keyword">else</span>
+0197             <span class="comment">% The zero vector x is optimal iff a = 0 and A is psd.</span>
+0198             <span class="comment">% Moreover, a solution x = 0 is clearly not limited by the TR.</span>
+0199             accurate = (<a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>(a) &lt;= tol &amp;&amp; mineig &gt;= -tol &amp;&amp; ~limitedbyTR);
+0200         <span class="keyword">end</span>
+0201     <span class="keyword">end</span>
+0202     
+0203 <span class="keyword">end</span>
+0204 
+0205 
+0206 
+0207 <a name="_sub1" href="#_subfunctions" class="code">function y = MM0timesx(A, g, Delta, x)</a>
+0208     <span class="comment">% MM0 = [-Id A;</span>
+0209     <span class="comment">%         A -g*g'/Delta^2];</span>
+0210     n = size(A, 1); 
+0211     x1 = x(1:n);
+0212     x2 = x(n+1:end);
+0213     y1 = -x1 + A*x2;
+0214     y2 = A*x1 - g*(g'*x2)/Delta^2;
+0215     y = [y1 ; y2];
+0216 <span class="keyword">end</span>
+0217 
+0218 <a name="_sub2" href="#_subfunctions" class="code">function y = pcgforAtilde(A, lamA, Pvect, alpha1, x)</a>
+0219     m = size(Pvect, 2);
+0220     y = A*x + lamA*x;
+0221     <span class="keyword">for</span> ii = 1:m
+0222         y = y + (alpha1*(x'*(Pvect(:, ii))))*(Pvect(:, ii));
+0223     <span class="keyword">end</span>
+0224 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Fri 30-Sep-2022 13:18:25 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

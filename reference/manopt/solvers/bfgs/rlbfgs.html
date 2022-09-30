@@ -140,6 +140,10 @@
        If memory usage is an issue, you may try to lower this number.
        Profiling may then help to investigate if a performance hit was
        incurred as a result.
+   ls_initial_scale (@(gradnorm) 1/gradnorm)
+       A function handle that takes as input a real number (a gradient norm)
+       and outputs a real number for how to scale the initialization of
+       line-search.
 
 
  Please cite the Manopt paper as well as the research paper:
@@ -167,7 +171,7 @@ This function calls:
 <li><a href="../../../manopt/core/StoreDB.html" class="code" title="">StoreDB</a>	</li><li><a href="../../../manopt/core/applyStatsfun.html" class="code" title="function stats = applyStatsfun(problem, x, storedb, key, options, stats)">applyStatsfun</a>	Apply the statsfun function to a stats structure (for solvers).</li><li><a href="../../../manopt/core/canGetApproxGradient.html" class="code" title="function candoit = canGetApproxGradient(problem)">canGetApproxGradient</a>	Checks whether an approximate gradient can be computed for this problem.</li><li><a href="../../../manopt/core/canGetCost.html" class="code" title="function candoit = canGetCost(problem)">canGetCost</a>	Checks whether the cost function can be computed for a problem structure.</li><li><a href="../../../manopt/core/canGetGradient.html" class="code" title="function candoit = canGetGradient(problem)">canGetGradient</a>	Checks whether the gradient can be computed for a problem structure.</li><li><a href="../../../manopt/core/canGetLinesearch.html" class="code" title="function candoit = canGetLinesearch(problem)">canGetLinesearch</a>	Checks whether the problem structure can give a line-search a hint.</li><li><a href="../../../manopt/core/getCostGrad.html" class="code" title="function [cost, grad] = getCostGrad(problem, x, storedb, key)">getCostGrad</a>	Computes the cost function and the gradient at x in one call if possible.</li><li><a href="../../../manopt/core/getGlobalDefaults.html" class="code" title="function opts = getGlobalDefaults()">getGlobalDefaults</a>	Returns a structure with default option values for Manopt.</li><li><a href="../../../manopt/core/mergeOptions.html" class="code" title="function opts = mergeOptions(opts_sub, opts_master)">mergeOptions</a>	Merges two options structures with one having precedence over the other.</li><li><a href="../../../manopt/core/stoppingcriterion.html" class="code" title="function [stop, reason] = stoppingcriterion(problem, x, options, info, last)">stoppingcriterion</a>	Checks for standard stopping criteria, as a helper to solvers.</li><li><a href="../../../manopt/solvers/gradientapproximations/approxgradientFD.html" class="code" title="function gradfun = approxgradientFD(problem, options)">approxgradientFD</a>	Gradient approx. fnctn handle based on finite differences of the cost.</li><li><a href="../../../manopt/solvers/linesearch/linesearch_hint.html" class="code" title="function [stepsize, newx, newkey, lsstats] =linesearch_hint(problem, x, d, f0, df0, options, storedb, key)">linesearch_hint</a>	Armijo line-search based on the line-search hint in the problem structure.</li></ul>
 This function is called by:
 <ul style="list-style-image:url(../../../matlabicon.gif)">
-<li><a href="../../../examples/positive_definite_karcher_mean.html" class="code" title="function X = positive_definite_karcher_mean(A)">positive_definite_karcher_mean</a>	Computes a Karcher mean of a collection of positive definite matrices.</li><li><a href="../../../examples/thomson_problem.html" class="code" title="function X = thomson_problem(n, d)">thomson_problem</a>	Simple attempt at computing n well distributed points on a sphere in R^d.</li><li><a href="../../../examples/using_counters.html" class="code" title="function using_counters()">using_counters</a>	Manopt example on how to use counters during optimization. Typical uses,</li></ul>
+<li><a href="../../../examples/positive_definite_intrinsic_mean.html" class="code" title="function X = positive_definite_intrinsic_mean(A)">positive_definite_intrinsic_mean</a>	Computes an intrinsic mean of a collection of positive definite matrices.</li><li><a href="../../../examples/thomson_problem.html" class="code" title="function X = thomson_problem(n, d)">thomson_problem</a>	Simple attempt at computing n well distributed points on a sphere in R^d.</li><li><a href="../../../examples/using_counters.html" class="code" title="function using_counters()">using_counters</a>	Manopt example on how to use counters during optimization. Typical uses,</li></ul>
 <!-- crossreference -->
 
 <h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
@@ -289,424 +293,432 @@ This function is called by:
 0112 <span class="comment">%       If memory usage is an issue, you may try to lower this number.</span>
 0113 <span class="comment">%       Profiling may then help to investigate if a performance hit was</span>
 0114 <span class="comment">%       incurred as a result.</span>
-0115 <span class="comment">%</span>
-0116 <span class="comment">%</span>
-0117 <span class="comment">% Please cite the Manopt paper as well as the research paper:</span>
-0118 <span class="comment">% @InBook{Huang2016,</span>
-0119 <span class="comment">%   title     = {A {R}iemannian {BFGS} Method for Nonconvex Optimization Problems},</span>
-0120 <span class="comment">%   author    = {Huang, W. and Absil, P.-A. and Gallivan, K.A.},</span>
-0121 <span class="comment">%   year      = {2016},</span>
-0122 <span class="comment">%   publisher = {Springer International Publishing},</span>
-0123 <span class="comment">%   editor    = {Karas{\&quot;o}zen, B{\&quot;u}lent and Manguo{\u{g}}lu, Murat and Tezer-Sezgin, M{\&quot;u}nevver and G{\&quot;o}ktepe, Serdar and U{\u{g}}ur, {\&quot;O}m{\&quot;u}r},</span>
-0124 <span class="comment">%   address   = {Cham},</span>
-0125 <span class="comment">%   booktitle = {Numerical Mathematics and Advanced Applications ENUMATH 2015},</span>
-0126 <span class="comment">%   pages     = {627--634},</span>
-0127 <span class="comment">%   doi       = {10.1007/978-3-319-39929-4_60}</span>
-0128 <span class="comment">% }</span>
-0129 <span class="comment">%</span>
-0130 <span class="comment">% We point out that, at the moment, this implementation of RLBFGS can be</span>
-0131 <span class="comment">% slower than the implementation in ROPTLIB by Wen Huang et al. referenced</span>
-0132 <span class="comment">% above. For the purpose of comparing to their work, please use their</span>
-0133 <span class="comment">% implementation.</span>
-0134 <span class="comment">%</span>
-0135 
-0136 
-0137 <span class="comment">% This file is part of Manopt: www.manopt.org.</span>
-0138 <span class="comment">% Original author: Changshuo Liu, July 19, 2017.</span>
-0139 <span class="comment">% Contributors: Nicolas Boumal</span>
-0140 <span class="comment">% Change log:</span>
-0141 <span class="comment">%</span>
-0142 <span class="comment">%   Nov. 27, 2017 (Wen Huang):</span>
-0143 <span class="comment">%       Changed the default strict_inc_func to @(t) 1e-4*t from @(t) t.</span>
+0115 <span class="comment">%   ls_initial_scale (@(gradnorm) 1/gradnorm)</span>
+0116 <span class="comment">%       A function handle that takes as input a real number (a gradient norm)</span>
+0117 <span class="comment">%       and outputs a real number for how to scale the initialization of</span>
+0118 <span class="comment">%       line-search.</span>
+0119 <span class="comment">%</span>
+0120 <span class="comment">%</span>
+0121 <span class="comment">% Please cite the Manopt paper as well as the research paper:</span>
+0122 <span class="comment">% @InBook{Huang2016,</span>
+0123 <span class="comment">%   title     = {A {R}iemannian {BFGS} Method for Nonconvex Optimization Problems},</span>
+0124 <span class="comment">%   author    = {Huang, W. and Absil, P.-A. and Gallivan, K.A.},</span>
+0125 <span class="comment">%   year      = {2016},</span>
+0126 <span class="comment">%   publisher = {Springer International Publishing},</span>
+0127 <span class="comment">%   editor    = {Karas{\&quot;o}zen, B{\&quot;u}lent and Manguo{\u{g}}lu, Murat and Tezer-Sezgin, M{\&quot;u}nevver and G{\&quot;o}ktepe, Serdar and U{\u{g}}ur, {\&quot;O}m{\&quot;u}r},</span>
+0128 <span class="comment">%   address   = {Cham},</span>
+0129 <span class="comment">%   booktitle = {Numerical Mathematics and Advanced Applications ENUMATH 2015},</span>
+0130 <span class="comment">%   pages     = {627--634},</span>
+0131 <span class="comment">%   doi       = {10.1007/978-3-319-39929-4_60}</span>
+0132 <span class="comment">% }</span>
+0133 <span class="comment">%</span>
+0134 <span class="comment">% We point out that, at the moment, this implementation of RLBFGS can be</span>
+0135 <span class="comment">% slower than the implementation in ROPTLIB by Wen Huang et al. referenced</span>
+0136 <span class="comment">% above. For the purpose of comparing to their work, please use their</span>
+0137 <span class="comment">% implementation.</span>
+0138 
+0139 
+0140 <span class="comment">% This file is part of Manopt: www.manopt.org.</span>
+0141 <span class="comment">% Original author: Changshuo Liu, July 19, 2017.</span>
+0142 <span class="comment">% Contributors: Nicolas Boumal</span>
+0143 <span class="comment">% Change log:</span>
 0144 <span class="comment">%</span>
-0145 <span class="comment">%   Jan. 18, 2018 (NB):</span>
-0146 <span class="comment">%       Corrected a bug related to the way the line search hint was defined</span>
-0147 <span class="comment">%       by default.</span>
-0148 <span class="comment">%</span>
-0149 <span class="comment">%   Aug. 2, 2018 (NB):</span>
-0150 <span class="comment">%       Using the new storedb.remove features to keep storedb lean, and</span>
-0151 <span class="comment">%       reduced the default value of storedepth from 30 to 2 as a result.</span>
-0152 
-0153 
-0154     <span class="comment">% Verify that the problem description is sufficient for the solver.</span>
-0155     <span class="keyword">if</span> ~<a href="../../../manopt/core/canGetCost.html" class="code" title="function candoit = canGetCost(problem)">canGetCost</a>(problem)
-0156         warning(<span class="string">'manopt:getCost'</span>, <span class="keyword">...</span>
-0157                 <span class="string">'No cost provided. The algorithm will likely abort.'</span>);
-0158     <span class="keyword">end</span>
-0159     <span class="keyword">if</span> ~<a href="../../../manopt/core/canGetGradient.html" class="code" title="function candoit = canGetGradient(problem)">canGetGradient</a>(problem) &amp;&amp; ~<a href="../../../manopt/core/canGetApproxGradient.html" class="code" title="function candoit = canGetApproxGradient(problem)">canGetApproxGradient</a>(problem)
-0160         <span class="comment">% Note: we do not give a warning if an approximate gradient is</span>
-0161         <span class="comment">% explicitly given in the problem description, as in that case the user</span>
-0162         <span class="comment">% seems to be aware of the issue.</span>
-0163         warning(<span class="string">'manopt:getGradient:approx'</span>, <span class="keyword">...</span>
-0164            [<span class="string">'No gradient provided. Using an FD approximation instead (slow).\n'</span> <span class="keyword">...</span>
-0165             <span class="string">'It may be necessary to increase options.tolgradnorm.\n'</span> <span class="keyword">...</span>
-0166             <span class="string">'To disable this warning: warning(''off'', ''manopt:getGradient:approx'')'</span>]);
-0167         problem.approxgrad = <a href="../../../manopt/solvers/gradientapproximations/approxgradientFD.html" class="code" title="function gradfun = approxgradientFD(problem, options)">approxgradientFD</a>(problem);
-0168     <span class="keyword">end</span>
-0169     
-0170     <span class="comment">% This solver uses linesearch_hint as a line search algorithm. By</span>
-0171     <span class="comment">% default, try a step size of 1, so that if the BFGS approximation of</span>
-0172     <span class="comment">% the Hessian (or inverse Hessian) is good, then the iteration is close</span>
-0173     <span class="comment">% to a Newton step.</span>
-0174     <span class="keyword">if</span> ~<a href="../../../manopt/core/canGetLinesearch.html" class="code" title="function candoit = canGetLinesearch(problem)">canGetLinesearch</a>(problem)
-0175         problem.linesearch = @(x, d) 1;
-0176     <span class="keyword">end</span>
-0177     
-0178     <span class="comment">% Local defaults for the program</span>
-0179     localdefaults.minstepsize = 1e-10;
-0180     localdefaults.maxiter = 1000;
-0181     localdefaults.tolgradnorm = 1e-6;
-0182     localdefaults.memory = 30;
-0183     localdefaults.strict_inc_func = @(t) 1e-4*t;
-0184     localdefaults.ls_max_steps = 25;
-0185     localdefaults.storedepth = 2;
-0186     
-0187     <span class="comment">% Merge global and local defaults, then merge w/ user options, if any.</span>
-0188     localdefaults = <a href="../../../manopt/core/mergeOptions.html" class="code" title="function opts = mergeOptions(opts_sub, opts_master)">mergeOptions</a>(<a href="../../../manopt/core/getGlobalDefaults.html" class="code" title="function opts = getGlobalDefaults()">getGlobalDefaults</a>(), localdefaults);
-0189     <span class="keyword">if</span> ~exist(<span class="string">'options'</span>, <span class="string">'var'</span>) || isempty(options)
-0190         options = struct();
-0191     <span class="keyword">end</span>
-0192     options = <a href="../../../manopt/core/mergeOptions.html" class="code" title="function opts = mergeOptions(opts_sub, opts_master)">mergeOptions</a>(localdefaults, options);
-0193     
-0194     <span class="comment">% To make sure memory in range [0, Inf)</span>
-0195     options.memory = max(options.memory, 0);
-0196     <span class="keyword">if</span> options.memory == Inf
-0197         <span class="keyword">if</span> isinf(options.maxiter)
-0198             options.memory = 10000;
-0199             warning(<span class="string">'rlbfgs:memory'</span>, [<span class="string">'options.memory and options.maxiter'</span> <span class="keyword">...</span>
-0200               <span class="string">' are both Inf; options.memory has been changed to 10000.'</span>]);
-0201         <span class="keyword">else</span>
-0202             options.memory = options.maxiter;
-0203         <span class="keyword">end</span>
-0204     <span class="keyword">end</span>
-0205     
-0206     M = problem.M;
-0207     
-0208     
-0209     timetic = tic();
-0210     
-0211     
-0212     <span class="comment">% Create a random starting point if no starting point is provided.</span>
-0213     <span class="keyword">if</span> ~exist(<span class="string">'x0'</span>, <span class="string">'var'</span>)|| isempty(x0)
-0214         xCur = M.rand();
-0215     <span class="keyword">else</span>
-0216         xCur = x0;
-0217     <span class="keyword">end</span>
+0145 <span class="comment">%   Nov. 27, 2017 (Wen Huang):</span>
+0146 <span class="comment">%       Changed the default strict_inc_func to @(t) 1e-4*t from @(t) t.</span>
+0147 <span class="comment">%</span>
+0148 <span class="comment">%   Jan. 18, 2018 (NB):</span>
+0149 <span class="comment">%       Corrected a bug related to the way the line search hint was defined</span>
+0150 <span class="comment">%       by default.</span>
+0151 <span class="comment">%</span>
+0152 <span class="comment">%   Aug. 2, 2018 (NB):</span>
+0153 <span class="comment">%       Using the new storedb.remove features to keep storedb lean, and</span>
+0154 <span class="comment">%       reduced the default value of storedepth from 30 to 2 as a result.</span>
+0155 <span class="comment">%</span>
+0156 <span class="comment">%   Aug. 2, 2022 (sfrcorne):</span>
+0157 <span class="comment">%       Added option ls_initial_scale, with default setting to ensure</span>
+0158 <span class="comment">%       the method is invariant to positive scaling of the cost function.</span>
+0159 
+0160 
+0161     <span class="comment">% Verify that the problem description is sufficient for the solver.</span>
+0162     <span class="keyword">if</span> ~<a href="../../../manopt/core/canGetCost.html" class="code" title="function candoit = canGetCost(problem)">canGetCost</a>(problem)
+0163         warning(<span class="string">'manopt:getCost'</span>, <span class="keyword">...</span>
+0164                 <span class="string">'No cost provided. The algorithm will likely abort.'</span>);
+0165     <span class="keyword">end</span>
+0166     <span class="keyword">if</span> ~<a href="../../../manopt/core/canGetGradient.html" class="code" title="function candoit = canGetGradient(problem)">canGetGradient</a>(problem) &amp;&amp; ~<a href="../../../manopt/core/canGetApproxGradient.html" class="code" title="function candoit = canGetApproxGradient(problem)">canGetApproxGradient</a>(problem)
+0167         <span class="comment">% Note: we do not give a warning if an approximate gradient is</span>
+0168         <span class="comment">% explicitly given in the problem description, as in that case the user</span>
+0169         <span class="comment">% seems to be aware of the issue.</span>
+0170         warning(<span class="string">'manopt:getGradient:approx'</span>, <span class="keyword">...</span>
+0171            [<span class="string">'No gradient provided. Using an FD approximation instead (slow).\n'</span> <span class="keyword">...</span>
+0172             <span class="string">'It may be necessary to increase options.tolgradnorm.\n'</span> <span class="keyword">...</span>
+0173             <span class="string">'To disable this warning: warning(''off'', ''manopt:getGradient:approx'')'</span>]);
+0174         problem.approxgrad = <a href="../../../manopt/solvers/gradientapproximations/approxgradientFD.html" class="code" title="function gradfun = approxgradientFD(problem, options)">approxgradientFD</a>(problem);
+0175     <span class="keyword">end</span>
+0176     
+0177     <span class="comment">% This solver uses linesearch_hint as a line search algorithm. By</span>
+0178     <span class="comment">% default, try a step size of 1, so that if the BFGS approximation of</span>
+0179     <span class="comment">% the Hessian (or inverse Hessian) is good, then the iteration is close</span>
+0180     <span class="comment">% to a Newton step.</span>
+0181     <span class="keyword">if</span> ~<a href="../../../manopt/core/canGetLinesearch.html" class="code" title="function candoit = canGetLinesearch(problem)">canGetLinesearch</a>(problem)
+0182         problem.linesearch = @(x, d) 1;
+0183     <span class="keyword">end</span>
+0184     
+0185     <span class="comment">% Local defaults for the program</span>
+0186     localdefaults.minstepsize = 1e-10;
+0187     localdefaults.maxiter = 1000;
+0188     localdefaults.tolgradnorm = 1e-6;
+0189     localdefaults.memory = 30;
+0190     localdefaults.strict_inc_func = @(t) 1e-4*t;
+0191     localdefaults.ls_max_steps = 25;
+0192     localdefaults.ls_initial_scale = @(gradnorm) 1/gradnorm;
+0193     localdefaults.storedepth = 2;
+0194     
+0195     <span class="comment">% Merge global and local defaults, then merge w/ user options, if any.</span>
+0196     localdefaults = <a href="../../../manopt/core/mergeOptions.html" class="code" title="function opts = mergeOptions(opts_sub, opts_master)">mergeOptions</a>(<a href="../../../manopt/core/getGlobalDefaults.html" class="code" title="function opts = getGlobalDefaults()">getGlobalDefaults</a>(), localdefaults);
+0197     <span class="keyword">if</span> ~exist(<span class="string">'options'</span>, <span class="string">'var'</span>) || isempty(options)
+0198         options = struct();
+0199     <span class="keyword">end</span>
+0200     options = <a href="../../../manopt/core/mergeOptions.html" class="code" title="function opts = mergeOptions(opts_sub, opts_master)">mergeOptions</a>(localdefaults, options);
+0201     
+0202     <span class="comment">% To make sure memory in range [0, Inf)</span>
+0203     options.memory = max(options.memory, 0);
+0204     <span class="keyword">if</span> options.memory == Inf
+0205         <span class="keyword">if</span> isinf(options.maxiter)
+0206             options.memory = 10000;
+0207             warning(<span class="string">'rlbfgs:memory'</span>, [<span class="string">'options.memory and options.maxiter'</span> <span class="keyword">...</span>
+0208               <span class="string">' are both Inf; options.memory has been changed to 10000.'</span>]);
+0209         <span class="keyword">else</span>
+0210             options.memory = options.maxiter;
+0211         <span class="keyword">end</span>
+0212     <span class="keyword">end</span>
+0213     
+0214     M = problem.M;
+0215     
+0216     
+0217     timetic = tic();
 0218     
-0219     <span class="comment">% Create a store database and get a key for the current x</span>
-0220     storedb = <a href="../../../manopt/core/StoreDB.html" class="code" title="">StoreDB</a>(options.storedepth);
-0221     key = storedb.getNewKey();
-0222     
-0223     <span class="comment">% __________Initialization of variables______________</span>
-0224     <span class="comment">% Number of iterations since the last restart</span>
-0225     k = 0;  
-0226     <span class="comment">% Total number of BFGS iterations</span>
-0227     iter = 0; 
-0228     
-0229     <span class="comment">% This cell stores step vectors which point from x_{t} to x_{t+1} for t</span>
-0230     <span class="comment">% indexing the last iterations, capped at options.memory.</span>
-0231     <span class="comment">% That is, it stores up to options.memory of the most recent step</span>
-0232     <span class="comment">% vectors. However, the implementation below does not need step vectors</span>
-0233     <span class="comment">% in their respective tangent spaces at x_{t}'s. Rather, it requires</span>
-0234     <span class="comment">% them transported to the current point's tangent space by vector</span>
-0235     <span class="comment">% transport. For details regarding the requirements on the the vector</span>
-0236     <span class="comment">% transport, see the reference paper by Huang et al.</span>
-0237     <span class="comment">% In this implementation, those step vectors are iteratively</span>
-0238     <span class="comment">% transported to the current point's tangent space after every</span>
-0239     <span class="comment">% iteration. Thus, at every iteration, vectors in sHistory are in the</span>
-0240     <span class="comment">% current point's tangent space.</span>
-0241     sHistory = cell(1, options.memory);
-0242     
-0243     <span class="comment">% This cell stores the differences for latest t's of the gradient at</span>
-0244     <span class="comment">% x_{t+1} and the gradient at x_{t}, transported to x_{t+1}'s tangent</span>
-0245     <span class="comment">% space. The memory is also capped at options.memory.</span>
-0246     yHistory = cell(1, options.memory);
-0247     
-0248     <span class="comment">% rhoHistory{t} stores the reciprocal of the inner product between</span>
-0249     <span class="comment">% sHistory{t} and yHistory{t}.</span>
-0250     rhoHistory = cell(1, options.memory);
-0251     
-0252     <span class="comment">% Scaling of direction given by getDirection for acceptable step</span>
-0253     alpha = 1; 
-0254     
-0255     <span class="comment">% Scaling of initial matrix, Barzilai-Borwein.</span>
-0256     scaleFactor = 1;
-0257     
-0258     <span class="comment">% Norm of the step</span>
-0259     stepsize = 1;
-0260     
-0261     <span class="comment">% Stores whether the step is accepted by the cautious update check.</span>
-0262     accepted = true;
-0263     
-0264     <span class="comment">% Query the cost function and its gradient</span>
-0265     [xCurCost, xCurGradient] = <a href="../../../manopt/core/getCostGrad.html" class="code" title="function [cost, grad] = getCostGrad(problem, x, storedb, key)">getCostGrad</a>(problem, xCur, storedb, key);
-0266     
-0267     xCurGradNorm = M.norm(xCur, xCurGradient);
+0219     
+0220     <span class="comment">% Create a random starting point if no starting point is provided.</span>
+0221     <span class="keyword">if</span> ~exist(<span class="string">'x0'</span>, <span class="string">'var'</span>)|| isempty(x0)
+0222         xCur = M.rand();
+0223     <span class="keyword">else</span>
+0224         xCur = x0;
+0225     <span class="keyword">end</span>
+0226     
+0227     <span class="comment">% Create a store database and get a key for the current x</span>
+0228     storedb = <a href="../../../manopt/core/StoreDB.html" class="code" title="">StoreDB</a>(options.storedepth);
+0229     key = storedb.getNewKey();
+0230     
+0231     <span class="comment">% __________Initialization of variables______________</span>
+0232     <span class="comment">% Number of iterations since the last restart</span>
+0233     k = 0;  
+0234     <span class="comment">% Total number of BFGS iterations</span>
+0235     iter = 0; 
+0236     
+0237     <span class="comment">% This cell stores step vectors which point from x_{t} to x_{t+1} for t</span>
+0238     <span class="comment">% indexing the last iterations, capped at options.memory.</span>
+0239     <span class="comment">% That is, it stores up to options.memory of the most recent step</span>
+0240     <span class="comment">% vectors. However, the implementation below does not need step vectors</span>
+0241     <span class="comment">% in their respective tangent spaces at x_{t}'s. Rather, it requires</span>
+0242     <span class="comment">% them transported to the current point's tangent space by vector</span>
+0243     <span class="comment">% transport. For details regarding the requirements on the the vector</span>
+0244     <span class="comment">% transport, see the reference paper by Huang et al.</span>
+0245     <span class="comment">% In this implementation, those step vectors are iteratively</span>
+0246     <span class="comment">% transported to the current point's tangent space after every</span>
+0247     <span class="comment">% iteration. Thus, at every iteration, vectors in sHistory are in the</span>
+0248     <span class="comment">% current point's tangent space.</span>
+0249     sHistory = cell(1, options.memory);
+0250     
+0251     <span class="comment">% This cell stores the differences for latest t's of the gradient at</span>
+0252     <span class="comment">% x_{t+1} and the gradient at x_{t}, transported to x_{t+1}'s tangent</span>
+0253     <span class="comment">% space. The memory is also capped at options.memory.</span>
+0254     yHistory = cell(1, options.memory);
+0255     
+0256     <span class="comment">% rhoHistory{t} stores the reciprocal of the inner product between</span>
+0257     <span class="comment">% sHistory{t} and yHistory{t}.</span>
+0258     rhoHistory = cell(1, options.memory);
+0259     
+0260     <span class="comment">% Scaling of direction given by getDirection for acceptable step</span>
+0261     alpha = 1; 
+0262     
+0263     <span class="comment">% Norm of the step</span>
+0264     stepsize = 1;
+0265     
+0266     <span class="comment">% Stores whether the step is accepted by the cautious update check.</span>
+0267     accepted = true;
 0268     
-0269     <span class="comment">% Line-search statistics for recording in info.</span>
-0270     lsstats = [];
+0269     <span class="comment">% Query the cost function and its gradient</span>
+0270     [xCurCost, xCurGradient] = <a href="../../../manopt/core/getCostGrad.html" class="code" title="function [cost, grad] = getCostGrad(problem, x, storedb, key)">getCostGrad</a>(problem, xCur, storedb, key);
 0271     
-0272     <span class="comment">% Flag to control restarting scheme to avoid infinite loops (see below)</span>
-0273     ultimatum = false;
-0274     
-0275     <span class="comment">% Save stats in a struct array info, and preallocate.</span>
-0276     stats = <a href="#_sub1" class="code" title="subfunction stats = savestats()">savestats</a>();
-0277     info(1) = stats;
-0278     info(min(10000, options.maxiter+1)).iter = [];
+0272     xCurGradNorm = M.norm(xCur, xCurGradient);
+0273     
+0274     <span class="comment">% Scaling of initial matrix, Barzilai-Borwein.</span>
+0275     scaleFactor = options.ls_initial_scale(xCurGradNorm);
+0276     
+0277     <span class="comment">% Line-search statistics for recording in info.</span>
+0278     lsstats = [];
 0279     
-0280     <span class="keyword">if</span> options.verbosity &gt;= 2
-0281         fprintf(<span class="string">' iter                   cost val            grad. norm           alpha\n'</span>);
-0282     <span class="keyword">end</span>
-0283     
-0284     <span class="comment">% Main iteration</span>
-0285     <span class="keyword">while</span> true
-0286 
-0287         <span class="comment">% Display iteration information</span>
-0288         <span class="keyword">if</span> options.verbosity &gt;= 2
-0289         fprintf(<span class="string">'%5d    %+.16e        %.8e      %.4e\n'</span>, <span class="keyword">...</span>
-0290                 iter, xCurCost, xCurGradNorm, alpha);
-0291         <span class="keyword">end</span>
-0292         
-0293         <span class="comment">% Start timing this iteration</span>
-0294         timetic = tic();
-0295         
-0296         <span class="comment">% Run standard stopping criterion checks</span>
-0297         [stop, reason] = <a href="../../../manopt/core/stoppingcriterion.html" class="code" title="function [stop, reason] = stoppingcriterion(problem, x, options, info, last)">stoppingcriterion</a>(problem, xCur, options, <span class="keyword">...</span>
-0298                                            info, iter+1);
-0299         
-0300         <span class="comment">% If none triggered, run specific stopping criterion check</span>
-0301         <span class="keyword">if</span> ~stop 
-0302             <span class="keyword">if</span> stats.stepsize &lt; options.minstepsize
-0303                 <span class="comment">% To avoid infinite loop and to push the search further</span>
-0304                 <span class="comment">% in case BFGS approximation of Hessian is off towards</span>
-0305                 <span class="comment">% the end, we erase the memory by setting k = 0;</span>
-0306                 <span class="comment">% In this way, it starts off like a steepest descent.</span>
-0307                 <span class="comment">% If even steepest descent does not work, then it is</span>
-0308                 <span class="comment">% hopeless and we will terminate.</span>
-0309                 <span class="keyword">if</span> ~ultimatum
-0310                     <span class="keyword">if</span> options.verbosity &gt;= 2
-0311                         fprintf([<span class="string">'stepsize is too small, restarting '</span> <span class="keyword">...</span>
-0312                             <span class="string">'the bfgs procedure at the current point.\n'</span>]);
-0313                     <span class="keyword">end</span>
-0314                     k = 0;
-0315                     ultimatum = true;
-0316                 <span class="keyword">else</span>
-0317                     stop = true;
-0318                     reason = sprintf([<span class="string">'Last stepsize smaller than '</span>  <span class="keyword">...</span>
-0319                         <span class="string">'minimum allowed; options.minstepsize = %g.'</span>], <span class="keyword">...</span>
-0320                         options.minstepsize);
-0321                 <span class="keyword">end</span>
-0322             <span class="keyword">else</span>
-0323                 <span class="comment">% We are not in trouble: lift the ultimatum if it was on.</span>
-0324                 ultimatum = false;
-0325             <span class="keyword">end</span>
-0326         <span class="keyword">end</span>  
-0327         
-0328         <span class="keyword">if</span> stop
-0329             <span class="keyword">if</span> options.verbosity &gt;= 1
-0330                 fprintf([reason <span class="string">'\n'</span>]);
-0331             <span class="keyword">end</span>
-0332             <span class="keyword">break</span>;
-0333         <span class="keyword">end</span>
-0334 
+0280     <span class="comment">% Flag to control restarting scheme to avoid infinite loops (see below)</span>
+0281     ultimatum = false;
+0282     
+0283     <span class="comment">% Save stats in a struct array info, and preallocate.</span>
+0284     stats = <a href="#_sub1" class="code" title="subfunction stats = savestats()">savestats</a>();
+0285     info(1) = stats;
+0286     info(min(10000, options.maxiter+1)).iter = [];
+0287     
+0288     <span class="keyword">if</span> options.verbosity &gt;= 2
+0289         fprintf(<span class="string">' iter                   cost val            grad. norm           alpha\n'</span>);
+0290     <span class="keyword">end</span>
+0291     
+0292     <span class="comment">% Main iteration</span>
+0293     <span class="keyword">while</span> true
+0294 
+0295         <span class="comment">% Display iteration information</span>
+0296         <span class="keyword">if</span> options.verbosity &gt;= 2
+0297         fprintf(<span class="string">'%5d    %+.16e        %.8e      %.4e\n'</span>, <span class="keyword">...</span>
+0298                 iter, xCurCost, xCurGradNorm, alpha);
+0299         <span class="keyword">end</span>
+0300         
+0301         <span class="comment">% Start timing this iteration</span>
+0302         timetic = tic();
+0303         
+0304         <span class="comment">% Run standard stopping criterion checks</span>
+0305         [stop, reason] = <a href="../../../manopt/core/stoppingcriterion.html" class="code" title="function [stop, reason] = stoppingcriterion(problem, x, options, info, last)">stoppingcriterion</a>(problem, xCur, options, <span class="keyword">...</span>
+0306                                            info, iter+1);
+0307         
+0308         <span class="comment">% If none triggered, run specific stopping criterion check</span>
+0309         <span class="keyword">if</span> ~stop 
+0310             <span class="keyword">if</span> stats.stepsize &lt; options.minstepsize
+0311                 <span class="comment">% To avoid infinite loop and to push the search further</span>
+0312                 <span class="comment">% in case BFGS approximation of Hessian is off towards</span>
+0313                 <span class="comment">% the end, we erase the memory by setting k = 0;</span>
+0314                 <span class="comment">% In this way, it starts off like a steepest descent.</span>
+0315                 <span class="comment">% If even steepest descent does not work, then it is</span>
+0316                 <span class="comment">% hopeless and we will terminate.</span>
+0317                 <span class="keyword">if</span> ~ultimatum
+0318                     <span class="keyword">if</span> options.verbosity &gt;= 2
+0319                         fprintf([<span class="string">'stepsize is too small, restarting '</span> <span class="keyword">...</span>
+0320                             <span class="string">'the bfgs procedure at the current point.\n'</span>]);
+0321                     <span class="keyword">end</span>
+0322                     k = 0;
+0323                     ultimatum = true;
+0324                 <span class="keyword">else</span>
+0325                     stop = true;
+0326                     reason = sprintf([<span class="string">'Last stepsize smaller than '</span>  <span class="keyword">...</span>
+0327                         <span class="string">'minimum allowed; options.minstepsize = %g.'</span>], <span class="keyword">...</span>
+0328                         options.minstepsize);
+0329                 <span class="keyword">end</span>
+0330             <span class="keyword">else</span>
+0331                 <span class="comment">% We are not in trouble: lift the ultimatum if it was on.</span>
+0332                 ultimatum = false;
+0333             <span class="keyword">end</span>
+0334         <span class="keyword">end</span>  
 0335         
-0336         <span class="comment">% Compute BFGS direction</span>
-0337         p = <a href="#_sub2" class="code" title="subfunction dir = getDirection(M, xCur, xCurGradient, sHistory, yHistory, ">getDirection</a>(M, xCur, xCurGradient, sHistory,<span class="keyword">...</span>
-0338                 yHistory, rhoHistory, scaleFactor, min(k, options.memory));
-0339 
-0340         <span class="comment">% Execute line-search</span>
-0341         [stepsize, xNext, newkey, lsstats] = <span class="keyword">...</span>
-0342             <a href="../../../manopt/solvers/linesearch/linesearch_hint.html" class="code" title="function [stepsize, newx, newkey, lsstats] =linesearch_hint(problem, x, d, f0, df0, options, storedb, key)">linesearch_hint</a>(problem, xCur, p, xCurCost, <span class="keyword">...</span>
-0343                             M.inner(xCur, xCurGradient, p), <span class="keyword">...</span>
-0344                             options, storedb, key);
-0345         
-0346         <span class="comment">% Record the BFGS step-multiplier alpha which was effectively</span>
-0347         <span class="comment">% selected. Toward convergence, we hope to see alpha = 1.</span>
-0348         alpha = stepsize/M.norm(xCur, p);
-0349         step = M.lincomb(xCur, alpha, p);
-0350         
-0351         
-0352         <span class="comment">% Query cost and gradient at the candidate new point.</span>
-0353         [xNextCost, xNextGrad] = <a href="../../../manopt/core/getCostGrad.html" class="code" title="function [cost, grad] = getCostGrad(problem, x, storedb, key)">getCostGrad</a>(problem, xNext, storedb, newkey);
-0354         
-0355         <span class="comment">% Compute sk and yk</span>
-0356         sk = M.transp(xCur, xNext, step);
-0357         yk = M.lincomb(xNext, 1, xNextGrad, <span class="keyword">...</span>
-0358                              -1, M.transp(xCur, xNext, xCurGradient));
-0359 
-0360         <span class="comment">% Computation of the BFGS step is invariant under scaling of sk and</span>
-0361         <span class="comment">% yk by a common factor. For numerical reasons, we scale sk and yk</span>
-0362         <span class="comment">% so that sk is a unit norm vector.</span>
-0363         norm_sk = M.norm(xNext, sk);
-0364         sk = M.lincomb(xNext, 1/norm_sk, sk);
-0365         yk = M.lincomb(xNext, 1/norm_sk, yk);
-0366         
-0367         inner_sk_yk = M.inner(xNext, sk, yk);
-0368         inner_sk_sk = M.norm(xNext, sk)^2;    <span class="comment">% ensures nonnegativity</span>
-0369         
-0370         
-0371         <span class="comment">% If the cautious step is accepted (which is the intended</span>
-0372         <span class="comment">% behavior), we record sk, yk and rhok and need to do some</span>
-0373         <span class="comment">% housekeeping. If the cautious step is rejected, these are not</span>
-0374         <span class="comment">% recorded. In all cases, xNext is the next iterate: the notion of</span>
-0375         <span class="comment">% accept/reject here is limited to whether or not we keep track of</span>
-0376         <span class="comment">% sk, yk, rhok to update the BFGS operator.</span>
-0377         cap = options.strict_inc_func(xCurGradNorm);
-0378         <span class="keyword">if</span> inner_sk_sk ~= 0 &amp;&amp; (inner_sk_yk / inner_sk_sk) &gt;= cap
-0379             
-0380             accepted = true;
-0381             
-0382             rhok = 1/inner_sk_yk;
-0383             
-0384             scaleFactor = inner_sk_yk / M.norm(xNext, yk)^2;
-0385             
-0386             <span class="comment">% Time to store the vectors sk, yk and the scalar rhok.</span>
-0387             <span class="comment">% Remember: we need to transport all vectors to the most</span>
-0388             <span class="comment">% current tangent space.</span>
+0336         <span class="keyword">if</span> stop
+0337             <span class="keyword">if</span> options.verbosity &gt;= 1
+0338                 fprintf([reason <span class="string">'\n'</span>]);
+0339             <span class="keyword">end</span>
+0340             <span class="keyword">break</span>;
+0341         <span class="keyword">end</span>
+0342 
+0343         
+0344         <span class="comment">% Compute BFGS direction</span>
+0345         p = <a href="#_sub2" class="code" title="subfunction dir = getDirection(M, xCur, xCurGradient, sHistory, yHistory, ">getDirection</a>(M, xCur, xCurGradient, sHistory,<span class="keyword">...</span>
+0346                 yHistory, rhoHistory, scaleFactor, min(k, options.memory));
+0347 
+0348         <span class="comment">% Execute line-search</span>
+0349         [stepsize, xNext, newkey, lsstats] = <span class="keyword">...</span>
+0350             <a href="../../../manopt/solvers/linesearch/linesearch_hint.html" class="code" title="function [stepsize, newx, newkey, lsstats] =linesearch_hint(problem, x, d, f0, df0, options, storedb, key)">linesearch_hint</a>(problem, xCur, p, xCurCost, <span class="keyword">...</span>
+0351                             M.inner(xCur, xCurGradient, p), <span class="keyword">...</span>
+0352                             options, storedb, key);
+0353         
+0354         <span class="comment">% Record the BFGS step-multiplier alpha which was effectively</span>
+0355         <span class="comment">% selected. Toward convergence, we hope to see alpha = 1.</span>
+0356         alpha = stepsize/M.norm(xCur, p);
+0357         step = M.lincomb(xCur, alpha, p);
+0358         
+0359         
+0360         <span class="comment">% Query cost and gradient at the candidate new point.</span>
+0361         [xNextCost, xNextGrad] = <a href="../../../manopt/core/getCostGrad.html" class="code" title="function [cost, grad] = getCostGrad(problem, x, storedb, key)">getCostGrad</a>(problem, xNext, storedb, newkey);
+0362         
+0363         <span class="comment">% Compute sk and yk</span>
+0364         sk = M.transp(xCur, xNext, step);
+0365         yk = M.lincomb(xNext, 1, xNextGrad, <span class="keyword">...</span>
+0366                              -1, M.transp(xCur, xNext, xCurGradient));
+0367 
+0368         <span class="comment">% Computation of the BFGS step is invariant under scaling of sk and</span>
+0369         <span class="comment">% yk by a common factor. For numerical reasons, we scale sk and yk</span>
+0370         <span class="comment">% so that sk is a unit norm vector.</span>
+0371         norm_sk = M.norm(xNext, sk);
+0372         sk = M.lincomb(xNext, 1/norm_sk, sk);
+0373         yk = M.lincomb(xNext, 1/norm_sk, yk);
+0374         
+0375         inner_sk_yk = M.inner(xNext, sk, yk);
+0376         inner_sk_sk = M.norm(xNext, sk)^2;    <span class="comment">% ensures nonnegativity</span>
+0377         
+0378         
+0379         <span class="comment">% If the cautious step is accepted (which is the intended</span>
+0380         <span class="comment">% behavior), we record sk, yk and rhok and need to do some</span>
+0381         <span class="comment">% housekeeping. If the cautious step is rejected, these are not</span>
+0382         <span class="comment">% recorded. In all cases, xNext is the next iterate: the notion of</span>
+0383         <span class="comment">% accept/reject here is limited to whether or not we keep track of</span>
+0384         <span class="comment">% sk, yk, rhok to update the BFGS operator.</span>
+0385         cap = options.strict_inc_func(xCurGradNorm);
+0386         <span class="keyword">if</span> inner_sk_sk ~= 0 &amp;&amp; (inner_sk_yk / inner_sk_sk) &gt;= cap
+0387             
+0388             accepted = true;
 0389             
-0390             <span class="comment">% If we are out of memory</span>
-0391             <span class="keyword">if</span> k &gt;= options.memory
-0392                 
-0393                 <span class="comment">% sk and yk are saved from 1 to the end with the most</span>
-0394                 <span class="comment">% current recorded to the rightmost hand side of the cells</span>
-0395                 <span class="comment">% that are occupied. When memory is full, do a shift so</span>
-0396                 <span class="comment">% that the rightmost is earliest and replace it with the</span>
-0397                 <span class="comment">% most recent sk, yk.</span>
-0398                 <span class="keyword">for</span>  i = 2 : options.memory
-0399                     sHistory{i} = M.transp(xCur, xNext, sHistory{i});
-0400                     yHistory{i} = M.transp(xCur, xNext, yHistory{i});
-0401                 <span class="keyword">end</span>
-0402                 <span class="keyword">if</span> options.memory &gt; 1
-0403                     sHistory = sHistory([2:<span class="keyword">end</span>, 1]);
-0404                     yHistory = yHistory([2:<span class="keyword">end</span>, 1]);
-0405                     rhoHistory = rhoHistory([2:end 1]);
-0406                 <span class="keyword">end</span>
-0407                 <span class="keyword">if</span> options.memory &gt; 0
-0408                     sHistory{options.memory} = sk;
-0409                     yHistory{options.memory} = yk;
-0410                     rhoHistory{options.memory} = rhok;
-0411                 <span class="keyword">end</span>
-0412                 
-0413             <span class="comment">% If we are not out of memory</span>
-0414             <span class="keyword">else</span>
-0415                 
-0416                 <span class="keyword">for</span> i = 1:k
-0417                     sHistory{i} = M.transp(xCur, xNext, sHistory{i});
-0418                     yHistory{i} = M.transp(xCur, xNext, yHistory{i});
+0390             rhok = 1/inner_sk_yk;
+0391             
+0392             scaleFactor = inner_sk_yk / M.norm(xNext, yk)^2;
+0393             
+0394             <span class="comment">% Time to store the vectors sk, yk and the scalar rhok.</span>
+0395             <span class="comment">% Remember: we need to transport all vectors to the most</span>
+0396             <span class="comment">% current tangent space.</span>
+0397             
+0398             <span class="comment">% If we are out of memory</span>
+0399             <span class="keyword">if</span> k &gt;= options.memory
+0400                 
+0401                 <span class="comment">% sk and yk are saved from 1 to the end with the most</span>
+0402                 <span class="comment">% current recorded to the rightmost hand side of the cells</span>
+0403                 <span class="comment">% that are occupied. When memory is full, do a shift so</span>
+0404                 <span class="comment">% that the rightmost is earliest and replace it with the</span>
+0405                 <span class="comment">% most recent sk, yk.</span>
+0406                 <span class="keyword">for</span>  i = 2 : options.memory
+0407                     sHistory{i} = M.transp(xCur, xNext, sHistory{i});
+0408                     yHistory{i} = M.transp(xCur, xNext, yHistory{i});
+0409                 <span class="keyword">end</span>
+0410                 <span class="keyword">if</span> options.memory &gt; 1
+0411                     sHistory = sHistory([2:<span class="keyword">end</span>, 1]);
+0412                     yHistory = yHistory([2:<span class="keyword">end</span>, 1]);
+0413                     rhoHistory = rhoHistory([2:end 1]);
+0414                 <span class="keyword">end</span>
+0415                 <span class="keyword">if</span> options.memory &gt; 0
+0416                     sHistory{options.memory} = sk;
+0417                     yHistory{options.memory} = yk;
+0418                     rhoHistory{options.memory} = rhok;
 0419                 <span class="keyword">end</span>
-0420                 sHistory{k+1} = sk;
-0421                 yHistory{k+1} = yk;
-0422                 rhoHistory{k+1} = rhok;
+0420                 
+0421             <span class="comment">% If we are not out of memory</span>
+0422             <span class="keyword">else</span>
 0423                 
-0424             <span class="keyword">end</span>
-0425             
-0426             k = k + 1;
-0427             
-0428         <span class="comment">% The cautious step is rejected: we do not store sk, yk, rhok but</span>
-0429         <span class="comment">% we still need to transport stored vectors to the new tangent</span>
-0430         <span class="comment">% space.</span>
-0431         <span class="keyword">else</span>
-0432             
-0433             accepted = false;
-0434             
-0435             <span class="keyword">for</span>  i = 1 : min(k, options.memory)
-0436                 sHistory{i} = M.transp(xCur, xNext, sHistory{i});
-0437                 yHistory{i} = M.transp(xCur, xNext, yHistory{i});
-0438             <span class="keyword">end</span>
-0439             
-0440         <span class="keyword">end</span>
-0441         
-0442         <span class="comment">% Update variables to new iterate.</span>
-0443         storedb.removefirstifdifferent(key, newkey);
-0444         xCur = xNext;
-0445         key = newkey;
-0446         xCurGradient = xNextGrad;
-0447         xCurGradNorm = M.norm(xNext, xNextGrad);
-0448         xCurCost = xNextCost;
+0424                 <span class="keyword">for</span> i = 1:k
+0425                     sHistory{i} = M.transp(xCur, xNext, sHistory{i});
+0426                     yHistory{i} = M.transp(xCur, xNext, yHistory{i});
+0427                 <span class="keyword">end</span>
+0428                 sHistory{k+1} = sk;
+0429                 yHistory{k+1} = yk;
+0430                 rhoHistory{k+1} = rhok;
+0431                 
+0432             <span class="keyword">end</span>
+0433             
+0434             k = k + 1;
+0435             
+0436         <span class="comment">% The cautious step is rejected: we do not store sk, yk, rhok but</span>
+0437         <span class="comment">% we still need to transport stored vectors to the new tangent</span>
+0438         <span class="comment">% space.</span>
+0439         <span class="keyword">else</span>
+0440             
+0441             accepted = false;
+0442             
+0443             <span class="keyword">for</span>  i = 1 : min(k, options.memory)
+0444                 sHistory{i} = M.transp(xCur, xNext, sHistory{i});
+0445                 yHistory{i} = M.transp(xCur, xNext, yHistory{i});
+0446             <span class="keyword">end</span>
+0447             
+0448         <span class="keyword">end</span>
 0449         
-0450         <span class="comment">% iter is the number of iterations we have accomplished.</span>
-0451         iter = iter + 1;
-0452         
-0453         <span class="comment">% Make sure we don't use too much memory for the store database</span>
-0454         <span class="comment">% (this is independent from the BFGS memory.)</span>
-0455         storedb.purge();
-0456         
+0450         <span class="comment">% Update variables to new iterate.</span>
+0451         storedb.removefirstifdifferent(key, newkey);
+0452         xCur = xNext;
+0453         key = newkey;
+0454         xCurGradient = xNextGrad;
+0455         xCurGradNorm = M.norm(xNext, xNextGrad);
+0456         xCurCost = xNextCost;
 0457         
-0458         <span class="comment">% Log statistics for freshly executed iteration</span>
-0459         stats = <a href="#_sub1" class="code" title="subfunction stats = savestats()">savestats</a>();
-0460         info(iter+1) = stats; 
-0461         
-0462     <span class="keyword">end</span>
-0463 
-0464     
-0465     <span class="comment">% Housekeeping before we return</span>
-0466     info = info(1:iter+1);
-0467     x = xCur;
-0468     cost = xCurCost;
-0469 
-0470     <span class="keyword">if</span> options.verbosity &gt;= 1
-0471         fprintf(<span class="string">'Total time is %f [s] (excludes statsfun)\n'</span>, <span class="keyword">...</span>
-0472                 info(end).time);
-0473     <span class="keyword">end</span>
-0474 
-0475     
-0476     <span class="comment">% Routine in charge of collecting the current iteration stats</span>
-0477     <a name="_sub1" href="#_subfunctions" class="code">function stats = savestats()</a>
-0478         stats.iter = iter;
-0479         stats.cost = xCurCost;
-0480         stats.gradnorm = xCurGradNorm;
-0481         <span class="keyword">if</span> iter == 0
-0482             stats.stepsize = NaN;
-0483             stats.time = toc(timetic);
-0484             stats.accepted = NaN;
-0485         <span class="keyword">else</span>
-0486             stats.stepsize = stepsize;
-0487             stats.time = info(iter).time + toc(timetic);
-0488             stats.accepted = accepted;
-0489         <span class="keyword">end</span>
-0490         stats.linesearch = lsstats;
-0491         stats = <a href="../../../manopt/core/applyStatsfun.html" class="code" title="function stats = applyStatsfun(problem, x, storedb, key, options, stats)">applyStatsfun</a>(problem, xCur, storedb, key, options, stats);
-0492     <span class="keyword">end</span>
-0493 
-0494 <span class="keyword">end</span>
-0495 
-0496 
-0497 
-0498 
-0499 <span class="comment">% BFGS step, see Wen's paper for details. This function takes in a tangent</span>
-0500 <span class="comment">% vector g, and applies an approximate inverse Hessian P to it to get Pg.</span>
-0501 <span class="comment">% Then, -Pg is returned.</span>
-0502 <span class="comment">%</span>
-0503 <span class="comment">% Theory requires the vector transport to be isometric and to satisfy the</span>
-0504 <span class="comment">% locking condition (see paper), but these properties do not seem to be</span>
-0505 <span class="comment">% crucial in practice. If your manifold provides M.isotransp, it may be</span>
-0506 <span class="comment">% good to do M.transp = M.isotransp; after loading M with a factory.</span>
-0507 <span class="comment">%</span>
-0508 <span class="comment">% This implementation operates in the tangent space of the most recent</span>
-0509 <span class="comment">% point since all vectors in sHistory and yHistory have been transported</span>
-0510 <span class="comment">% there.</span>
-0511 <a name="_sub2" href="#_subfunctions" class="code">function dir = getDirection(M, xCur, xCurGradient, sHistory, yHistory, </a><span class="keyword">...</span>
-0512                             rhoHistory, scaleFactor, k)
-0513     
-0514     q = xCurGradient;
-0515     
-0516     inner_s_q = zeros(1, k);
-0517     
-0518     <span class="keyword">for</span> i = k : -1 : 1
-0519         inner_s_q(1, i) = rhoHistory{i} * M.inner(xCur, sHistory{i}, q);
-0520         q = M.lincomb(xCur, 1, q, -inner_s_q(1, i), yHistory{i});
-0521     <span class="keyword">end</span>
-0522     
-0523     r = M.lincomb(xCur, scaleFactor, q);
-0524     
-0525     <span class="keyword">for</span> i = 1 : k
-0526          omega = rhoHistory{i} * M.inner(xCur, yHistory{i}, r);
-0527          r = M.lincomb(xCur, 1, r, inner_s_q(1, i)-omega, sHistory{i});
-0528     <span class="keyword">end</span>
-0529     
-0530     dir = M.lincomb(xCur, -1, r);
-0531     
-0532 <span class="keyword">end</span></pre></div>
-<hr><address>Generated on Sun 05-Sep-2021 17:57:00 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+0458         <span class="comment">% iter is the number of iterations we have accomplished.</span>
+0459         iter = iter + 1;
+0460         
+0461         <span class="comment">% Make sure we don't use too much memory for the store database</span>
+0462         <span class="comment">% (this is independent from the BFGS memory.)</span>
+0463         storedb.purge();
+0464         
+0465         
+0466         <span class="comment">% Log statistics for freshly executed iteration</span>
+0467         stats = <a href="#_sub1" class="code" title="subfunction stats = savestats()">savestats</a>();
+0468         info(iter+1) = stats; 
+0469         
+0470     <span class="keyword">end</span>
+0471 
+0472     
+0473     <span class="comment">% Housekeeping before we return</span>
+0474     info = info(1:iter+1);
+0475     x = xCur;
+0476     cost = xCurCost;
+0477 
+0478     <span class="keyword">if</span> options.verbosity &gt;= 1
+0479         fprintf(<span class="string">'Total time is %f [s] (excludes statsfun)\n'</span>, <span class="keyword">...</span>
+0480                 info(end).time);
+0481     <span class="keyword">end</span>
+0482 
+0483     
+0484     <span class="comment">% Routine in charge of collecting the current iteration stats</span>
+0485     <a name="_sub1" href="#_subfunctions" class="code">function stats = savestats()</a>
+0486         stats.iter = iter;
+0487         stats.cost = xCurCost;
+0488         stats.gradnorm = xCurGradNorm;
+0489         <span class="keyword">if</span> iter == 0
+0490             stats.stepsize = NaN;
+0491             stats.time = toc(timetic);
+0492             stats.accepted = NaN;
+0493         <span class="keyword">else</span>
+0494             stats.stepsize = stepsize;
+0495             stats.time = info(iter).time + toc(timetic);
+0496             stats.accepted = accepted;
+0497         <span class="keyword">end</span>
+0498         stats.linesearch = lsstats;
+0499         stats = <a href="../../../manopt/core/applyStatsfun.html" class="code" title="function stats = applyStatsfun(problem, x, storedb, key, options, stats)">applyStatsfun</a>(problem, xCur, storedb, key, options, stats);
+0500     <span class="keyword">end</span>
+0501 
+0502 <span class="keyword">end</span>
+0503 
+0504 
+0505 
+0506 
+0507 <span class="comment">% BFGS step, see Wen's paper for details. This function takes in a tangent</span>
+0508 <span class="comment">% vector g, and applies an approximate inverse Hessian P to it to get Pg.</span>
+0509 <span class="comment">% Then, -Pg is returned.</span>
+0510 <span class="comment">%</span>
+0511 <span class="comment">% Theory requires the vector transport to be isometric and to satisfy the</span>
+0512 <span class="comment">% locking condition (see paper), but these properties do not seem to be</span>
+0513 <span class="comment">% crucial in practice. If your manifold provides M.isotransp, it may be</span>
+0514 <span class="comment">% good to do M.transp = M.isotransp; after loading M with a factory.</span>
+0515 <span class="comment">%</span>
+0516 <span class="comment">% This implementation operates in the tangent space of the most recent</span>
+0517 <span class="comment">% point since all vectors in sHistory and yHistory have been transported</span>
+0518 <span class="comment">% there.</span>
+0519 <a name="_sub2" href="#_subfunctions" class="code">function dir = getDirection(M, xCur, xCurGradient, sHistory, yHistory, </a><span class="keyword">...</span>
+0520                             rhoHistory, scaleFactor, k)
+0521     
+0522     q = xCurGradient;
+0523     
+0524     inner_s_q = zeros(1, k);
+0525     
+0526     <span class="keyword">for</span> i = k : -1 : 1
+0527         inner_s_q(1, i) = rhoHistory{i} * M.inner(xCur, sHistory{i}, q);
+0528         q = M.lincomb(xCur, 1, q, -inner_s_q(1, i), yHistory{i});
+0529     <span class="keyword">end</span>
+0530     
+0531     r = M.lincomb(xCur, scaleFactor, q);
+0532     
+0533     <span class="keyword">for</span> i = 1 : k
+0534          omega = rhoHistory{i} * M.inner(xCur, yHistory{i}, r);
+0535          r = M.lincomb(xCur, 1, r, inner_s_q(1, i)-omega, sHistory{i});
+0536     <span class="keyword">end</span>
+0537     
+0538     dir = M.lincomb(xCur, -1, r);
+0539     
+0540 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Fri 30-Sep-2022 13:18:25 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
 </body>
 </html>

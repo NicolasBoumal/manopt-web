@@ -67,16 +67,16 @@
  Note that there will be some error due to numerical round-off.
  
 
- See also: <a href="hessianspectrum.html" class="code" title="function lambdas = hessianspectrum(problem, x, usepreconstr, storedb, key)">hessianspectrum</a> <a href="hessianextreme.html" class="code" title="function [y, lambda, info] = hessianextreme(problem, x, side, y0, options, storedb, key)">hessianextreme</a> <a href="tangentorthobasis.html" class="code" title="function orthobasis = tangentorthobasis(M, x, n)">tangentorthobasis</a> <a href="orthogonalize.html" class="code" title="function [Q, R] = orthogonalize(M, x, A)">orthogonalize</a> <a href="tangent2vec.html" class="code" title="function vec = tangent2vec(M, x, basis, u)">tangent2vec</a></pre></div>
+ See also: <a href="hessianspectrum.html" class="code" title="function lambdas = hessianspectrum(problem, x, usepreconstr, storedb, key)">hessianspectrum</a> <a href="hessianextreme.html" class="code" title="function [y, lambda, info] = hessianextreme(problem, x, side, y0, options, storedb, key)">hessianextreme</a> <a href="tangentorthobasis.html" class="code" title="function orthobasis = tangentorthobasis(M, x, n, basis_vecs)">tangentorthobasis</a> <a href="orthogonalize.html" class="code" title="function [Q, R] = orthogonalize(M, x, A)">orthogonalize</a> <a href="tangent2vec.html" class="code" title="function vec = tangent2vec(M, x, basis, u)">tangent2vec</a></pre></div>
 
 <!-- crossreference -->
 <h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
 This function calls:
 <ul style="list-style-image:url(../../matlabicon.gif)">
-<li><a href="../../manopt/core/StoreDB.html" class="code" title="">StoreDB</a>	</li><li><a href="../../manopt/core/canGetApproxHessian.html" class="code" title="function candoit = canGetApproxHessian(problem)">canGetApproxHessian</a>	Checks whether an approximate Hessian can be computed for this problem.</li><li><a href="../../manopt/core/canGetHessian.html" class="code" title="function candoit = canGetHessian(problem)">canGetHessian</a>	Checks whether the Hessian can be computed for a problem structure.</li><li><a href="../../manopt/core/getHessian.html" class="code" title="function hess = getHessian(problem, x, d, storedb, key)">getHessian</a>	Computes the Hessian of the cost function at x along d.</li><li><a href="tangentorthobasis.html" class="code" title="function orthobasis = tangentorthobasis(M, x, n)">tangentorthobasis</a>	Returns an orthonormal basis of tangent vectors in the Manopt framework.</li></ul>
+<li><a href="../../manopt/core/StoreDB.html" class="code" title="">StoreDB</a>	</li><li><a href="../../manopt/core/canGetApproxHessian.html" class="code" title="function candoit = canGetApproxHessian(problem)">canGetApproxHessian</a>	Checks whether an approximate Hessian can be computed for this problem.</li><li><a href="../../manopt/core/canGetHessian.html" class="code" title="function candoit = canGetHessian(problem)">canGetHessian</a>	Checks whether the Hessian can be computed for a problem structure.</li><li><a href="../../manopt/core/getHessian.html" class="code" title="function hess = getHessian(problem, x, d, storedb, key)">getHessian</a>	Computes the Hessian of the cost function at x along d.</li><li><a href="tangentorthobasis.html" class="code" title="function orthobasis = tangentorthobasis(M, x, n, basis_vecs)">tangentorthobasis</a>	Returns an orthonormal basis of tangent vectors in the Manopt framework.</li></ul>
 This function is called by:
 <ul style="list-style-image:url(../../matlabicon.gif)">
-</ul>
+<li><a href="../../manopt/solvers/trustregions/trs_gep.html" class="code" title="function trsoutput = trs_gep(problem, trsinput, options, ~, ~)">trs_gep</a>	Solves trust-region subproblem with TRSgep in a subspace of tangent space.</li></ul>
 <!-- crossreference -->
 
 
@@ -149,7 +149,7 @@ This function is called by:
 0065     <span class="comment">% pick a random one.</span>
 0066     <span class="keyword">if</span> ~exist(<span class="string">'basis'</span>, <span class="string">'var'</span>) || isempty(basis)
 0067         n = problem.M.dim();
-0068         basis = <a href="tangentorthobasis.html" class="code" title="function orthobasis = tangentorthobasis(M, x, n)">tangentorthobasis</a>(problem.M, x, n);
+0068         basis = <a href="tangentorthobasis.html" class="code" title="function orthobasis = tangentorthobasis(M, x, n, basis_vecs)">tangentorthobasis</a>(problem.M, x, n);
 0069     <span class="keyword">else</span>
 0070         n = numel(basis);
 0071     <span class="keyword">end</span>
@@ -176,6 +176,6 @@ This function is called by:
 0092     <span class="keyword">end</span>
 0093 
 0094 <span class="keyword">end</span></pre></div>
-<hr><address>Generated on Sun 05-Sep-2021 17:57:00 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+<hr><address>Generated on Fri 30-Sep-2022 13:18:25 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
 </body>
 </html>

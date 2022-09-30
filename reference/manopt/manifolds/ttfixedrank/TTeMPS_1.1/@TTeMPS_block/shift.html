@@ -36,7 +36,7 @@
 <h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../up.png"></a></h2>
 This function calls:
 <ul style="list-style-image:url(../../../../../matlabicon.gif)">
-<li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/disp.html" class="code" title="function disp( x, name )">disp</a>	DISP Display TT/MPS tensor.</li><li><a href="disp.html" class="code" title="function disp( x, name )">disp</a>	DISP Display TT/MPS block-mu tensor.</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_op/disp.html" class="code" title="function disp( x, name )">disp</a>	DISP Display TT/MPS operator.</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_op_laplace/disp.html" class="code" title="function disp( x, name )">disp</a>	DISP Display TT/MPS operator.</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod.html" class="code" title="function res = tensorprod( U, A, mode, apply_inv )">tensorprod</a>	TENSORPROD Tensor-times-Matrix product.</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/trunc_singular.html" class="code" title="function s = trunc_singular(s, tol, relative, maxrank)">trunc_singular</a>	REL_TRUNC_SINGULAR Helper routine to truncate singular values</li></ul>
+<li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/disp.html" class="code" title="function disp( x, name )">disp</a>	DISP Display TT/MPS tensor.</li><li><a href="disp.html" class="code" title="function disp( x, name )">disp</a>	DISP Display TT/MPS block-mu tensor.</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_op/disp.html" class="code" title="function disp( x, name )">disp</a>	DISP Display TT/MPS operator.</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_op_laplace/disp.html" class="code" title="function disp( x, name )">disp</a>	DISP Display TT/MPS operator.</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod_ttemps.html" class="code" title="function res = tensorprod_ttemps( U, A, mode, apply_inv )">tensorprod_ttemps</a>	TENSORPROD_TTEMPS Tensor-times-Matrix product.</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/trunc_singular.html" class="code" title="function s = trunc_singular(s, tol, relative, maxrank)">trunc_singular</a>	REL_TRUNC_SINGULAR Helper routine to truncate singular values</li></ul>
 This function is called by:
 <ul style="list-style-image:url(../../../../../matlabicon.gif)">
 <li><a href="TTeMPS_block.html" class="code" title="">TTeMPS_block</a>	</li></ul>
@@ -87,7 +87,7 @@ This function is called by:
 0040         
 0041         C = zeros( [s, n(nu), r(nu+1), p] ); 
 0042         <span class="keyword">for</span> k = 1:p
-0043             C(:,:,:,k) = <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod.html" class="code" title="function res = tensorprod( U, A, mode, apply_inv )">tensorprod</a>( x.U{nu}, W(:,:,k), 1);
+0043             C(:,:,:,k) = <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod_ttemps.html" class="code" title="function res = tensorprod_ttemps( U, A, mode, apply_inv )">tensorprod_ttemps</a>( x.U{nu}, W(:,:,k), 1);
 0044         <span class="keyword">end</span>
 0045         
 0046         x.U{nu} = C;
@@ -117,7 +117,7 @@ This function is called by:
 0070 
 0071         C = zeros( [r(nu), n(nu), s, p] ); 
 0072         <span class="keyword">for</span> k = 1:p
-0073             C(:,:,:,k) = <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod.html" class="code" title="function res = tensorprod( U, A, mode, apply_inv )">tensorprod</a>( x.U{nu}, W(:,:,k)', 3);
+0073             C(:,:,:,k) = <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod_ttemps.html" class="code" title="function res = tensorprod_ttemps( U, A, mode, apply_inv )">tensorprod_ttemps</a>( x.U{nu}, W(:,:,k)', 3);
 0074         <span class="keyword">end</span>
 0075         
 0076         x.U{nu} = C;
@@ -128,6 +128,6 @@ This function is called by:
 0081 
 0082 
 0083 <span class="keyword">end</span></pre></div>
-<hr><address>Generated on Sun 05-Sep-2021 17:57:00 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+<hr><address>Generated on Fri 30-Sep-2022 13:18:25 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
 </body>
 </html>

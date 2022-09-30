@@ -36,7 +36,7 @@
 <h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../up.png"></a></h2>
 This function calls:
 <ul style="list-style-image:url(../../../../../matlabicon.gif)">
-<li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/innerprod.html" class="code" title="function res = innerprod( x, y, dir, upto, storeParts )">innerprod</a>	INNERPROD Inner product between two TT/MPS tensors.</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_block/innerprod.html" class="code" title="function res = innerprod( x, y, dir, upto )">innerprod</a>	INNERPROD Inner product between two TT/MPS tensors.</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/operators/load_coefficients.html" class="code" title="function [omega, alpha] = load_coefficients( R )">load_coefficients</a>	lOAD_COEFFICIENTS Loads exponential sum approximation coefficients</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod.html" class="code" title="function res = tensorprod( U, A, mode, apply_inv )">tensorprod</a>	TENSORPROD Tensor-times-Matrix product.</li></ul>
+<li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/innerprod.html" class="code" title="function res = innerprod( x, y, dir, upto, storeParts )">innerprod</a>	INNERPROD Inner product between two TT/MPS tensors.</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_block/innerprod.html" class="code" title="function res = innerprod( x, y, dir, upto )">innerprod</a>	INNERPROD Inner product between two TT/MPS tensors.</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/operators/load_coefficients.html" class="code" title="function [omega, alpha] = load_coefficients( R )">load_coefficients</a>	lOAD_COEFFICIENTS Loads exponential sum approximation coefficients</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod_ttemps.html" class="code" title="function res = tensorprod_ttemps( U, A, mode, apply_inv )">tensorprod_ttemps</a>	TENSORPROD_TTEMPS Tensor-times-Matrix product.</li></ul>
 This function is called by:
 <ul style="list-style-image:url(../../../../../matlabicon.gif)">
 <li><a href="TTeMPS_op_laplace.html" class="code" title="">TTeMPS_op_laplace</a>	</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/algorithms/eigenvalue/amen_eigenvalue.html" class="code" title="function [X, C, evalue, residuums, micro_res, objective, elapsed_time] = amen_eigenvalue(A, prec, p, rr, opts)">amen_eigenvalue</a>	AMEN_EIGENVALUE Calculate p smallest eigenvalues of a TTeMPS operator</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/algorithms/eigenvalue/block_eigenvalue.html" class="code" title="function [X, C, evalue, residuums, micro_res, objective, elapsed_time] = block_eigenvalue(A, p, rr, opts)">block_eigenvalue</a>	BLOCK_EIGENVALUE Calculate p smallest eigenvalues of a TTeMPS operator</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/algorithms/linearsystem/construct_initial_guess.html" class="code" title="function X = construct_initial_guess(L, F, r, n)">construct_initial_guess</a>	TTeMPS Toolbox.</li></ul>
@@ -60,7 +60,7 @@ This function is called by:
 0013     <span class="keyword">for</span> i = 1:mu-1
 0014         <span class="comment">% apply L to the i'th core</span>
 0015         tmp = X;
-0016         tmp.U{i} = <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod.html" class="code" title="function res = tensorprod( U, A, mode, apply_inv )">tensorprod</a>( tmp.U{i}, A.L0, 2 );
+0016         tmp.U{i} = <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod_ttemps.html" class="code" title="function res = tensorprod_ttemps( U, A, mode, apply_inv )">tensorprod_ttemps</a>( tmp.U{i}, A.L0, 2 );
 0017         B1 = B1 + <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/innerprod.html" class="code" title="function res = innerprod( x, y, dir, upto, storeParts )">innerprod</a>( X, tmp, <span class="string">'LR'</span>, mu-1);
 0018     <span class="keyword">end</span>
 0019 
@@ -71,7 +71,7 @@ This function is called by:
 0024     <span class="comment">% calculate B3 part:</span>
 0025     <span class="keyword">for</span> i = mu+1:A.order
 0026         tmp = X;
-0027         tmp.U{i} = <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod.html" class="code" title="function res = tensorprod( U, A, mode, apply_inv )">tensorprod</a>( tmp.U{i}, A.L0, 2 );
+0027         tmp.U{i} = <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod_ttemps.html" class="code" title="function res = tensorprod_ttemps( U, A, mode, apply_inv )">tensorprod_ttemps</a>( tmp.U{i}, A.L0, 2 );
 0028         B3 = B3 + <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/innerprod.html" class="code" title="function res = innerprod( x, y, dir, upto, storeParts )">innerprod</a>( X, tmp, <span class="string">'RL'</span>, mu+1);
 0029     <span class="keyword">end</span>
 0030     
@@ -100,6 +100,6 @@ This function is called by:
 0053     <span class="keyword">end</span>
 0054 <span class="keyword">end</span>
 0055</pre></div>
-<hr><address>Generated on Sun 05-Sep-2021 17:57:00 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+<hr><address>Generated on Fri 30-Sep-2022 13:18:25 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
 </body>
 </html>

@@ -1,0 +1,159 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of linesearch_constant</title>
+  <meta name="keywords" content="linesearch_constant">
+  <meta name="description" content="Forces a constant multiplier on the descent direction chosen by the algorithm.">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../index.html">Home</a> &gt;  <a href="#">manopt</a> &gt; <a href="#">solvers</a> &gt; <a href="index.html">linesearch</a> &gt; linesearch_constant.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../index.html"><img alt="<" border="0" src="../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for manopt\solvers\linesearch&nbsp;<img alt=">" border="0" src="../../../right.png"></a></td></tr></table>-->
+
+<h1>linesearch_constant
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>Forces a constant multiplier on the descent direction chosen by the algorithm.</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function [stepsize, newx, newkey, lsstats] =linesearch_constant(problem, x, d, ~, ~, ~, storedb, ~) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> Forces a constant multiplier on the descent direction chosen by the algorithm.
+ 
+ This is meant to be used by the steepestdescent or conjugategradients solvers.
+ To use this method, specify linesearch_constant as an option, and your chosen
+ constant alpha &gt; 0 in the problem structure, as follows:
+
+  problem.linesearch = @(x, d) 1.0;     % choose any positive real number
+  options.linesearch = @linesearch_constant;
+  x = steepestdescent(problem, [], options);
+
+ The effective step (that is, the vector the optimization algorithm retracts)
+ is constructed as alpha*d, and the step size is the norm of that vector.
+ Thus: stepsize = alpha*norm_d.
+ For steepestdescent, we have d = -grad f(x).
+ The step is executed by retracting the vector alpha*d from the current
+ point x, which gives newx (the returned point).
+ This line-search method does not require any cost function evaluations,
+ as there is effectively no search involved.
+
+ Inputs
+
+  problem : structure holding the description of the optimization problem
+  x : current point on the manifold problem.M
+  d : tangent vector at x (descent direction)
+  storedb : StoreDB object (handle class: passed by reference) for caching
+
+  storedb is optional.
+
+ Outputs
+
+  stepsize : norm of the vector retracted to reach newx from x.
+  newx : next iterate using the constant stepsize, such that
+         the retraction at x of the vector alpha*d reaches newx.
+  newkey : key associated to newx in storedb
+  lsstats : statistics about the line-search procedure
+            (costevals, stepsize, alpha).
+
+ See also: steepestdescent conjugategradients <a href="linesearch.html" class="code" title="function [stepsize, newx, newkey, lsstats] =linesearch(problem, x, d, f0, df0, options, storedb, key)">linesearch</a></pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="../../../manopt/core/StoreDB.html" class="code" title="">StoreDB</a>	</li><li><a href="../../../manopt/core/canGetLinesearch.html" class="code" title="function candoit = canGetLinesearch(problem)">canGetLinesearch</a>	Checks whether the problem structure can give a line-search a hint.</li><li><a href="../../../manopt/core/getLinesearch.html" class="code" title="function t = getLinesearch(problem, x, d, storedb, key)">getLinesearch</a>	Returns a hint for line-search algorithms.</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+</ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [stepsize, newx, newkey, lsstats] = </a><span class="keyword">...</span>
+0002                   linesearch_constant(problem, x, d, ~, ~, ~, storedb, ~)
+0003 <span class="comment">% Forces a constant multiplier on the descent direction chosen by the algorithm.</span>
+0004 <span class="comment">%</span>
+0005 <span class="comment">% This is meant to be used by the steepestdescent or conjugategradients solvers.</span>
+0006 <span class="comment">% To use this method, specify linesearch_constant as an option, and your chosen</span>
+0007 <span class="comment">% constant alpha &gt; 0 in the problem structure, as follows:</span>
+0008 <span class="comment">%</span>
+0009 <span class="comment">%  problem.linesearch = @(x, d) 1.0;     % choose any positive real number</span>
+0010 <span class="comment">%  options.linesearch = @linesearch_constant;</span>
+0011 <span class="comment">%  x = steepestdescent(problem, [], options);</span>
+0012 <span class="comment">%</span>
+0013 <span class="comment">% The effective step (that is, the vector the optimization algorithm retracts)</span>
+0014 <span class="comment">% is constructed as alpha*d, and the step size is the norm of that vector.</span>
+0015 <span class="comment">% Thus: stepsize = alpha*norm_d.</span>
+0016 <span class="comment">% For steepestdescent, we have d = -grad f(x).</span>
+0017 <span class="comment">% The step is executed by retracting the vector alpha*d from the current</span>
+0018 <span class="comment">% point x, which gives newx (the returned point).</span>
+0019 <span class="comment">% This line-search method does not require any cost function evaluations,</span>
+0020 <span class="comment">% as there is effectively no search involved.</span>
+0021 <span class="comment">%</span>
+0022 <span class="comment">% Inputs</span>
+0023 <span class="comment">%</span>
+0024 <span class="comment">%  problem : structure holding the description of the optimization problem</span>
+0025 <span class="comment">%  x : current point on the manifold problem.M</span>
+0026 <span class="comment">%  d : tangent vector at x (descent direction)</span>
+0027 <span class="comment">%  storedb : StoreDB object (handle class: passed by reference) for caching</span>
+0028 <span class="comment">%</span>
+0029 <span class="comment">%  storedb is optional.</span>
+0030 <span class="comment">%</span>
+0031 <span class="comment">% Outputs</span>
+0032 <span class="comment">%</span>
+0033 <span class="comment">%  stepsize : norm of the vector retracted to reach newx from x.</span>
+0034 <span class="comment">%  newx : next iterate using the constant stepsize, such that</span>
+0035 <span class="comment">%         the retraction at x of the vector alpha*d reaches newx.</span>
+0036 <span class="comment">%  newkey : key associated to newx in storedb</span>
+0037 <span class="comment">%  lsstats : statistics about the line-search procedure</span>
+0038 <span class="comment">%            (costevals, stepsize, alpha).</span>
+0039 <span class="comment">%</span>
+0040 <span class="comment">% See also: steepestdescent conjugategradients linesearch</span>
+0041 
+0042 <span class="comment">% This file is part of Manopt: www.manopt.org.</span>
+0043 <span class="comment">% Original author: Victor Liao, June 13, 2022.</span>
+0044 <span class="comment">% Contributors:</span>
+0045 <span class="comment">% Change log:</span>
+0046 
+0047     <span class="comment">% Allow omission of storedb.</span>
+0048     <span class="keyword">if</span> ~exist(<span class="string">'storedb'</span>, <span class="string">'var'</span>)
+0049         storedb = <a href="../../../manopt/core/StoreDB.html" class="code" title="">StoreDB</a>();
+0050     <span class="keyword">end</span>
+0051 
+0052     <span class="comment">% Obtain user-specified alpha if it exists.</span>
+0053     <span class="comment">% User should specify their intended alpha by:</span>
+0054     <span class="comment">% problem.linesearch = @(x,d) alpha;</span>
+0055     <span class="keyword">if</span> <a href="../../../manopt/core/canGetLinesearch.html" class="code" title="function candoit = canGetLinesearch(problem)">canGetLinesearch</a>(problem)
+0056         alpha = <a href="../../../manopt/core/getLinesearch.html" class="code" title="function t = getLinesearch(problem, x, d, storedb, key)">getLinesearch</a>(problem, x, d);
+0057     <span class="keyword">else</span>
+0058         alpha = 1; <span class="comment">% default alpha value.</span>
+0059     <span class="keyword">end</span>
+0060 
+0061     <span class="comment">% Make the chosen step and compute the cost there.</span>
+0062     newx = problem.M.retr(x, d, alpha);
+0063     newkey = storedb.getNewKey();
+0064     
+0065     <span class="comment">% As seen outside this function, stepsize is the size of the vector we</span>
+0066     <span class="comment">% retract to make the step from x to newx. Since the step is alpha*d:</span>
+0067     norm_d = problem.M.norm(x, d);
+0068     stepsize = alpha * norm_d;
+0069     
+0070     <span class="comment">% Return some statistics also, for possible analysis.</span>
+0071     <span class="comment">% Return some statistics also, for possible analysis.</span>
+0072     lsstats.costevals = 0;
+0073     lsstats.stepsize = stepsize;
+0074     lsstats.alpha = alpha;
+0075 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Fri 30-Sep-2022 13:18:25 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

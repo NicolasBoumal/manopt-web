@@ -86,7 +86,7 @@ This function is called by:
 
 <h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
 <ul style="list-style-image:url(../../../matlabicon.gif)">
-<li><a href="#_sub1" class="code">function amat = convertvec2symm(a)</a></li><li><a href="#_sub2" class="code">function iproduct = innerproduct(X, eta, zeta)</a></li><li><a href="#_sub3" class="code">function inorm = innernorm(X, eta)</a></li><li><a href="#_sub4" class="code">function eta = egrad2rgrad(X, eta)</a></li><li><a href="#_sub5" class="code">function Hess = ehess2rhess(X, egrad, ehess, eta)</a></li><li><a href="#_sub6" class="code">function zeta = innerprojection(X, eta)</a></li><li><a href="#_sub7" class="code">function lhslambda = compute_matrix_system(lambda)</a></li><li><a href="#_sub8" class="code">function Y = retraction(X, eta, t)</a></li><li><a href="#_sub9" class="code">function Y = exponential(X, eta, t)</a></li><li><a href="#_sub10" class="code">function X = random()</a></li><li><a href="#_sub11" class="code">function eta = randomvec(X)</a></li></ul>
+<li><a href="#_sub1" class="code">function iproduct = innerproduct(X, eta, zeta)</a></li><li><a href="#_sub2" class="code">function inorm = innernorm(X, eta)</a></li><li><a href="#_sub3" class="code">function rgrad = egrad2rgrad(X, egrad)</a></li><li><a href="#_sub4" class="code">function Hess = ehess2rhess(X, egrad, ehess, eta)</a></li><li><a href="#_sub5" class="code">function zeta = innerprojection(X, eta)</a></li><li><a href="#_sub6" class="code">function Lambdasol = mylinearsolve(X, RHS)</a></li><li><a href="#_sub7" class="code">function lhslambda = compute_matrix_system(lambda)</a></li><li><a href="#_sub8" class="code">function Y = retraction(X, eta, t)</a></li><li><a href="#_sub9" class="code">function Y = exponential(X, eta, t)</a></li><li><a href="#_sub10" class="code">function X = random()</a></li><li><a href="#_sub11" class="code">function eta = randomvec(X)</a></li></ul>
 
 <h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
 <div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function M = sympositivedefinitesimplexcomplexfactory(n, k)</a>
@@ -140,8 +140,8 @@ This function is called by:
 0049     <span class="comment">% This file is part of Manopt: www.manopt.org.</span>
 0050     <span class="comment">% Original author: Bamdev Mishra, September 18, 2019.</span>
 0051     <span class="comment">% Contributors: NB</span>
-0052     <span class="comment">% Change log: Comments updated, 16 Dec 2019</span>
-0053     <span class="comment">%</span>
+0052     <span class="comment">% Change log:   Comments updated, 16 Dec 2019</span>
+0053     <span class="comment">%               Removed typos in Hessian expression, 01 Nov, 2021</span>
 0054     
 0055     symm = @(X) .5*(X+X');
 0056     
@@ -154,231 +154,278 @@ This function is called by:
 0063     trinner = @(A, B) real(vec(A')'*vec(B));  <span class="comment">% = trace(A*B)</span>
 0064     trnorm  = @(A) sqrt((trinner(A, A))); <span class="comment">% = sqrt(trace(A^2))</span>
 0065     
-0066     mymat = ones(n,n);
-0067     myuppermat = triu(mymat);
-0068     myuppervec = myuppermat(:);
-0069     myidx = find(myuppervec == 1);
-0070     myzerosvec = zeros(n^2, 1);
-0071     
-0072     symm2vec = @(A)  A(myidx);
-0073     
-0074     vec2symm = @<a href="#_sub1" class="code" title="subfunction amat = convertvec2symm(a)">convertvec2symm</a>;
-0075     <a name="_sub1" href="#_subfunctions" class="code">function amat = convertvec2symm(a)</a>
-0076         avec = myzerosvec;
-0077         avec(myidx) = a;
-0078         amat = reshape(avec, [n, n]);
-0079         amat = amat + amat' - diag(diag(amat));
-0080     <span class="keyword">end</span>
-0081     
-0082     
-0083     
-0084     <span class="comment">% Choice of the metric on the orthonormal space is motivated by the</span>
-0085     <span class="comment">% symmetry present in the space. The metric on the positive definite</span>
-0086     <span class="comment">% cone is its natural bi-invariant metric.</span>
-0087     <span class="comment">% The result is equal to: trace( (X\eta) * (X\zeta) )</span>
-0088     M.inner = @<a href="#_sub2" class="code" title="subfunction iproduct = innerproduct(X, eta, zeta)">innerproduct</a>;
-0089     <a name="_sub2" href="#_subfunctions" class="code">function iproduct = innerproduct(X, eta, zeta)</a>
-0090         iproduct = 0;
-0091         <span class="keyword">for</span> kk = 1 : k
-0092             iproduct = iproduct + (trinner(X(:,:,kk)\eta(:,:,kk), X(:,:,kk)\zeta(:,:,kk))); <span class="comment">% BM okay</span>
-0093         <span class="keyword">end</span>
-0094     <span class="keyword">end</span>
-0095     
-0096     <span class="comment">% Notice that X\eta is *not* symmetric in general.</span>
-0097     <span class="comment">% The result is equal to: sqrt(trace((X\eta)^2))</span>
-0098     <span class="comment">% There should be no need to take the real part, but rounding errors</span>
-0099     <span class="comment">% may cause a small imaginary part to appear, so we discard it.</span>
-0100     M.norm = @<a href="#_sub3" class="code" title="subfunction inorm = innernorm(X, eta)">innernorm</a>;
-0101     <a name="_sub3" href="#_subfunctions" class="code">function inorm = innernorm(X, eta)</a>
-0102         inorm = 0;
-0103         <span class="keyword">for</span> kk = 1:k
-0104             inorm = inorm + (trnorm(X(:,:,kk)\eta(:,:,kk)))^2; <span class="comment">% BM okay</span>
-0105         <span class="keyword">end</span>
-0106         inorm = sqrt(inorm);
-0107     <span class="keyword">end</span>
-0108     
-0109     <span class="comment">%     % Same here: X\Y is not symmetric in general.</span>
-0110     <span class="comment">%     % Same remark about taking the real part.</span>
-0111     <span class="comment">%     M.dist = @innerdistance;</span>
-0112     <span class="comment">%     function idistance = innerdistance(X, Y)</span>
-0113     <span class="comment">%         idistance = 0;</span>
-0114     <span class="comment">%         for kk = 1:k</span>
-0115     <span class="comment">%             idistance = idistance + real(trnorm(real(logm(X(:,:,kk)\Y(:,:,kk))))); % BM okay, but need not be correct.</span>
-0116     <span class="comment">%         end</span>
-0117     <span class="comment">%     end</span>
-0118     
-0119     M.typicaldist = @() sqrt(k*n*(n+1)); <span class="comment">% BM: to be looked into.</span>
+0066     
+0067     <span class="comment">% Choice of the metric on the orthonormal space is motivated by the</span>
+0068     <span class="comment">% symmetry present in the space. The metric on the positive definite</span>
+0069     <span class="comment">% cone is its natural bi-invariant metric.</span>
+0070     <span class="comment">% The result is equal to: trace( (X\eta) * (X\zeta) )</span>
+0071     M.inner = @<a href="#_sub1" class="code" title="subfunction iproduct = innerproduct(X, eta, zeta)">innerproduct</a>;
+0072     <a name="_sub1" href="#_subfunctions" class="code">function iproduct = innerproduct(X, eta, zeta)</a>
+0073         iproduct = 0;
+0074         <span class="keyword">for</span> kk = 1 : k
+0075             iproduct = iproduct + (trinner(X(:,:,kk)\eta(:,:,kk), X(:,:,kk)\zeta(:,:,kk))); <span class="comment">% BM okay</span>
+0076         <span class="keyword">end</span>
+0077     <span class="keyword">end</span>
+0078     
+0079     <span class="comment">% Notice that X\eta is *not* symmetric in general.</span>
+0080     <span class="comment">% The result is equal to: sqrt(trace((X\eta)^2))</span>
+0081     <span class="comment">% There should be no need to take the real part, but rounding errors</span>
+0082     <span class="comment">% may cause a small imaginary part to appear, so we discard it.</span>
+0083     M.norm = @<a href="#_sub2" class="code" title="subfunction inorm = innernorm(X, eta)">innernorm</a>;
+0084     <a name="_sub2" href="#_subfunctions" class="code">function inorm = innernorm(X, eta)</a>
+0085         inorm = 0;
+0086         <span class="keyword">for</span> kk = 1:k
+0087             inorm = inorm + (trnorm(X(:,:,kk)\eta(:,:,kk)))^2; <span class="comment">% BM okay</span>
+0088         <span class="keyword">end</span>
+0089         inorm = sqrt(inorm);
+0090     <span class="keyword">end</span>
+0091     
+0092     <span class="comment">%     % Same here: X\Y is not symmetric in general.</span>
+0093     <span class="comment">%     % Same remark about taking the real part.</span>
+0094     <span class="comment">%     M.dist = @innerdistance;</span>
+0095     <span class="comment">%     function idistance = innerdistance(X, Y)</span>
+0096     <span class="comment">%       idistance = 0;</span>
+0097     <span class="comment">%       for kk = 1:k</span>
+0098     <span class="comment">%           idistance = idistance + real(trnorm(real(logm(X(:,:,kk)\Y(:,:,kk))))); % BM okay, but need not be correct.</span>
+0099     <span class="comment">%       end</span>
+0100     <span class="comment">%     end</span>
+0101     
+0102     M.typicaldist = @() sqrt(k*n*(n+1)); <span class="comment">% BM: to be looked into.</span>
+0103     
+0104     
+0105     M.egrad2rgrad = @<a href="#_sub3" class="code" title="subfunction rgrad = egrad2rgrad(X, egrad)">egrad2rgrad</a>;
+0106     <a name="_sub3" href="#_subfunctions" class="code">function rgrad = egrad2rgrad(X, egrad)</a>
+0107         egradscaled = nan(size(egrad));
+0108         <span class="keyword">for</span> kk = 1:k
+0109             egradscaled(:,:,kk) = X(:,:,kk)*symm(egrad(:,:,kk))*X(:,:,kk);
+0110         <span class="keyword">end</span>
+0111         
+0112         <span class="comment">% Project onto the set X1dot + X2dot + ... = 0.</span>
+0113         <span class="comment">% That is rgrad = Xk*egradk*Xk + Xk*Lambdasol*Xk</span>
+0114         rgrad = M.proj(X, egradscaled);
+0115         
+0116         <span class="comment">%   % Debug</span>
+0117         <span class="comment">%   norm(sum(rgrad,3), 'fro') % BM: this should be zero.</span>
+0118     <span class="keyword">end</span>
+0119     
 0120     
-0121     
-0122     M.egrad2rgrad = @<a href="#_sub4" class="code" title="subfunction eta = egrad2rgrad(X, eta)">egrad2rgrad</a>;
-0123     <a name="_sub4" href="#_subfunctions" class="code">function eta = egrad2rgrad(X, eta)</a>
-0124         <span class="keyword">for</span> kk = 1:k
-0125             eta(:,:,kk) = (X(:,:,kk)*symm(eta(:,:,kk))*X(:,:,kk));
-0126         <span class="keyword">end</span>
-0127         
-0128         <span class="comment">% Project onto the set X1dot + X2dot + ... = 0.</span>
-0129         eta = M.proj(X, eta);
-0130         
-0131         <span class="comment">% % Debug</span>
-0132         <span class="comment">% norm(sum(eta,3), 'fro') % BM: this should be zero.</span>
-0133     <span class="keyword">end</span>
-0134     
-0135     
-0136     M.ehess2rhess = @<a href="#_sub5" class="code" title="subfunction Hess = ehess2rhess(X, egrad, ehess, eta)">ehess2rhess</a>;
-0137     <a name="_sub5" href="#_subfunctions" class="code">function Hess = ehess2rhess(X, egrad, ehess, eta)</a>
-0138         Hess = nan(size(X));
-0139         <span class="keyword">for</span> kk = 1 : k
-0140             <span class="comment">% % Directional derivatives of the Riemannian gradient</span>
-0141             <span class="comment">% Hess(:,:,kk) = symm(X(:,:,kk)*symm(ehess(:,:,kk))*X(:,:,kk)) + 2*symm(eta(:,:,kk)*symm(egrad(:,:,kk))*X(:,:,kk));</span>
-0142             
-0143             <span class="comment">% % Correction factor for the non-constant metric</span>
-0144             <span class="comment">% Hess(:,:,kk) = Hess(:,:,kk) - symm(eta(:,:,kk)*symm(egrad(:,:,kk))*X(:,:,kk));</span>
-0145             
-0146             Hess(:,:,kk) = symm(X(:,:,kk)*symm(ehess(:,:,kk))*X(:,:,kk)) + symm(eta(:,:,kk)*symm(egrad(:,:,kk))*X(:,:,kk));
-0147         <span class="keyword">end</span>
-0148         
-0149         <span class="comment">% Project onto the set X1dot + X2dot + ... = 0.</span>
-0150         Hess = M.proj(X, Hess);
-0151         
-0152     <span class="keyword">end</span>
-0153     
-0154     
-0155     <span class="comment">% Project onto the set X1dot + X2dot + ... = 0.</span>
-0156     M.proj = @<a href="#_sub6" class="code" title="subfunction zeta = innerprojection(X, eta)">innerprojection</a>;
-0157     <a name="_sub6" href="#_subfunctions" class="code">function zeta = innerprojection(X, eta)</a>
-0158         <span class="comment">% Solve the linear system.</span>
-0159         tol_omegax_pcg = 1e-8;
-0160         max_iterations_pcg = 100;
-0161         
-0162         etareal = real(eta);
-0163         etaimag = imag(eta);
-0164         sumetareal = sum(etareal,3);
-0165         sumetaimag = sum(etaimag,3);
-0166         
-0167         rhs = - [symm2vec(sumetareal); sumetaimag(:)];
-0168         
-0169         [lambdasol, ~, ~, ~] = pcg(@<a href="#_sub7" class="code" title="subfunction lhslambda = compute_matrix_system(lambda)">compute_matrix_system</a>, rhs, tol_omegax_pcg, max_iterations_pcg);
-0170         
-0171         lambdasolreal = lambdasol(1:n*(n+1)/2);
-0172         lambdasolimag = lambdasol(n*(n+1)/2  + 1 : end);
-0173         
-0174         Lambdasol = vec2symm(lambdasolreal) + 1i*reshape(lambdasolimag,n,n);
-0175         
-0176         <a name="_sub7" href="#_subfunctions" class="code">function lhslambda = compute_matrix_system(lambda)</a>
-0177             lambdareal = lambda(1:n*(n+1)/2);
-0178             lambdaimag = lambda(n*(n+1)/2  + 1 : end);
-0179             Lambda = vec2symm(lambdareal) + 1i*reshape(lambdaimag, n, n);
-0180             lhsLambda = zeros(n,n);
-0181             <span class="keyword">for</span> kk = 1 : k
-0182                 lhsLambda = lhsLambda + ((X(:,:,kk)*Lambda*X(:,:,kk)));
-0183             <span class="keyword">end</span>
-0184             lhsLambdareal = real(lhsLambda);
-0185             lhsLambdaimag = imag(lhsLambda);
-0186             lhslambda = [symm2vec(lhsLambdareal); lhsLambdaimag(:)];
-0187         <span class="keyword">end</span>
-0188         
-0189         zeta = zeros(size(eta));
-0190         <span class="keyword">for</span> jj = 1 : k
-0191             zeta(:,:,jj) = eta(:,:,jj) + (X(:,:,jj)*Lambdasol*X(:,:,jj));
-0192         <span class="keyword">end</span>
-0193         
-0194         <span class="comment">% % Debug</span>
-0195         <span class="comment">% eta;</span>
-0196         <span class="comment">% sum(real(zeta),3)</span>
-0197         <span class="comment">% sum(imag(zeta),3)</span>
-0198         <span class="comment">% neta = eta - zeta;</span>
-0199         <span class="comment">% innerproduct(X, zeta, neta) % This should be zero</span>
-0200     <span class="keyword">end</span>
-0201     
-0202     M.tangent = M.proj;
-0203     M.tangent2ambient = @(X, eta) eta;
-0204     
-0205     myeps = eps;
-0206     
-0207     M.retr = @<a href="#_sub8" class="code" title="subfunction Y = retraction(X, eta, t) ">retraction</a>;
-0208     <a name="_sub8" href="#_subfunctions" class="code">function Y = retraction(X, eta, t) </a><span class="comment">% BM okay</span>
-0209         <span class="keyword">if</span> nargin &lt; 3
-0210             teta = eta;
-0211         <span class="keyword">else</span>
-0212             teta = t*eta;
-0213         <span class="keyword">end</span>
-0214         <span class="comment">% The symm() call is mathematically unnecessary but numerically</span>
-0215         <span class="comment">% necessary.</span>
-0216         Y = zeros(size(X));
-0217         <span class="keyword">for</span> kk=1:k
-0218             <span class="comment">% Second-order approximation of expm</span>
-0219             Y(:,:,kk) = symm(X(:,:,kk) + teta(:,:,kk) + .5*teta(:,:,kk)*((X(:,:,kk) + myeps*eye(n) )\teta(:,:,kk)));
-0220         <span class="keyword">end</span>
-0221         Ysum = sum(Y, 3);
-0222         Ysumsqrt = sqrtm(Ysum);
-0223         <span class="keyword">for</span> kk=1:kk
-0224             Y(:,:,kk) = symm((Ysumsqrt\Y(:,:,kk))/Ysumsqrt);
-0225         <span class="keyword">end</span>
-0226         <span class="comment">% % Debug</span>
-0227         <span class="comment">% norm(sum(Y, 3) - eye(n), 'fro') % This should be zero</span>
-0228     <span class="keyword">end</span>
-0229     
-0230     M.exp = @<a href="#_sub9" class="code" title="subfunction Y = exponential(X, eta, t)">exponential</a>;
-0231     <a name="_sub9" href="#_subfunctions" class="code">function Y = exponential(X, eta, t)</a>
-0232         <span class="keyword">if</span> nargin &lt; 3
-0233             t = 1.0;
-0234         <span class="keyword">end</span>
-0235         Y = <a href="#_sub8" class="code" title="subfunction Y = retraction(X, eta, t) ">retraction</a>(X, eta, t);
-0236         warning(<span class="string">'manopt:sympositivedefinitesimplexcomplexfactory:exp'</span>, <span class="keyword">...</span>
-0237             [<span class="string">'Exponential for the Simplex'</span> <span class="keyword">...</span>
-0238             <span class="string">'manifold not implemented yet. Used retraction instead.'</span>]);
-0239     <span class="keyword">end</span>
-0240     
-0241     M.hash = @(X) [<span class="string">'z'</span> <a href="../../../manopt/tools/hashmd5.html" class="code" title="function h = hashmd5(inp)">hashmd5</a>([real(X(:)); imag(X(:))])];<span class="comment">% BM okay</span>
-0242     
-0243     <span class="comment">% Generate a random symmetric positive definite matrix following a</span>
-0244     <span class="comment">% certain distribution. The particular choice of a distribution is of</span>
-0245     <span class="comment">% course arbitrary, and specific applications might require different</span>
-0246     <span class="comment">% ones.</span>
-0247     M.rand = @<a href="#_sub10" class="code" title="subfunction X = random()">random</a>;
-0248     <a name="_sub10" href="#_subfunctions" class="code">function X = random()</a>
-0249         X = nan(n,n,k);
-0250         <span class="keyword">for</span> kk = 1:k
-0251             D = diag(1+rand(n, 1));
-0252             [Q, R] = qr(randn(n) +1i*randn(n)); <span class="comment">% BM okay</span>
-0253             X(:,:,kk) = Q*D*Q';
-0254         <span class="keyword">end</span>
-0255         Xsum = sum(X, 3);
-0256         Xsumsqrt = sqrtm(Xsum);
-0257         <span class="keyword">for</span> kk = 1 : k
-0258             X(:,:,kk) = symm((Xsumsqrt\X(:,:,kk))/Xsumsqrt); <span class="comment">% To do</span>
-0259         <span class="keyword">end</span>
-0260     <span class="keyword">end</span>
-0261     
-0262     <span class="comment">% Generate a uniformly random unit-norm tangent vector at X.</span>
-0263     M.randvec = @<a href="#_sub11" class="code" title="subfunction eta = randomvec(X)">randomvec</a>;
-0264     <a name="_sub11" href="#_subfunctions" class="code">function eta = randomvec(X)</a>
-0265         eta = nan(size(X));
-0266         <span class="keyword">for</span> kk = 1:k
-0267             eta(:,:,kk) = symm(randn(n,n) + 1i*randn(n, n)); <span class="comment">% BM okay</span>
-0268         <span class="keyword">end</span>
-0269         eta = M.proj(X, eta); <span class="comment">% To do</span>
-0270         nrm = M.norm(X, eta);
-0271         eta = eta / nrm;
-0272     <span class="keyword">end</span>
-0273     
-0274     M.lincomb = @<a href="../../../manopt/tools/matrixlincomb.html" class="code" title="function v = matrixlincomb(x, a1, d1, a2, d2) %#ok<INUSL>">matrixlincomb</a>; <span class="comment">% BM okay</span>
-0275     
-0276     M.zerovec = @(X) zeros(n,n,k); <span class="comment">% BM okay</span>
-0277     
-0278     <span class="comment">% Poor man's vector transport: exploit the fact that all tangent spaces</span>
-0279     <span class="comment">% are the set of symmetric matrices, so that the identity is a sort of</span>
-0280     <span class="comment">% vector transport. It may perform poorly if the origin and target (X1</span>
-0281     <span class="comment">% and X2) are far apart though. This should not be the case for typical</span>
-0282     <span class="comment">% optimization algorithms, which perform small steps.</span>
-0283     M.transp = @(X1, X2, eta) M.proj(X2, eta);<span class="comment">% To do</span>
-0284     
-0285     <span class="comment">% vec and mat are not isometries, because of the unusual inner metric.</span>
-0286     M.vec = @(X, U) [real(U(:)); image(U(:))] ; <span class="comment">% BM okay</span>
-0287     M.mat = @(X, u) reshape(u(1:(n*n*k)) + 1i*u((n*n*k+1):end), n, n, k); <span class="comment">% BM okay</span>
-0288     M.vecmatareisometries = @() false;
+0121     M.ehess2rhess = @<a href="#_sub4" class="code" title="subfunction Hess = ehess2rhess(X, egrad, ehess, eta)">ehess2rhess</a>;
+0122     <a name="_sub4" href="#_subfunctions" class="code">function Hess = ehess2rhess(X, egrad, ehess, eta)</a>
+0123 
+0124         Hess = nan(size(X));
+0125         
+0126         egradscaled = nan(size(egrad));
+0127         egradscaleddot = nan(size(egrad));
+0128         <span class="keyword">for</span> kk = 1:k
+0129             egradk = symm(egrad(:,:,kk));
+0130             ehessk = symm(ehess(:,:,kk));
+0131             Xk = X(:,:,kk);
+0132             etak = eta(:,:,kk);
+0133 
+0134             egradscaled(:,:,kk) = Xk*egradk*Xk;
+0135             egradscaleddot(:,:,kk) = Xk*ehessk*Xk + 2*symm(etak*egradk*Xk);
+0136         <span class="keyword">end</span>
+0137 
+0138         <span class="comment">% Compute Lambdasol</span>
+0139         RHS = - sum(egradscaled,3);
+0140         [Lambdasol] = <a href="#_sub6" class="code" title="subfunction Lambdasol = mylinearsolve(X, RHS)">mylinearsolve</a>(X, RHS);
+0141 
+0142 
+0143         <span class="comment">% Compute Lambdasoldot</span>
+0144         temp = nan(size(egrad));;
+0145         <span class="keyword">for</span> kk = 1:k
+0146             Xk = X(:,:,kk);
+0147             etak = eta(:,:,kk);
+0148 
+0149             temp(:,:,kk) = 2*symm(etak*Lambdasol*Xk);
+0150         <span class="keyword">end</span>
+0151         RHSdot = - sum(egradscaleddot,3) - sum(temp,3);
+0152         [Lambdasoldot] = <a href="#_sub6" class="code" title="subfunction Lambdasol = mylinearsolve(X, RHS)">mylinearsolve</a>(X, RHSdot);
+0153 
+0154 
+0155         <span class="keyword">for</span> kk = 1:k
+0156             egradk = symm(egrad(:,:,kk));
+0157             ehessk = symm(ehess(:,:,kk));
+0158             Xk = X(:,:,kk);
+0159             etak = eta(:,:,kk);
+0160 
+0161             <span class="comment">% Directional derivatives of the Riemannian gradient</span>
+0162             <span class="comment">% Note that Riemannian grdient is Xk*egradk*Xk + Xk*Lambdasol*Xk.</span>
+0163             <span class="comment">% rhessk = Xk*(ehessk + Lambdasoldot)*Xk + 2*symm(etak*(egradk + Lambdasol)*Xk);</span>
+0164             <span class="comment">% rhessk = rhessk - symm(etak*(egradk + Lambdasol)*Xk);</span>
+0165             rhessk = Xk*(ehessk + Lambdasoldot)*Xk + symm(etak*(egradk + Lambdasol)*Xk);
+0166 
+0167             Hess(:,:,kk) = rhessk;
+0168         <span class="keyword">end</span>
+0169         
+0170         <span class="comment">% Project onto the set X1dot + X2dot + ... = 0.</span>
+0171         Hess = M.proj(X, Hess);
+0172 
+0173 
+0174         <span class="comment">% Hess = nan(size(X));</span>
+0175         <span class="comment">% for kk = 1 : k</span>
+0176         <span class="comment">%     % % Directional derivatives of the Riemannian gradient</span>
+0177         <span class="comment">%     % Hess(:,:,kk) = symm(X(:,:,kk)*symm(ehess(:,:,kk))*X(:,:,kk)) + 2*symm(eta(:,:,kk)*symm(egrad(:,:,kk))*X(:,:,kk));</span>
+0178             
+0179         <span class="comment">%     % % Correction factor for the non-constant metric</span>
+0180         <span class="comment">%     % Hess(:,:,kk) = Hess(:,:,kk) - symm(eta(:,:,kk)*symm(egrad(:,:,kk))*X(:,:,kk));</span>
+0181             
+0182         <span class="comment">%     Hess(:,:,kk) = symm(X(:,:,kk)*symm(ehess(:,:,kk))*X(:,:,kk)) + symm(eta(:,:,kk)*symm(egrad(:,:,kk))*X(:,:,kk));</span>
+0183         <span class="comment">% end</span>
+0184         
+0185         <span class="comment">% % Project onto the set X1dot + X2dot + ... = 0.</span>
+0186         <span class="comment">% Hess = M.proj(X, Hess);</span>
+0187         
+0188     <span class="keyword">end</span>
+0189     
+0190     
+0191     <span class="comment">% Project onto the set X1dot + X2dot + ... = 0.</span>
+0192     M.proj = @<a href="#_sub5" class="code" title="subfunction zeta = innerprojection(X, eta)">innerprojection</a>;
+0193     <a name="_sub5" href="#_subfunctions" class="code">function zeta = innerprojection(X, eta)</a>
+0194         <span class="comment">% etareal = real(eta);</span>
+0195      <span class="comment">%    etaimag = imag(eta);</span>
+0196      <span class="comment">%    sumetareal = sum(etareal,3);</span>
+0197      <span class="comment">%    sumetaimag = sum(etaimag,3);</span>
+0198 
+0199         RHS = -sum(eta,3);
+0200         
+0201         Lambdasol = <a href="#_sub6" class="code" title="subfunction Lambdasol = mylinearsolve(X, RHS)">mylinearsolve</a>(X, RHS);
+0202         
+0203         zeta = zeros(size(eta));
+0204         <span class="keyword">for</span> jj = 1 : k
+0205             zeta(:,:,jj) = eta(:,:,jj) + (X(:,:,jj)*Lambdasol*X(:,:,jj));
+0206         <span class="keyword">end</span>
+0207         
+0208         <span class="comment">% % Debug</span>
+0209         <span class="comment">% eta;</span>
+0210         <span class="comment">% sum(real(zeta),3)</span>
+0211         <span class="comment">% sum(imag(zeta),3)</span>
+0212         <span class="comment">% neta = eta - zeta;</span>
+0213         <span class="comment">% innerproduct(X, zeta, neta) % This should be zero</span>
+0214     <span class="keyword">end</span>
+0215 
+0216 
+0217     <a name="_sub6" href="#_subfunctions" class="code">function Lambdasol = mylinearsolve(X, RHS)</a>
+0218         <span class="comment">% Solve the linear system.</span>
+0219         tol_omegax_pcg = 1e-8;
+0220         max_iterations_pcg = 100;
+0221         
+0222         sumetareal = real(RHS);
+0223         sumetaimag = imag(RHS);
+0224         
+0225         rhs = [sumetareal(:); sumetaimag(:)];
+0226         
+0227         [lambdasol, ~, ~, ~] = pcg(@<a href="#_sub7" class="code" title="subfunction lhslambda = compute_matrix_system(lambda)">compute_matrix_system</a>, rhs, tol_omegax_pcg, max_iterations_pcg);
+0228         
+0229         lambdasolreal = lambdasol(1:n^2);
+0230         lambdasolimag = lambdasol(n^2  + 1 : end);
+0231         
+0232         Lambdasol = symm(reshape(lambdasolreal, [n n])) + 1i*reshape(lambdasolimag,n,n);
+0233         
+0234         <a name="_sub7" href="#_subfunctions" class="code">function lhslambda = compute_matrix_system(lambda)</a>
+0235             lambdareal = lambda(1:n^2);
+0236             lambdaimag = lambda(n^2 + 1 : end);
+0237             Lambda = symm(reshape(lambdareal, [n n])) + 1i*reshape(lambdaimag, n, n);
+0238             lhsLambda = zeros(n,n);
+0239             <span class="keyword">for</span> kk = 1 : k
+0240                 lhsLambda = lhsLambda + ((X(:,:,kk)*Lambda*X(:,:,kk)));
+0241             <span class="keyword">end</span>
+0242             lhsLambdareal = real(lhsLambda);
+0243             lhsLambdaimag = imag(lhsLambda);
+0244             lhslambda = [lhsLambdareal(:); lhsLambdaimag(:)];
+0245         <span class="keyword">end</span>
+0246     <span class="keyword">end</span>
+0247 
+0248     
+0249     M.tangent = M.proj;
+0250     M.tangent2ambient = @(X, eta) eta;
+0251     
+0252     myeps = eps;
+0253     
+0254     M.retr = @<a href="#_sub8" class="code" title="subfunction Y = retraction(X, eta, t) ">retraction</a>;
+0255     <a name="_sub8" href="#_subfunctions" class="code">function Y = retraction(X, eta, t) </a><span class="comment">% BM okay</span>
+0256         <span class="keyword">if</span> nargin &lt; 3
+0257             teta = eta;
+0258         <span class="keyword">else</span>
+0259             teta = t*eta;
+0260         <span class="keyword">end</span>
+0261         <span class="comment">% The symm() call is mathematically unnecessary but numerically</span>
+0262         <span class="comment">% necessary.</span>
+0263         Y = zeros(size(X));
+0264         <span class="keyword">for</span> kk=1:k
+0265             <span class="comment">% Second-order approximation of expm</span>
+0266             Y(:,:,kk) = symm(X(:,:,kk) + teta(:,:,kk) + .5*teta(:,:,kk)*((X(:,:,kk) + myeps*eye(n) )\teta(:,:,kk)));
+0267         <span class="keyword">end</span>
+0268         Ysum = sum(Y, 3);
+0269         Ysumsqrt = sqrtm(Ysum);
+0270         <span class="keyword">for</span> kk=1:kk
+0271             Y(:,:,kk) = symm((Ysumsqrt\Y(:,:,kk))/Ysumsqrt);
+0272         <span class="keyword">end</span>
+0273         <span class="comment">% % Debug</span>
+0274         <span class="comment">% norm(sum(Y, 3) - eye(n), 'fro') % This should be zero</span>
+0275     <span class="keyword">end</span>
+0276     
+0277     M.exp = @<a href="#_sub9" class="code" title="subfunction Y = exponential(X, eta, t)">exponential</a>;
+0278     <a name="_sub9" href="#_subfunctions" class="code">function Y = exponential(X, eta, t)</a>
+0279         <span class="keyword">if</span> nargin &lt; 3
+0280             t = 1.0;
+0281         <span class="keyword">end</span>
+0282         Y = <a href="#_sub8" class="code" title="subfunction Y = retraction(X, eta, t) ">retraction</a>(X, eta, t);
+0283         warning(<span class="string">'manopt:sympositivedefinitesimplexcomplexfactory:exp'</span>, <span class="keyword">...</span>
+0284             [<span class="string">'Exponential for the Simplex'</span> <span class="keyword">...</span>
+0285             <span class="string">'manifold not implemented yet. Used retraction instead.'</span>]);
+0286     <span class="keyword">end</span>
+0287     
+0288     M.hash = @(X) [<span class="string">'z'</span> <a href="../../../manopt/tools/hashmd5.html" class="code" title="function h = hashmd5(inp)">hashmd5</a>([real(X(:)); imag(X(:))])];<span class="comment">% BM okay</span>
 0289     
-0290 <span class="keyword">end</span></pre></div>
-<hr><address>Generated on Sun 05-Sep-2021 17:57:00 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+0290     <span class="comment">% Generate a random symmetric positive definite matrix following a</span>
+0291     <span class="comment">% certain distribution. The particular choice of a distribution is of</span>
+0292     <span class="comment">% course arbitrary, and specific applications might require different</span>
+0293     <span class="comment">% ones.</span>
+0294     M.rand = @<a href="#_sub10" class="code" title="subfunction X = random()">random</a>;
+0295     <a name="_sub10" href="#_subfunctions" class="code">function X = random()</a>
+0296         X = nan(n,n,k);
+0297         <span class="keyword">for</span> kk = 1:k
+0298             D = diag(1+rand(n, 1));
+0299             [Q, R] = qr(randn(n) +1i*randn(n)); <span class="comment">% BM okay</span>
+0300             X(:,:,kk) = Q*D*Q';
+0301         <span class="keyword">end</span>
+0302         Xsum = sum(X, 3);
+0303         Xsumsqrt = sqrtm(Xsum);
+0304         <span class="keyword">for</span> kk = 1 : k
+0305             X(:,:,kk) = symm((Xsumsqrt\X(:,:,kk))/Xsumsqrt); <span class="comment">% To do</span>
+0306         <span class="keyword">end</span>
+0307     <span class="keyword">end</span>
+0308     
+0309     <span class="comment">% Generate a uniformly random unit-norm tangent vector at X.</span>
+0310     M.randvec = @<a href="#_sub11" class="code" title="subfunction eta = randomvec(X)">randomvec</a>;
+0311     <a name="_sub11" href="#_subfunctions" class="code">function eta = randomvec(X)</a>
+0312         eta = nan(size(X));
+0313         <span class="keyword">for</span> kk = 1:k
+0314             eta(:,:,kk) = symm(randn(n,n) + 1i*randn(n, n)); <span class="comment">% BM okay</span>
+0315         <span class="keyword">end</span>
+0316         eta = M.proj(X, eta); <span class="comment">% To do</span>
+0317         nrm = M.norm(X, eta);
+0318         eta = eta / nrm;
+0319     <span class="keyword">end</span>
+0320     
+0321     M.lincomb = @<a href="../../../manopt/tools/matrixlincomb.html" class="code" title="function v = matrixlincomb(x, a1, d1, a2, d2) %#ok<INUSL>">matrixlincomb</a>; <span class="comment">% BM okay</span>
+0322     
+0323     M.zerovec = @(X) zeros(n,n,k); <span class="comment">% BM okay</span>
+0324     
+0325     <span class="comment">% Poor man's vector transport: exploit the fact that all tangent spaces</span>
+0326     <span class="comment">% are the set of symmetric matrices, so that the identity is a sort of</span>
+0327     <span class="comment">% vector transport. It may perform poorly if the origin and target (X1</span>
+0328     <span class="comment">% and X2) are far apart though. This should not be the case for typical</span>
+0329     <span class="comment">% optimization algorithms, which perform small steps.</span>
+0330     M.transp = @(X1, X2, eta) M.proj(X2, eta);<span class="comment">% To do</span>
+0331     
+0332     <span class="comment">% vec and mat are not isometries, because of the unusual inner metric.</span>
+0333     M.vec = @(X, U) [real(U(:)); image(U(:))] ; <span class="comment">% BM okay</span>
+0334     M.mat = @(X, u) reshape(u(1:(n*n*k)) + 1i*u((n*n*k+1):end), n, n, k); <span class="comment">% BM okay</span>
+0335     M.vecmatareisometries = @() false;
+0336     
+0337 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Fri 30-Sep-2022 13:18:25 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
 </body>
 </html>

@@ -35,7 +35,7 @@
 <h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../up.png"></a></h2>
 This function calls:
 <ul style="list-style-image:url(../../../../../matlabicon.gif)">
-<li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod.html" class="code" title="function res = tensorprod( U, A, mode, apply_inv )">tensorprod</a>	TENSORPROD Tensor-times-Matrix product.</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/unfold.html" class="code" title="function W = unfold( U, dir )">unfold</a>	UNFOLD Left/right-unfold a 3D array.</li></ul>
+<li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod_ttemps.html" class="code" title="function res = tensorprod_ttemps( U, A, mode, apply_inv )">tensorprod_ttemps</a>	TENSORPROD_TTEMPS Tensor-times-Matrix product.</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/unfold.html" class="code" title="function W = unfold( U, dir )">unfold</a>	UNFOLD Left/right-unfold a 3D array.</li></ul>
 This function is called by:
 <ul style="list-style-image:url(../../../../../matlabicon.gif)">
 <li><a href="TTeMPS.html" class="code" title="">TTeMPS</a>	</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_block/TTeMPS_block.html" class="code" title="">TTeMPS_block</a>	</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_block/truncate.html" class="code" title="function x = round( x, r )">truncate</a>	ROUND Approximate TTeMPS tensor within a prescribed tolerance.</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_tangent/TTeMPS_tangent.html" class="code" title="">TTeMPS_tangent</a>	</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_tangent_orth/TTeMPS_tangent_orth.html" class="code" title="">TTeMPS_tangent_orth</a>	</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/algorithms/eigenvalue/amen_eigenvalue.html" class="code" title="function [X, C, evalue, residuums, micro_res, objective, elapsed_time] = amen_eigenvalue(A, prec, p, rr, opts)">amen_eigenvalue</a>	AMEN_EIGENVALUE Calculate p smallest eigenvalues of a TTeMPS operator</li><li><a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/examples/example.html" class="code" title="">example</a>	TTeMPS Toolbox.</li></ul>
@@ -65,10 +65,10 @@ This function is called by:
 0019         V = V(:,1:s);
 0020         S = S(1:s,1:s);
 0021         x.U{i} = reshape( V', [s, x.size(i), x.rank(i+1)] );
-0022         x.U{i-1} = <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod.html" class="code" title="function res = tensorprod( U, A, mode, apply_inv )">tensorprod</a>( x.U{i-1}, (U*S)', 3 );
+0022         x.U{i-1} = <a href="../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod_ttemps.html" class="code" title="function res = tensorprod_ttemps( U, A, mode, apply_inv )">tensorprod_ttemps</a>( x.U{i-1}, (U*S)', 3 );
 0023     <span class="keyword">end</span>
 0024 
 0025 <span class="keyword">end</span></pre></div>
-<hr><address>Generated on Sun 05-Sep-2021 17:57:00 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+<hr><address>Generated on Fri 30-Sep-2022 13:18:25 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
 </body>
 </html>

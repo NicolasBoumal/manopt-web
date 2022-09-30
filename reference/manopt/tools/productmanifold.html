@@ -64,7 +64,7 @@ This function is called by:
 
 <h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
 <ul style="list-style-image:url(../../matlabicon.gif)">
-<li><a href="#_sub1" class="code">function M = productmanifoldhelper(elements, elems, nelems,</a></li><li><a href="#_sub2" class="code">function answer = all_elements_provide(method_name)</a></li><li><a href="#_sub3" class="code">function str = name()</a></li><li><a href="#_sub4" class="code">function d = dim()</a></li><li><a href="#_sub5" class="code">function val = inner(x, u, v)</a></li><li><a href="#_sub6" class="code">function d = dist(x, y)</a></li><li><a href="#_sub7" class="code">function d = typicaldist</a></li><li><a href="#_sub8" class="code">function v = proj(x, u)</a></li><li><a href="#_sub9" class="code">function v = tangent(x, u)</a></li><li><a href="#_sub10" class="code">function v = tangent2ambient(x, u)</a></li><li><a href="#_sub11" class="code">function g = egrad2rgrad(x, g)</a></li><li><a href="#_sub12" class="code">function h = ehess2rhess(x, eg, eh, h)</a></li><li><a href="#_sub13" class="code">function y = exp(x, u, t)</a></li><li><a href="#_sub14" class="code">function y = retr(x, u, t)</a></li><li><a href="#_sub15" class="code">function u = log(x1, x2)</a></li><li><a href="#_sub16" class="code">function str = hash(x)</a></li><li><a href="#_sub17" class="code">function v = lincomb(x, a1, u1, a2, u2)</a></li><li><a href="#_sub18" class="code">function x = rand()</a></li><li><a href="#_sub19" class="code">function u = randvec(x)</a></li><li><a href="#_sub20" class="code">function u = zerovec(x)</a></li><li><a href="#_sub21" class="code">function v = transp(x1, x2, u)</a></li><li><a href="#_sub22" class="code">function y = pairmean(x1, x2)</a></li><li><a href="#_sub23" class="code">function u_vec = vec(x, u_mat)</a></li><li><a href="#_sub24" class="code">function u_mat = mat(x, u_vec)</a></li></ul>
+<li><a href="#_sub1" class="code">function M = productmanifoldhelper(elements, elems, nelems,</a></li><li><a href="#_sub2" class="code">function answer = all_elements_provide(method_name)</a></li><li><a href="#_sub3" class="code">function str = name()</a></li><li><a href="#_sub4" class="code">function d = dim()</a></li><li><a href="#_sub5" class="code">function val = inner(x, u, v)</a></li><li><a href="#_sub6" class="code">function d = dist(x, y)</a></li><li><a href="#_sub7" class="code">function d = typicaldist</a></li><li><a href="#_sub8" class="code">function v = proj(x, u)</a></li><li><a href="#_sub9" class="code">function v = tangent(x, u)</a></li><li><a href="#_sub10" class="code">function v = tangent2ambient(x, u)</a></li><li><a href="#_sub11" class="code">function g = egrad2rgrad(x, g)</a></li><li><a href="#_sub12" class="code">function h = ehess2rhess(x, eg, eh, h)</a></li><li><a href="#_sub13" class="code">function y = exp(x, u, t)</a></li><li><a href="#_sub14" class="code">function y = retr(x, u, t)</a></li><li><a href="#_sub15" class="code">function u = log(x1, x2)</a></li><li><a href="#_sub16" class="code">function str = hash(x)</a></li><li><a href="#_sub17" class="code">function v = lincomb(x, a1, u1, a2, u2)</a></li><li><a href="#_sub18" class="code">function x = rand()</a></li><li><a href="#_sub19" class="code">function u = randvec(x)</a></li><li><a href="#_sub20" class="code">function u = zerovec(x)</a></li><li><a href="#_sub21" class="code">function v = transp(x1, x2, u)</a></li><li><a href="#_sub22" class="code">function y = pairmean(x1, x2)</a></li><li><a href="#_sub23" class="code">function u_vec = vec(x, u_mat)</a></li><li><a href="#_sub24" class="code">function u_mat = mat(x, u_vec)</a></li><li><a href="#_sub25" class="code">function I = lie_identity()</a></li></ul>
 
 <h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
 <div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function M = productmanifold(elements)</a>
@@ -432,8 +432,20 @@ This function is called by:
 0363     <span class="keyword">end</span>
 0364 
 0365     M.vecmatareisometries = @() vecmatareisometries;    
-0366 
-0367 <span class="keyword">end</span></pre></div>
-<hr><address>Generated on Sun 05-Sep-2021 17:57:00 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+0366     
+0367     <span class="keyword">if</span> <a href="#_sub2" class="code" title="subfunction answer = all_elements_provide(method_name)">all_elements_provide</a>(<span class="string">'lie_identity'</span>)
+0368         M.lie_identity = @<a href="#_sub25" class="code" title="subfunction I = lie_identity()">lie_identity</a>;
+0369     <span class="keyword">end</span>
+0370 
+0371     <a name="_sub25" href="#_subfunctions" class="code">function I = lie_identity()</a>
+0372         I = struct();
+0373         <span class="keyword">for</span> i = 1 : nelems
+0374             Mi = elements.(elems{i});
+0375             Ii = Mi.lie_identity();
+0376             I.(elems{i}) = Ii;
+0377         <span class="keyword">end</span>
+0378     <span class="keyword">end</span>
+0379 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Fri 30-Sep-2022 13:18:25 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
 </body>
 </html>

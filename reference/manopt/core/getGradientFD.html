@@ -47,7 +47,7 @@
 <h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
 This function calls:
 <ul style="list-style-image:url(../../matlabicon.gif)">
-<li><a href="StoreDB.html" class="code" title="">StoreDB</a>	</li><li><a href="canGetCost.html" class="code" title="function candoit = canGetCost(problem)">canGetCost</a>	Checks whether the cost function can be computed for a problem structure.</li><li><a href="getCost.html" class="code" title="function cost = getCost(problem, x, storedb, key)">getCost</a>	Computes the cost function at x.</li><li><a href="../../manopt/tools/lincomb.html" class="code" title="function vec = lincomb(M, x, vecs, coeffs)">lincomb</a>	Computes a linear combination of tangent vectors in the Manopt framework.</li><li><a href="../../manopt/tools/tangentorthobasis.html" class="code" title="function orthobasis = tangentorthobasis(M, x, n)">tangentorthobasis</a>	Returns an orthonormal basis of tangent vectors in the Manopt framework.</li></ul>
+<li><a href="StoreDB.html" class="code" title="">StoreDB</a>	</li><li><a href="canGetCost.html" class="code" title="function candoit = canGetCost(problem)">canGetCost</a>	Checks whether the cost function can be computed for a problem structure.</li><li><a href="getCost.html" class="code" title="function cost = getCost(problem, x, storedb, key)">getCost</a>	Computes the cost function at x.</li><li><a href="../../manopt/tools/lincomb.html" class="code" title="function vec = lincomb(M, x, vecs, coeffs)">lincomb</a>	Computes a linear combination of tangent vectors in the Manopt framework.</li><li><a href="../../manopt/tools/tangentorthobasis.html" class="code" title="function orthobasis = tangentorthobasis(M, x, n, basis_vecs)">tangentorthobasis</a>	Returns an orthonormal basis of tangent vectors in the Manopt framework.</li></ul>
 This function is called by:
 <ul style="list-style-image:url(../../matlabicon.gif)">
 <li><a href="getApproxGradient.html" class="code" title="function approxgrad = getApproxGradient(problem, x, storedb, key)">getApproxGradient</a>	Computes an approximation of the gradient of the cost function at x.</li></ul>
@@ -108,7 +108,7 @@ This function is called by:
 0050     <span class="comment">% thereof. The default is a full subspace. If a strict subspace is</span>
 0051     <span class="comment">% picked, the returned vector approximates the orthogonal projection of</span>
 0052     <span class="comment">% the gradient to that subspace.</span>
-0053     B = <a href="../../manopt/tools/tangentorthobasis.html" class="code" title="function orthobasis = tangentorthobasis(M, x, n)">tangentorthobasis</a>(problem.M, x, subspacedim);
+0053     B = <a href="../../manopt/tools/tangentorthobasis.html" class="code" title="function orthobasis = tangentorthobasis(M, x, n, basis_vecs)">tangentorthobasis</a>(problem.M, x, subspacedim);
 0054     
 0055     <span class="comment">% Use finite differences to approximate the directional derivative</span>
 0056     <span class="comment">% along each direction in the basis B.</span>
@@ -129,6 +129,6 @@ This function is called by:
 0071     gradfd = <a href="../../manopt/tools/lincomb.html" class="code" title="function vec = lincomb(M, x, vecs, coeffs)">lincomb</a>(problem.M, x, B, df);
 0072     
 0073 <span class="keyword">end</span></pre></div>
-<hr><address>Generated on Sun 05-Sep-2021 17:57:00 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+<hr><address>Generated on Fri 30-Sep-2022 13:18:25 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
 </body>
 </html>

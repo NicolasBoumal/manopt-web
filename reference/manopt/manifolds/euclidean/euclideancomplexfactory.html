@@ -156,8 +156,9 @@ This function is called by:
 0095     M.mat = @(x, u_vec) reshape(u_vec(1:sz), dimensions_vec) <span class="keyword">...</span>
 0096                         + 1i*reshape(u_vec((sz+1):end), dimensions_vec);
 0097     M.vecmatareisometries = @() true;
-0098 
-0099 <span class="keyword">end</span></pre></div>
-<hr><address>Generated on Sun 05-Sep-2021 17:57:00 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+0098     M.lie_identity = @() zeros(dimensions_vec);
+0099 
+0100 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Fri 30-Sep-2022 13:18:25 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
 </body>
 </html>

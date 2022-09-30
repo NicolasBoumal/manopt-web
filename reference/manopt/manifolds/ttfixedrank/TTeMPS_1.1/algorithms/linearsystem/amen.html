@@ -108,7 +108,7 @@ This function is called by:
 0059         t = find( diag(S) &gt; opts.tol*<a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>(diag(S)), 1, <span class="string">'last'</span> );
 0060         t = min( t, opts.maxrank );
 0061         X.U{mu} = reshape( U(:,1:t), [X.rank(mu), n(mu), t] );
-0062         <span class="comment">%X.U{mu+1} = tensorprod( right, S(1:t,1:t)*V(:,1:t)', 1);</span>
+0062         <span class="comment">%X.U{mu+1} = tensorprod_ttemps( right, S(1:t,1:t)*V(:,1:t)', 1);</span>
 0063         X.U{mu+1} = rand( t, n(mu+1), X.rank(mu+2));
 0064 
 0065     <span class="keyword">end</span>
@@ -146,7 +146,7 @@ This function is called by:
 0097         t = find( diag(S) &gt; opts.tol*<a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>(diag(S)), 1, <span class="string">'last'</span> );
 0098         t = min( t, opts.maxrank );
 0099         X.U{mu} = reshape( V(:,1:t)', [t, n(mu), X.rank(mu+1)] );
-0100         <span class="comment">%X.U{mu+1} = tensorprod( right, S(1:t,1:t)*V(:,1:t)', 1);</span>
+0100         <span class="comment">%X.U{mu+1} = tensorprod_ttemps( right, S(1:t,1:t)*V(:,1:t)', 1);</span>
 0101         X.U{mu-1} = rand( X.rank(mu-1), n(mu-1), t);
 0102 
 0103         <span class="comment">%residuum = [residuum; norm( apply(L, X) - F ) / normF];</span>
@@ -175,6 +175,6 @@ This function is called by:
 0126 res = <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_op/apply.html" class="code" title="function y = apply( A, x, idx )">apply</a>(L, X) - F;
 0127 <span class="keyword">end</span>
 0128</pre></div>
-<hr><address>Generated on Sun 05-Sep-2021 17:57:00 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+<hr><address>Generated on Fri 30-Sep-2022 13:18:25 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
 </body>
 </html>

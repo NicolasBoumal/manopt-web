@@ -57,7 +57,7 @@
 <h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
 This function calls:
 <ul style="list-style-image:url(../../../matlabicon.gif)">
-<li><a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/full.html" class="code" title="function y = full( x )">full</a>	FULL Convert TTeMPS tensor to full array</li><li><a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>	NORM Norm of a TT/MPS tensor.</li><li><a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_block/full.html" class="code" title="function y = full( x )">full</a>	FULL Convert TTeMPS tensor to full array</li><li><a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_block/norm.html" class="code" title="function res = norm( x )">norm</a>	NORM Norm of a TT/MPS block-mu tensor.</li><li><a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_op/full.html" class="code" title="function Afull = full( A )">full</a>	FULL Convert TTeMPS_op operator to full array</li><li><a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod.html" class="code" title="function res = tensorprod( U, A, mode, apply_inv )">tensorprod</a>	TENSORPROD Tensor-times-Matrix product.</li><li><a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/unfold.html" class="code" title="function W = unfold( U, dir )">unfold</a>	UNFOLD Left/right-unfold a 3D array.</li><li><a href="../../../manopt/tools/qr_unique.html" class="code" title="function [Q, R] = qr_unique(A)">qr_unique</a>	Thin QR factorization ensuring diagonal of R is real, positive if possible.</li></ul>
+<li><a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/full.html" class="code" title="function y = full( x )">full</a>	FULL Convert TTeMPS tensor to full array</li><li><a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/norm.html" class="code" title="function res = norm( x, safe )">norm</a>	NORM Norm of a TT/MPS tensor.</li><li><a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_block/full.html" class="code" title="function y = full( x )">full</a>	FULL Convert TTeMPS tensor to full array</li><li><a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_block/norm.html" class="code" title="function res = norm( x )">norm</a>	NORM Norm of a TT/MPS block-mu tensor.</li><li><a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_op/full.html" class="code" title="function Afull = full( A )">full</a>	FULL Convert TTeMPS_op operator to full array</li><li><a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod_ttemps.html" class="code" title="function res = tensorprod_ttemps( U, A, mode, apply_inv )">tensorprod_ttemps</a>	TENSORPROD_TTEMPS Tensor-times-Matrix product.</li><li><a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/unfold.html" class="code" title="function W = unfold( U, dir )">unfold</a>	UNFOLD Left/right-unfold a 3D array.</li><li><a href="../../../manopt/tools/qr_unique.html" class="code" title="function [Q, R] = qr_unique(A)">qr_unique</a>	Thin QR factorization ensuring diagonal of R is real, positive if possible.</li></ul>
 This function is called by:
 <ul style="list-style-image:url(../../../matlabicon.gif)">
 <li><a href="fixedTTrankfactory.html" class="code" title="function M = fixedTTrankfactory(n, r, ind)">fixedTTrankfactory</a>	Manifold of tensors of fixed Tensor Train (TT) rank, embedded geometry</li></ul>
@@ -133,7 +133,7 @@ This function is called by:
 0063         [Q, R{k - 1}] = <a href="../../../manopt/tools/qr_unique.html" class="code" title="function [Q, R] = qr_unique(A)">qr_unique</a>(<a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/unfold.html" class="code" title="function W = unfold( U, dir )">unfold</a>(Xr{k}, <span class="string">'right'</span>)');
 0064         Xr{k} = reshape(Q', [size(Q, 2), sz(2), sz(3)]);
 0065 
-0066         Xr{k - 1} = <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod.html" class="code" title="function res = tensorprod( U, A, mode, apply_inv )">tensorprod</a>(Xr{k - 1}, R{k - 1}, 3);
+0066         Xr{k - 1} = <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod_ttemps.html" class="code" title="function res = tensorprod_ttemps( U, A, mode, apply_inv )">tensorprod_ttemps</a>(Xr{k - 1}, R{k - 1}, 3);
 0067     <span class="keyword">end</span>
 0068 
 0069     <span class="comment">% Calculate V.dU under the original parametrization of tangent space</span>
@@ -154,10 +154,10 @@ This function is called by:
 0084     XtVgTmp = conj(<a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/unfold.html" class="code" title="function W = unfold( U, dir )">unfold</a>(V.V{d}, <span class="string">'right'</span>)) * <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/unfold.html" class="code" title="function W = unfold( U, dir )">unfold</a>(V.U{d}, <span class="string">'right'</span>).';
 0085 
 0086     <span class="keyword">for</span> k = (d - 1):-1:2
-0087         tmp = <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod.html" class="code" title="function res = tensorprod( U, A, mode, apply_inv )">tensorprod</a>(V.V{k}, XtVg{k + 1}', 3);
+0087         tmp = <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod_ttemps.html" class="code" title="function res = tensorprod_ttemps( U, A, mode, apply_inv )">tensorprod_ttemps</a>(V.V{k}, XtVg{k + 1}', 3);
 0088         XtVg{k} = conj(<a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/unfold.html" class="code" title="function W = unfold( U, dir )">unfold</a>(tmp, <span class="string">'right'</span>)) * <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/unfold.html" class="code" title="function W = unfold( U, dir )">unfold</a>(V.U{k}, <span class="string">'right'</span>).';
 0089 
-0090         tmp2 = <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod.html" class="code" title="function res = tensorprod( U, A, mode, apply_inv )">tensorprod</a>(V.V{k}, XtVgTmp', 3);
+0090         tmp2 = <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod_ttemps.html" class="code" title="function res = tensorprod_ttemps( U, A, mode, apply_inv )">tensorprod_ttemps</a>(V.V{k}, XtVgTmp', 3);
 0091         XtVg{k} = XtVg{k} + conj(<a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/unfold.html" class="code" title="function W = unfold( U, dir )">unfold</a>(tmp2, <span class="string">'right'</span>)) * <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/unfold.html" class="code" title="function W = unfold( U, dir )">unfold</a>(dUR{k}, <span class="string">'right'</span>).';
 0092         XtVgTmp = conj(<a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/unfold.html" class="code" title="function W = unfold( U, dir )">unfold</a>(tmp2, <span class="string">'right'</span>)) * <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/unfold.html" class="code" title="function W = unfold( U, dir )">unfold</a>(V.U{k}, <span class="string">'right'</span>).';
 0093     <span class="keyword">end</span>
@@ -184,10 +184,10 @@ This function is called by:
 0114         XtVgTmp = conj(<a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/unfold.html" class="code" title="function W = unfold( U, dir )">unfold</a>(Z.U{d}, <span class="string">'right'</span>)) * <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/unfold.html" class="code" title="function W = unfold( U, dir )">unfold</a>(V.U{d},  <span class="string">'right'</span>).';
 0115 
 0116         <span class="keyword">for</span> k = (d - 1):-1:2
-0117             tmp = <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod.html" class="code" title="function res = tensorprod( U, A, mode, apply_inv )">tensorprod</a>(Z.U{k}, ZVr{k + 1}', 3);
+0117             tmp = <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod_ttemps.html" class="code" title="function res = tensorprod_ttemps( U, A, mode, apply_inv )">tensorprod_ttemps</a>(Z.U{k}, ZVr{k + 1}', 3);
 0118             ZVr{k} = conj(<a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/unfold.html" class="code" title="function W = unfold( U, dir )">unfold</a>(tmp, <span class="string">'right'</span>)) * <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/unfold.html" class="code" title="function W = unfold( U, dir )">unfold</a>(V.U{k}, <span class="string">'right'</span>).';
 0119 
-0120             tmp2 = <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod.html" class="code" title="function res = tensorprod( U, A, mode, apply_inv )">tensorprod</a>(Z.U{k}, XtVgTmp', 3);
+0120             tmp2 = <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod_ttemps.html" class="code" title="function res = tensorprod_ttemps( U, A, mode, apply_inv )">tensorprod_ttemps</a>(Z.U{k}, XtVgTmp', 3);
 0121             ZVr{k} = ZVr{k} + conj(<a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/unfold.html" class="code" title="function W = unfold( U, dir )">unfold</a>(tmp2, <span class="string">'right'</span>)) * <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/unfold.html" class="code" title="function W = unfold( U, dir )">unfold</a>(dUR{k}, <span class="string">'right'</span>).';
 0122             XtVgTmp = conj(<a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/unfold.html" class="code" title="function W = unfold( U, dir )">unfold</a>(tmp2, <span class="string">'right'</span>)) * <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/unfold.html" class="code" title="function W = unfold( U, dir )">unfold</a>(V.U{k}, <span class="string">'right'</span>).';
 0123         <span class="keyword">end</span>
@@ -200,7 +200,7 @@ This function is called by:
 0130         Zr{d} = conj(<a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/unfold.html" class="code" title="function W = unfold( U, dir )">unfold</a>(V.V{d}, <span class="string">'right'</span>)) * <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/unfold.html" class="code" title="function W = unfold( U, dir )">unfold</a>(Z.U{d}, <span class="string">'right'</span>).';
 0131 
 0132         <span class="keyword">for</span> k = (d - 1):-1:2
-0133             tmp = <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod.html" class="code" title="function res = tensorprod( U, A, mode, apply_inv )">tensorprod</a>(V.V{k}, Zr{k + 1}', 3);
+0133             tmp = <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod_ttemps.html" class="code" title="function res = tensorprod_ttemps( U, A, mode, apply_inv )">tensorprod_ttemps</a>(V.V{k}, Zr{k + 1}', 3);
 0134             Zr{k} = conj(<a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/unfold.html" class="code" title="function W = unfold( U, dir )">unfold</a>(tmp, <span class="string">'right'</span>)) * <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/unfold.html" class="code" title="function W = unfold( U, dir )">unfold</a>(Z.U{k}, <span class="string">'right'</span>).';
 0135         <span class="keyword">end</span>
 0136 
@@ -211,13 +211,13 @@ This function is called by:
 0141 
 0142         <span class="keyword">for</span> k = 2:(d - 1)
 0143             <span class="comment">% (V_k-1)(U_k)</span>
-0144             tmp = <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod.html" class="code" title="function res = tensorprod( U, A, mode, apply_inv )">tensorprod</a>(V.U{k}, ZVl{k - 1}', 1);
+0144             tmp = <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod_ttemps.html" class="code" title="function res = tensorprod_ttemps( U, A, mode, apply_inv )">tensorprod_ttemps</a>(V.U{k}, ZVl{k - 1}', 1);
 0145             ZVl{k} = <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/unfold.html" class="code" title="function W = unfold( U, dir )">unfold</a>(tmp, <span class="string">'left'</span>)' * <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/unfold.html" class="code" title="function W = unfold( U, dir )">unfold</a>(Z.U{k}, <span class="string">'left'</span>);
 0146             <span class="comment">% + (X_k-1)(dU_k)</span>
-0147             tmp = <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod.html" class="code" title="function res = tensorprod( U, A, mode, apply_inv )">tensorprod</a>(dUR{k}, Zl{k - 1}', 1);
+0147             tmp = <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod_ttemps.html" class="code" title="function res = tensorprod_ttemps( U, A, mode, apply_inv )">tensorprod_ttemps</a>(dUR{k}, Zl{k - 1}', 1);
 0148             ZVl{k} = ZVl{k} + <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/unfold.html" class="code" title="function W = unfold( U, dir )">unfold</a>(tmp, <span class="string">'left'</span>)' * <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/unfold.html" class="code" title="function W = unfold( U, dir )">unfold</a>(Z.U{k}, <span class="string">'left'</span>);
 0149             <span class="comment">% update Zr to keep up w/ recursive definition</span>
-0150             tmp = <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod.html" class="code" title="function res = tensorprod( U, A, mode, apply_inv )">tensorprod</a>(V.U{k}, Zl{k - 1}', 1);
+0150             tmp = <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod_ttemps.html" class="code" title="function res = tensorprod_ttemps( U, A, mode, apply_inv )">tensorprod_ttemps</a>(V.U{k}, Zl{k - 1}', 1);
 0151             Zl{k} = <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/unfold.html" class="code" title="function W = unfold( U, dir )">unfold</a>(tmp, <span class="string">'left'</span>)' * <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/unfold.html" class="code" title="function W = unfold( U, dir )">unfold</a>(Z.U{k}, <span class="string">'left'</span>);
 0152         <span class="keyword">end</span>
 0153 
@@ -227,34 +227,34 @@ This function is called by:
 0157 
 0158 
 0159         <span class="comment">% contract to first core</span>
-0160         ZZ{1} = <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod.html" class="code" title="function res = tensorprod( U, A, mode, apply_inv )">tensorprod</a>(Z.U{1}, Zr{2}, 3);
+0160         ZZ{1} = <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod_ttemps.html" class="code" title="function res = tensorprod_ttemps( U, A, mode, apply_inv )">tensorprod_ttemps</a>(Z.U{1}, Zr{2}, 3);
 0161         <span class="comment">% contract to inner cores</span>
 0162         <span class="keyword">for</span> k = 2:(d - 1)
-0163             res = <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod.html" class="code" title="function res = tensorprod( U, A, mode, apply_inv )">tensorprod</a>(Z.U{k}, Zl{k - 1}, 1);
-0164             ZZ{k} = <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod.html" class="code" title="function res = tensorprod( U, A, mode, apply_inv )">tensorprod</a>(res, Zr{k + 1}, 3);
+0163             res = <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod_ttemps.html" class="code" title="function res = tensorprod_ttemps( U, A, mode, apply_inv )">tensorprod_ttemps</a>(Z.U{k}, Zl{k - 1}, 1);
+0164             ZZ{k} = <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod_ttemps.html" class="code" title="function res = tensorprod_ttemps( U, A, mode, apply_inv )">tensorprod_ttemps</a>(res, Zr{k + 1}, 3);
 0165         <span class="keyword">end</span>
 0166 
 0167         <span class="comment">% contract to last core</span>
-0168         ZZ{d} = <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod.html" class="code" title="function res = tensorprod( U, A, mode, apply_inv )">tensorprod</a>(Z.U{d}, Zl{d - 1}, 1);
+0168         ZZ{d} = <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod_ttemps.html" class="code" title="function res = tensorprod_ttemps( U, A, mode, apply_inv )">tensorprod_ttemps</a>(Z.U{d}, Zl{d - 1}, 1);
 0169 
-0170         Zv{1} = <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod.html" class="code" title="function res = tensorprod( U, A, mode, apply_inv )">tensorprod</a>(Z.U{1}, ZVr{2}, 3);
+0170         Zv{1} = <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod_ttemps.html" class="code" title="function res = tensorprod_ttemps( U, A, mode, apply_inv )">tensorprod_ttemps</a>(Z.U{1}, ZVr{2}, 3);
 0171 
 0172         <span class="keyword">for</span> k = 2:(d - 1)
-0173             res = <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod.html" class="code" title="function res = tensorprod( U, A, mode, apply_inv )">tensorprod</a>(Z.U{k}, Zl{k - 1}, 1);
-0174             Zv{k} = <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod.html" class="code" title="function res = tensorprod( U, A, mode, apply_inv )">tensorprod</a>(res, ZVr{k + 1}, 3);
+0173             res = <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod_ttemps.html" class="code" title="function res = tensorprod_ttemps( U, A, mode, apply_inv )">tensorprod_ttemps</a>(Z.U{k}, Zl{k - 1}, 1);
+0174             Zv{k} = <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod_ttemps.html" class="code" title="function res = tensorprod_ttemps( U, A, mode, apply_inv )">tensorprod_ttemps</a>(res, ZVr{k + 1}, 3);
 0175         <span class="keyword">end</span>
 0176 
-0177         Zv{d} = <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod.html" class="code" title="function res = tensorprod( U, A, mode, apply_inv )">tensorprod</a>(Z.U{d}, Zl{d - 1}, 1);
+0177         Zv{d} = <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod_ttemps.html" class="code" title="function res = tensorprod_ttemps( U, A, mode, apply_inv )">tensorprod_ttemps</a>(Z.U{d}, Zl{d - 1}, 1);
 0178 
 0179 
-0180         vZ{1} = <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod.html" class="code" title="function res = tensorprod( U, A, mode, apply_inv )">tensorprod</a>(Z.U{1}, Zr{2}, 3);
+0180         vZ{1} = <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod_ttemps.html" class="code" title="function res = tensorprod_ttemps( U, A, mode, apply_inv )">tensorprod_ttemps</a>(Z.U{1}, Zr{2}, 3);
 0181 
 0182         <span class="keyword">for</span> k = 2:(d - 1)
-0183             res = <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod.html" class="code" title="function res = tensorprod( U, A, mode, apply_inv )">tensorprod</a>(Z.U{k}, ZVl{k - 1}, 1);
-0184             vZ{k} = <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod.html" class="code" title="function res = tensorprod( U, A, mode, apply_inv )">tensorprod</a>(res, Zr{k + 1}, 3);
+0183             res = <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod_ttemps.html" class="code" title="function res = tensorprod_ttemps( U, A, mode, apply_inv )">tensorprod_ttemps</a>(Z.U{k}, ZVl{k - 1}, 1);
+0184             vZ{k} = <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod_ttemps.html" class="code" title="function res = tensorprod_ttemps( U, A, mode, apply_inv )">tensorprod_ttemps</a>(res, Zr{k + 1}, 3);
 0185         <span class="keyword">end</span>
 0186 
-0187         vZ{d} = <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod.html" class="code" title="function res = tensorprod( U, A, mode, apply_inv )">tensorprod</a>(Z.U{d}, ZVl{d - 1}, 1);
+0187         vZ{d} = <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod_ttemps.html" class="code" title="function res = tensorprod_ttemps( U, A, mode, apply_inv )">tensorprod_ttemps</a>(Z.U{d}, ZVl{d - 1}, 1);
 0188 
 0189         <span class="comment">% Left unfold everything to apply additional operations</span>
 0190         <span class="keyword">for</span> k = 1:d
@@ -646,7 +646,7 @@ This function is called by:
 0576     ZtX = conj(<a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/unfold.html" class="code" title="function W = unfold( U, dir )">unfold</a>(Zp{m}, <span class="string">'right'</span>)) * <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/unfold.html" class="code" title="function W = unfold( U, dir )">unfold</a>(V.V{m}, <span class="string">'right'</span>).';
 0577 
 0578     <span class="keyword">for</span> p = (m - 1):-1:k
-0579         tmp = <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod.html" class="code" title="function res = tensorprod( U, A, mode, apply_inv )">tensorprod</a>(V.U{p}, (ZtX)', 3);
+0579         tmp = <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod_ttemps.html" class="code" title="function res = tensorprod_ttemps( U, A, mode, apply_inv )">tensorprod_ttemps</a>(V.U{p}, (ZtX)', 3);
 0580         ZtX = conj(<a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/unfold.html" class="code" title="function W = unfold( U, dir )">unfold</a>(tmp, <span class="string">'right'</span>)) * <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/unfold.html" class="code" title="function W = unfold( U, dir )">unfold</a>(V.V{p}, <span class="string">'right'</span>).';
 0581     <span class="keyword">end</span>
 0582 
@@ -660,7 +660,7 @@ This function is called by:
 0590     XtZ = <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/unfold.html" class="code" title="function W = unfold( U, dir )">unfold</a>(V.U{m}, <span class="string">'left'</span>)' * <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/unfold.html" class="code" title="function W = unfold( U, dir )">unfold</a>(Zp{m}, <span class="string">'left'</span>);
 0591 
 0592     <span class="keyword">for</span> p = (m + 1):k
-0593         XtZ = <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod.html" class="code" title="function res = tensorprod( U, A, mode, apply_inv )">tensorprod</a>(V.U{p}, (XtZ)', 1);
+0593         XtZ = <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod_ttemps.html" class="code" title="function res = tensorprod_ttemps( U, A, mode, apply_inv )">tensorprod_ttemps</a>(V.U{p}, (XtZ)', 1);
 0594         XtZ = <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/unfold.html" class="code" title="function W = unfold( U, dir )">unfold</a>(XtZ, <span class="string">'left'</span>)' * <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/unfold.html" class="code" title="function W = unfold( U, dir )">unfold</a>(V.V{p}, <span class="string">'left'</span>);
 0595     <span class="keyword">end</span>
 0596 
@@ -674,14 +674,14 @@ This function is called by:
 0604     VtZ = <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/unfold.html" class="code" title="function W = unfold( U, dir )">unfold</a>(dURm, <span class="string">'left'</span>)' * <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/unfold.html" class="code" title="function W = unfold( U, dir )">unfold</a>(Zp{m}, <span class="string">'left'</span>);
 0605 
 0606     <span class="keyword">for</span> p = (m + 1):(k - 1)
-0607         VtZ = <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod.html" class="code" title="function res = tensorprod( U, A, mode, apply_inv )">tensorprod</a>(V.U{p}, (VtZ)', 1);
+0607         VtZ = <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod_ttemps.html" class="code" title="function res = tensorprod_ttemps( U, A, mode, apply_inv )">tensorprod_ttemps</a>(V.U{p}, (VtZ)', 1);
 0608         VtZ = <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/unfold.html" class="code" title="function W = unfold( U, dir )">unfold</a>(VtZ, <span class="string">'left'</span>)' * <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/unfold.html" class="code" title="function W = unfold( U, dir )">unfold</a>(V.V{p}, <span class="string">'left'</span>);
 0609     <span class="keyword">end</span>
 0610 
-0611     VtZ = <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod.html" class="code" title="function res = tensorprod( U, A, mode, apply_inv )">tensorprod</a>(V.V{k}, VtZ, 1);
+0611     VtZ = <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod_ttemps.html" class="code" title="function res = tensorprod_ttemps( U, A, mode, apply_inv )">tensorprod_ttemps</a>(V.V{k}, VtZ, 1);
 0612     VtZ = <a href="../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/unfold.html" class="code" title="function W = unfold( U, dir )">unfold</a>(VtZ, <span class="string">'left'</span>);
 0613 
 0614 <span class="keyword">end</span></pre></div>
-<hr><address>Generated on Sun 05-Sep-2021 17:57:00 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+<hr><address>Generated on Fri 30-Sep-2022 13:18:25 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
 </body>
 </html>

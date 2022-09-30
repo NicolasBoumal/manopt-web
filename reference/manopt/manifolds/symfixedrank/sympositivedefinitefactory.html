@@ -66,7 +66,7 @@ This function calls:
 <li><a href="../../../manopt/tools/hashmd5.html" class="code" title="function h = hashmd5(inp)">hashmd5</a>	Computes the MD5 hash of input data.</li><li><a href="../../../manopt/tools/matrixlincomb.html" class="code" title="function v = matrixlincomb(x, a1, d1, a2, d2) %#ok<INUSL>">matrixlincomb</a>	Linear combination function for tangent vectors represented as matrices.</li></ul>
 This function is called by:
 <ul style="list-style-image:url(../../../matlabicon.gif)">
-<li><a href="../../../examples/positive_definite_karcher_mean.html" class="code" title="function X = positive_definite_karcher_mean(A)">positive_definite_karcher_mean</a>	Computes a Karcher mean of a collection of positive definite matrices.</li></ul>
+<li><a href="../../../examples/positive_definite_intrinsic_mean.html" class="code" title="function X = positive_definite_intrinsic_mean(A)">positive_definite_intrinsic_mean</a>	Computes an intrinsic mean of a collection of positive definite matrices.</li></ul>
 <!-- crossreference -->
 
 <h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
@@ -141,141 +141,146 @@ This function is called by:
 0065 <span class="comment">%       many values of t, that is, it is cheap to retract many points along</span>
 0066 <span class="comment">%       the same tangent direction. This could in principle be exploited to</span>
 0067 <span class="comment">%       speed up line-searches.</span>
-0068     
-0069     symm = @(X) .5*(X+X');
-0070     
-0071     M.name = @() sprintf(<span class="string">'Symmetric positive definite geometry of %dx%d matrices'</span>, n, n);
+0068 <span class="comment">%</span>
+0069 <span class="comment">%   Jan. 12, 2022 (NB):</span>
+0070 <span class="comment">%       Simplified code for ehess2rhess by commenting out the reasoning and</span>
+0071 <span class="comment">%       computing only the end result.</span>
 0072     
-0073     M.dim = @() n*(n+1)/2;
+0073     symm = @(X) .5*(X+X');
 0074     
-0075     <span class="comment">% Helpers to avoid computing full matrices simply to extract their trace</span>
-0076     vec  = @(A) A(:);
-0077     trAB = @(A, B) vec(A')'*vec(B);  <span class="comment">% = trace(A*B)</span>
-0078     trAA = @(A) sqrt(trAB(A, A));    <span class="comment">% = sqrt(trace(A^2))</span>
-0079     
-0080     <span class="comment">% Choice of the metric on the orthonormal space is motivated by the</span>
-0081     <span class="comment">% symmetry present in the space. The metric on the positive definite</span>
-0082     <span class="comment">% cone is its natural bi-invariant metric.</span>
-0083     <span class="comment">% The result is equal to: trace( (X\eta) * (X\zeta) )</span>
-0084     M.inner = @(X, eta, zeta) trAB(X\eta, X\zeta);
-0085     
-0086     <span class="comment">% Notice that X\eta is *not* symmetric in general.</span>
-0087     <span class="comment">% The result is equal to: sqrt(trace((X\eta)^2)).</span>
-0088     <span class="comment">% Thus, we compute the sum of the squared eigenvalues of X\eta, which</span>
-0089     <span class="comment">% in general is different from summing the squared singular values:</span>
-0090     <span class="comment">% that is why it is not equivalent to compute the Frobenius norm here.</span>
-0091     <span class="comment">% There should be no need to take the real part, but rounding errors</span>
-0092     <span class="comment">% may cause a small imaginary part to appear, so we discard it.</span>
-0093     M.norm = @(X, eta) real(trAA(X\eta));
-0094     
-0095     <span class="comment">% Same here: X\Y is not symmetric in general.</span>
-0096     <span class="comment">% Same remark about taking the real part.</span>
-0097     M.dist = @(X, Y) real(trAA(real(logm(X\Y))));
+0075     M.name = @() sprintf(<span class="string">'Symmetric positive definite geometry of %dx%d matrices'</span>, n, n);
+0076     
+0077     M.dim = @() n*(n+1)/2;
+0078     
+0079     <span class="comment">% Helpers to avoid computing full matrices simply to extract their trace</span>
+0080     vec  = @(A) A(:);
+0081     trAB = @(A, B) vec(A')'*vec(B);  <span class="comment">% = trace(A*B)</span>
+0082     trAA = @(A) sqrt(trAB(A, A));    <span class="comment">% = sqrt(trace(A^2))</span>
+0083     
+0084     <span class="comment">% Choice of the metric on the orthonormal space is motivated by the</span>
+0085     <span class="comment">% symmetry present in the space. The metric on the positive definite</span>
+0086     <span class="comment">% cone is its natural bi-invariant metric.</span>
+0087     <span class="comment">% The result is equal to: trace( (X\eta) * (X\zeta) )</span>
+0088     M.inner = @(X, eta, zeta) trAB(X\eta, X\zeta);
+0089     
+0090     <span class="comment">% Notice that X\eta is *not* symmetric in general.</span>
+0091     <span class="comment">% The result is equal to: sqrt(trace((X\eta)^2)).</span>
+0092     <span class="comment">% Thus, we compute the sum of the squared eigenvalues of X\eta, which</span>
+0093     <span class="comment">% in general is different from summing the squared singular values:</span>
+0094     <span class="comment">% that is why it is not equivalent to compute the Frobenius norm here.</span>
+0095     <span class="comment">% There should be no need to take the real part, but rounding errors</span>
+0096     <span class="comment">% may cause a small imaginary part to appear, so we discard it.</span>
+0097     M.norm = @(X, eta) real(trAA(X\eta));
 0098     
-0099     
-0100     M.typicaldist = @() sqrt(n*(n+1)/2);
-0101     
+0099     <span class="comment">% Same here: X\Y is not symmetric in general.</span>
+0100     <span class="comment">% Same remark about taking the real part.</span>
+0101     M.dist = @(X, Y) real(trAA(real(logm(X\Y))));
 0102     
-0103     M.egrad2rgrad = @<a href="#_sub1" class="code" title="subfunction eta = egrad2rgrad(X, eta)">egrad2rgrad</a>;
-0104     <a name="_sub1" href="#_subfunctions" class="code">function eta = egrad2rgrad(X, eta)</a>
-0105         eta = X*symm(eta)*X;
-0106     <span class="keyword">end</span>
-0107     
-0108     
-0109     M.ehess2rhess = @<a href="#_sub2" class="code" title="subfunction Hess = ehess2rhess(X, egrad, ehess, eta)">ehess2rhess</a>;
-0110     <a name="_sub2" href="#_subfunctions" class="code">function Hess = ehess2rhess(X, egrad, ehess, eta)</a>
-0111         <span class="comment">% Directional derivatives of the Riemannian gradient</span>
-0112         Hess = X*symm(ehess)*X + 2*symm(eta*symm(egrad)*X);
-0113         
-0114         <span class="comment">% Correction factor for the non-constant metric</span>
-0115         Hess = Hess - symm(eta*symm(egrad)*X);
-0116     <span class="keyword">end</span>
-0117     
-0118     
-0119     M.proj = @(X, eta) symm(eta);
-0120     
-0121     M.tangent = M.proj;
-0122     M.tangent2ambient = @(X, eta) eta;
+0103     
+0104     M.typicaldist = @() sqrt(n*(n+1)/2);
+0105     
+0106     
+0107     M.egrad2rgrad = @<a href="#_sub1" class="code" title="subfunction eta = egrad2rgrad(X, eta)">egrad2rgrad</a>;
+0108     <a name="_sub1" href="#_subfunctions" class="code">function eta = egrad2rgrad(X, eta)</a>
+0109         eta = X*symm(eta)*X;
+0110     <span class="keyword">end</span>
+0111     
+0112     
+0113     M.ehess2rhess = @<a href="#_sub2" class="code" title="subfunction Hess = ehess2rhess(X, egrad, ehess, eta)">ehess2rhess</a>;
+0114     <a name="_sub2" href="#_subfunctions" class="code">function Hess = ehess2rhess(X, egrad, ehess, eta)</a>
+0115         <span class="comment">% Directional derivatives of the Riemannian gradient</span>
+0116         <span class="comment">%  Hess = X*symm(ehess)*X + 2*symm(eta*symm(egrad)*X);</span>
+0117         <span class="comment">% Correction factor for the non-constant metric</span>
+0118         <span class="comment">%  Hess = Hess - symm(eta*symm(egrad)*X);</span>
+0119         <span class="comment">% Combined:</span>
+0120         Hess = X*symm(ehess)*X + symm(eta*symm(egrad)*X);
+0121     <span class="keyword">end</span>
+0122     
 0123     
-0124     M.retr = @<a href="#_sub3" class="code" title="subfunction Y = retraction(X, eta, t)">retraction</a>;
-0125     <a name="_sub3" href="#_subfunctions" class="code">function Y = retraction(X, eta, t)</a>
-0126         <span class="keyword">if</span> nargin &lt; 3
-0127             teta = eta;
-0128         <span class="keyword">else</span>
-0129             teta = t*eta;
-0130         <span class="keyword">end</span>
-0131         <span class="comment">% The symm() call is mathematically unnecessary but numerically</span>
-0132         <span class="comment">% necessary.</span>
-0133         Y = symm(X + teta + .5*teta*(X\teta));
-0134     <span class="keyword">end</span>
-0135     
-0136     M.exp = @<a href="#_sub4" class="code" title="subfunction Y = exponential(X, eta, t)">exponential</a>;
-0137     <a name="_sub4" href="#_subfunctions" class="code">function Y = exponential(X, eta, t)</a>
-0138         <span class="keyword">if</span> nargin &lt; 3
-0139             t = 1.0;
-0140         <span class="keyword">end</span>
-0141         <span class="comment">% The symm() and real() calls are mathematically not necessary but</span>
-0142         <span class="comment">% are numerically necessary.</span>
-0143         Y = symm(X*real(expm(X\(t*eta))));
-0144     <span class="keyword">end</span>
-0145     
-0146     M.log = @<a href="#_sub5" class="code" title="subfunction H = logarithm(X, Y)">logarithm</a>;
-0147     <a name="_sub5" href="#_subfunctions" class="code">function H = logarithm(X, Y)</a>
-0148         <span class="comment">% Same remark regarding the calls to symm() and real().</span>
-0149         H = symm(X*real(logm(X\Y)));
-0150     <span class="keyword">end</span>
-0151     
-0152     M.hash = @(X) [<span class="string">'z'</span> <a href="../../../manopt/tools/hashmd5.html" class="code" title="function h = hashmd5(inp)">hashmd5</a>(X(:))];
-0153     
-0154     <span class="comment">% Generate a random symmetric positive definite matrix following a</span>
-0155     <span class="comment">% certain distribution. The particular choice of a distribution is of</span>
-0156     <span class="comment">% course arbitrary, and specific applications might require different</span>
-0157     <span class="comment">% ones.</span>
-0158     M.rand = @<a href="#_sub6" class="code" title="subfunction X = random()">random</a>;
-0159     <a name="_sub6" href="#_subfunctions" class="code">function X = random()</a>
-0160         D = diag(1+rand(n, 1));
-0161         [Q, R] = qr(randn(n)); <span class="comment">%#ok</span>
-0162         X = Q*D*Q';
-0163     <span class="keyword">end</span>
-0164     
-0165     <span class="comment">% Generate a uniformly random unit-norm tangent vector at X.</span>
-0166     M.randvec = @<a href="#_sub7" class="code" title="subfunction eta = randomvec(X)">randomvec</a>;
-0167     <a name="_sub7" href="#_subfunctions" class="code">function eta = randomvec(X)</a>
-0168         eta = symm(randn(n));
-0169         nrm = M.norm(X, eta);
-0170         eta = eta / nrm;
-0171     <span class="keyword">end</span>
-0172     
-0173     M.lincomb = @<a href="../../../manopt/tools/matrixlincomb.html" class="code" title="function v = matrixlincomb(x, a1, d1, a2, d2) %#ok<INUSL>">matrixlincomb</a>;
-0174     
-0175     M.zerovec = @(X) zeros(n);
-0176     
-0177     <span class="comment">% Poor man's vector transport: exploit the fact that all tangent spaces</span>
-0178     <span class="comment">% are the set of symmetric matrices, so that the identity is a sort of</span>
-0179     <span class="comment">% vector transport. It may perform poorly if the origin and target (X1</span>
-0180     <span class="comment">% and X2) are far apart though. This should not be the case for typical</span>
-0181     <span class="comment">% optimization algorithms, which perform small steps.</span>
-0182     M.transp = @(X1, X2, eta) eta;
-0183     
-0184     <span class="comment">% For reference, a proper vector transport is given here, following</span>
-0185     <span class="comment">% work by Sra and Hosseini: &quot;Conic geometric optimisation on the</span>
-0186     <span class="comment">% manifold of positive definite matrices&quot;, in SIAM J. Optim.</span>
-0187     <span class="comment">% in 2015; also available here: http://arxiv.org/abs/1312.1039</span>
-0188     <span class="comment">% This will not be used by default. To force the use of this transport,</span>
-0189     <span class="comment">% execute &quot;M.transp = M.paralleltransp;&quot; on your M returned by the</span>
-0190     <span class="comment">% present factory.</span>
-0191     M.paralleltransp = @<a href="#_sub8" class="code" title="subfunction zeta = parallel_transport(X, Y, eta)">parallel_transport</a>;
-0192     <a name="_sub8" href="#_subfunctions" class="code">function zeta = parallel_transport(X, Y, eta)</a>
-0193         E = sqrtm(Y/X);
-0194         zeta = E*eta*E';
-0195     <span class="keyword">end</span>
-0196     
-0197     <span class="comment">% vec and mat are not isometries, because of the unusual inner metric.</span>
-0198     M.vec = @(X, U) U(:);
-0199     M.mat = @(X, u) reshape(u, n, n);
-0200     M.vecmatareisometries = @() false;
+0124     M.proj = @(X, eta) symm(eta);
+0125     
+0126     M.tangent = M.proj;
+0127     M.tangent2ambient = @(X, eta) eta;
+0128     
+0129     M.retr = @<a href="#_sub3" class="code" title="subfunction Y = retraction(X, eta, t)">retraction</a>;
+0130     <a name="_sub3" href="#_subfunctions" class="code">function Y = retraction(X, eta, t)</a>
+0131         <span class="keyword">if</span> nargin &lt; 3
+0132             teta = eta;
+0133         <span class="keyword">else</span>
+0134             teta = t*eta;
+0135         <span class="keyword">end</span>
+0136         <span class="comment">% The symm() call is mathematically unnecessary but numerically</span>
+0137         <span class="comment">% necessary.</span>
+0138         Y = symm(X + teta + .5*teta*(X\teta));
+0139     <span class="keyword">end</span>
+0140     
+0141     M.exp = @<a href="#_sub4" class="code" title="subfunction Y = exponential(X, eta, t)">exponential</a>;
+0142     <a name="_sub4" href="#_subfunctions" class="code">function Y = exponential(X, eta, t)</a>
+0143         <span class="keyword">if</span> nargin &lt; 3
+0144             t = 1.0;
+0145         <span class="keyword">end</span>
+0146         <span class="comment">% The symm() and real() calls are mathematically not necessary but</span>
+0147         <span class="comment">% are numerically necessary.</span>
+0148         Y = symm(X*real(expm(X\(t*eta))));
+0149     <span class="keyword">end</span>
+0150     
+0151     M.log = @<a href="#_sub5" class="code" title="subfunction H = logarithm(X, Y)">logarithm</a>;
+0152     <a name="_sub5" href="#_subfunctions" class="code">function H = logarithm(X, Y)</a>
+0153         <span class="comment">% Same remark regarding the calls to symm() and real().</span>
+0154         H = symm(X*real(logm(X\Y)));
+0155     <span class="keyword">end</span>
+0156     
+0157     M.hash = @(X) [<span class="string">'z'</span> <a href="../../../manopt/tools/hashmd5.html" class="code" title="function h = hashmd5(inp)">hashmd5</a>(X(:))];
+0158     
+0159     <span class="comment">% Generate a random symmetric positive definite matrix following a</span>
+0160     <span class="comment">% certain distribution. The particular choice of a distribution is of</span>
+0161     <span class="comment">% course arbitrary, and specific applications might require different</span>
+0162     <span class="comment">% ones.</span>
+0163     M.rand = @<a href="#_sub6" class="code" title="subfunction X = random()">random</a>;
+0164     <a name="_sub6" href="#_subfunctions" class="code">function X = random()</a>
+0165         D = diag(1+rand(n, 1));
+0166         [Q, R] = qr(randn(n)); <span class="comment">%#ok</span>
+0167         X = Q*D*Q';
+0168     <span class="keyword">end</span>
+0169     
+0170     <span class="comment">% Generate a uniformly random unit-norm tangent vector at X.</span>
+0171     M.randvec = @<a href="#_sub7" class="code" title="subfunction eta = randomvec(X)">randomvec</a>;
+0172     <a name="_sub7" href="#_subfunctions" class="code">function eta = randomvec(X)</a>
+0173         eta = symm(randn(n));
+0174         nrm = M.norm(X, eta);
+0175         eta = eta / nrm;
+0176     <span class="keyword">end</span>
+0177     
+0178     M.lincomb = @<a href="../../../manopt/tools/matrixlincomb.html" class="code" title="function v = matrixlincomb(x, a1, d1, a2, d2) %#ok<INUSL>">matrixlincomb</a>;
+0179     
+0180     M.zerovec = @(X) zeros(n);
+0181     
+0182     <span class="comment">% Poor man's vector transport: exploit the fact that all tangent spaces</span>
+0183     <span class="comment">% are the set of symmetric matrices, so that the identity is a sort of</span>
+0184     <span class="comment">% vector transport. It may perform poorly if the origin and target (X1</span>
+0185     <span class="comment">% and X2) are far apart though. This should not be the case for typical</span>
+0186     <span class="comment">% optimization algorithms, which perform small steps.</span>
+0187     M.transp = @(X1, X2, eta) eta;
+0188     
+0189     <span class="comment">% For reference, a proper vector transport is given here, following</span>
+0190     <span class="comment">% work by Sra and Hosseini: &quot;Conic geometric optimisation on the</span>
+0191     <span class="comment">% manifold of positive definite matrices&quot;, in SIAM J. Optim.</span>
+0192     <span class="comment">% in 2015; also available here: http://arxiv.org/abs/1312.1039</span>
+0193     <span class="comment">% This will not be used by default. To force the use of this transport,</span>
+0194     <span class="comment">% execute &quot;M.transp = M.paralleltransp;&quot; on your M returned by the</span>
+0195     <span class="comment">% present factory.</span>
+0196     M.paralleltransp = @<a href="#_sub8" class="code" title="subfunction zeta = parallel_transport(X, Y, eta)">parallel_transport</a>;
+0197     <a name="_sub8" href="#_subfunctions" class="code">function zeta = parallel_transport(X, Y, eta)</a>
+0198         E = sqrtm(Y/X);
+0199         zeta = E*eta*E';
+0200     <span class="keyword">end</span>
 0201     
-0202 <span class="keyword">end</span></pre></div>
-<hr><address>Generated on Sun 05-Sep-2021 17:57:00 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+0202     <span class="comment">% vec and mat are not isometries, because of the unusual inner metric.</span>
+0203     M.vec = @(X, U) U(:);
+0204     M.mat = @(X, u) reshape(u, n, n);
+0205     M.vecmatareisometries = @() false;
+0206     
+0207 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Fri 30-Sep-2022 13:18:25 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
 </body>
 </html>

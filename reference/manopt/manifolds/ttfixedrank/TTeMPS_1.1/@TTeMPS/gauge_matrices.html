@@ -39,7 +39,7 @@
    (where fore i=1 and i=d, G{i} = 1).
 
    Or, equivalently
-        tensorprod( tensorprod( xL.U{i}, G{i}', 3), inv(G{i-1}), 1)
+        tensorprod_ttemps( tensorprod_ttemps( xL.U{i}, G{i}', 3), inv(G{i-1}), 1)
    equals
         xR.U{i}.
 
@@ -71,7 +71,7 @@ This function is called by:
 0011 <span class="comment">%   (where fore i=1 and i=d, G{i} = 1).</span>
 0012 <span class="comment">%</span>
 0013 <span class="comment">%   Or, equivalently</span>
-0014 <span class="comment">%        tensorprod( tensorprod( xL.U{i}, G{i}', 3), inv(G{i-1}), 1)</span>
+0014 <span class="comment">%        tensorprod_ttemps( tensorprod_ttemps( xL.U{i}, G{i}', 3), inv(G{i-1}), 1)</span>
 0015 <span class="comment">%   equals</span>
 0016 <span class="comment">%        xR.U{i}.</span>
 0017 <span class="comment">%</span>
@@ -87,6 +87,6 @@ This function is called by:
 0027     [xL, G] = <a href="left_orth_with_gauge.html" class="code" title="function [xL, G] = left_orth_with_gauge( xR )">left_orth_with_gauge</a>( xR ); 
 0028     
 0029 <span class="keyword">end</span></pre></div>
-<hr><address>Generated on Sun 05-Sep-2021 17:57:00 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+<hr><address>Generated on Fri 30-Sep-2022 13:18:25 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
 </body>
 </html>

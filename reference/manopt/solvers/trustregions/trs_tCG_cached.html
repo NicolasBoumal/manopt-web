@@ -1,0 +1,579 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of trs_tCG_cached</title>
+  <meta name="keywords" content="trs_tCG_cached">
+  <meta name="description" content="Truncated (Steihaug-Toint) Conjugate-Gradient method with caching.">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../index.html">Home</a> &gt;  <a href="#">manopt</a> &gt; <a href="#">solvers</a> &gt; <a href="index.html">trustregions</a> &gt; trs_tCG_cached.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../index.html"><img alt="<" border="0" src="../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for manopt\solvers\trustregions&nbsp;<img alt=">" border="0" src="../../../right.png"></a></td></tr></table>-->
+
+<h1>trs_tCG_cached
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>Truncated (Steihaug-Toint) Conjugate-Gradient method with caching.</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function trsoutput = trs_tCG_cached(problem, trsinput, options, storedb, key) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> Truncated (Steihaug-Toint) Conjugate-Gradient method with caching.
+
+ minimize &lt;eta,grad&gt; + .5*&lt;eta,Hess(eta)&gt;
+ subject to &lt;eta,eta&gt;_[inverse precon] &lt;= Delta^2
+
+ function trsoutput = trs_tCG_cached(problem, trsinput, options, storedb, key)
+
+ trs_tCG_cached stores information (when options.trscache == true) 
+ which can help avoid redundant computations (using tCG_rejectedstep) 
+ upon step rejection by trustregions compared to trs_tCG at the cost of
+ using extra memory.
+
+ Inputs:
+   problem: Manopt optimization problem structure
+   trsinput: structure with the following fields:
+       x: point on the manifold problem.M
+       fgradx: gradient of the cost function of the problem at x
+       Delta = trust-region radius
+   options: structure containing options for the subproblem solver
+   storedb, key: manopt's caching system for the point x
+
+ Options specific to this subproblem solver:
+   kappa (0.1)
+       kappa convergence tolerance.
+       kappa &gt; 0 is the linear convergence target rate: trs_tCG_cached
+       terminates early if the residual was reduced by a factor of kappa.
+   theta (1.0)
+       theta convergence tolerance.
+       1+theta (theta between 0 and 1) is the superlinear convergence
+       target rate. trs_tCG_cached terminates early if the residual 
+       was reduced by a power of 1+theta.
+   mininner (1)
+       Minimum number of inner iterations.
+   maxinner (problem.M.dim())
+       Maximum number of inner iterations.
+   trscache (true)
+       Set to false if no caching for the trs_tCG_cached is desired. It is
+       default true to improve computation time if there are many step
+       rejections in trustregions. Setting trscache to false can reduce
+       memory usage.
+   memorytCG_warningtol (1000)
+       Tolerance memory value in MB before issuing warning when 
+       trscache = true.
+       The default is 1GB but this value can be increased depending on the
+       user's machine. To disable the warning completely use: 
+       warning('off', 'manopt:trs_tCG_cached:memory')
+
+ Output: the structure trsoutput contains the following fields:
+   eta: approximate solution to the trust-region subproblem at x
+   Heta: Hess f(x)[eta] -- this is necessary in the outer loop, and it
+       is often naturally available to the subproblem solver at the
+       end of execution, so that it may be cheaper to return it here.
+   limitedbyTR: true if a boundary solution is returned
+   printstr: logged information to be printed by trustregions.
+   stats: structure with the following statistics:
+           numinner: number of inner loops before returning
+           hessvecevals: number of Hessian calls issued
+           memorytCG_MB: memory of store_iters and store_last in MB
+
+ Stored Information:
+   store_iters: a struct array with enough information to compute the next
+       step upon step rejection when the algorithm exits due to negative 
+       curvature or trust-region radius violation.
+   store_last: an additional struct to store_iters to compute the next
+       step upon step rejection when the algorithm exits but not due to 
+       negative curvature or trust-region radius violation
+
+
+ trs_tCG_cached can also be called in the following way (by trustregions) 
+ to obtain part of the header to print and an initial stats structure:
+
+ function trsoutput = trs_tCG_cached([], [], options)
+
+ In this case trsoutput contains the following fields:
+   printheader: subproblem header to be printed before the first pass of 
+       trustregions
+   initstats: struct with initial values for stored stats in subsequent
+       calls to trs_tCG_cached. Used in the first call to savestats 
+       in trustregions to initialize the info struct properly.
+
+ See also: <a href="trustregions.html" class="code" title="function [x, cost, info, options] = trustregions(problem, x, options)">trustregions</a> <a href="trs_tCG.html" class="code" title="function trsoutput = trs_tCG(problem, trsinput, options, storedb, key)">trs_tCG</a> <a href="tCG_rejectedstep.html" class="code" title="function trsoutput = tCG_rejectedstep(problem, trsinput, options, store)">tCG_rejectedstep</a></pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="../../../manopt/core/getHessian.html" class="code" title="function hess = getHessian(problem, x, d, storedb, key)">getHessian</a>	Computes the Hessian of the cost function at x along d.</li><li><a href="../../../manopt/core/getPrecon.html" class="code" title="function Pd = getPrecon(problem, x, d, storedb, key)">getPrecon</a>	Applies the preconditioner for the Hessian of the cost at x along d.</li><li><a href="../../../manopt/core/mergeOptions.html" class="code" title="function opts = mergeOptions(opts_sub, opts_master)">mergeOptions</a>	Merges two options structures with one having precedence over the other.</li><li><a href="tCG_rejectedstep.html" class="code" title="function trsoutput = tCG_rejectedstep(problem, trsinput, options, store)">tCG_rejectedstep</a>	Helper for trs_tCG_cached: mimics the latter's behavior, exploiting cache</li><li><a href="../../../manopt/tools/getsize.html" class="code" title="function bytes = getsize(variable)">getsize</a>	Estimates the amount of memory a given variable occupies, in bytes.</li><li><a href="../../../manopt/tools/lincomb.html" class="code" title="function vec = lincomb(M, x, vecs, coeffs)">lincomb</a>	Computes a linear combination of tangent vectors in the Manopt framework.</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="trustregions.html" class="code" title="function [x, cost, info, options] = trustregions(problem, x, options)">trustregions</a>	Riemannian trust-regions solver for optimization on manifolds.</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function trsoutput = trs_tCG_cached(problem, trsinput, options, storedb, key)</a>
+0002 <span class="comment">% Truncated (Steihaug-Toint) Conjugate-Gradient method with caching.</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">% minimize &lt;eta,grad&gt; + .5*&lt;eta,Hess(eta)&gt;</span>
+0005 <span class="comment">% subject to &lt;eta,eta&gt;_[inverse precon] &lt;= Delta^2</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">% function trsoutput = trs_tCG_cached(problem, trsinput, options, storedb, key)</span>
+0008 <span class="comment">%</span>
+0009 <span class="comment">% trs_tCG_cached stores information (when options.trscache == true)</span>
+0010 <span class="comment">% which can help avoid redundant computations (using tCG_rejectedstep)</span>
+0011 <span class="comment">% upon step rejection by trustregions compared to trs_tCG at the cost of</span>
+0012 <span class="comment">% using extra memory.</span>
+0013 <span class="comment">%</span>
+0014 <span class="comment">% Inputs:</span>
+0015 <span class="comment">%   problem: Manopt optimization problem structure</span>
+0016 <span class="comment">%   trsinput: structure with the following fields:</span>
+0017 <span class="comment">%       x: point on the manifold problem.M</span>
+0018 <span class="comment">%       fgradx: gradient of the cost function of the problem at x</span>
+0019 <span class="comment">%       Delta = trust-region radius</span>
+0020 <span class="comment">%   options: structure containing options for the subproblem solver</span>
+0021 <span class="comment">%   storedb, key: manopt's caching system for the point x</span>
+0022 <span class="comment">%</span>
+0023 <span class="comment">% Options specific to this subproblem solver:</span>
+0024 <span class="comment">%   kappa (0.1)</span>
+0025 <span class="comment">%       kappa convergence tolerance.</span>
+0026 <span class="comment">%       kappa &gt; 0 is the linear convergence target rate: trs_tCG_cached</span>
+0027 <span class="comment">%       terminates early if the residual was reduced by a factor of kappa.</span>
+0028 <span class="comment">%   theta (1.0)</span>
+0029 <span class="comment">%       theta convergence tolerance.</span>
+0030 <span class="comment">%       1+theta (theta between 0 and 1) is the superlinear convergence</span>
+0031 <span class="comment">%       target rate. trs_tCG_cached terminates early if the residual</span>
+0032 <span class="comment">%       was reduced by a power of 1+theta.</span>
+0033 <span class="comment">%   mininner (1)</span>
+0034 <span class="comment">%       Minimum number of inner iterations.</span>
+0035 <span class="comment">%   maxinner (problem.M.dim())</span>
+0036 <span class="comment">%       Maximum number of inner iterations.</span>
+0037 <span class="comment">%   trscache (true)</span>
+0038 <span class="comment">%       Set to false if no caching for the trs_tCG_cached is desired. It is</span>
+0039 <span class="comment">%       default true to improve computation time if there are many step</span>
+0040 <span class="comment">%       rejections in trustregions. Setting trscache to false can reduce</span>
+0041 <span class="comment">%       memory usage.</span>
+0042 <span class="comment">%   memorytCG_warningtol (1000)</span>
+0043 <span class="comment">%       Tolerance memory value in MB before issuing warning when</span>
+0044 <span class="comment">%       trscache = true.</span>
+0045 <span class="comment">%       The default is 1GB but this value can be increased depending on the</span>
+0046 <span class="comment">%       user's machine. To disable the warning completely use:</span>
+0047 <span class="comment">%       warning('off', 'manopt:trs_tCG_cached:memory')</span>
+0048 <span class="comment">%</span>
+0049 <span class="comment">% Output: the structure trsoutput contains the following fields:</span>
+0050 <span class="comment">%   eta: approximate solution to the trust-region subproblem at x</span>
+0051 <span class="comment">%   Heta: Hess f(x)[eta] -- this is necessary in the outer loop, and it</span>
+0052 <span class="comment">%       is often naturally available to the subproblem solver at the</span>
+0053 <span class="comment">%       end of execution, so that it may be cheaper to return it here.</span>
+0054 <span class="comment">%   limitedbyTR: true if a boundary solution is returned</span>
+0055 <span class="comment">%   printstr: logged information to be printed by trustregions.</span>
+0056 <span class="comment">%   stats: structure with the following statistics:</span>
+0057 <span class="comment">%           numinner: number of inner loops before returning</span>
+0058 <span class="comment">%           hessvecevals: number of Hessian calls issued</span>
+0059 <span class="comment">%           memorytCG_MB: memory of store_iters and store_last in MB</span>
+0060 <span class="comment">%</span>
+0061 <span class="comment">% Stored Information:</span>
+0062 <span class="comment">%   store_iters: a struct array with enough information to compute the next</span>
+0063 <span class="comment">%       step upon step rejection when the algorithm exits due to negative</span>
+0064 <span class="comment">%       curvature or trust-region radius violation.</span>
+0065 <span class="comment">%   store_last: an additional struct to store_iters to compute the next</span>
+0066 <span class="comment">%       step upon step rejection when the algorithm exits but not due to</span>
+0067 <span class="comment">%       negative curvature or trust-region radius violation</span>
+0068 <span class="comment">%</span>
+0069 <span class="comment">%</span>
+0070 <span class="comment">% trs_tCG_cached can also be called in the following way (by trustregions)</span>
+0071 <span class="comment">% to obtain part of the header to print and an initial stats structure:</span>
+0072 <span class="comment">%</span>
+0073 <span class="comment">% function trsoutput = trs_tCG_cached([], [], options)</span>
+0074 <span class="comment">%</span>
+0075 <span class="comment">% In this case trsoutput contains the following fields:</span>
+0076 <span class="comment">%   printheader: subproblem header to be printed before the first pass of</span>
+0077 <span class="comment">%       trustregions</span>
+0078 <span class="comment">%   initstats: struct with initial values for stored stats in subsequent</span>
+0079 <span class="comment">%       calls to trs_tCG_cached. Used in the first call to savestats</span>
+0080 <span class="comment">%       in trustregions to initialize the info struct properly.</span>
+0081 <span class="comment">%</span>
+0082 <span class="comment">% See also: trustregions trs_tCG tCG_rejectedstep</span>
+0083 
+0084 <span class="comment">% This file is part of Manopt: www.manopt.org.</span>
+0085 <span class="comment">% This code is an adaptation to Manopt of the original GenRTR code:</span>
+0086 <span class="comment">% RTR - Riemannian Trust-Region</span>
+0087 <span class="comment">% (c) 2004-2007, P.-A. Absil, C. G. Baker, K. A. Gallivan</span>
+0088 <span class="comment">% Florida State University</span>
+0089 <span class="comment">% School of Computational Science</span>
+0090 <span class="comment">% (http://www.math.fsu.edu/~cbaker/GenRTR/?page=download)</span>
+0091 <span class="comment">% See accompanying license file.</span>
+0092 <span class="comment">% The adaptation was executed by Nicolas Boumal.</span>
+0093 <span class="comment">%</span>
+0094 <span class="comment">% Change log:</span>
+0095 <span class="comment">%</span>
+0096 <span class="comment">%   VL June 24, 2022:</span>
+0097 <span class="comment">%       trs_tCG_cached by default stores information at each iteration</span>
+0098 <span class="comment">%       compared to trs_tCG.</span>
+0099 <span class="comment">%       This can be useful for the next call to trs_tCG_cached and the work</span>
+0100 <span class="comment">%       is passed to tCG_rejectedstep rather than the normal tCG loop.</span>
+0101 
+0102 
+0103 <span class="comment">% See trs_tCG for references to relevant equations in</span>
+0104 <span class="comment">% [CGT2000] Conn, Gould and Toint: Trust-region methods, 2000.</span>
+0105 
+0106 <span class="comment">% trustregions only wants header and default values for stats.</span>
+0107 <span class="keyword">if</span> nargin == 3 &amp;&amp; isempty(problem) &amp;&amp; isempty(trsinput)
+0108     trsoutput.printheader = <span class="string">''</span>;
+0109     <span class="keyword">if</span> options.verbosity == 2
+0110         trsoutput.printheader = sprintf(<span class="string">'%9s   %9s   %9s   %s'</span>, <span class="keyword">...</span>
+0111                             <span class="string">'numinner'</span>, <span class="string">'hessvec'</span>, <span class="string">'numstored'</span>, <span class="keyword">...</span>
+0112                             <span class="string">'stopreason'</span>);
+0113     <span class="keyword">elseif</span> options.verbosity &gt; 2
+0114         trsoutput.printheader = sprintf(<span class="string">'%9s   %9s   %9s   %9s   %s'</span>, <span class="keyword">...</span>
+0115                             <span class="string">'numinner'</span>, <span class="string">'hessvec'</span>, <span class="string">'numstored'</span>, <span class="keyword">...</span>
+0116                             <span class="string">'memtCG_MB'</span>, <span class="string">'stopreason'</span>);
+0117     <span class="keyword">end</span>
+0118     trsoutput.initstats = struct(<span class="string">'numinner'</span>, 0, <span class="string">'hessvecevals'</span>, 0, <span class="keyword">...</span>
+0119                    <span class="string">'memorytCG_MB'</span>, 0);
+0120     <span class="keyword">return</span>;
+0121 <span class="keyword">end</span>
+0122 
+0123 <span class="keyword">if</span> isfield(options, <span class="string">'useRand'</span>) &amp;&amp; options.useRand
+0124     warning(<span class="string">'manopt:trs_tCG_cached:rand'</span>, <span class="keyword">...</span>
+0125             [<span class="string">'options.useRand = true but @trs_tCG_cached ignores it.\n'</span> <span class="keyword">...</span>
+0126              <span class="string">'You may set options.subproblemsolver = @trs_tCG;\n'</span>, <span class="keyword">...</span>
+0127              <span class="string">'Alternatively, set options.useRand = false;'</span>]);
+0128 <span class="keyword">end</span>
+0129 
+0130 x = trsinput.x;
+0131 Delta = trsinput.Delta;
+0132 grad = trsinput.fgradx;
+0133 
+0134 inner   = @(u, v) problem.M.inner(x, u, v);
+0135 <a href="../../../manopt/tools/lincomb.html" class="code" title="function vec = lincomb(M, x, vecs, coeffs)">lincomb</a> = @(a, u, b, v) problem.M.lincomb(x, a, u, b, v);
+0136 tangent = @(u) problem.M.tangent(x, u);
+0137 
+0138 <span class="comment">% Set local defaults here</span>
+0139 localdefaults.kappa = 0.1;
+0140 localdefaults.theta = 1.0;
+0141 localdefaults.mininner = 1;
+0142 localdefaults.maxinner = problem.M.dim();
+0143 localdefaults.trscache = true;
+0144 localdefaults.memorytCG_warningtol = 1000;
+0145 
+0146 <span class="comment">% Merge local defaults with user options, if any</span>
+0147 <span class="keyword">if</span> ~exist(<span class="string">'options'</span>, <span class="string">'var'</span>) || isempty(options)
+0148     options = struct();
+0149 <span class="keyword">end</span>
+0150 options = <a href="../../../manopt/core/mergeOptions.html" class="code" title="function opts = mergeOptions(opts_sub, opts_master)">mergeOptions</a>(localdefaults, options);
+0151 
+0152 <span class="comment">% If the previous step was rejected and we want to use caching,</span>
+0153 <span class="keyword">if</span> ~trsinput.accept &amp;&amp; options.trscache
+0154     <span class="comment">% Then check if there is cached information for the current point.</span>
+0155     store = storedb.get(key);
+0156     <span class="keyword">if</span> isfield(store, <span class="string">'store_iters'</span>)
+0157         <span class="comment">% If so, use that cache to produce the same output as would have</span>
+0158         <span class="comment">% been produced by running the code below (after the 'return'), but</span>
+0159         <span class="comment">% without issuing Hessian-vector calls that were already issued.</span>
+0160         trsoutput = <a href="tCG_rejectedstep.html" class="code" title="function trsoutput = tCG_rejectedstep(problem, trsinput, options, store)">tCG_rejectedstep</a>(problem, trsinput, options, store);
+0161         <span class="keyword">return</span>;
+0162     <span class="keyword">end</span>
+0163 <span class="keyword">end</span>
+0164 
+0165 <span class="comment">% returned boolean to trustregions. true if we are limited by the TR</span>
+0166 <span class="comment">% boundary (returns boundary solution). Otherwise false.</span>
+0167 limitedbyTR = false;
+0168 
+0169 theta = options.theta;
+0170 kappa = options.kappa;
+0171 
+0172 eta = problem.M.zerovec(x);
+0173 Heta = problem.M.zerovec(x);
+0174 r = grad;
+0175 e_Pe = 0;
+0176 
+0177 r_r = inner(r, r);
+0178 norm_r = sqrt(r_r);
+0179 norm_r0 = norm_r;
+0180 
+0181 <span class="comment">% Precondition the residual.</span>
+0182 z = <a href="../../../manopt/core/getPrecon.html" class="code" title="function Pd = getPrecon(problem, x, d, storedb, key)">getPrecon</a>(problem, x, r, storedb, key);
+0183 
+0184 <span class="comment">% Compute z'*r.</span>
+0185 z_r = inner(z, r);
+0186 d_Pd = z_r;
+0187 
+0188 <span class="comment">% Initial search direction (we maintain -delta in memory, called mdelta, to</span>
+0189 <span class="comment">% avoid a change of sign of the tangent vector.)</span>
+0190 mdelta = z;
+0191 e_Pd = 0;
+0192 
+0193 <span class="comment">% If the Hessian or a linear Hessian approximation is in use, it is</span>
+0194 <span class="comment">% theoretically guaranteed that the model value decreases strictly</span>
+0195 <span class="comment">% with each iteration of trs_tCG. Hence, there is no need to monitor the model</span>
+0196 <span class="comment">% value. But, when a nonlinear Hessian approximation is used (such as the</span>
+0197 <span class="comment">% built-in finite-difference approximation for example), the model may</span>
+0198 <span class="comment">% increase. It is then important to terminate the trs_tCG iterations and return</span>
+0199 <span class="comment">% the previous (the best-so-far) iterate. The variable below will hold the</span>
+0200 <span class="comment">% model value.</span>
+0201 <span class="comment">%</span>
+0202 <span class="comment">% This computation could be further improved based on Section 17.4.1 in</span>
+0203 <span class="comment">% Conn, Gould, Toint, Trust Region Methods, 2000.</span>
+0204 <span class="comment">% If we make this change, then also modify trustregions to gather this</span>
+0205 <span class="comment">% value from trs_tCG rather than recomputing it itself.</span>
+0206 model_fun = @(eta, Heta) inner(eta, grad) + .5*inner(eta, Heta);
+0207 model_value = 0;
+0208 
+0209 <span class="comment">% Pre-assume termination because j == end.</span>
+0210 stopreason_str = <span class="string">'maximum inner iterations'</span>;
+0211 
+0212 <span class="comment">% Track certain iterations in case step is rejected.</span>
+0213 <span class="comment">% store_iters tracks candidate etas with increasing squared</span>
+0214 <span class="comment">% norm relevant when limitedbyTR = true, or when &lt;eta, Heta&gt; &lt;= 0</span>
+0215 store_iters = struct(<span class="string">'normsq'</span>, [], <span class="string">'numinner'</span>, [], <span class="string">'e_Pe'</span>, [], <span class="keyword">...</span>
+0216     <span class="string">'d_Pd'</span>, [], <span class="string">'e_Pd'</span>, [], <span class="string">'d_Hd'</span>, [], <span class="string">'eta'</span>, [], <span class="string">'Heta'</span>, [], <span class="keyword">...</span>
+0217     <span class="string">'mdelta'</span>, [], <span class="string">'Hmdelta'</span>, []);
+0218 
+0219 max_normsq = 0;
+0220 
+0221 <span class="comment">% only need to compute memory for one item in store_iters in Megabytes(MB)</span>
+0222 peritermemory_MB = 0;
+0223 
+0224 <span class="comment">% total cached memory stored in MB</span>
+0225 memorytCG_MB = 0;
+0226 
+0227 <span class="comment">% number of iterations where trs_tCG_cached stores information. This value</span>
+0228 <span class="comment">% will be length(store_iters) plus 1 if store_last is used.</span>
+0229 numstored = 0;
+0230 
+0231 <span class="comment">% string that is printed by trustregions. For printing</span>
+0232 <span class="comment">% per-iteration information</span>
+0233 printstr = <span class="string">''</span>;
+0234 
+0235 <span class="comment">% Begin inner/trs_tCG loop.</span>
+0236 <span class="keyword">for</span> j = 1 : options.maxinner
+0237     
+0238     <span class="comment">% This call is the computationally expensive step.</span>
+0239     Hmdelta = <a href="../../../manopt/core/getHessian.html" class="code" title="function hess = getHessian(problem, x, d, storedb, key)">getHessian</a>(problem, x, mdelta, storedb, key);
+0240     
+0241     <span class="comment">% Compute curvature (often called kappa).</span>
+0242     d_Hd = inner(mdelta, Hmdelta);
+0243     
+0244     
+0245     <span class="comment">% Note that if d_Hd == 0, we will exit at the next &quot;if&quot; anyway.</span>
+0246     alpha = z_r/d_Hd;
+0247     <span class="comment">% &lt;neweta,neweta&gt;_P =</span>
+0248     <span class="comment">% &lt;eta,eta&gt;_P + 2*alpha*&lt;eta,delta&gt;_P + alpha*alpha*&lt;delta,delta&gt;_P</span>
+0249     e_Pe_new = e_Pe + 2.0*alpha*e_Pd + alpha*alpha*d_Pd;
+0250     
+0251     <span class="keyword">if</span> options.debug &gt; 2
+0252         fprintf(<span class="string">'DBG:   (r,r)  : %e\n'</span>, r_r);
+0253         fprintf(<span class="string">'DBG:   (d,Hd) : %e\n'</span>, d_Hd);
+0254         fprintf(<span class="string">'DBG:   alpha  : %e\n'</span>, alpha);
+0255     <span class="keyword">end</span>
+0256 
+0257     <span class="keyword">if</span> options.trscache
+0258         <span class="comment">% Selectively store info in store_iter.</span>
+0259         <span class="comment">% next_smallest = (1/4^n Delta)^2 with n the smallest integer such</span>
+0260         <span class="comment">% that max_normsq &lt;= next_smallest.</span>
+0261         <span class="comment">% We use this condition to only store relevant iterations in case</span>
+0262         <span class="comment">% of rejection in trustregions.</span>
+0263         <span class="keyword">if</span> max_normsq &gt; 0
+0264             next_smallest = (1/16)^floor(-(1/4)*(log2(max_normsq) - <span class="keyword">...</span>
+0265                                                  log2(Delta^2))) * Delta^2;
+0266         <span class="keyword">else</span>
+0267             next_smallest = 0;
+0268         <span class="keyword">end</span>
+0269     
+0270         <span class="keyword">if</span> d_Hd &lt;= 0 || e_Pe_new &gt;= next_smallest
+0271             numstored = numstored + 1;
+0272 
+0273             store_iters(numstored) = struct(<span class="string">'normsq'</span>, e_Pe_new, <span class="string">'numinner'</span>, <span class="keyword">...</span>
+0274                              j, <span class="string">'e_Pe'</span>, e_Pe, <span class="string">'d_Pd'</span>, d_Pd, <span class="string">'e_Pd'</span>, e_Pd,<span class="keyword">...</span>
+0275                              <span class="string">'d_Hd'</span>, d_Hd, <span class="string">'eta'</span>, eta, <span class="string">'Heta'</span>, Heta, <span class="keyword">...</span>
+0276                              <span class="string">'mdelta'</span>, mdelta, <span class="string">'Hmdelta'</span>, Hmdelta);
+0277             max_normsq = e_Pe_new;
+0278     
+0279             <span class="comment">% getSize for one entry in store_iters which will be the same</span>
+0280             <span class="comment">% for all others.</span>
+0281             <span class="keyword">if</span> peritermemory_MB == 0
+0282                 peritermemory_MB = <a href="../../../manopt/tools/getsize.html" class="code" title="function bytes = getsize(variable)">getsize</a>(store_iters(numstored))/1024^2;
+0283             <span class="keyword">end</span>
+0284     
+0285             memorytCG_MB = memorytCG_MB + peritermemory_MB;
+0286             
+0287             <span class="keyword">if</span> memorytCG_MB &gt; options.memorytCG_warningtol
+0288                 warning(<span class="string">'manopt:trs_tCG_cached:memory'</span>, <span class="keyword">...</span>
+0289                 [sprintf(<span class="string">'trs_tCG_cached will cache %.2f [MB] for at least one iteration of trustregions until a step is accepted.'</span>, memorytCG_MB) <span class="keyword">...</span>
+0290                 <span class="string">'If memory is limited turn off caching by options.trscache = false.\n'</span> <span class="keyword">...</span>
+0291                 <span class="string">'To disable this warning: warning(''off'', ''manopt:trs_tCG_cached:memory'')'</span>]);
+0292              <span class="keyword">end</span>
+0293             
+0294         <span class="keyword">end</span>
+0295     <span class="keyword">end</span>
+0296 
+0297     <span class="comment">% Check against negative curvature and trust-region radius violation.</span>
+0298     <span class="comment">% If either condition triggers, we bail out.</span>
+0299     <span class="keyword">if</span> d_Hd &lt;= 0 || e_Pe_new &gt;= Delta^2
+0300         <span class="comment">% want</span>
+0301         <span class="comment">%  ee = &lt;eta,eta&gt;_prec,x</span>
+0302         <span class="comment">%  ed = &lt;eta,delta&gt;_prec,x</span>
+0303         <span class="comment">%  dd = &lt;delta,delta&gt;_prec,x</span>
+0304         <span class="comment">% Note (Nov. 26, 2021, NB): numerically, it might be better to call</span>
+0305         <span class="comment">%   tau = max(real(roots([d_Pd, 2*e_Pd, e_Pe-Delta^2])));</span>
+0306         <span class="comment">% This should be checked.</span>
+0307         <span class="comment">% Also, we should safe-guard against 0/0: could happen if grad = 0.</span>
+0308 
+0309         <span class="comment">% store new struct containing all the required info in store_iter</span>
+0310         tau = (-e_Pd + sqrt(e_Pd*e_Pd + d_Pd*(Delta^2-e_Pe))) / d_Pd;
+0311         <span class="keyword">if</span> options.debug &gt; 2
+0312             fprintf(<span class="string">'DBG:     tau  : %e\n'</span>, tau);
+0313         <span class="keyword">end</span>
+0314         eta = <a href="../../../manopt/tools/lincomb.html" class="code" title="function vec = lincomb(M, x, vecs, coeffs)">lincomb</a>(1,  eta, -tau,  mdelta);
+0315         
+0316         <span class="comment">% If only a nonlinear Hessian approximation is available, this is</span>
+0317         <span class="comment">% only approximately correct, but saves an additional Hessian call.</span>
+0318         Heta = <a href="../../../manopt/tools/lincomb.html" class="code" title="function vec = lincomb(M, x, vecs, coeffs)">lincomb</a>(1, Heta, -tau, Hmdelta);
+0319 
+0320         <span class="comment">% Technically, we may want to verify that this new eta is indeed</span>
+0321         <span class="comment">% better than the previous eta before returning it (this is always</span>
+0322         <span class="comment">% the case if the Hessian approximation is linear, but I am unsure</span>
+0323         <span class="comment">% whether it is the case or not for nonlinear approximations.)</span>
+0324         <span class="comment">% At any rate, the impact should be limited, so in the interest of</span>
+0325         <span class="comment">% code conciseness (if we can still hope for that), we omit this.</span>
+0326         
+0327         limitedbyTR = true;
+0328         
+0329         <span class="keyword">if</span> d_Hd &lt;= 0
+0330             stopreason_str = <span class="string">'negative curvature'</span>;
+0331         <span class="keyword">else</span>
+0332             stopreason_str = <span class="string">'exceeded trust region'</span>;
+0333         <span class="keyword">end</span>
+0334         <span class="keyword">break</span>;
+0335     <span class="keyword">end</span>
+0336     
+0337     <span class="comment">% No negative curvature and eta_prop inside TR: accept it.</span>
+0338     e_Pe = e_Pe_new;
+0339     new_eta  = <a href="../../../manopt/tools/lincomb.html" class="code" title="function vec = lincomb(M, x, vecs, coeffs)">lincomb</a>(1,  eta, -alpha,  mdelta);
+0340     
+0341     <span class="comment">% If only a nonlinear Hessian approximation is available, this is</span>
+0342     <span class="comment">% only approximately correct, but saves an additional Hessian call.</span>
+0343     <span class="comment">% TODO: this computation is redundant with that of r, L241. Clean up.</span>
+0344     new_Heta = <a href="../../../manopt/tools/lincomb.html" class="code" title="function vec = lincomb(M, x, vecs, coeffs)">lincomb</a>(1, Heta, -alpha, Hmdelta);
+0345     
+0346     <span class="comment">% Verify that the model cost decreased in going from eta to new_eta. If</span>
+0347     <span class="comment">% it did not (which can only occur if the Hessian approximation is</span>
+0348     <span class="comment">% nonlinear or because of numerical errors), then we return the</span>
+0349     <span class="comment">% previous eta (which necessarily is the best reached so far, according</span>
+0350     <span class="comment">% to the model cost). Otherwise, we accept the new eta and go on.</span>
+0351     new_model_value = model_fun(new_eta, new_Heta);
+0352     <span class="keyword">if</span> new_model_value &gt;= model_value
+0353         stopreason_str = <span class="string">'model increased'</span>;
+0354         <span class="keyword">break</span>;
+0355     <span class="keyword">end</span>
+0356     
+0357     eta = new_eta;
+0358     Heta = new_Heta;
+0359     model_value = new_model_value; <span class="comment">%% added Feb. 17, 2015</span>
+0360     
+0361     <span class="comment">% Update the residual.</span>
+0362     r = <a href="../../../manopt/tools/lincomb.html" class="code" title="function vec = lincomb(M, x, vecs, coeffs)">lincomb</a>(1, r, -alpha, Hmdelta);
+0363     
+0364     <span class="comment">% Compute new norm of r.</span>
+0365     r_r = inner(r, r);
+0366     norm_r = sqrt(r_r);
+0367 
+0368     <span class="comment">% Check kappa/theta stopping criterion.</span>
+0369     <span class="comment">% Note that it is somewhat arbitrary whether to check this stopping</span>
+0370     <span class="comment">% criterion on the r's (the gradients) or on the z's (the</span>
+0371     <span class="comment">% preconditioned gradients). [CGT2000], page 206, mentions both as</span>
+0372     <span class="comment">% acceptable criteria.</span>
+0373     <span class="keyword">if</span> j &gt;= options.mininner &amp;&amp; norm_r &lt;= norm_r0*min(norm_r0^theta, kappa)
+0374         <span class="comment">% Residual is small enough to quit</span>
+0375         <span class="keyword">if</span> kappa &lt; norm_r0^theta
+0376             stopreason_str = <span class="string">'reached target residual-kappa (linear)'</span>;
+0377         <span class="keyword">else</span>
+0378             stopreason_str = <span class="string">'reached target residual-theta (superlinear)'</span>;
+0379         <span class="keyword">end</span>
+0380         <span class="keyword">break</span>;
+0381     <span class="keyword">end</span>
+0382     
+0383     <span class="comment">% Precondition the residual.</span>
+0384     z = <a href="../../../manopt/core/getPrecon.html" class="code" title="function Pd = getPrecon(problem, x, d, storedb, key)">getPrecon</a>(problem, x, r, storedb, key);
+0385     
+0386     <span class="comment">% Save the old z'*r.</span>
+0387     zold_rold = z_r;
+0388     <span class="comment">% Compute new z'*r.</span>
+0389     z_r = inner(z, r);
+0390     
+0391     <span class="comment">% Compute new search direction.</span>
+0392     beta = z_r/zold_rold;
+0393     mdelta = <a href="../../../manopt/tools/lincomb.html" class="code" title="function vec = lincomb(M, x, vecs, coeffs)">lincomb</a>(1, z, beta, mdelta);
+0394     
+0395     <span class="comment">% Since mdelta is passed to getHessian, which is the part of the code</span>
+0396     <span class="comment">% we have least control over from here, we want to make sure mdelta is</span>
+0397     <span class="comment">% a tangent vector up to numerical errors that should remain small.</span>
+0398     <span class="comment">% For this reason, we re-project mdelta to the tangent space.</span>
+0399     <span class="comment">% In limited tests, it was observed that it is a good idea to project</span>
+0400     <span class="comment">% at every iteration rather than only every k iterations, the reason</span>
+0401     <span class="comment">% being that loss of tangency can lead to more inner iterations being</span>
+0402     <span class="comment">% run, which leads to an overall higher computational cost.</span>
+0403     mdelta = tangent(mdelta);
+0404     
+0405     <span class="comment">% Update new P-norms and P-dots [CGT2000, eq. 7.5.6 &amp; 7.5.7].</span>
+0406     e_Pd = beta*(e_Pd + alpha*d_Pd);
+0407     d_Pd = z_r + beta*beta*d_Pd;
+0408     
+0409 <span class="keyword">end</span>  <span class="comment">% of trs_tCG loop</span>
+0410 
+0411 <span class="keyword">if</span> options.trscache
+0412     store = storedb.get(key);
+0413     store.store_iters = store_iters;
+0414     <span class="keyword">if</span> ~limitedbyTR
+0415         <span class="comment">% Store extra information since we did not exit because we were</span>
+0416         <span class="comment">% limited by TR (model value increased or kappa/theta stopping</span>
+0417         <span class="comment">% criterion satisfied)</span>
+0418         store_last = struct(<span class="string">'numinner'</span>, j, <span class="string">'stopreason_str'</span>, <span class="keyword">...</span>
+0419             stopreason_str, <span class="string">'eta'</span>, eta, <span class="string">'Heta'</span>, Heta);
+0420         memorytCG_MB = memorytCG_MB + <a href="../../../manopt/tools/getsize.html" class="code" title="function bytes = getsize(variable)">getsize</a>(store_last)/1024^2;
+0421         
+0422         <span class="keyword">if</span> memorytCG_MB &gt; options.memorytCG_warningtol
+0423             warning(<span class="string">'manopt:trs_tCG_cached:memory'</span>, <span class="keyword">...</span>
+0424             [sprintf(<span class="string">'trs_tCG_cached will cache %.2f [MB] for at least one iteration of trustregions until a step is accepted.'</span>, memorytCG_MB) <span class="keyword">...</span>
+0425             <span class="string">'If memory is limited turn off caching by options.trscache = false.\n'</span> <span class="keyword">...</span>
+0426             <span class="string">'If more memory can be used without problem increase options.memorytCG_warningtol accordingly.\n'</span> <span class="keyword">...</span>
+0427             <span class="string">'To disable this warning: warning(''off'', ''manopt:trs_tCG_cached:memory'')'</span>]);
+0428         <span class="keyword">end</span>
+0429         store.store_last = store_last;
+0430         
+0431         numstored = numstored + 1;
+0432     <span class="keyword">end</span>
+0433 
+0434     storedb.set(store, key);
+0435 <span class="keyword">end</span>
+0436 stats = struct(<span class="string">'numinner'</span>, j, <span class="string">'hessvecevals'</span>, j, <span class="keyword">...</span>
+0437                     <span class="string">'memorytCG_MB'</span>, memorytCG_MB);
+0438 
+0439 <span class="keyword">if</span> options.verbosity == 2
+0440     printstr = sprintf(<span class="string">'%9d   %9d   %9d   %s'</span>, j, j, numstored, <span class="keyword">...</span>
+0441                 stopreason_str);
+0442 <span class="keyword">elseif</span> options.verbosity &gt; 2
+0443     printstr = sprintf(<span class="string">'%9d   %9d   %9d   %9.2f   %s'</span>, j, j, numstored, <span class="keyword">...</span>
+0444                 memorytCG_MB, stopreason_str);
+0445 <span class="keyword">end</span>
+0446 
+0447 trsoutput.eta = eta;
+0448 trsoutput.Heta = Heta;
+0449 trsoutput.limitedbyTR = limitedbyTR;
+0450 trsoutput.printstr = printstr;
+0451 trsoutput.stats = stats;
+0452 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Fri 30-Sep-2022 13:18:25 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

@@ -36,7 +36,7 @@
 <h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../../../up.png"></a></h2>
 This function calls:
 <ul style="list-style-image:url(../../../../../../matlabicon.gif)">
-<li><a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/innerprod.html" class="code" title="function res = innerprod( x, y, dir, upto, storeParts )">innerprod</a>	INNERPROD Inner product between two TT/MPS tensors.</li><li><a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_block/innerprod.html" class="code" title="function res = innerprod( x, y, dir, upto )">innerprod</a>	INNERPROD Inner product between two TT/MPS tensors.</li><li><a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_tangent_orth/TTeMPS_tangent_orth.html" class="code" title="">TTeMPS_tangent_orth</a>	</li><li><a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/matricize.html" class="code" title="function res = matricize( U, mode )">matricize</a>	MATRICIZE Matricize 3D Matlab array.</li><li><a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorize.html" class="code" title="function res = tensorize( U, mode, d )">tensorize</a>	TENSORIZE Tensorize matrix (inverse matricization).</li><li><a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod.html" class="code" title="function res = tensorprod( U, A, mode, apply_inv )">tensorprod</a>	TENSORPROD Tensor-times-Matrix product.</li></ul>
+<li><a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/innerprod.html" class="code" title="function res = innerprod( x, y, dir, upto, storeParts )">innerprod</a>	INNERPROD Inner product between two TT/MPS tensors.</li><li><a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_block/innerprod.html" class="code" title="function res = innerprod( x, y, dir, upto )">innerprod</a>	INNERPROD Inner product between two TT/MPS tensors.</li><li><a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS_tangent_orth/TTeMPS_tangent_orth.html" class="code" title="">TTeMPS_tangent_orth</a>	</li><li><a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/matricize.html" class="code" title="function res = matricize( U, mode )">matricize</a>	MATRICIZE Matricize 3D Matlab array.</li><li><a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorize.html" class="code" title="function res = tensorize( U, mode, d )">tensorize</a>	TENSORIZE Tensorize matrix (inverse matricization).</li><li><a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod_ttemps.html" class="code" title="function res = tensorprod_ttemps( U, A, mode, apply_inv )">tensorprod_ttemps</a>	TENSORPROD_TTEMPS Tensor-times-Matrix product.</li></ul>
 This function is called by:
 <ul style="list-style-image:url(../../../../../../matlabicon.gif)">
 </ul>
@@ -68,14 +68,14 @@ This function is called by:
 0019     right = <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/innerprod.html" class="code" title="function res = innerprod( x, y, dir, upto, storeParts )">innerprod</a>( xR, xi, <span class="string">'RL'</span>, 2, true );             
 0020 
 0021     <span class="comment">% contract to first core</span>
-0022     Y{1} = <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod.html" class="code" title="function res = tensorprod( U, A, mode, apply_inv )">tensorprod</a>( xi.U{1}, right{2}, 3 );      
+0022     Y{1} = <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod_ttemps.html" class="code" title="function res = tensorprod_ttemps( U, A, mode, apply_inv )">tensorprod_ttemps</a>( xi.U{1}, right{2}, 3 );      
 0023     <span class="comment">% contract to first core</span>
 0024     <span class="keyword">for</span> idx = 2:d-1
-0025         res = <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod.html" class="code" title="function res = tensorprod( U, A, mode, apply_inv )">tensorprod</a>( xi.U{idx}, left{idx-1}, 1 );
-0026         Y{idx} = <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod.html" class="code" title="function res = tensorprod( U, A, mode, apply_inv )">tensorprod</a>( res, right{idx+1}, 3 );
+0025         res = <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod_ttemps.html" class="code" title="function res = tensorprod_ttemps( U, A, mode, apply_inv )">tensorprod_ttemps</a>( xi.U{idx}, left{idx-1}, 1 );
+0026         Y{idx} = <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod_ttemps.html" class="code" title="function res = tensorprod_ttemps( U, A, mode, apply_inv )">tensorprod_ttemps</a>( res, right{idx+1}, 3 );
 0027     <span class="keyword">end</span> 
 0028     <span class="comment">% contract to last core</span>
-0029     Y{d} = <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod.html" class="code" title="function res = tensorprod( U, A, mode, apply_inv )">tensorprod</a>( xi.U{d}, left{d-1}, 1 );
+0029     Y{d} = <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod_ttemps.html" class="code" title="function res = tensorprod_ttemps( U, A, mode, apply_inv )">tensorprod_ttemps</a>( xi.U{d}, left{d-1}, 1 );
 0030 
 0031     <span class="comment">% 2. STEP: Solve ALS systems:</span>
 0032     <span class="comment">% Instead of doing</span>
@@ -85,7 +85,7 @@ This function is called by:
 0036     eta.dU{1} = <a href="#_sub2" class="code" title="subfunction [res,BB1,BB3] = solve_inner( L0, X, Fi, idx )">solve_inner</a>( L{1}, X_mid, Y{1}, 1 );
 0037     <span class="keyword">for</span> idx = 2:d
 0038         X_mid.U{idx-1} = xL.U{idx-1};
-0039         X_mid.U{idx} = <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod.html" class="code" title="function res = tensorprod( U, A, mode, apply_inv )">tensorprod</a>(X_mid.U{idx},G{idx-1},1);
+0039         X_mid.U{idx} = <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod_ttemps.html" class="code" title="function res = tensorprod_ttemps( U, A, mode, apply_inv )">tensorprod_ttemps</a>(X_mid.U{idx},G{idx-1},1);
 0040         eta.dU{idx} = <a href="#_sub2" class="code" title="subfunction [res,BB1,BB3] = solve_inner( L0, X, Fi, idx )">solve_inner</a>( L{idx}, X_mid, Y{idx}, idx );  
 0041     <span class="keyword">end</span>
 0042 
@@ -97,7 +97,7 @@ This function is called by:
 0048 X = xR;
 0049 X.U{1:idx-1} = xL.U{1:idx-1};
 0050 <span class="keyword">if</span> idx&gt;1
-0051     X.U{idx} = <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod.html" class="code" title="function res = tensorprod( U, A, mode, apply_inv )">tensorprod</a>(X.U{idx},G{idx-1},1);
+0051     X.U{idx} = <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod_ttemps.html" class="code" title="function res = tensorprod_ttemps( U, A, mode, apply_inv )">tensorprod_ttemps</a>(X.U{idx},G{idx-1},1);
 0052 <span class="keyword">end</span>
 0053 <span class="keyword">end</span>
 0054 
@@ -112,7 +112,7 @@ This function is called by:
 0063     <span class="keyword">for</span> i = 1:idx-1
 0064         <span class="comment">% apply L to the i'th core</span>
 0065         tmp = X;
-0066         tmp.U{i} = <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod.html" class="code" title="function res = tensorprod( U, A, mode, apply_inv )">tensorprod</a>( tmp.U{i}, L0, 2 );
+0066         tmp.U{i} = <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod_ttemps.html" class="code" title="function res = tensorprod_ttemps( U, A, mode, apply_inv )">tensorprod_ttemps</a>( tmp.U{i}, L0, 2 );
 0067         <span class="comment">%BB1{i} = tmp.U{i};</span>
 0068         B1 = B1 + <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/innerprod.html" class="code" title="function res = innerprod( x, y, dir, upto, storeParts )">innerprod</a>( X, tmp, <span class="string">'LR'</span>, idx-1);
 0069     <span class="keyword">end</span>
@@ -125,7 +125,7 @@ This function is called by:
 0076     <span class="comment">% calculate B3 part:</span>
 0077     <span class="keyword">for</span> i = idx+1:X.order
 0078         tmp = X;
-0079         tmp.U{i} = <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod.html" class="code" title="function res = tensorprod( U, A, mode, apply_inv )">tensorprod</a>( tmp.U{i}, L0, 2 );
+0079         tmp.U{i} = <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorprod_ttemps.html" class="code" title="function res = tensorprod_ttemps( U, A, mode, apply_inv )">tensorprod_ttemps</a>( tmp.U{i}, L0, 2 );
 0080         <span class="comment">%BB3{i} = innerprod( X, tmp, 'RL', idx+1);</span>
 0081         B3 = B3 + <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/@TTeMPS/innerprod.html" class="code" title="function res = innerprod( x, y, dir, upto, storeParts )">innerprod</a>( X, tmp, <span class="string">'RL'</span>, idx+1);
 0082     <span class="keyword">end</span>
@@ -146,6 +146,6 @@ This function is called by:
 0097     res = <a href="../../../../../../manopt/manifolds/ttfixedrank/TTeMPS_1.1/tensorize.html" class="code" title="function res = tensorize( U, mode, d )">tensorize</a>( Y*V', 2, [rl, n, rr] );
 0098 <span class="keyword">end</span>
 0099</pre></div>
-<hr><address>Generated on Sun 05-Sep-2021 17:57:00 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+<hr><address>Generated on Fri 30-Sep-2022 13:18:25 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
 </body>
 </html>

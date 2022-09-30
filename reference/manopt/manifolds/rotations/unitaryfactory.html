@@ -240,8 +240,10 @@ This function is called by:
 0164     M.mat = @(x, u_vec) reshape(u_vec(1:sz), [n, n, k]) <span class="keyword">...</span>
 0165                         + 1i*reshape(u_vec((sz+1):end), [n, n, k]);
 0166     M.vecmatareisometries = @() true;
-0167 
-0168 <span class="keyword">end</span></pre></div>
-<hr><address>Generated on Sun 05-Sep-2021 17:57:00 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+0167     M.lie_identity = @() repmat(eye(n), [1, 1, k]);
+0168     
+0169 <span class="keyword">end</span>
+0170</pre></div>
+<hr><address>Generated on Fri 30-Sep-2022 13:18:25 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
 </body>
 </html>

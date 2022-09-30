@@ -50,6 +50,9 @@
  struct-array. (This requires the field 'hooked' to exist in the first
  place: applyStatsfun ensures this.)
 
+ Stored data about the input point in storeDB may be deleted if the point
+ is actually hooked.
+
  The options.hook function handle can have these prototypes:
 
    [newx, hooked]                = hook(problem, x)
@@ -95,66 +98,69 @@ This function is called by:
 0022 <span class="comment">% struct-array. (This requires the field 'hooked' to exist in the first</span>
 0023 <span class="comment">% place: applyStatsfun ensures this.)</span>
 0024 <span class="comment">%</span>
-0025 <span class="comment">% The options.hook function handle can have these prototypes:</span>
-0026 <span class="comment">%</span>
-0027 <span class="comment">%   [newx, hooked]                = hook(problem, x)</span>
-0028 <span class="comment">%   [newx, newkey, hooked]        = hook(problem, x, storedb, key)</span>
-0029 <span class="comment">%   [newx, newkey, hooked, stats] = hook(problem, x, storedb, key, stats)</span>
-0030 <span class="comment">%</span>
-0031 <span class="comment">% See also: applyStatsfun stoppingcriterion</span>
-0032 
-0033 <span class="comment">% This file is part of Manopt: www.manopt.org.</span>
-0034 <span class="comment">% Original author: Nicolas Boumal, July 19, 2020.</span>
-0035 <span class="comment">% Contributors: Eitan Levin</span>
-0036 <span class="comment">% Change log:</span>
-0037 
-0038     <span class="keyword">if</span> isfield(options, <span class="string">'hook'</span>)
-0039         
-0040         nin = nargin(options.hook);
-0041         nout = nargout(options.hook);
+0025 <span class="comment">% Stored data about the input point in storeDB may be deleted if the point</span>
+0026 <span class="comment">% is actually hooked.</span>
+0027 <span class="comment">%</span>
+0028 <span class="comment">% The options.hook function handle can have these prototypes:</span>
+0029 <span class="comment">%</span>
+0030 <span class="comment">%   [newx, hooked]                = hook(problem, x)</span>
+0031 <span class="comment">%   [newx, newkey, hooked]        = hook(problem, x, storedb, key)</span>
+0032 <span class="comment">%   [newx, newkey, hooked, stats] = hook(problem, x, storedb, key, stats)</span>
+0033 <span class="comment">%</span>
+0034 <span class="comment">% See also: applyStatsfun stoppingcriterion</span>
+0035 
+0036 <span class="comment">% This file is part of Manopt: www.manopt.org.</span>
+0037 <span class="comment">% Original author: Nicolas Boumal, July 19, 2020.</span>
+0038 <span class="comment">% Contributors: Eitan Levin</span>
+0039 <span class="comment">% Change log:</span>
+0040 
+0041     <span class="keyword">if</span> isfield(options, <span class="string">'hook'</span>)
 0042         
-0043         <span class="keyword">if</span> nin == 2 &amp;&amp; nout == 2
-0044             [newx, hooked] = options.hook(problem, x);
-0045             <span class="keyword">if</span> hooked
-0046                 storedb.remove(key);
-0047                 newkey = storedb.getNewKey();
-0048             <span class="keyword">else</span>
-0049                 newkey = key;
-0050             <span class="keyword">end</span>
-0051         <span class="keyword">elseif</span> nin == 4 &amp;&amp; nout == 3
-0052             [newx, newkey, hooked] = options.hook(problem, x, storedb, key);
-0053             <span class="keyword">if</span> hooked
-0054                 storedb.removefirstifdifferent(key, newkey);
-0055             <span class="keyword">end</span>
-0056         <span class="keyword">elseif</span> nin == 5 &amp;&amp; nout == 4
-0057             stats = info(last);
-0058             [newx, newkey, hooked, stats] = <span class="keyword">...</span>
-0059                              options.hook(problem, x, storedb, key, stats);
-0060             info(last) = stats;
-0061             <span class="keyword">if</span> hooked
-0062                 storedb.removefirstifdifferent(key, newkey);
-0063             <span class="keyword">end</span>
-0064         <span class="keyword">else</span>
-0065             newx = x;
-0066             newkey = key;
-0067             hooked = false;
-0068             warning(<span class="string">'manopt:hook'</span>, <span class="keyword">...</span>
-0069                     <span class="string">'options.hook unused: wrong number of inputs/outputs'</span>);
-0070         <span class="keyword">end</span>
-0071         
-0072     <span class="keyword">else</span>
-0073         newx = x;
-0074         newkey = key;
-0075         hooked = false;
-0076     <span class="keyword">end</span>
-0077     
-0078     <span class="comment">% Always register whether or not the point was hooked (i.e., changed).</span>
-0079     <span class="comment">% This field is first created in applyStatsfun.</span>
-0080     stats = info(last);
-0081     stats.hooked = hooked;
-0082     info(last) = stats;
-0083 
-0084 <span class="keyword">end</span></pre></div>
-<hr><address>Generated on Sun 05-Sep-2021 17:57:00 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+0043         nin = nargin(options.hook);
+0044         nout = nargout(options.hook);
+0045         
+0046         <span class="keyword">if</span> nin == 2 &amp;&amp; nout == 2
+0047             [newx, hooked] = options.hook(problem, x);
+0048             <span class="keyword">if</span> hooked
+0049                 storedb.remove(key);
+0050                 newkey = storedb.getNewKey();
+0051             <span class="keyword">else</span>
+0052                 newkey = key;
+0053             <span class="keyword">end</span>
+0054         <span class="keyword">elseif</span> nin == 4 &amp;&amp; nout == 3
+0055             [newx, newkey, hooked] = options.hook(problem, x, storedb, key);
+0056             <span class="keyword">if</span> hooked
+0057                 storedb.removefirstifdifferent(key, newkey);
+0058             <span class="keyword">end</span>
+0059         <span class="keyword">elseif</span> nin == 5 &amp;&amp; nout == 4
+0060             stats = info(last);
+0061             [newx, newkey, hooked, stats] = <span class="keyword">...</span>
+0062                              options.hook(problem, x, storedb, key, stats);
+0063             info(last) = stats;
+0064             <span class="keyword">if</span> hooked
+0065                 storedb.removefirstifdifferent(key, newkey);
+0066             <span class="keyword">end</span>
+0067         <span class="keyword">else</span>
+0068             newx = x;
+0069             newkey = key;
+0070             hooked = false;
+0071             warning(<span class="string">'manopt:hook'</span>, <span class="keyword">...</span>
+0072                     <span class="string">'options.hook unused: wrong number of inputs/outputs'</span>);
+0073         <span class="keyword">end</span>
+0074         
+0075     <span class="keyword">else</span>
+0076         newx = x;
+0077         newkey = key;
+0078         hooked = false;
+0079     <span class="keyword">end</span>
+0080     
+0081     <span class="comment">% Always register whether or not the point was hooked (i.e., changed).</span>
+0082     <span class="comment">% This field is first created in applyStatsfun.</span>
+0083     stats = info(last);
+0084     stats.hooked = hooked;
+0085     info(last) = stats;
+0086 
+0087 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Fri 30-Sep-2022 13:18:25 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
 </body>
 </html>
