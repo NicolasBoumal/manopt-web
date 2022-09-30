@@ -1,176 +1,185 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <!-- Analytics (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-71FCE8T97E"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-71FCE8T97E');
-    </script>
-    <!-- Meta -->
-    <meta content="text/html; charset=UTF-8" http-equiv="content-type">
-    <title>Manopt, trust-regions solver</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Documentation of the Riemannian trust-regions solver in Manopt, the Matlab toolbox for optimization on Riemannian manifolds.">
-    <meta name="author" content="Nicolas Boumal">
-    <link href="favicon.ico" rel="icon" type="image/x-icon">
-    <!-- Le styles -->
-    <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
-    <style type="text/css">
-body {
-	padding-top: 80px;
-	padding-bottom: 40px;
-}
-thead {
-	font-weight: bold;
-}
-</style> <link href="bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
-    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
-    <!--[if lt IE 9]>
+
+<head>
+  <!-- Analytics (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-71FCE8T97E"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-71FCE8T97E');
+  </script>
+  <!-- Meta -->
+  <meta content="text/html; charset=UTF-8" http-equiv="content-type">
+  <title>Manopt, trust-regions solver</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="Documentation of the Riemannian trust-regions solver in Manopt, the Matlab toolbox for optimization on Riemannian manifolds.">
+  <meta name="author" content="Nicolas Boumal">
+  <link href="favicon.ico" rel="icon" type="image/x-icon">
+  <!-- Le styles -->
+  <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
+  <style type="text/css">
+    body {
+      padding-top: 80px;
+      padding-bottom: 40px;
+    }
+
+    thead {
+      font-weight: bold;
+    }
+  </style>
+  <link href="bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+  <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+  <!--[if lt IE 9]>
 <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script> <![endif]-->
-    <link href="bootstrap/css/prettify.css" type="text/css" rel="stylesheet">
-    <link href="bootstrap/css/lang-matlab.css" type="text/css" rel="stylesheet">
-  </head>
-  <body onload="prettyPrint()">
-    <div class="navbar navbar-fixed-top">
-      <div class="navbar-inner"> <a class="btn btn-navbar"><span class="icon-bar"></span>
-          <span class="icon-bar"></span> <span class="icon-bar"></span> </a>
-        <div class="container"> <a class="brand" href="index.html">Manopt</a>
-          <div class="nav-collapse collapse">
-            <ul class="nav">
-              <li><a href="index.html"><i class="icon-home"></i> Home</a></li>
-              <li><a href="tutorial.html"><i class="icon-road"></i> Tutorial</a></li>
-              <li><a href="downloads.html"><i class="icon-download-alt"></i>
-                  Downloads</a></li>
-              <li><a href="forum.html"><i class="icon-edit"></i> Forum</a></li>
-              <li><a href="about.html"><i class="icon-user"></i> About</a></li>
-              <li><a href="#contactmodal"><i class="icon-envelope"></i> Contact</a></li>
-            </ul>
+  <link href="bootstrap/css/prettify.css" type="text/css" rel="stylesheet">
+  <link href="bootstrap/css/lang-matlab.css" type="text/css" rel="stylesheet">
+</head>
+
+<body onload="prettyPrint()">
+  <div class="navbar navbar-fixed-top">
+    <div class="navbar-inner"> <a class="btn btn-navbar"><span class="icon-bar"></span>
+        <span class="icon-bar"></span> <span class="icon-bar"></span> </a>
+      <div class="container"> <a class="brand" href="index.html">Manopt</a>
+        <div class="nav-collapse collapse">
+          <ul class="nav">
+            <li><a href="index.html"><i class="icon-home"></i> Home</a></li>
+            <li><a href="tutorial.html"><i class="icon-road"></i> Tutorial</a></li>
+            <li><a href="downloads.html"><i class="icon-download-alt"></i> Downloads</a></li>
+            <li><a href="forum.html"><i class="icon-edit"></i> Forum</a></li>
+            <li><a href="about.html"><i class="icon-user"></i> About</a></li>
+            <li><a href="#contactmodal"><i class="icon-envelope"></i> Contact</a></li>
+          </ul>
+        </div>
+        <!--/.nav-collapse -->
+      </div>
+    </div>
+  </div>
+  <!-- Contact modal Begin -->
+  <div id="contactmodal" class="modal hide fade" tabindex="-1">
+    <div class="modal-header"> <button type="button" class="close">&#215;</button>
+      <h3 id="myModalLabel">To contact us</h3>
+    </div>
+    <div class="modal-body">
+      <p>To discuss code, it is best to use the <a href="forum.html">forum</a>.</p>
+      <p>For things not suitable for the forum, e-mail us at <a
+          href="mailto:manopttoolbox@gmail.com">manopttoolbox@gmail.com</a>.</p>
+      <p>We are happy to receive feedback and bug reports or requests for more
+        features, to discuss the toolbox in general as well as its
+        documentation and to help you use it.</p>
+      <p>We would also love to know how you use the toolbox, and if you built
+        nice manifold factories, solvers or tools that could benefit others.</p>
+    </div>
+    <div class="modal-footer"> <button class="btn">Close</button> </div>
+  </div>
+  <!-- Contact modal End -->
+  <div class="container">
+    <div class="row">
+      <div class="span12">
+        <!--Body content-->
+        <section id="geometry">
+          <div class="page-header">
+            <h1>The Riemannian trust-regions solver</h1>
           </div>
-          <!--/.nav-collapse --> </div>
-      </div>
-    </div>
-    <!-- Contact modal Begin -->
-    <div id="contactmodal" class="modal hide fade" tabindex="-1">
-      <div class="modal-header"> <button type="button" class="close">&#215;</button>
-        <h3 id="myModalLabel">To contact us</h3>
-      </div>
-      <div class="modal-body">
-        <p>To discuss code, it is best to use the <a href="forum.html">forum</a>.</p>
-        <p>For things not suitable for the forum, e-mail us at <a href="mailto:manopttoolbox@gmail.com">manopttoolbox@gmail.com</a>.</p>
-        <p>We are happy to receive feedback and bug reports or requests for more
-          features, to discuss the toolbox in general as well as its
-          documentation and to help you use it.</p>
-        <p>We would also love to know how you use the toolbox, and if you built
-          nice manifold factories, solvers or tools that could benefit others.</p>
-      </div>
-      <div class="modal-footer"> <button class="btn">Close</button> </div>
-    </div>
-    <!-- Contact modal End -->
-    <div class="container">
-      <div class="row">
-        <div class="span12">
-          <!--Body content-->
-          <section id="geometry">
-            <div class="page-header">
-              <h1>The Riemannian trust-regions solver</h1>
-            </div>
-            <p>Trust-region methods form a widely used class of nonlinear
-              optimization algorithms. They were generalized to the realm of
-              optimization on Riemannian manifolds in [ABG07], see also [AMS08],
-              specifically <a href="https://press.princeton.edu/sites/default/files/inline-files/Absil_Chap7.pdf">chapter
-                7</a>. See [ABG07] for a listing and explanation of the
-              algorithm.</p>
-            <p>The standard convergence guarantees from the Euclidean setting
-              essentially carry over to the Riemannian setting: the method is
-              globally convergent, that is, regardless of the initial guess, it
-              will converge toward critical points. Furthermore, when the true
-              Hessian is used, we get quadratic local convergence; otherwise, we
-              still get linear local convergence (superlinear if the approximate
-              Hessian is "good enough"). See [ABG07] for precise theorem
-              statements and the assumptions that need to be verified (in
-              particular, sufficient smoothness of both the manifold and the
-              cost).</p>
-            <p>This trust-region method uses a truncated conjugate-gradient
-              (tCG) method to solve the inner minimization problems. This inner
-              solve can be preconditioned: simply provide a preconditioner in <a
-                href="tutorial.html#costdescription">the cost function
-                description</a>.</p>
-            <p>The implementation in Manopt is an adapted and improved version
-              of <a href="http://www.math.fsu.edu/%7Ecbaker/GenRTR/">GenRTR</a>,
-              the original code by the authors of [ABG07]. <strong>By default,
-                if no Hessian and no approximate Hessian are provided, Mano</strong><strong>pt
-                will appr</strong><strong>oximate the Hessian using finite
-                differences of the gradient</strong>. Empirically, this is seen
-              to perform excellently. The global convergence proof of the
-              Riemannian trust-region method can be extended to guarantee global
-              convergence with this nonlinear approximation of the Hessian too,
-              see [Bou15], but there is currently no proof of superlinear
-              convergence for this algorithm. <strong>You </strong><strong>may
-                disable this</strong> by providing an approximate Hessian (for
-              example, the identity operator), or the Hessian of course. If you
-              want more control over the approximation algorithm, you may
-              specify an approximate Hessian in <a href="tutorial.html#costdescription">the
-                cost description</a> and perhaps start from the base code in <a
-                target="_blank" href="http://www.manopt.org/reference/manopt/solvers/hessianapproximations/approxhessianFD.html"><tt>manopt/solvers/hessianapproximations/approxhessianFD.m</tt></a>.</p>
-            <p> </p>
-            <p><strong> What should the problem structure specify about the cost
-                function $f$</strong><strong>?</strong></p>
-            <ul>
-              <li>Required: the manifold $\mathcal{M}$, the cost $f(x)$ and the
-                gradient $\operatorname{grad}f(x)$.</li>
-              <li>Recommended: the Hessian $\operatorname{Hess}f(x)[u]$, or
-                approximate Hessian.</li>
-              <li>Can help: a preconditioner $\operatorname{Prec}f(x)[u]$ (a
-                symmetric, positive definite operator that should approximate
-                the inverse of the Hessian).</li>
-            </ul>
-            <p> </p>
-            <ul>
-            </ul>
-            <p></p>
-            <p><strong>How to call this solver?</strong></p>
-            <p>The solver <code>trustregions</code> is defined in the file <a
-                href="http://www.manopt.org/reference/manopt/solvers/trustregions/trustregions.html"><span
-                  style="font-family: monospace;">manopt/solvers/trustregions/trustregions.m</span></a>.
-              It may be called as follows: </p>
-            <ul>
-              <li><code>[x_opt cost_opt info] = trustregions(problem)</code> </li>
-              <li><code>[x_opt cost_opt info] = trustregions(problem, x0)</code></li>
-              <li><code>[x_opt cost_opt info] = trustregions(problem, [],
-                  options)</code> </li>
-              <li><code>[x_opt cost_opt info] = trustregions(problem, x0,
-                  options)</code></li>
-            </ul>
-            <p>The first input is a Manopt problem structure, describing the
-              manifold and the cost. The second input (optional) is a point on
-              the manifold from where the algorithm will start (initial guess).
-              The third input (optional) is a structure specifying option values
-              (see below).</p>
-            <p>For an in-depth description of the algorithm, with convergence
-              theory, see [ABG07] or [AMS08].</p>
-          </section>
-          <section id="toolset">
-            <div class="page-header">
-              <h1>Options and stopping criteria</h1>
-            </div>
-            <p>All options have default values, so that you seldom have to tweak
-              them. Nevertheless, from time to time, good tuning may bring about
-              nice performance boosts or better control. The <a href="tutorial.html#solvers">tutorial
-                page</a> documents generic options. Among those, the present
-              solver supports <code>options."..."</code>:</p>
-            <ul>
-              <li>Output and logging: <code>verbosity</code>, <code>debug</code>,
-                <code>statsfun</code></li>
-              <li>Stopping criteria: <code>maxiter</code>, <code>maxtime</code>,
-                <span style="color: #dd1144;"><span style="font-family: Monaco,Menlo,Consolas,&quot;Courier New&quot;,monospace;"></span></span><code>tolcost</code>,
-                <code>tolgradnorm</code>, <code>stopfun</code></li>
-              <li>Misc.: <code>storedepth</code></li>
-            </ul>
-            In addition, you may add the following specific options to the <code>options</code>
-            structure:
+          <p>
+            <i>In September 2022 this solver was improved in several ways that are not reflected in this documentation.
+              Everything is backwards compatible though. For the latest info, type <code>help trustregions</code> at the
+              Matlab prompt.</i>
+          </p>
+          <p>Trust-region methods form a widely used class of nonlinear
+            optimization algorithms. They were generalized to the realm of
+            optimization on Riemannian manifolds in [ABG07], see also [AMS08],
+            specifically <a href="https://press.princeton.edu/sites/default/files/inline-files/Absil_Chap7.pdf">chapter
+              7</a>. See [ABG07] for a listing and explanation of the
+            algorithm.</p>
+          <p>The standard convergence guarantees from the Euclidean setting
+            essentially carry over to the Riemannian setting: the method is
+            globally convergent, that is, regardless of the initial guess, it
+            will converge toward critical points. Furthermore, when the true
+            Hessian is used, we get quadratic local convergence; otherwise, we
+            still get linear local convergence (superlinear if the approximate
+            Hessian is "good enough"). See [ABG07] for precise theorem
+            statements and the assumptions that need to be verified (in
+            particular, sufficient smoothness of both the manifold and the
+            cost).</p>
+          <p>This trust-region method uses a truncated conjugate-gradient
+            (tCG) method to solve the inner minimization problems. This inner
+            solve can be preconditioned: simply provide a preconditioner in <a href="tutorial.html#costdescription">the
+              cost function
+              description</a>.</p>
+          <p>The implementation in Manopt is an adapted and improved version
+            of <a href="http://www.math.fsu.edu/%7Ecbaker/GenRTR/">GenRTR</a>,
+            the original code by the authors of [ABG07]. <strong>By default,
+              if no Hessian and no approximate Hessian are provided, Manopt
+              will approximate the Hessian using finite
+              differences of the gradient</strong>. Empirically, this is seen
+            to perform excellently. The global convergence proof of the
+            Riemannian trust-region method can be extended to guarantee global
+            convergence with this nonlinear approximation of the Hessian too,
+            see [Bou15], but there is currently no proof of superlinear
+            convergence for this algorithm. <strong>You may
+              disable this</strong> by providing an approximate Hessian (for
+            example, the identity operator), or the Hessian of course. If you
+            want more control over the approximation algorithm, you may
+            specify an approximate Hessian in <a href="tutorial.html#costdescription">the
+              cost description</a> and perhaps start from the base code in <a target="_blank"
+              href="http://www.manopt.org/reference/manopt/solvers/hessianapproximations/approxhessianFD.html"><tt>manopt/solvers/hessianapproximations/approxhessianFD.m</tt></a>.
+          </p>
+          <p>
+            <strong> What should the problem structure specify about the cost function $f$?</strong>
+          </p>
+          <ul>
+            <li>Required: the manifold $\mathcal{M}$, the cost $f(x)$ and the
+              gradient $\operatorname{grad}f(x)$.</li>
+            <li>Recommended: the Hessian $\operatorname{Hess}f(x)[u]$, or
+              approximate Hessian.</li>
+            <li>Can help: a preconditioner $\operatorname{Prec}f(x)[u]$ (a
+              symmetric, positive definite operator that should approximate
+              the inverse of the Hessian).</li>
+          </ul>
+          <p><strong>How to call this solver?</strong></p>
+          <p>The solver <code>trustregions</code> is defined in the file <a
+              href="http://www.manopt.org/reference/manopt/solvers/trustregions/trustregions.html"><span
+                style="font-family: monospace;">manopt/solvers/trustregions/trustregions.m</span></a>.
+            It may be called as follows: </p>
+          <ul>
+            <li><code>[x_opt cost_opt info] = trustregions(problem)</code></li>
+            <li><code>[x_opt cost_opt info] = trustregions(problem, x0)</code></li>
+            <li><code>[x_opt cost_opt info] = trustregions(problem, [], options)</code></li>
+            <li><code>[x_opt cost_opt info] = trustregions(problem, x0, options)</code></li>
+          </ul>
+          <p>The first input is a Manopt problem structure, describing the
+            manifold and the cost. The second input (optional) is a point on
+            the manifold from where the algorithm will start (initial guess).
+            The third input (optional) is a structure specifying option values
+            (see below).</p>
+          <p>For an in-depth description of the algorithm, with convergence
+            theory, see [ABG07] or [AMS08].</p>
+        </section>
+        <section id="toolset">
+          <div class="page-header">
+            <h1>Options and stopping criteria</h1>
+          </div>
+          <p>All options have default values, so that you seldom have to tweak
+            them. Nevertheless, from time to time, good tuning may bring about
+            nice performance boosts or better control. The <a href="tutorial.html#solvers">tutorial
+              page</a> documents generic options. Among those, the present
+            solver supports <code>options."..."</code>:</p>
+          <ul>
+            <li>Output and logging: <code>verbosity</code>, <code>debug</code>,
+              <code>statsfun</code>
+            </li>
+            <li>Stopping criteria: <code>maxiter</code>, <code>maxtime</code>,
+              <span style="color: #dd1144;"><span
+                  style="font-family: Monaco,Menlo,Consolas,&quot;Courier New&quot;,monospace;"></span></span><code>tolcost</code>,
+              <code>tolgradnorm</code>, <code>stopfun</code>
+            </li>
+            <li>Misc.: <code>storedepth</code></li>
+          </ul>
+          In addition, you may add the following specific options to the <code>options</code>
+          structure:
           <table style="width: 100%;" class="table table-striped table-bordered">
             <thead>
               <tr>
@@ -195,7 +204,8 @@ thead {
                 <td>double </td>
                 <td>Maximum radius $\bar\Delta$ the trust-region can have. If
                   you specify this parameter but not <code>Delta0</code>, then
-                  <code>Delta0</code> will be set to 1/8 times this parameter. </td>
+                  <code>Delta0</code> will be set to 1/8 times this parameter.
+                </td>
               </tr>
               <tr>
                 <td><code>useRand</code> </td>
@@ -236,8 +246,8 @@ thead {
                   as the model decrease and actual decrease go to zero. Set this
                   option to zero to disable regularization (not recommended).
                   See in-code for the specifics. This heuristic is documented in
-                  the book by Conn Gould and Toint on trust-region methods, <a
-                    title="Link to google books. You may need to right-click on the page and select &quot;reload&quot;."
+                  the book by Conn Gould and Toint on trust-region methods, <a
+                    title="Link to google books. You may need to right-click on the page and select &quot;reload&quot;."
                     href="http://books.google.be/books?id=5kNC4fqssYQC&amp;lpg=PP1&amp;pg=PA793#v=onepage&amp;q&amp;f=false">section
                     17.4.2</a>.</td>
               </tr>
@@ -388,30 +398,38 @@ thead {
                 decrease</span>") or by looking for true values in <code>[info.rhoden]
                 &lt; 0</code>, and of course using the <code>checkhessian</code>
               tool. If you did not provide a Hessian or approximation, then the
-              generic finite-difference approximation of it is in use, <a href="http://www.manopt.org/reference/manopt/privatetools/getHessianFD.html"><code>getHessianFD</code></a>.
+              generic finite-difference approximation of it is in use, <a
+                href="http://www.manopt.org/reference/manopt/privatetools/getHessianFD.html"><code>getHessianFD</code></a>.
               It is nonlinear and may at times lead to negative <code>rhoden</code>.
               If this happens, you may either try to provide an alternative
-              Hessian operator, or try the <a href="http://manopt.org/reference/manopt/solvers/conjugategradient/conjugategradient.html"><code>conjugategradient</code></a>
-              solver for example. if you decide to copy <a href="http://www.manopt.org/reference/manopt/privatetools/getHessianFD.html"><code>getHessianFD</code></a>
+              Hessian operator, or try the <a
+                href="http://manopt.org/reference/manopt/solvers/conjugategradient/conjugategradient.html"><code>conjugategradient</code></a>
+              solver for example. if you decide to copy <a
+                href="http://www.manopt.org/reference/manopt/privatetools/getHessianFD.html"><code>getHessianFD</code></a>
               to a new file to modify it, tuning the <code>epsilon</code>
               parameter is the first thing to try.</div>
           </section>
         </section>
         <!--
-          <section id="example">            <div class="page-header">              <h1>Example</h1>            </div>            <p>Most examples use the trust-regions solver. We'll add a              specific example here with more advanced option usage later.</p>            --><!-- <pre class="prettyprint lang-matlab linenums"><br></pre> --><!--
+          <section id="example">            <div class="page-header">              <h1>Example</h1>            </div>            <p>Most examples use the trust-regions solver. We'll add a              specific example here with more advanced option usage later.</p>            -->
+        <!-- <pre class="prettyprint lang-matlab linenums"><br></pre> -->
+        <!--
           </section>          -->
         <section id="references">
           <div class="page-header">
             <h1>References</h1>
           </div>
-          [ABG07] P.-A. Absil, C.G. Baker, K.A. Gallivan, <a href="http://perso.uclouvain.be/pa.absil/Publi/RTR.htm">Trust-region
+          [ABG07] P.-A. Absil, C.G. Baker, K.A. Gallivan, <a
+            href="http://perso.uclouvain.be/pa.absil/Publi/RTR.htm">Trust-region
             methods on Riemannian manifolds</a>, FoCM, 2007.<br>
-          [AMS08] P.-A. Absil, R. Mahony and R. Sepulchre, <a target="_blank" href="https://press.princeton.edu/absil">Optimization
+          [AMS08] P.-A. Absil, R. Mahony and R. Sepulchre, <a target="_blank"
+            href="https://press.princeton.edu/absil">Optimization
             Algorithms on Matrix Manifolds</a>, Princeton University Press,
           2008.<br>
           [Bou15] N. Boumal, Riemannian trust regions with finite-difference
           Hessian approximations are globally convergent, Geometric Science of
-          Information, 2015.</section>
+          Information, 2015.
+        </section>
         <section id="examples">
           <div class="page-header">
             <h1>List of examples</h1>
@@ -425,29 +443,32 @@ thead {
   <!-- /container -->
   <!-- Le javascript ================================================== -->
   <script type="text/javascript" src="bootstrap/js/jquery.min.js">
-	</script>
+  </script>
   <script type="text/javascript" src="bootstrap/js/bootstrap.js">
-	</script>
+  </script>
   <script type="text/javascript" src="bootstrap/js/prettify.js">
-	</script>
+  </script>
   <script type="text/javascript" src="bootstrap/js/lang-matlab.js">
-	</script>
+  </script>
   <script type="text/x-mathjax-config">
 	MathJax.Hub.Config({
 tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
 });</script>
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-</script> <script type="text/javascript">
+  <script type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
+  <script type="text/javascript">
 
-var _gaq = _gaq || [];
-_gaq.push(['_setAccount', 'UA-37402854-1']);
-_gaq.push(['_trackPageview']);
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-37402854-1']);
+    _gaq.push(['_trackPageview']);
 
-(function() {
- var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
- ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
- var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
- })();
-</script>
+    (function () {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
 </body>
+
 </html>
