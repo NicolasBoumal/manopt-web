@@ -514,7 +514,7 @@ window.MathJax = {
 <p>If you already have an orthonormal basis, you can use that one by calling</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="va">H</span> <span class="op">=</span> <span class="va">hessianmatrix</span>(<span class="va">problem</span><span class="op">,</span> <span class="va">x</span><span class="op">,</span> <span class="va">basis</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>If <code>basis</code> is an orthonormal basis for a <em>subspace</em> of the tangent space, then <code>H</code> is a matrix that represents the restriction of the Hessian to that subspace.</p>
-<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout callout-style-simple callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -747,17 +747,14 @@ The matrix-way does not scale well
 <li>use counters in a stopping criterion,</li>
 <li>run several solvers on the same problem and compare the metrics tracked by counters.</li>
 </ul>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
+<div class="callout callout-style-simple callout-note">
+<div class="callout-body d-flex">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
+<div class="callout-body-container">
 <p>Counter names (such as <code>'Aproducts'</code> in the example) must be valid names for structure fields. Essentially, this means they should be valid variable names (no spaces, do not start with a digit, etc.)</p>
+</div>
 </div>
 </div>
 </section>

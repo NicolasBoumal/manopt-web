@@ -427,7 +427,7 @@ window.MathJax = {
 <div class="sourceCode" id="cb1"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="va">x</span> <span class="op">=</span> <span class="va">mysolver</span>(<span class="va">problem</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The returned value <code>x</code> is a point on the manifold <code>problem.M</code>. Depending on the properties of your problem and on the guarantees of the solver, <code>x</code> is more or less close to a good minimizer of the cost function described in the <code>problem</code> structure.</p>
 <p>Bear in mind that we are dealing with usually nonconvex, and possibly nonsmooth or derivative-free optimization, so that it is in general not guaranteed that <code>x</code> is a global minimizer of the cost. For smooth problems with gradient information though, most decent algorithms guarantee that <code>x</code> is (approximately) a critical point. Typically, we even expect an approximate local minimizer, but even that is usually not guaranteed in all cases: this is a fundamental limitation of continuous optimization.</p>
-<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout callout-style-simple callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -737,7 +737,7 @@ where <span class="math inline">\(x\)</span> is the current point on the manifol
 </tbody>
 </table>
 <p>A specific solver may not populate all of these fields and may provide additional fields, which would then be described in the solver’s documentation.</p>
-<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout callout-style-simple callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -750,7 +750,7 @@ Need to log problem-specific information at each iteration?
 <p>Include a <code>statsfun</code> in your <code>options</code> structure: <a href="./solvers.html#statsfun-option-for-recording-info-at-each-iteration">read more here</a>. Also read about <a href="./tools.html#counters-to-track-computations">Manopt counters</a> to keep track of things such as function calls, Hessian calls, matrix products, etc.</p>
 </div>
 </div>
-<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout callout-style-simple callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>

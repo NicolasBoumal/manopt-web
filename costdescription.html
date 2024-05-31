@@ -427,7 +427,7 @@ window.MathJax = {
 <p>An optimization problem in Manopt is represented as a <code>problem</code> structure. The latter must include a field <code>problem.M</code> which contains a structure describing a manifold, as obtained from <a href="./manifolds.html">a factory</a>. On top of this, the problem structure must include some fields that describe the cost function <span class="math inline">\(f\)</span> to be minimized and, possibly, its derivatives. This is done with function handles.</p>
 <p>The solvers do <em>not</em> query these function handles directly. Instead, they call core (internal) tools such as <code>getCost</code>, <code>getGradient</code>, <code>getHessian</code>, etc. These tools consider the available fields in the problem structure and “do their best” to return the requested object.</p>
 <p>As a result, we gain great flexibility in the cost function description. Indeed, as the needs grow during the life-cycle of the toolbox and new ways of describing the cost function become necessary, it suffices to update the core <code>get*</code> tools to take these new ways into account. This has made it much easier over time to incorporate (and improve) caching. Also, if a solver requests an object that is not available, then Manopt can automatically fall back to an approximation. </p>
-<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout callout-style-simple callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -440,7 +440,7 @@ Try to provide the gradient
 <p>If you do not provide the gradient and a solver queries it, then Manopt falls back to finite differences of the cost function to approximate the Riemannian gradient. This requires building an orthonormal basis for the tangent space (that’s expensive) and then querying the cost function value along each basis vector (that’s <span class="math inline">\(\dim \mathcal{M}\)</span> calls). Solvers will still run, but this feature is included only for convenience when prototyping.</p>
 </div>
 </div>
-<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout callout-style-simple callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -453,7 +453,7 @@ It’s fine to omit the Hessian
 <p>If you do not provide the Hessian and a solver queries it, then Manopt falls back to finite differences of the gradient to approximate the Hessian. This is typically good enough, and often has a computational cost similar to evaluating the true Hessian. You can control this further with <a href="https://github.com/NicolasBoumal/manopt/blob/master/manopt/solvers/hessianapproximations/approxhessianFD.m"><code>approxhessianFD</code></a>.</p>
 </div>
 </div>
-<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout callout-style-simple callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -667,7 +667,7 @@ Check your derivatives
 </div>
 <p>It is instructive to execute such code with <a href="https://blogs.mathworks.com/community/2010/02/01/speeding-up-your-program-through-profiling/">the profiler</a> activated and to look at how many times each line of code is executed. You should find that the matrix-vector products <span class="math inline">\(Ax\)</span> (computed only in <code>prepare</code>) are executed exactly as often as they should be. You can use <a href="./tools.html#counters-to-track-computations">Manopt counters</a> to track these products and more.</p>
 <p>The store structure also includes a field <code>store.shared</code>. The contents of that field are shared among all points the solver visited so far.</p>
-<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout callout-style-simple callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -680,7 +680,7 @@ Cache reusable computations only
 <p>Manopt automatically caches the value and the gradient of <span class="math inline">\(f\)</span> (both Euclidean and Riemannian) at each queried point <span class="math inline">\(x\)</span>. There is no need to cache those manually. Rather, use the <code>store</code> to cache the most expensive (and reusable) intermediate computations. </p>
 </div>
 </div>
-<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout callout-style-simple callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -693,7 +693,7 @@ Caching and the Hessian
 <p>Each <code>store</code> is associated to a point <span class="math inline">\(x\)</span>. Thus, calls to <code>ehess(x, u, store)</code>and <code>ehess(x, v, store)</code> with the same <code>x</code> and two different tangent vectors <code>u</code>, <code>v</code> receive access to the same <code>store</code>. Therefore, only cache quantities that depend on <code>x</code>, not on <code>u</code>.</p>
 </div>
 </div>
-<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout callout-style-simple callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -706,7 +706,7 @@ Lifespan of the cache
 <p>Solvers take care of deleting older information when it is no longer relevant. This should be good enough, but you can also cap the maximum number of <code>store</code> structures kept in memory with <code>options.storedepth</code>.</p>
 </div>
 </div>
-<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout callout-style-simple callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -801,7 +801,7 @@ Caching and <code>statsfun</code>
 </tr>
 </tbody>
 </table>
-<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout callout-style-simple callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>

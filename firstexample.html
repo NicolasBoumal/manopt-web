@@ -476,7 +476,7 @@ window.MathJax = {
 <p>We now run one of <a href="./solvers.html">the solvers</a> on our problem:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>[<span class="va">x</span><span class="op">,</span> <span class="va">xcost</span><span class="op">,</span> <span class="va">info</span><span class="op">,</span> <span class="va">options</span>] <span class="op">=</span> <span class="va">trustregions</span>(<span class="va">problem</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>This instruction calls <a href="https://github.com/NicolasBoumal/manopt/blob/master/manopt/solvers/trustregions/trustregions.m"><code>trustregions</code></a>, without initial guess and without options structure. As a result, the solver generates a random initial guess automatically and resorts to the default values for all options. As a general feature in Manopt, all options are, well, optional.</p>
-<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout callout-style-simple callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -513,7 +513,7 @@ Manopt always minimizes
 <figcaption class="figure-caption">The Riemannian gradient norm is converging to zero fast: that’s what we like to see.</figcaption>
 </figure>
 </div>
-<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout callout-style-simple callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -526,7 +526,7 @@ Manopt always minimizes
 <p>Notice that we write <code>[info.xyz]</code> with brackets, and not simply <code>info.xyz</code>. This is because <code>info</code> is a struct-array. Read this <a href="https://blogs.mathworks.com/loren/2007/04/19/vectorizing-access-to-an-array-of-structures/">MathWorks blog post</a> for further information.</p>
 </div>
 </div>
-<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout callout-style-simple callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
