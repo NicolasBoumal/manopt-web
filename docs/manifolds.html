@@ -1,0 +1,1200 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Manopt - Manifolds</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./icon.png" rel="icon" type="image/png">
+<script src="site_libs/cookie-consent/cookie-consent.js"></script>
+<link href="site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark.min.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-71FCE8T97E"></script>
+
+<script type="text/plain" cookie-consent="tracking">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-71FCE8T97E', { 'anonymize_ip': true});
+</script>
+
+<script type="text/javascript" charset="UTF-8">
+document.addEventListener('DOMContentLoaded', function () {
+cookieconsent.run({
+  "notice_banner_type":"simple",
+  "consent_type":"express",
+  "palette":"light",
+  "language":"en",
+  "page_load_consent_levels":["strictly-necessary"],
+  "notice_banner_reject_button_hide":false,
+  "preferences_center_close_button_hide":false,
+  "website_name":""
+  });
+});
+</script> 
+  
+<style>html{ scroll-behavior: smooth; }</style>
+<script>
+window.MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      macros: {
+        reals: "\\mathbb{R}",
+        inner: ["\\left\\langle #1, #2 \\right\\rangle", 2],
+        smallinner: ["\\langle #1, #2 \\rangle", 2],
+        innersmall: ["\\langle #1, #2 \\rangle", 2],
+        innerbig: ["\\big\\langle #1, #2 \\big\\rangle", 2],
+        sqfrobnorm: ["\\left\\|#1\\right\\|_{\\mathrm{F}}^2", 1],
+        sqfrobnormsmall: ["\\|#1\\|_{\\mathrm{F}}^2", 1],
+        sqfrobnormbig: ["\\big\\|#1\\big\\|_{\\mathrm{F}}^2", 1],
+        calM: "\\mathcal{M}",
+        calN: "\\mathcal{N}",
+        calA: "\\mathcal{A}",
+        T: "\\mathrm{T}",
+        skeww: "\\mathrm{skew}",
+        symm: "\\mathrm{sym}",
+        Sym: "\\mathrm{Sym}",
+        Proj: "\\mathrm{Proj}",
+        grad: "\\mathrm{grad}",
+        Hess: "\\mathrm{Hess}",
+        Retr: "\\mathrm{R}",
+        D: "\\mathrm{D}",
+        calE: "\\mathcal{E}",
+        Stnp: "\\mathrm{St}(n,p)",
+        Rnp: "\\mathbb{R}^{n \\times p}",
+        Rmp: "\\mathbb{R}^{m \\times p}",
+        Rnr: "\\mathbb{R}^{n \\times r}",
+        Rrn: "\\mathbb{R}^{r \\times n}",
+        Rmr: "\\mathbb{R}^{m \\times r}",
+        Rnn: "\\mathbb{R}^{n \\times n}",
+        Rmn: "\\mathbb{R}^{m \\times n}",
+        Rpp: "\\mathbb{R}^{p \\times p}",
+        Rmnr: "\\mathbb{R}^{m \\times n}_r",
+        Rmnlr: "\\mathbb{R}^{m \\times n}_{\\leq r}",
+        Rn: "\\mathbb{R}^{n}",
+        Rm: "\\mathbb{R}^{m}",
+        Rp: "\\mathbb{R}^{p}",
+        Rd: "\\mathbb{R}^{d}",
+        Rk: "\\mathbb{R}^{k}",
+        Sn: "\\mathbb{S}^{n}",
+        Sm: "\\mathbb{S}^{m}",
+        Sd: "\\mathbb{S}^{d-1}",
+        trace: "\\mathrm{Tr}",
+        Trace: "\\mathrm{Tr}",
+        diag: "\\mathrm{diag}",
+        sign: "\\mathrm{sign}",
+        Od: "\\mathrm{O}(d)",
+        On: "\\mathrm{O}(n)",
+        Om: "\\mathrm{O}(m)",
+        SOd: "\\mathrm{SO}(d)",
+        SOn: "\\mathrm{SO}(n)",
+        rank: "\\mathrm{rank}",
+        frakX: "\\mathfrak{X}",
+        frakF: "\\mathfrak{F}",
+        One: "\\mathbf{1}",
+        dist: "\\mathrm{dist}",
+        calP: "\\mathcal{P}",
+        calK: "\\mathcal{K}",
+        Rdd: "\\mathbb{R}^{d \\times d}",
+        calU: "\\mathcal{U}",
+        calV: "\\mathcal{V}",
+        calW: "\\mathcal{W}",
+        Exp: "\\mathrm{Exp}",
+        Log: "\\mathrm{Log}",
+        inj: "\\mathrm{inj}",
+        dom: "\\operatorname{dom}",
+        bigger: "<",
+        dt: "\\mathrm{d}t",
+        transpose: "^\\top\\! ",
+        sigmamax: "\\sigma_{\\mathrm{max}}",
+        sigmamin: "\\sigma_{\\mathrm{min}}",
+        lambdamax: "\\lambda_{\\mathrm{max}}",
+        lambdamin: "\\lambda_{\\mathrm{min}}",
+        TODO: ["\\textcolor{red}{[\\textrm{#1}]}", 1]
+      }
+    },
+    svg: {
+      fontCache: 'global'
+    }
+  };
+</script>
+
+<script>
+  window.addEventListener('load', function() {
+    document.getElementById("cc-nb-title").innerHTML = "May we use cookies for anonymized analytics?";
+    // to improve your browsing experience on our website, 
+    document.getElementById("cc-nb-text").innerHTML = "We would like to use cookies to analyze our website traffic, and to understand where our visitors are coming from.";
+  });
+</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="styles.css">
+<meta property="og:title" content="Manopt - Manifolds">
+<meta property="og:description" content="Available geometries and how they are built">
+<meta property="og:image" content="https://www.manopt.org/images/icon_salute.gif">
+<meta property="og:site-name" content="Manopt">
+</head>
+
+<body class="nav-sidebar docked nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Manopt</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html" rel="" target="">
+ <span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-tutorial" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+ <span class="menu-text">Tutorial</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-tutorial">    
+        <li>
+    <a class="dropdown-item" href="./gettingstarted.html" rel="" target="">
+ <span class="dropdown-text">Getting started</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./firstexample.html" rel="" target="">
+ <span class="dropdown-text">A first example</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./manifolds.html" rel="" target="">
+ <span class="dropdown-text">Manifolds</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./costdescription.html" rel="" target="">
+ <span class="dropdown-text">Cost functions</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./solvers.html" rel="" target="">
+ <span class="dropdown-text">Solvers</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./tools.html" rel="" target="">
+ <span class="dropdown-text">Helpful tools</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./core.html" rel="" target="">
+ <span class="dropdown-text">Core tools</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="./learning.html" rel="" target="">
+ <span class="menu-text">Learning</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./downloads.html" rel="" target="">
+ <span class="menu-text">Downloads</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./forum.html" rel="" target="">
+ <span class="menu-text">Forum</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./about.html" rel="" target="">
+ <span class="menu-text">About</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/NicolasBoumal/manopt" rel="" target=""><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="mailto:manopttoolbox@gmail.com" rel="" target=""><i class="bi bi-envelope-at" role="img" aria-label="E-mail">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./manifolds.html">Manifolds</a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation docked overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./gettingstarted.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Getting started</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./firstexample.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">A first example</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./manifolds.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Manifolds</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./costdescription.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Cost functions</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./solvers.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Solvers</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tools.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Helpful tools</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./core.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Core tools</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="2">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#general-description" id="toc-general-description" class="nav-link active" data-scroll-target="#general-description">General description <img src="images/icon_salute.gif" class="img-fluid"></a></li>
+  <li><a href="#available-manifolds" id="toc-available-manifolds" class="nav-link" data-scroll-target="#available-manifolds">Available manifolds</a>
+  <ul class="collapse">
+  <li><a href="#linear-and-affine-subspaces" id="toc-linear-and-affine-subspaces" class="nav-link" data-scroll-target="#linear-and-affine-subspaces">Linear and affine subspaces</a></li>
+  <li><a href="#spheres-unit-norm-and-unit-modulus" id="toc-spheres-unit-norm-and-unit-modulus" class="nav-link" data-scroll-target="#spheres-unit-norm-and-unit-modulus">Spheres, unit norm and unit modulus</a></li>
+  <li><a href="#stiefel-grassmann-and-orthonormality" id="toc-stiefel-grassmann-and-orthonormality" class="nav-link" data-scroll-target="#stiefel-grassmann-and-orthonormality">Stiefel, Grassmann and orthonormality</a></li>
+  <li><a href="#rank-constraints" id="toc-rank-constraints" class="nav-link" data-scroll-target="#rank-constraints">Rank constraints</a></li>
+  <li><a href="#positivity-constraints" id="toc-positivity-constraints" class="nav-link" data-scroll-target="#positivity-constraints">Positivity constraints</a></li>
+  <li><a href="#miscellaneous" id="toc-miscellaneous" class="nav-link" data-scroll-target="#miscellaneous">Miscellaneous</a></li>
+  </ul></li>
+  <li><a href="#product-manifolds" id="toc-product-manifolds" class="nav-link" data-scroll-target="#product-manifolds">Product manifolds</a></li>
+  <li><a href="#manifold-structures-whats-in-them" id="toc-manifold-structures-whats-in-them" class="nav-link" data-scroll-target="#manifold-structures-whats-in-them">Manifold structures: what’s in them?</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Manifolds</h1>
+<p class="subtitle lead">Available geometries and how they are built</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="general-description" class="level2">
+<h2 class="anchored" data-anchor-id="general-description">General description <img src="images/icon_salute.gif" class="img-fluid"></h2>
+<p>Manifolds in Manopt are represented as structures and are obtained by calling a factory. Such a structure contains a collection of functions that make it possible to interact with the manifold.</p>
+</section>
+<section id="available-manifolds" class="level2">
+<h2 class="anchored" data-anchor-id="available-manifolds">Available manifolds</h2>
+<p>Manopt comes with a number of implementations for generically useful manifolds. Built-in factories are located in <a href="https://github.com/NicolasBoumal/manopt/tree/master/manopt/manifolds"><code>/manopt/manifolds</code></a>.</p>
+<p>Of course, manifolds can also be user-defined. The best way to build your own is probably to read the code of some of the standard factories and to adapt what needs to be changed. If you develop an interesting manifold factory and would like to share it, <a href="./forum.html">let us know</a>.</p>
+<p>Bear in mind that a manifold can be turned into a Riemannian manifold in many different ways, by choosing one or another metric. Which metric is best for a specific application may vary: experiments will tell.</p>
+<section id="linear-and-affine-subspaces" class="level3">
+<h3 class="anchored" data-anchor-id="linear-and-affine-subspaces">Linear and affine subspaces</h3>
+<ul>
+<li>Euclidean space (real and complex vectors, matrices, tensors, …)
+<ul>
+<li><span class="math inline">\(\mathbb{R}^{n}\)</span> <br> <code>euclideanfactory(n)</code></li>
+<li><span class="math inline">\(\mathbb{R}^{m \times n}\)</span> <br> <code>euclideanfactory(m, n)</code></li>
+<li><span class="math inline">\(\mathbb{C}^{n}\)</span> <br> <code>euclideancomplexfactory(n)</code></li>
+<li><span class="math inline">\(\mathbb{C}^{m \times n}\)</span> <br> <code>euclideancomplexfactory(m, n)</code></li>
+</ul></li>
+<li>Symmetric matrices
+<ul>
+<li><span class="math inline">\(\{ X \in \mathbb{R}^{n \times n} : X = X^\top\}^k\)</span> <br> <code>symmetricfactory(n, k)</code></li>
+</ul></li>
+<li>Skew-symmetric matrices
+<ul>
+<li><span class="math inline">\(\{ X \in \mathbb{R}^{n \times n} : X + X^\top = 0\}^k\)</span> <br> <code>skewsymmetricfactory(n, k)</code></li>
+</ul></li>
+<li>Centered matrices
+<ul>
+<li><span class="math inline">\(\{ X \in \mathbb{R}^{m \times n} : X\mathbf{1}_n = 0_m \}\)</span> <br> <code>centeredmatrixfactory(m, n)</code></li>
+</ul></li>
+<li>Sparse matrices with fixed sparsity pattern
+<ul>
+<li><span class="math inline">\(\{ X \in \mathbb{R}^{m \times n} : X_{ij} = 0 \textrm{ if } A_{ij} = 0 \}\)</span> <br> <code>euclideansparsefactory(A)</code> (inefficient implementation)</li>
+</ul></li>
+<li>Linear subspace of a linear space
+<ul>
+<li><span class="math inline">\(\{ x \in E : x = \mathrm{proj}(x) \}\)</span> where <span class="math inline">\(E\)</span> is a linear space (obtained from a factory) and <span class="math inline">\(\mathrm{proj}\)</span> is an orthogonal projector to the desired subspace. <br> <code>euclideansubspacefactory(E, proj, dim)</code></li>
+</ul></li>
+</ul>
+</section>
+<section id="spheres-unit-norm-and-unit-modulus" class="level3">
+<h3 class="anchored" data-anchor-id="spheres-unit-norm-and-unit-modulus">Spheres, unit norm and unit modulus</h3>
+<ul>
+<li>Sphere
+<ul>
+<li><span class="math inline">\(\{x\in\mathbb{R}^{n} : \|x\|_2 = 1\}\)</span> <br> <code>spherefactory(n)</code> (unit 2-norm)</li>
+<li><span class="math inline">\(\{X\in\mathbb{R}^{n\times m} : \|X\|_\mathrm{F} = 1\}\)</span> <br> <code>spherefactory(n, m)</code> (unit Frobenius norm)</li>
+<li><span class="math inline">\(\{x\in\mathbb{C}^{n} : \|x\|_2 = 1\}\)</span> <br> <code>spherecomplexfactory(n)</code> (unit 2-norm)</li>
+<li><span class="math inline">\(\{X\in\mathbb{C}^{n\times m} : \|X\|_\mathrm{F} = 1\}\)</span> <br> <code>spherecomplexfactory(n, m)</code> (unit Frobenius norm)</li>
+</ul></li>
+<li>Sphere of symmetric matrices
+<ul>
+<li><span class="math inline">\(\{X\in\mathbb{R}^{n\times n} : \|X\|_\mathrm{F} = 1 \textrm{ and } X = X^\top\}\)</span> <br> <code>spheresymmetricfactory(n)</code></li>
+</ul></li>
+<li>Oblique manifold (product of spheres)
+<ul>
+<li><span class="math inline">\(\{X\in\mathbb{R}^{n\times m} : \|X_{:1}\| = \cdots = \|X_{:m}\| = 1\}\)</span> <br> <code>obliquefactory(n, m)</code> (<span class="math inline">\(m\)</span> normed columns in <span class="math inline">\(\mathbb{R}^n\)</span>)</li>
+<li><span class="math inline">\(\{X\in\mathbb{R}^{m\times n} : \|X_{1:}\| = \cdots = \|X_{m:}\| = 1\}\)</span> <br> <code>obliquefactory(n, m, true)</code> (<span class="math inline">\(m\)</span> normed rows in <span class="math inline">\(\mathbb{R}^n\)</span>)</li>
+<li><span class="math inline">\(\{X\in\mathbb{C}^{n\times m} : \|X_{:1}\| = \cdots = \|X_{:m}\| = 1\}\)</span> <br> <code>obliquecomplexfactory(n, m)</code> (<span class="math inline">\(m\)</span> normed columns in <span class="math inline">\(\mathbb{C}^n\)</span>)</li>
+<li><span class="math inline">\(\{X\in\mathbb{C}^{m\times n} : \|X_{1:}\| = \cdots = \|X_{m:}\| = 1\}\)</span> <br> <code>obliquecomplexfactory(n, m, true)</code> (<span class="math inline">\(m\)</span> normed rows in <span class="math inline">\(\mathbb{C}^n\)</span>)</li>
+</ul></li>
+<li>Complex circle, phases
+<ul>
+<li><span class="math inline">\(\{z\in\mathbb{C}^n : |z_1| = \cdots = |z_n| = 1\}\)</span> <br> <code>complexcirclefactory(n)</code></li>
+</ul></li>
+<li>Phases of discrete Fourier transform (DFT) of a real vector
+<ul>
+<li><span class="math inline">\(\{z\in\mathbb{C}^n : |z_k| = 1, z_{1+\operatorname{mod}(k, n)} = \bar{z}_{1+\operatorname{mod}(n-k, n)} \ \forall k\}\)</span> <br> <code>realphasefactory(n)</code></li>
+</ul></li>
+</ul>
+</section>
+<section id="stiefel-grassmann-and-orthonormality" class="level3">
+<h3 class="anchored" data-anchor-id="stiefel-grassmann-and-orthonormality">Stiefel, Grassmann and orthonormality</h3>
+<ul>
+<li>Stiefel manifold
+<ul>
+<li><span class="math inline">\(\{X \in \mathbb{R}^{n \times p} : X^\top X = I_p\}^k\)</span> <br> <code>stiefelfactory(n, p, k)</code></li>
+<li><span class="math inline">\(\{X \in \mathbb{C}^{n \times p} : X^*X = I_p\}^k\)</span> <br> <code>stiefelcomplexfactory(n, p, k)</code></li>
+</ul></li>
+<li>Generalized Stiefel manifold
+<ul>
+<li><span class="math inline">\(\{X \in \mathbb{R}^{n \times p} : X^\top BX = I_p\}\)</span> for some <span class="math inline">\(B \succ 0\)</span> <br> <code>stiefelgeneralizedfactory(n, p, B)</code></li>
+</ul></li>
+<li>Stiefel manifold, stacked
+<ul>
+<li><span class="math inline">\(\{X \in \mathbb{R}^{md \times k} : (XX^\top)_{ii} = I_d\}\)</span> <br> <code>stiefelstackedfactory(m, d, k)</code></li>
+</ul></li>
+<li>Rotation group
+<ul>
+<li><span class="math inline">\(\{R \in \mathbb{R}^{n \times n} : R^\top R = I_n, \det(R) = 1\}^k\)</span> <br> <code>rotationsfactory(n, k)</code></li>
+</ul></li>
+<li>Special Euclidean group (rigid motion)
+<ul>
+<li><span class="math inline">\(\{ (R, t) \in \mathbb{R}^{n \times n} \times \mathbb{R}^n : R^\top R = I_n, \det(R) = 1 \}^k\)</span> <br> <code>specialeuclideanfactory(n, k)</code></li>
+</ul></li>
+<li>Unitary matrices
+<ul>
+<li><span class="math inline">\(\{ U \in \mathbb{C}^{n \times n} : U^*U = I_n \}^k\)</span> <br> <code>unitaryfactory(n, k)</code></li>
+</ul></li>
+<li>Grassmann manifold
+<ul>
+<li><span class="math inline">\(\{\operatorname{span}(X) : X \in \mathbb{R}^{n \times p}, X^\top X = I_p\}^k\)</span> <br> <code>grassmannfactory(n, p, k)</code></li>
+<li><span class="math inline">\(\{\operatorname{span}(X) : X \in \mathbb{C}^{n \times p}, X^*X = I_p\}^k\)</span> <br> <code>grassmanncomplexfactory(n, p, k)</code></li>
+</ul></li>
+<li>Generalized Grassmann manifold
+<ul>
+<li><span class="math inline">\(\{\operatorname{span}(X) : X \in \mathbb{R}^{n \times p}, X^\top BX = I_p\}\)</span> for some <span class="math inline">\(B \succ 0\)</span> <br> <code>grassmannfactory(n, p, B)</code></li>
+</ul></li>
+</ul>
+</section>
+<section id="rank-constraints" class="level3">
+<h3 class="anchored" data-anchor-id="rank-constraints">Rank constraints</h3>
+<ul>
+<li>Fixed-rank matrices
+<ul>
+<li><span class="math inline">\(\{X \in \mathbb{R}^{m \times n} : \operatorname{rank}(X) = k\}\)</span> <br> <code>fixedrankembeddedfactory(m, n, k)</code> <br> <code>fixedrankfactory_2factors(m, n, k)</code> <br> <code>fixedrankfactory_2factors_preconditioned(m, n, k)</code> <br> <code>fixedrankfactory_2factors_subspace_projection(m, n, k)</code> <br> <code>fixedrankfactory_3factors(m, n, k)</code> <br> <code>fixedrankMNquotientfactory(m, n, k)</code></li>
+</ul></li>
+<li>Fixed-rank tensors, Tucker
+<ul>
+<li>Tensors of fixed multilinear rank in Tucker format <br> <code>fixedranktensorembeddedfactory</code> <br> <code>fixedrankfactory_tucker_preconditioned</code></li>
+</ul></li>
+<li>Fixed-rank tensors, tensor train
+<ul>
+<li>Tensors of fixed tensor train rank in TT format <br> <code>fixedTTrankfactory</code></li>
+</ul></li>
+</ul>
+<p>See more rank-constrained manifolds in the category <em>Positivity constraints</em>.</p>
+</section>
+<section id="positivity-constraints" class="level3">
+<h3 class="anchored" data-anchor-id="positivity-constraints">Positivity constraints</h3>
+<ul>
+<li>Matrices with strictly positive entries
+<ul>
+<li><span class="math inline">\(\{ X \in \mathbb{R}^{m\times n} : X_{ij} &gt; 0 \ \forall i, j\}\)</span> <br> <code>positivefactory(m, n)</code></li>
+</ul></li>
+<li>Symmetric, positive definite matrices
+<ul>
+<li><span class="math inline">\(\{ X \in \mathbb{R}^{n\times n} : X = X^\top \textrm{ and } X \succ 0\}\)</span> <br> <code>sympositivedefinitefactory(n)</code></li>
+</ul></li>
+<li>Symmetric positive semidefinite, fixed-rank
+<ul>
+<li><span class="math inline">\(\{X \in \mathbb{R}^{n \times n} : X = X^\top \succeq 0 \textrm{ and } \operatorname{rank}(X) = k\}\)</span> <br> <code>symfixedrankYYfactory(n, k)</code></li>
+<li><span class="math inline">\(\{X \in \mathbb{C}^{n \times n} : X = X^* \succeq 0 \textrm{ and } \operatorname{rank}(X) = k\}\)</span> <br> <code>symfixedrankYYcomplexfactory(n, k)</code></li>
+</ul></li>
+<li>Symmetric positive semidefinite, fixed-rank with unit diagonal
+<ul>
+<li><span class="math inline">\(\{X \in \mathbb{R}^{n \times n} : X = X^\top \succeq 0, \operatorname{rank}(X) = k, \operatorname{diag}(X) = 1\}\)</span> <br> <code>elliptopefactory(n, k)</code></li>
+</ul></li>
+<li>Symmetric positive semidefinite, fixed-rank with unit trace
+<ul>
+<li><span class="math inline">\(\{X \in \mathbb{R}^{n \times n} : X = X^\top \succeq 0, \operatorname{rank}(X) = k, \operatorname{trace}(X) = 1\}\)</span> <br> <code>spectrahedronfactory(n, k)</code></li>
+</ul></li>
+<li>Multinomial manifold (strict simplex elements)
+<ul>
+<li><span class="math inline">\(\{ X \in \mathbb{R}^{n\times m} : X_{ij} &gt; 0 \ \forall i,j \textrm{ and } X^\top \mathbf{1}_m = \mathbf{1}_n \}\)</span> <br> <code>multinomialfactory(n, m)</code></li>
+</ul></li>
+<li>Multinomial doubly stochastic manifold
+<ul>
+<li><span class="math inline">\(\{ X \in \mathbb{R}^{n\times n} : X_{ij} &gt; 0 \ \forall i,j \textrm{ and } X \mathbf{1}_n = \mathbf{1}_n, X^\top \mathbf{1}_n = \mathbf{1}_n \}\)</span> <br> <code>multinomialdoublystochasticfactory(n)</code></li>
+</ul></li>
+<li>Multinomial symmetric and stochastic manifold
+<ul>
+<li><span class="math inline">\(\{ X \in \mathbb{R}^{n\times n} : X_{ij} &gt; 0 \ \forall i,j \textrm{ and } X \mathbf{1}_n = \mathbf{1}_n, X = X^\top \}\)</span> <br> <code>multinomialsymmetricfactory(n)</code></li>
+</ul></li>
+<li>Positive definite simplex
+<ul>
+<li><span class="math inline">\(\{ (X_1, \ldots, X_k) \in (\mathbb{R}^{n \times n})^k : X_i \succ 0 \ \forall i \textrm{ and } X_1 + \cdots + X_k = I_n \}\)</span> <br> <code>sympositivedefinitesimplexfactory(n, k)</code></li>
+<li><span class="math inline">\(\{ (X_1, \ldots, X_k) \in (\mathbb{C}^{n \times n})^k : X_i \succ 0 \ \forall i \textrm{ and } X_1 + \cdots + X_k = I_n \}\)</span> <br> <code>sympositivedefinitesimplexcomplexfactory(n, k)</code></li>
+</ul></li>
+</ul>
+</section>
+<section id="miscellaneous" class="level3">
+<h3 class="anchored" data-anchor-id="miscellaneous">Miscellaneous</h3>
+<ul>
+<li>Constant manifold (singleton)
+<ul>
+<li><span class="math inline">\(\{ A \}\)</span> <br> <code>constantfactory(A)</code> <br> This is convenient with <code>productmanifold</code>, to fix some variables.</li>
+</ul></li>
+<li>Hyperbolic manifold
+<ul>
+<li><span class="math inline">\(\{ x \in \mathbb{R}^{n+1} : x_0^2 = x_1^2 + \cdots + x_n^2 + 1 \}^m\)</span> with Minkowski metric <br> <code>hyperbolicfactory(n, m)</code></li>
+</ul></li>
+<li>Poincaré ball
+<ul>
+<li><span class="math inline">\(\{ x \in \mathbb{R}^{k} : x^\top x &lt; 1 \}^n\)</span> with Poincaré metric <br> <code>poincareballfactory(k, n)</code></li>
+</ul></li>
+<li>Essential manifold
+<ul>
+<li>Epipolar constraint between projected points in two perspective views <br> <code>essentialfactory(k, 'signed')</code> (or <code>unsigned</code>)</li>
+</ul></li>
+</ul>
+</section>
+</section>
+<section id="product-manifolds" class="level2">
+<h2 class="anchored" data-anchor-id="product-manifolds">Product manifolds</h2>
+<p>The tools <code>productmanifold</code> and <code>powermanifold</code> make it easy to work on products of existing manifolds. </p>
+<p>For example, if you are minimizing a function <span class="math inline">\(f(X, Y)\)</span> where <span class="math inline">\(X\)</span> is a <span class="math inline">\(3 \times 3\)</span> matrix with unit Frobenius norm and <span class="math inline">\(Y\)</span> is <span class="math inline">\(4 \times 2\)</span> with orthonormal columns, then use <code>productmanifold</code> as follows:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="va">elements</span>.<span class="va">X</span> <span class="op">=</span> <span class="va">spherefactory</span>(<span class="fl">3</span><span class="op">,</span> <span class="fl">3</span>)<span class="op">;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="va">elements</span>.<span class="va">Y</span> <span class="op">=</span> <span class="va">stiefelfactory</span>(<span class="fl">4</span><span class="op">,</span> <span class="fl">2</span>)<span class="op">;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="va">M</span> <span class="op">=</span> <span class="va">productmanifold</span>(<span class="va">elements</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Points on <code>M</code> are encoded as structures with fields <code>X</code> and <code>Y</code>. Likewise for tangent vectors and vectors in the embedding space.</p>
+<p>If you are minimizing a function <span class="math inline">\(f(X_1, \ldots, X_7)\)</span> where each <span class="math inline">\(X_i\)</span> is a <span class="math inline">\(3 \times 4\)</span> matrix of rank <span class="math inline">\(2\)</span> (the same manifold for each), then use <code>powermanifold</code> as follows:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="va">N</span> <span class="op">=</span> <span class="va">fixedrankembeddedfactory</span>(<span class="fl">3</span><span class="op">,</span> <span class="fl">4</span><span class="op">,</span> <span class="fl">2</span>)<span class="op">;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="va">M</span> <span class="op">=</span> <span class="va">powermanifold</span>(<span class="va">N</span><span class="op">,</span> <span class="fl">7</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Points on <code>M</code> are encoded as cells with <span class="math inline">\(7\)</span> entries. Likewise for tangent vectors and vectors in the embedding space.</p>
+<p>Of course, calls to <code>productmanifold</code> and <code>powermanifold</code> can be composed.</p>
+<p>However, bear in mind that these tools are provided mostly for convenience. They allow fast prototyping, but it may be possible to write a more efficient factory for your specific product manifold. For example, <code>obliquefactory(n, m)</code> encodes the same geometry as <code>powermanifold(spherefactory(n), m)</code>, but the former is more efficient than the latter.</p>
+<p>If a factory offers built-in support for products, it is highly recommend to prefer that over the tools here. For example, <code>stiefelfactory(n, p, k)</code> encodes the same geometry as <code>powermanifold(stiefelfactory(n, p), k)</code>, but the former is more efficient than the latter.</p>
+</section>
+<section id="manifold-structures-whats-in-them" class="level2">
+<h2 class="anchored" data-anchor-id="manifold-structures-whats-in-them">Manifold structures: what’s in them?</h2>
+<p>The documentation for a manifold factory should specify</p>
+<ul>
+<li>How points on the manifold are represented numerically,</li>
+<li>How tangent vectors to the manifold are represented numerically,</li>
+<li>And likewise for the embedding space (submanifolds) or total space (quotient manifolds).</li>
+</ul>
+<p>Typically, points and tangent vector are represented by matrices, but they could be represented by structures, cells, etc.: there are no limitations. They can even be represented by data on a GPU.</p>
+<p>Based on these, the implementation of a Riemannian manifold is a collection of functions. These functions are collected into a structure: that is what a factory returns as output.</p>
+<p>These functions are listed below. Not all factories populate all of these fields, and that’s okay: for many purposes, only a subset of these functions are necessary.</p>
+<p>Notice that it is possible to add or replace fields in a manifold structure after it was returned by a factory. Thus, one can easily experiment with various retractions, vector transports, etc. If you find ways to improve the built-in geometries, let us know.</p>
+<table class="table-striped table">
+<caption>Manifolds are encoded as structures which contain fields. Most of these fields are function handles which make it possible to interact with the manifold.</caption>
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 60%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Name</th>
+<th>Field usage</th>
+<th>Functionality</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Name</td>
+<td><code>M.name()</code></td>
+<td>Returns the name of the manifold as a string.</td>
+</tr>
+<tr class="even">
+<td>Dimension</td>
+<td><code>M.dim()</code></td>
+<td>Returns the dimension of the manifold.</td>
+</tr>
+<tr class="odd">
+<td>Metric</td>
+<td><code>M.inner(x, u, v)</code></td>
+<td>Computes the Riemannian metric <span class="math inline">\(\langle u, v \rangle_x\)</span>.</td>
+</tr>
+<tr class="even">
+<td>Norm</td>
+<td><code>M.norm(x, u)</code></td>
+<td>Computes the Riemannian norm <span class="math inline">\(\|u\|_x = \sqrt{\langle u, u \rangle_x}\)</span>.</td>
+</tr>
+<tr class="odd">
+<td>Distance</td>
+<td><code>M.dist(x, y)</code></td>
+<td>Computes the Riemannian distance <span class="math inline">\(\operatorname{dist}(x, y)\)</span>.</td>
+</tr>
+<tr class="even">
+<td>Typical distance</td>
+<td><code>M.typicaldist()</code></td>
+<td>Returns the “scale” of the manifold. This is used by the trust-regions solver for example, to determine default initial and maximal trust-region radii.</td>
+</tr>
+<tr class="odd">
+<td>Tangent space projector</td>
+<td><code>M.proj(x, u)</code></td>
+<td>For manifolds embedded in a Euclidean space, computes the orthogonal projection <span class="math inline">\(\operatorname{Proj}_x u\)</span> of the vector <span class="math inline">\(u\)</span> from the embedding space to the tangent space at <span class="math inline">\(x\)</span>. If <code>M</code> is a quotient manifold, then the projection is from the embedding space of the total space to the horizontal space at <span class="math inline">\(x\)</span>.</td>
+</tr>
+<tr class="even">
+<td>Euclidean to Riemannian gradient</td>
+<td><code>M.egrad2rgrad(x, egrad)</code></td>
+<td>For manifolds embedded in a Euclidean space, converts the gradient of <span class="math inline">\(f\)</span> at <span class="math inline">\(x\)</span> seen as a function in that Euclidean space to the Riemannian gradient of <span class="math inline">\(f\)</span> on the manifold. Allowed to take <code>(storedb, key)</code> as input for caching, but must also allow to be called without it.</td>
+</tr>
+<tr class="odd">
+<td>Euclidean to Riemannian Hessian</td>
+<td><code>M.ehess2rhess(x, egrad, ehess, u)</code></td>
+<td>Similarly to <code>egrad2rgrad</code>, converts the Euclidean gradient and Hessian of <span class="math inline">\(f\)</span> at <span class="math inline">\(x\)</span> along a tangent vector <span class="math inline">\(u\)</span> to the Riemannian Hessian of <span class="math inline">\(f\)</span> at <span class="math inline">\(x\)</span> along <span class="math inline">\(u\)</span> on the manifold. Allowed to take <code>(storedb, key)</code> as input for caching, but must also allow to be called without it. Mind the warning below.</td>
+</tr>
+<tr class="even">
+<td>Tangentialize</td>
+<td><code>M.tangent(x, u)</code></td>
+<td>Re-tangentializes a vector. The input is a vector in the tangent vector representation, which possibly (for example because of error accumulations) is no longer tangent. The output is the “closest” tangent vector to the input. If tangent vectors are represented in the ambient space, this is equivalent to <code>proj</code>.</td>
+</tr>
+<tr class="odd">
+<td>Tangent to ambient representation</td>
+<td><code>M.tangent2ambient(x, u)</code></td>
+<td>Tangent vectors are sometimes represented differently from their counterpart in the ambient space. This function returns the ambient space representation of a tangent vector <span class="math inline">\(u\)</span>. Useful when defining the Euclidean Hessian <code>ehess</code> for example.</td>
+</tr>
+<tr class="even">
+<td>Exponential map</td>
+<td><code>M.exp(x, u, t)</code></td>
+<td>Computes <span class="math inline">\(\operatorname{Exp}_x(tu)\)</span>, the point you reach by following the vector <span class="math inline">\(u\)</span> scaled by <span class="math inline">\(t\)</span> starting at <span class="math inline">\(x\)</span>. As of 5.0, this field should only exist if the manifold provides a genuine exponential map. Otherwise, manually fall back to <code>M.retr</code>.</td>
+</tr>
+<tr class="odd">
+<td>Retraction</td>
+<td><code>M.retr(x, u, t)</code></td>
+<td>Computes <span class="math inline">\(\Retr_x(tu)\)</span>, where <span class="math inline">\(\Retr\)</span> is a retraction: a cheaper proxy for the exponential map.</td>
+</tr>
+<tr class="even">
+<td>Logarithmic map</td>
+<td><code>M.log(x, y)</code></td>
+<td>Computes <span class="math inline">\(\operatorname{Log}_x(y)\)</span>, a tangent vector at <span class="math inline">\(x\)</span> pointing toward <span class="math inline">\(y\)</span>. This is meant to be the inverse of <span class="math inline">\(\operatorname{Exp}\)</span>.</td>
+</tr>
+<tr class="odd">
+<td>Inverse retraction</td>
+<td><code>M.invretr(x, y)</code></td>
+<td>Computes the inverse of the retraction: a tangent vector at <span class="math inline">\(x\)</span> pointing toward <span class="math inline">\(y\)</span>.</td>
+</tr>
+<tr class="even">
+<td>Random point</td>
+<td><code>M.rand()</code></td>
+<td>Computes a random point on the manifold.</td>
+</tr>
+<tr class="odd">
+<td>Random vector</td>
+<td><code>M.randvec(x)</code></td>
+<td>Computes a random, unit-norm tangent vector in the tangent space at <span class="math inline">\(x\)</span>.</td>
+</tr>
+<tr class="even">
+<td>Zero vector</td>
+<td><code>M.zerovec(x)</code></td>
+<td>Returns the zero tangent vector at <span class="math inline">\(x\)</span>.</td>
+</tr>
+<tr class="odd">
+<td>Linear combination</td>
+<td><code>M.lincomb(x, a1, u1, a2, u2)</code></td>
+<td>Computes the tangent vector at <span class="math inline">\(x\)</span>: <span class="math inline">\(v = a_1 u_1 + a_2 u_2\)</span>, where <span class="math inline">\(a_1, a_2\)</span> are scalars and <span class="math inline">\(u_1, u_2\)</span> are tangent vectors at <span class="math inline">\(x\)</span>. The inputs <span class="math inline">\(a_2, u_2\)</span> are optional.</td>
+</tr>
+<tr class="even">
+<td>Vector transport</td>
+<td><code>M.transp(x, y, u)</code></td>
+<td>Computes a tangent vector at <span class="math inline">\(y\)</span> that “looks like” the tangent vector <span class="math inline">\(u\)</span> at <span class="math inline">\(x\)</span>. This is not necessarily a parallel transport.</td>
+</tr>
+<tr class="odd">
+<td>Isometric transport</td>
+<td><code>M.isotransp(x, y, u)</code></td>
+<td>An isometric vector transport (few manifold implementations offer this, though for some <code>M.transp</code> is isometric: see their documentation).</td>
+</tr>
+<tr class="even">
+<td>Pair mean</td>
+<td><code>M.pairmean(x, y)</code></td>
+<td>Computes the intrinsic mean of <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>, that is, a point that lies mid-way between <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> on the geodesic arc joining them.</td>
+</tr>
+<tr class="odd">
+<td>Hashing function</td>
+<td><code>M.hash(x)</code></td>
+<td>Computes a string that (almost) uniquely identifies the point <span class="math inline">\(x\)</span> and that can serve as a field name for a structure. (No longer used as of Manopt 2.0.)</td>
+</tr>
+<tr class="even">
+<td>Vector representation</td>
+<td><code>M.vec(x, u)</code></td>
+<td>Returns a real column-vector representation of the tangent vector <span class="math inline">\(u\)</span>. The length of the output is always the same and at least <code>M.dim()</code>. This function is linear and invertible in <span class="math inline">\(u\)</span> on the tangent space at <span class="math inline">\(x\)</span>.</td>
+</tr>
+<tr class="odd">
+<td>Normal representation</td>
+<td><code>M.mat(x, u_vec)</code></td>
+<td>The inverse of the <code>vec</code> function: returns a tangent vector representation from a column vector such that <code>M.mat(x, M.vec(x, u)) = u</code>.</td>
+</tr>
+<tr class="even">
+<td>Isometry check for <code>vec</code> and <code>mat</code></td>
+<td><code>M.vecmatareisometries()</code></td>
+<td>Returns <code>true</code> if <code>M.vec</code> is a linear isometry, i.e., if for all tangent vectors <span class="math inline">\(u,v\)</span>, <code>M.inner(x, u, v) == M.vec(x, u).'*M.vec(x, v)</code>. Then, <code>M.mat</code> is both the adjoint and the inverse of <code>M.vec</code> (on the tangent space).</td>
+</tr>
+<tr class="odd">
+<td>Lie group identity</td>
+<td><code>M.lie_identity()</code></td>
+<td>If the manifold is a Lie group, this function returns the identity element (e.g., for the rotation group in <span class="math inline">\(\mathbb{R}^d\)</span>, that would be the identity matrix of size <span class="math inline">\(d\)</span>).</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-simple callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Mind the details for <code>ehess2rhess</code>.
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Consider a Riemannian manifold <code>M</code> embedded in a Euclidean space <code>E</code>. In the call pattern</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="va">rhess</span> <span class="op">=</span> <span class="va">M</span>.<span class="va">ehess2rhess</span>(<span class="va">x</span><span class="op">,</span> <span class="va">egrad</span><span class="op">,</span> <span class="va">ehess</span><span class="op">,</span> <span class="va">u</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>the vectors <code>egrad</code> and <code>ehess</code> are vectors in the embedding space <code>E</code>, whereas the vectors <code>u</code> and <code>rhess</code> are tangent vectors to <code>M</code> at <code>x</code>. It is important to use the corresponding numerical representations, as documented by the manifold’s factory.</p>
+<p>For factories which use the same numerical representation for tangent vectors and vectors in the embedding space (e.g., <code>spherefactory</code>), this causes no difficulties. However, for factories such as <code>rotationsfactory</code>, the distinction matters. The functions <code>M.proj</code> (from embedding space to tangent space) <code>M.tangent2ambient</code> (from tangent space to embedding space) may help.</p>
+<p>If <code>M</code> is a quotient manifold of a manifold <code>N</code> (called the total space) embedded in <code>E</code>, then <code>egrad</code> and <code>ehess</code> are still vectors in the embedding space <code>E</code> but <code>u</code> and <code>rhess</code> are horizontal vectors at <code>x</code>. For example, <code>grassmannfactory(n, p)</code> is a quotient of <code>stiefelfactory(n, p)</code> which is embedded in <span class="math inline">\(\mathbb{R}^{n \times p}\)</span>.</p>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  let localAlternateSentinel = 'alternate';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var filterRegex = new RegExp("https:\/\/www\.manopt\.org");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+          // target, if specified
+          link.setAttribute("target", "_blank");
+      }
+    }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center"><div class="cookie-consent-footer"><a href="#" id="open_preferences_center">Cookie preferences -- it helps us to know which pages are read the most</a></div></div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

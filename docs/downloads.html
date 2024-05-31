@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Manopt - Downloads</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./icon.png" rel="icon" type="image/png">
+<script src="site_libs/cookie-consent/cookie-consent.js"></script>
+<link href="site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark.min.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-71FCE8T97E"></script>
+
+<script type="text/plain" cookie-consent="tracking">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-71FCE8T97E', { 'anonymize_ip': true});
+</script>
+
+<script type="text/javascript" charset="UTF-8">
+document.addEventListener('DOMContentLoaded', function () {
+cookieconsent.run({
+  "notice_banner_type":"simple",
+  "consent_type":"express",
+  "palette":"light",
+  "language":"en",
+  "page_load_consent_levels":["strictly-necessary"],
+  "notice_banner_reject_button_hide":false,
+  "preferences_center_close_button_hide":false,
+  "website_name":""
+  });
+});
+</script> 
+  
+<style>html{ scroll-behavior: smooth; }</style>
+<script>
+window.MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      macros: {
+        reals: "\\mathbb{R}",
+        inner: ["\\left\\langle #1, #2 \\right\\rangle", 2],
+        smallinner: ["\\langle #1, #2 \\rangle", 2],
+        innersmall: ["\\langle #1, #2 \\rangle", 2],
+        innerbig: ["\\big\\langle #1, #2 \\big\\rangle", 2],
+        sqfrobnorm: ["\\left\\|#1\\right\\|_{\\mathrm{F}}^2", 1],
+        sqfrobnormsmall: ["\\|#1\\|_{\\mathrm{F}}^2", 1],
+        sqfrobnormbig: ["\\big\\|#1\\big\\|_{\\mathrm{F}}^2", 1],
+        calM: "\\mathcal{M}",
+        calN: "\\mathcal{N}",
+        calA: "\\mathcal{A}",
+        T: "\\mathrm{T}",
+        skeww: "\\mathrm{skew}",
+        symm: "\\mathrm{sym}",
+        Sym: "\\mathrm{Sym}",
+        Proj: "\\mathrm{Proj}",
+        grad: "\\mathrm{grad}",
+        Hess: "\\mathrm{Hess}",
+        Retr: "\\mathrm{R}",
+        D: "\\mathrm{D}",
+        calE: "\\mathcal{E}",
+        Stnp: "\\mathrm{St}(n,p)",
+        Rnp: "\\mathbb{R}^{n \\times p}",
+        Rmp: "\\mathbb{R}^{m \\times p}",
+        Rnr: "\\mathbb{R}^{n \\times r}",
+        Rrn: "\\mathbb{R}^{r \\times n}",
+        Rmr: "\\mathbb{R}^{m \\times r}",
+        Rnn: "\\mathbb{R}^{n \\times n}",
+        Rmn: "\\mathbb{R}^{m \\times n}",
+        Rpp: "\\mathbb{R}^{p \\times p}",
+        Rmnr: "\\mathbb{R}^{m \\times n}_r",
+        Rmnlr: "\\mathbb{R}^{m \\times n}_{\\leq r}",
+        Rn: "\\mathbb{R}^{n}",
+        Rm: "\\mathbb{R}^{m}",
+        Rp: "\\mathbb{R}^{p}",
+        Rd: "\\mathbb{R}^{d}",
+        Rk: "\\mathbb{R}^{k}",
+        Sn: "\\mathbb{S}^{n}",
+        Sm: "\\mathbb{S}^{m}",
+        Sd: "\\mathbb{S}^{d-1}",
+        trace: "\\mathrm{Tr}",
+        Trace: "\\mathrm{Tr}",
+        diag: "\\mathrm{diag}",
+        sign: "\\mathrm{sign}",
+        Od: "\\mathrm{O}(d)",
+        On: "\\mathrm{O}(n)",
+        Om: "\\mathrm{O}(m)",
+        SOd: "\\mathrm{SO}(d)",
+        SOn: "\\mathrm{SO}(n)",
+        rank: "\\mathrm{rank}",
+        frakX: "\\mathfrak{X}",
+        frakF: "\\mathfrak{F}",
+        One: "\\mathbf{1}",
+        dist: "\\mathrm{dist}",
+        calP: "\\mathcal{P}",
+        calK: "\\mathcal{K}",
+        Rdd: "\\mathbb{R}^{d \\times d}",
+        calU: "\\mathcal{U}",
+        calV: "\\mathcal{V}",
+        calW: "\\mathcal{W}",
+        Exp: "\\mathrm{Exp}",
+        Log: "\\mathrm{Log}",
+        inj: "\\mathrm{inj}",
+        dom: "\\operatorname{dom}",
+        bigger: "<",
+        dt: "\\mathrm{d}t",
+        transpose: "^\\top\\! ",
+        sigmamax: "\\sigma_{\\mathrm{max}}",
+        sigmamin: "\\sigma_{\\mathrm{min}}",
+        lambdamax: "\\lambda_{\\mathrm{max}}",
+        lambdamin: "\\lambda_{\\mathrm{min}}",
+        TODO: ["\\textcolor{red}{[\\textrm{#1}]}", 1]
+      }
+    },
+    svg: {
+      fontCache: 'global'
+    }
+  };
+</script>
+
+<script>
+  window.addEventListener('load', function() {
+    document.getElementById("cc-nb-title").innerHTML = "May we use cookies for anonymized analytics?";
+    // to improve your browsing experience on our website, 
+    document.getElementById("cc-nb-text").innerHTML = "We would like to use cookies to analyze our website traffic, and to understand where our visitors are coming from.";
+  });
+</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="styles.css">
+<meta property="og:title" content="Manopt - Downloads">
+<meta property="og:description" content="Latest version and change logs">
+<meta property="og:site-name" content="Manopt">
+</head>
+
+<body class="nav-fixed fullcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Manopt</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html" rel="" target="">
+ <span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-tutorial" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+ <span class="menu-text">Tutorial</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-tutorial">    
+        <li>
+    <a class="dropdown-item" href="./gettingstarted.html" rel="" target="">
+ <span class="dropdown-text">Getting started</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./firstexample.html" rel="" target="">
+ <span class="dropdown-text">A first example</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./manifolds.html" rel="" target="">
+ <span class="dropdown-text">Manifolds</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./costdescription.html" rel="" target="">
+ <span class="dropdown-text">Cost functions</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./solvers.html" rel="" target="">
+ <span class="dropdown-text">Solvers</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./tools.html" rel="" target="">
+ <span class="dropdown-text">Helpful tools</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./core.html" rel="" target="">
+ <span class="dropdown-text">Core tools</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="./learning.html" rel="" target="">
+ <span class="menu-text">Learning</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="./downloads.html" rel="" target="" aria-current="page">
+ <span class="menu-text">Downloads</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./forum.html" rel="" target="">
+ <span class="menu-text">Forum</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./about.html" rel="" target="">
+ <span class="menu-text">About</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/NicolasBoumal/manopt" rel="" target=""><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="mailto:manopttoolbox@gmail.com" rel="" target=""><i class="bi bi-envelope-at" role="img" aria-label="E-mail">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Downloads</h1>
+<p class="subtitle lead">Latest version and change logs</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<p><a href="./download.html" class="btn btn-primary">Download</a> <a href="https://github.com/NicolasBoumal/manopt" class="btn btn-secondary"><i class="bi bi-github"></i> GitHub</a> <a href="https://docs.google.com/forms/d/1U9Ntex_rWI8NfCLPP_b8uE5xDnKXgXG-HVvpHdq1PFo/viewform?usp=send_form" class="btn btn-info">Mailing list</a></p>
+<p>The current version is 7.1 and was packaged on Sep.&nbsp;30, 2022. The file is about 750 Kb.</p>
+<p>The latest code is available on GitHub at all times, accepting pull requests.</p>
+<p>Go to the <a href="./gettingstarted.html">Getting Started</a> page for installation instructions.</p>
+<p><strong>It helps us to know our users.</strong> Please consider registering to our <a href="https://docs.google.com/forms/d/1U9Ntex_rWI8NfCLPP_b8uE5xDnKXgXG-HVvpHdq1PFo/viewform?usp=send_form">mailing list to hear about updates</a>. (Roughly one e-mail per year.) Thanks!</p>
+<p><strong>Do you use Manopt for teaching?</strong> Please <a href="mailto:nicolas.boumal@epfl.ch">get in touch</a>! We’d love to know about this and get feedback.</p>
+<section id="previous-releases-and-change-logs" class="level2">
+<h2 class="anchored" data-anchor-id="previous-releases-and-change-logs">Previous releases and change logs</h2>
+<section id="manopt-7.1-packaged-sep.-30-2022" class="level3">
+<h3 class="anchored" data-anchor-id="manopt-7.1-packaged-sep.-30-2022"><a href="./download.html">Manopt 7.1</a>, packaged Sep.&nbsp;30, 2022</h3>
+<ul>
+<li>Solvers
+<ul>
+<li>Sizeable improvements to <code>trustregions</code> (the main solver):
+<ul>
+<li>Refactored <code>trustregions</code> to accommodate new subproblem solvers.</li>
+<li>Sped up <code>trs_tCG</code> (the main subproblem solver for trustregions) by recycling computations after a step rejection.</li>
+<li>Added new subproblem solver <code>trs_gep</code> to find a global optimum (based on code by Yuji Nakatsukasa).</li>
+<li>Improved information logged and displayed.</li>
+</ul></li>
+<li>Added Liu-Storey rule for <code>conjugategradient</code> solver.</li>
+<li>Added constant step-size line-search helper <code>linesearch_constant</code>.</li>
+</ul></li>
+<li>Manifolds
+<ul>
+<li>Improvements to sympositivedefinitesimplexfactory and sympositivedefinitesimplexcomplexfactory.</li>
+<li>Rotations factory now uses Rodrigues formulas when <span class="math inline">\(n = 3\)</span> for exp/log.</li>
+<li>Several manifolds which are Lie groups now have a method <code>M.lie_identity()</code>: this returns the identity element of that group.</li>
+</ul></li>
+<li>Tools
+<ul>
+<li>Added <code>sinxoverx</code>, which computes <span class="math inline">\(\sin(x)/x\)</span> such that <span class="math inline">\(\sin(0)/0 = 1\)</span>.</li>
+<li>Added <code>getsize</code>, which estimates the memory footprint of an input (used to monitor caching).</li>
+<li>Tool <code>tangentorthobasis</code> now accepts an initial set of vectors to build on.</li>
+</ul></li>
+<li>Other changes
+<ul>
+<li>Small improvements (mostly numerical) for spherefactory, obliquefactory, obliquecomplexfactory, sympositivedefinitefactory.</li>
+<li>Renamed <code>tensorprod</code> to <code>tensorprod_ttemps</code> for better compatibility with new Matlab versions.</li>
+<li>Updated and renamed example <code>positive_definite_karcher_mean.m</code> to <code>positive_definite_intrinsic_mean.m</code>.</li>
+<li>Made importmanopt script more robust.</li>
+</ul></li>
+</ul>
+</section>
+<section id="manopt-7.0-packaged-sep.-5-2021" class="level3">
+<h3 class="anchored" data-anchor-id="manopt-7.0-packaged-sep.-5-2021"><a href="downloads/Manopt_7.0.zip">Manopt 7.0</a>, packaged Sep.&nbsp;5, 2021</h3>
+<ul>
+<li>Core functionalities
+<ul>
+<li>Added support for automatic differentiation through <code>manoptAD</code>.</li>
+</ul></li>
+<li>Manifolds
+<ul>
+<li>Added <code>sympositivedefiniteBWfactory</code>.</li>
+<li>Added <code>poincareballfactory</code>.</li>
+<li>Added <code>fixedTTrankfactory</code>.</li>
+<li>Added <code>multinomialdoublystochasticgeneralfactory</code>.</li>
+<li>Added <code>tangent2ambient</code> (identity) to some important manifolds.</li>
+<li>Added <code>pairmean</code> to <code>hyperbolicfactory</code>.</li>
+</ul></li>
+<li>Tools
+<ul>
+<li>Added checks to <code>checkmanifold</code>.</li>
+<li>Tools <code>multiprod</code>, <code>multitransp</code> etc. are now wrappers for the more efficient builtin functions <code>pagemtimes</code> and related ones. They are also compatible with GPUs and with AD.</li>
+</ul></li>
+<li>Solvers
+<ul>
+<li>New feature: in <code>trustregions</code> and <code>steepestdescent</code> (for now), users can now specify an <code>options.hook</code> function handle that allows one to change the current point <code>x</code> using external code, at each iteration, if desired.</li>
+</ul></li>
+<li>Other changes
+<ul>
+<li>Improved compatibility with Octave 6.1.0.</li>
+<li>Fixed <code>sylvester_nochecks</code> for recent Matlab versions.</li>
+<li>Several small bug fixes and improvements.</li>
+</ul></li>
+</ul>
+</section>
+<section id="manopt-6.0-packaged-may-19-2020" class="level3">
+<h3 class="anchored" data-anchor-id="manopt-6.0-packaged-may-19-2020"><a href="downloads/Manopt_6.0.zip">Manopt 6.0</a>, packaged May 19, 2020</h3>
+<ul>
+<li>Modifications to core engine
+<ul>
+<li>Made it possible for <code>egrad2rgrad</code> and <code>ehess2rhess</code> in a factory-produced manifold to take <code>(storedb, key)</code> as input. The purpose is to allow some automatic caching of redundant computations in <code>ehess2rhess</code> wrt <code>egrad2rgrad</code>. If they do, then they should accept to be called without <code>(storedb, key)</code>, so as not to generate errors with <code>powermanifold</code> and <code>productmanifold</code>, which cannot handle this.</li>
+</ul></li>
+<li>New geometries
+<ul>
+<li>Hyperbolic manifold in the hyperboloid model: <a href="https://github.com/NicolasBoumal/manopt/blob/master/manopt/manifolds/hyperbolic/hyperbolicfactory.m"><code>hyperbolicfactory</code></a>.</li>
+<li>Tensors of fixed multilinear rank in Tucker format: <a href="https://github.com/NicolasBoumal/manopt/blob/master/manopt/manifolds/fixedranktensors/fixedranktensorembeddedfactory.m"><code>fixedranktensorembeddedfactory</code></a>.</li>
+<li>Linear subspaces of linear spaces: <a href="https://github.com/NicolasBoumal/manopt/blob/master/manopt/manifolds/euclidean/euclideansubspacefactory.m"><code>euclideansubspacefactory</code></a>.</li>
+<li>Unitary matrices: <a href="https://github.com/NicolasBoumal/manopt/blob/master/manopt/manifolds/rotations/unitaryfactory.m"><code>unitaryfactory</code></a>.</li>
+<li>Sparse matrices with fixed sparsity pattern (inefficient implementation): <a href="https://github.com/NicolasBoumal/manopt/blob/master/manopt/manifolds/euclidean/euclideansparsefactory.m"><code>euclideansparsefactory</code></a>.</li>
+<li>Manifold of <span class="math inline">\(k\)</span> positive definite matrices whose sum is the identity matrix: <a href="https://github.com/NicolasBoumal/manopt/blob/master/manopt/manifolds/symfixedrank/sympositivedefinitesimplexfactory.m"><code>sympositivedefinitesimplexfactory</code></a> and <a href="https://github.com/NicolasBoumal/manopt/blob/master/manopt/manifolds/symfixedrank/sympositivedefinitesimplexcomplexfactory.m"><code>sympositivedefinitesimplexcomplexfactory</code></a>.</li>
+</ul></li>
+<li>New tools
+<ul>
+<li>Added <a href="https://github.com/NicolasBoumal/manopt/blob/master/manopt/manifolds/rotations/randsym.m"><code>randsym</code></a>, <a href="https://github.com/NicolasBoumal/manopt/blob/master/manopt/manifolds/rotations/randherm.m"><code>randherm</code></a>, <a href="https://github.com/NicolasBoumal/manopt/blob/master/manopt/manifolds/rotations/randskewh.m"><code>ranskewh</code></a> and <a href="https://github.com/NicolasBoumal/manopt/blob/master/manopt/manifolds/rotations/randunitary.m"><code>randunitary</code></a>.</li>
+<li>To match the existing multiherm, added <a href="https://github.com/NicolasBoumal/manopt/blob/master/manopt/tools/multiskewh.m"><code>multiskewh</code></a>.</li>
+<li>New tool <a href="https://github.com/NicolasBoumal/manopt/blob/master/manopt/tools/qr_unique.m"><code>qr_unique</code></a> to compute the unique Q-factor of a full column rank matrix.</li>
+<li>Added tool to form the matrix of a linear operator between two tangent spaces: <a href="https://github.com/NicolasBoumal/manopt/blob/master/manopt/tools/operator2matrix.m"><code>operator2matrix</code></a>. Useful for prototyping / debugging / analysis.</li>
+</ul></li>
+<li>Solvers
+<ul>
+<li>Added <a href="https://github.com/NicolasBoumal/manopt/blob/master/manopt/solvers/arc/arc_gradient_descent.m">gradient descent</a> and <a href="https://github.com/NicolasBoumal/manopt/blob/master/manopt/solvers/arc/arc_conjugate_gradient.m">nonlinear conjugate gradient</a> subproblem solvers for Riemannian ARC.</li>
+<li>Improved numerical stability of Lanczos subproblem solver for ARC.</li>
+<li>Changed default parameters of ARC and added checks to react if subproblem solver fails.</li>
+<li>Added preconditioner support to <code>stochasticgradient</code> solver.</li>
+</ul></li>
+<li>Other changes
+<ul>
+<li>Fix to <code>productmanifold</code> so that it defines a method for the product only if that method is available for each element.</li>
+<li>Added a new retraction to generalized Stiefel manifold, and made it the default retraction.</li>
+<li>Minor changes to <code>multinomialfactory</code> and also added <code>exp</code>, <code>log</code> and <code>dist</code> functions.</li>
+<li>For the manifold <code>fixedrankembeddedfactory</code>: added tools <code>triplet2matrix</code> and <code>matrix2triplet</code>, improved numerical behavior of the retraction for ill-conditioned tangent vectors and vec/mat replaced with lower dimensional isometries, which speed up use of <code>hessianspectrum</code> with that factory considerably.</li>
+<li>Changes to <code>grassmannfactory</code>: tweaks to <code>ehess2rhess</code> for numerical accuracy and added <code>pairmean</code>.</li>
+<li>Added exp, log and dist in the factory <code>symfixedrankYYfactory</code>.</li>
+<li>Differentials of matrix functions (<code>dexpm, dlogm, dsqrtm, dfunm</code>) now also return the matrix function evaluation as a by-product.</li>
+<li>The tool <code>checkdiff</code> (hence also <code>checkgradient</code>) now checks that the cost function is real.</li>
+<li>The tool <code>checkhessian</code> now checks that the Hessian is a linear operator.</li>
+<li>Added some extra checks to <code>checkmanifold</code>, notably to test vec/mat and dim; and improved test of exp/log/dist.</li>
+<li>Refactored a number of retractions to use new tool <code>qr_unique</code>.</li>
+<li>Several improvements to <code>multinomialdoublystochasticfactory</code>.</li>
+<li>The tool <code>tangentspacefactory</code> should now work with factories involving a non-identity <code>tangent2ambient</code>.</li>
+<li>Bug fix: memory usage could increase with inner iterations of tCG inside <code>trustregions</code> when using finite difference approximation of the Hessian. This is no longer the case.</li>
+<li>Generally improved comments in several files.</li>
+</ul></li>
+</ul>
+</section>
+<section id="manopt-5.0-packaged-september-10-2018" class="level3">
+<h3 class="anchored" data-anchor-id="manopt-5.0-packaged-september-10-2018"><a href="downloads/Manopt_5.0.zip">Manopt 5.0</a>, packaged September 10, 2018</h3>
+<ul>
+<li>New solvers
+<ul>
+<li>ARC: adaptive regularization by cubics, <a href="https://github.com/NicolasBoumal/manopt/blob/master/manopt/solvers/arc/arc.m"><code>arc</code></a>, as an alternative to <a href="https://github.com/NicolasBoumal/manopt/blob/master/manopt/solvers/trustregions/trustregions.m"><code>trustregions</code></a>.</li>
+</ul></li>
+<li>Modifications to core engine
+<ul>
+<li>New counters system: especially useful to keep track of cost/grad/hess calls, and also of other important computations inside of (and possibly shared among) those. See <a href="https://github.com/NicolasBoumal/manopt/blob/master/manopt/core/incrementcounter.m"><code>incrementcounter</code></a> and <a href="https://github.com/NicolasBoumal/manopt/blob/master/manopt/tools/statscounters.m"><code>statscounter</code></a> and the example <a href="https://github.com/NicolasBoumal/manopt/blob/master/examples/using_counters.m"><code>using_counters</code></a>. As also shown in that example, the <code>problem.stopfun</code> handle for stopping criteria can access the counters, making it possible to stop for more sophisticated reasons than before.</li>
+<li>The value of the cost function is now always cached. This leads to significant speed-ups in algorithms which use a line-search that evaluates the cost function (<code>steepestdescent</code>, <code>conjugategradient</code>, <code>barzilaiborwein</code>, <code>rlbfgs</code> included.)</li>
+<li>The Riemannian gradient and Euclidean gradient are now cached by default. This is made practical by the new <code>remove()</code> functionalities of <code>StoreDB</code> (see below). This should be particularly useful for algorithms which use finite difference approximations of the Hessian, and when the user supplies a Euclidean Hessian (which, to be converted to Riemannian Hessian, requires the Euclidean gradient). This caching happens regardless of the user’s own caching efforts, which should make the overall system easier to understand, as compared to previous versions of Manopt.</li>
+<li>Core changes to <a href="https://github.com/NicolasBoumal/manopt/blob/master/manopt/core/StoreDB.m"><code>StoreDB</code></a>. Essentially two changes: (1) <code>purge()</code> now purges based on latest access time (access = read or write) rather than latest write time. (2) Added functions <code>remove()</code> and <code>removefirstifdifferent()</code>, which makes it possible for solvers and line-search algorithms to tell the <code>StoreDB</code> when a certain store is no longer relevant. For solvers that use the new <code>remove()</code> capabilities, <code>purge()</code> and <code>storedepth</code> now have very little importance. Furthermore, access is now more protected, with warnings issued if improper keys are accessed; this should make it easier to debug new solvers, and it already makes it possible to cache far fewer points. This rationalizes the choice of caching more things for points that matter (including cost and gradient). Line-search algorithms and all important solvers now use this system.</li>
+<li>Added support for GPU. The following manifolds can now manipulate points and tangent vectors directly on the GPU, sometimes leading to huge speed-ups: <code>spherefactory</code>, <code>complexcirclefactory</code>, <code>stiefelfactory</code>, <code>grassmannfactory</code>; see the new example <a href="https://github.com/NicolasBoumal/manopt/blob/master/examples/using_gpu.m"><code>using_gpu</code></a>.</li>
+</ul></li>
+<li>New tools
+<ul>
+<li><a href="https://github.com/NicolasBoumal/manopt/blob/master/manopt/tools/orthogonalizetwice.m"><code>orthogonalizetwice</code></a> runs the rewritten orthogonalize tool twice for better accuracy when orthonormalizing an ill-conditioned basis of tangent vectors.</li>
+<li><a href="https://github.com/NicolasBoumal/manopt/blob/master/manopt/tools/lyapunov_symmetric.m"><code>lyapunov_symmetric</code></a> and <a href="https://github.com/NicolasBoumal/manopt/blob/master/manopt/tools/lyapunov_symmetric_eig.m"><code>lyapunov_symmetric_eig</code></a>: solvers for Lyapunov equation <span class="math inline">\(AX + XA = C\)</span> with symmetric (or Hermitian) matrix <span class="math inline">\(A\)</span>; acts as a pseudo-inverse. <a href="https://github.com/NicolasBoumal/manopt/blob/master/manopt/tools/sylvester_nochecks.m"><code>sylvester_nochecks</code></a>: Matlab’s sylvester solver without input checks (much faster for small matrices); These are now used everywhere in Manopt to remove dependency on <code>lyap</code>, which is a tool from the Control Toolbox.</li>
+<li><a href="https://github.com/NicolasBoumal/manopt/blob/master/manopt/tools/stopifdeletedfile.m"><code>stopifdeletedfile</code></a> and <a href="https://github.com/NicolasBoumal/manopt/blob/master/manopt/tools/stopifclosedfigure.m"><code>stopifclosedfigure</code></a>: interactive stopping criteria that allow to stop a solver at any point, and let it finish gracefully and continue executing the rest of the code (also for execution on a distant server without GUI.)</li>
+<li><a href="https://github.com/NicolasBoumal/manopt/blob/master/manopt/tools/checkmanifold.m"><code>checkmanifold</code></a>: began a new tool to run a collection of tests on manifold structures returned by factories; this is an early version to collect ideas as they come.</li>
+</ul></li>
+<li>New geometries
+<ul>
+<li><a href="https://github.com/NicolasBoumal/manopt/blob/master/manopt/manifolds/euclidean/constantfactory.m"><code>constantfactory</code></a>, which can be used to fix certain variables in a <a href="https://github.com/NicolasBoumal/manopt/blob/master/manopt/tools/productmanifold.m"><code>productmanifold</code></a>.</li>
+<li><a href="https://github.com/NicolasBoumal/manopt/blob/master/manopt/manifolds/multinomial/multinomialsymmetricfactory.m"><code>multinomialsymmetricfactory</code></a> and <a href="https://github.com/NicolasBoumal/manopt/blob/master/manopt/manifolds/multinomial/multinomialdoublystochasticfactory.m"><code>multinomialdoublystochasticfactory</code></a> for doubly stochastic matrices with (strictly) positive entries, symmetric or not; contributed by <a href="https://scholar.google.com/citations?user=_i7hPbgAAAAJ&amp;hl=en">Ahmed Douik</a>. Comes with a tool named <a href="https://github.com/NicolasBoumal/manopt/blob/master/manopt/manifolds/multinomial/doubly_stochastic.m"><code>doubly_stochastic</code></a> which implements Sinkhorn’s algorithm to project to doubly-stochastic matrices.</li>
+<li><code>[positivefactory</code>](https://github.com/NicolasBoumal/manopt/blob/master/manopt/manifolds/positive/positivefactory.m) deals with strictly positive numbers.</li>
+</ul></li>
+<li>Bug fixes
+<ul>
+<li>Fixed <code>M.retr2</code> (second-order retraction) in <code>rotationsfactory</code> for <span class="math inline">\(k &gt; 1\)</span>.</li>
+</ul></li>
+<li>Other changes
+<ul>
+<li>Installation instructions and <code>importmanopt</code> now include <code>savepath</code>.</li>
+<li><a href="https://github.com/NicolasBoumal/manopt/blob/master/manopt/tools/orthogonalize.m"><code>orthogonalize</code></a> tool is now a modified Gram-Schmidt algorithm, which is more stable than the previous code.</li>
+<li><code>strict_inc_func</code> in <a href="https://github.com/NicolasBoumal/manopt/blob/master/manopt/solvers/bfgs/rlbfgs.m"><code>rlbfgs</code></a> solver changed following recommendations of Wen Huang.</li>
+<li>More heads up messages regarding the use of <code>M.tangent2ambient</code> with some manifolds.</li>
+<li>tCG solver for <code>trustregions</code> inner problems is now more stable (numerically) for fine convergence steps.</li>
+<li>Added inverse retraction for <code>grassmannfactory</code>, <code>stiefelfactory</code> (both QR and polar retractions, both of which are now available), <code>spherefactory</code>, <code>obliquefactory</code>, <code>rotationsfactory</code> (both QR and polar) and <code>complexcirclefactory</code>.</li>
+<li><a href="https://github.com/NicolasBoumal/manopt/blob/master/manopt/solvers/neldermead/neldermead.m"><code>neldermead</code></a> solver now uses retraction instead of exponential.</li>
+<li>If the exponential is not implemented for a manifold, <code>M.exp</code> is now no longer defined. It used to be that M.exp would issue a warning, then return the result of <code>M.retr</code>. But this causes a deluge of warnings in functions such as checkhessian. Now, instead, such tools check if M.exp is defined; if not, they use M.retr and issue a single message to inform the user of the consequences. If your personal code uses M.exp() without checking for manifolds that didn’t have a proper implementation, you may want to check if this update breaks that part. It should be an easy fix.</li>
+<li>Many small improvements here and there…</li>
+</ul></li>
+</ul>
+</section>
+<section id="manopt-4.0-packaged-september-9-2017" class="level3">
+<h3 class="anchored" data-anchor-id="manopt-4.0-packaged-september-9-2017"><a href="downloads/Manopt_4.0.zip">Manopt 4.0</a>, packaged September 9, 2017</h3>
+<ul>
+<li>New solvers
+<ul>
+<li>Limited-memory BFGS, <a href="https://github.com/NicolasBoumal/manopt/blob/master/manopt/solvers/bfgs/rlbfgs.m"><code>rlbfgs</code></a>: a Riemannian version of the quasi-Newton solver, implemented by Changshuo Liu based on work by Wen Huang et al.</li>
+<li><a href="https://github.com/NicolasBoumal/manopt/blob/master/manopt/solvers/barzilaiborwein/barzilaiborwein.m"><code>barzilaiborwein</code></a>: a gradient method with step-size selection based on a Barzilai-Borwein heuristic and line-search, contributed by Margherita Porcelli and Bruno Iannazzo.</li>
+<li><a href="https://github.com/NicolasBoumal/manopt/blob/master/manopt/solvers/stochasticgradient/stochasticgradient.m"><code>stochasticgradient</code></a>: stochastic gradient algorithm on manifolds, together with its step-size selection algorithm <code>stepsize_sg</code> and a new example: <code>PCA_stochastic</code>.</li>
+</ul></li>
+<li>New tools
+<ul>
+<li><code>tangent2vec</code>: given a tangent vector and an orthogonal basis on the corresponding tangent space, returns the coordinates of the vector in that basis.</li>
+<li><code>criticalpointfinder</code>: allows to find critical points of an optimization problem (useful to study saddle points of a non-convex problem for example.)</li>
+</ul></li>
+<li>New geometries
+<ul>
+<li><code>realphasefactory</code>: to optimize over vectors with unit-modulus complex entries (phases) satisfying symmetries such that they could be the phases of the DFT (<code>fft</code>) of a real vector.</li>
+</ul></li>
+<li>Modifications to core engine
+<ul>
+<li>Added the capacity to provide a subgradient in a problem description, and to call for it in a solver. This, together with the tool <code>smallestinconvexhull</code>, is an important step toward integrating nonsmooth solvers in Manopt. See <code>canGetSubgradient</code> and <code>getSubgradient</code>. Define with <code>problem.subgrad(x, tol)</code>, where <code>x</code> is a point on a manifold <code>problem.M</code> and <code>tol</code> (nonnegative) is a tolerance in computing the subgradient (0 by default).</li>
+</ul></li>
+<li>Bug fixes
+<ul>
+<li><code>tangentspacefactory</code> now has correct tangent, <code>egrad2rgrad</code> and <code>ehess2rhess</code> tools, including projections (thanks to a comment by Jesus Briales on the forum.)</li>
+<li>For Euclidean manifolds, <code>M.tangent</code> functions were changed from identity to <code>M.proj</code>.</li>
+</ul></li>
+<li>Smaller things
+<ul>
+<li><code>sympositivedefinitefactory</code> now has a cheaper yet second-order retraction, as suggested by Wen Huang.</li>
+<li><code>euclideancomplexfactory</code> now also handles multidimensional arrays, just like its real counterpart.</li>
+<li><code>smallestinconvexhull</code> tool now accepts a tolerance as optional input.</li>
+<li>Further improved accuracy of distance function computations in all sphere / oblique manifolds with <code>asin</code> function instead of <code>acos</code> without branching, following discussions with Bruno Iannazzo and P.-A. Absil.</li>
+<li>Two new options for <code>linesearch_hint</code>: allows to disable backtracking and allows to disable forcing of a non-increasing cost.</li>
+<li><code>fixedrankembeddedfactory</code> now has an orthographic retraction provided by Teng Zhang as <code>M.retr_ortho</code>.</li>
+<li>Many, many smaller improvements to code and documentation.</li>
+</ul></li>
+</ul>
+</section>
+<section id="manopt-3.0-packaged-november-12-2016." class="level3">
+<h3 class="anchored" data-anchor-id="manopt-3.0-packaged-november-12-2016."><a href="downloads/Manopt_3.0.zip">Manopt 3.0</a>, packaged November 12, 2016.</h3>
+<ul>
+<li>Code moved to <a href="https://github.com/NicolasBoumal/manopt">GitHub</a>! Now accepting pull requests, and accelerating distribution of patches.</li>
+<li>Bug fixes
+<ul>
+<li>Logic bug in <code>linesearch</code>: <code>lsmem</code> handling corrected thanks to Wen Huang. The default line-search algorithm for steepest descent should now be much faster.</li>
+<li>Logic bug in <code>getGradient</code> when using <code>problem.grad</code> with a different number of inputs compared to <code>problem.cost</code>.</li>
+<li>Corrected logic in plotting step of example <code>low_rank_dist_completion</code>.</li>
+<li><code>obliquefactory</code>, in transposed mode, had an incorrect <code>M.log</code>.</li>
+</ul></li>
+<li>Modifications to core engine
+<ul>
+<li>Added capability to obtain a partial gradient (Euclidean or Riemannian) of a cost function by specifying <code>problem.partialgrad</code> or <code>problem.partialegrad</code> coupled with <code>problem.ncostterms</code>. This is an important step to simplify the future addition of stochastic gradient methods. Use cases are: if <code>problem.cost</code> is expressed as a sum of <code>problem.ncostterms</code> terms, then <code>problem.partialgrad</code> accepts a point <code>x</code> and an index set sample so that only the gradient with respect to terms indexed in sample is computed and returned.</li>
+<li>Added possibility to define <code>problem.approxgrad</code>, to provide an approximation of the gradient. This can be populated with a generic gradient approximation based on finite differences via <code>approxgradientFD</code>. Solvers do this by default if they need a gradient and none is given. This feature is slow, but may be useful for prototyping. It is slow because Manopt generates an orthonormal basis of the tangent space, and compute a finite difference approximation of the directional derivative along each basis vector to get an approximate gradient (see also next item and new example <code>thomson_problem</code>.)</li>
+<li><code>getGradient</code> now knows how to compute the gradient if the directional derivatives are accessible. This involves generating an orthonormal basis of the tangent space at the current point, then evaluating the directional derivative along each basis vector and taking the appropriate linear combination. This is very slow, especially for high dimensional manifolds.</li>
+</ul></li>
+<li>New tools
+<ul>
+<li><code>lincomb</code> for a generic way of computing a long linear combination of tangent vectors.</li>
+<li><code>grammatrix</code> to compute the Gram matrix of a collection of tangent vectors.</li>
+<li><code>orthogonalize</code> to orthogonalize a basis of tangent vectors.</li>
+<li><code>tangentorthobasis</code> to obtain a random orthonormal basis of a tangent space, generically.</li>
+<li><code>smallestinconvexhull</code> to compute the smallest tangent vector in the convex hull of a given collection of tangent vectors.</li>
+<li><code>hessianmatrix</code> to get a matrix representing the Hessian at a point in an orthonormal tangent basis.</li>
+<li><code>checkretraction</code> allows, for manifolds which have a correct exponential implemented, to verify the order of agreement between the retraction and the exponential, in order to determine numerically if the retraction is first- or second-order.</li>
+</ul></li>
+<li>New examples
+<ul>
+<li><code>elliptope_SDP</code> solves SDPs over positive semidefinite matrices with diagonal of all-ones. This should run faster than the Max-Cut example for quite a few things.</li>
+<li><code>elliptope_SDP_complex</code>, same as above for complex matrices. This solves the SDP which appears in PhaseCut and phase synchronization, for example.</li>
+<li><code>thomson_problem</code> to illustrate the new features that allow to not specify the gradient of the cost (slow, but good for prototyping.)</li>
+</ul></li>
+<li>New geometries
+<ul>
+<li><code>skewsymmetricfactory</code> for skew-symmetric matrices (Euclidean geometry)</li>
+<li><code>obliquecomplexfactory</code>, to work with complex matrices whose columns (or rows) all have unit norm</li>
+</ul></li>
+<li>Modifications to previous behavior
+<ul>
+<li><code>symfixedrankYYcomplexfactory</code> now has a Riemannian metric matching that of <code>euclideanfactory</code> (it was scaled down by 2 as compared to previous Manopt versions.) This makes it easier to switch between those two geometries. Relevant changes propagated to <code>radio_interferometric_calibration</code>.</li>
+<li><code>hessianextreme</code> now returns the info structure returned by the internal solver call. The helper tool <code>tangentspherefactory</code> now incorporates extra projections to ensure the vector returned by <code>hessianextreme</code> is indeed a tangent vector (former version could suffer from numerical drift.)</li>
+<li>At the end of <code>generalized_eigenvalue_computation</code>, added a rotation of <code>Xsol</code> to match the definition of generalized eigenvectors (the eigenvalues were fine.)</li>
+</ul></li>
+<li>Numerous minor improvements; highlights:
+<ul>
+<li><code>rotationsfactory</code> now has a function <code>M.retr2</code> which is a second-order retraction.</li>
+<li><code>spherefactory</code> and related sphere geometries now have a distance function <code>M.dist</code> which is orders of magnitude more accurate for close-by points.</li>
+<li><code>neldermead</code> now respects <code>options.verbosity &lt; 2</code>.</li>
+<li><code>plotprofile</code> and <code>surfprofile</code> have now mostly optional inputs, making them easier to call for a quick glimpse at the cost function.</li>
+</ul></li>
+</ul>
+</section>
+<section id="manopt-2.0-packaged-july-6-2015." class="level3">
+<h3 class="anchored" data-anchor-id="manopt-2.0-packaged-july-6-2015."><a href="downloads/Manopt_2.0.zip">Manopt 2.0</a>, packaged July 6, 2015.</h3>
+<ul>
+<li>Modifications to core engine
+<ul>
+<li>Revamped the internal hashing system used for caching: Manopt no longer uses hashing, which leads to speed-ups and cleaner internal code. Solvers need to be adapted consequently, to use the <code>StoreDB</code> class.</li>
+<li>The caching system now offers a shared memory, which can be accessed and modified at all points. This can notably be used to count function evaluations, or to produce Hessian approximations which require previous iterations memory (such as BFGS for example).</li>
+<li>Because of the new class StoreDB, Octave compatibility is unfortunately compromised until Octave supports Matlab’s classdef object oriented programming.</li>
+<li>New cost description function: <code>sqrtprecon</code>, for the square root of the preconditioner (used in <code>hessianspectrum</code>).</li>
+<li>The privatetools directory is now named core, and is documented.</li>
+</ul></li>
+<li>New geometries:
+<ul>
+<li><code>specialeuclideanfactory</code> (for rigid body motions).</li>
+<li><code>multinomialfactory</code> (for probability distributions, i.e., simplex elements).</li>
+<li><code>euclideancomplexfactory</code> (for complex matrices).</li>
+<li><code>spheresymmetricfactory</code> (for unit norm symmetric matrices)</li>
+<li><code>stiefelcomplexfactory</code> (for complex orthonormal matrices)</li>
+<li><code>stiefelgeneralizedfactory</code> (for matrices which are orthonormal in another basis)</li>
+<li><code>stiefelstackedfactory</code> (for multiple orthonormal matrices of same size, represented in stacked form)</li>
+<li><code>grassmanncomplexfactory</code> (complex Grassmannian, for complex subspaces of <span class="math inline">\(\mathbb{C}^n\)</span>)</li>
+<li><code>grassmanngeneralizedfactory</code> (for optimization over subspaces, represented via orthonormal bases in a non-standard basis)</li>
+<li><code>symfixedrankYYcomplexfactory</code> (for complex fixed-rank positive semidefinite matrices)</li>
+<li><code>fixedrankfactory_tucker_preconditioned</code> (for optimization over fixed-rank tensors, in Tucker format)</li>
+<li><code>centeredmatrixfactory</code> (matrices whose rows or columns sum to zero)</li>
+</ul></li>
+<li>Other improvements:
+<ul>
+<li><code>spherecomplexfactory</code>: added <code>ehess2rhess</code>.</li>
+<li><code>complexcirclefactory</code>: distance function corrected.</li>
+<li>Contributions more explicitly acknowledged in some files, notably via BibTex entries.</li>
+<li><code>hessianspectrum</code>: output eigenvalues now sorted, and the square root of the preconditioner, if available, must now be given through <code>problem.sqrtprecon</code>, not as an additional input. An option now allows to ask for the Hessian spectrum or the preconditioned Hessian spectrum, explicitly.</li>
+<li>New management of Hessian approximations and preconditioners. The file <code>hessianapproxFD</code> encapsulates Manopt’s standard approximation, with access to options. A first generic preconditioner allows solving linear systems involving the Hessian (for Newton-type methods): <code>preconhessiansolve</code>.</li>
+<li>Line-search algorithms now work with <code>StoreDB</code>, and as a result have a simplified calling pattern. There is also a new one: <code>linesearch_decrease</code>.</li>
+</ul></li>
+<li>New <a href="https://github.com/NicolasBoumal/manopt/tree/master/manopt/tools">tools</a>:
+<ul>
+<li><code>manoptsolve</code>, to automatically call an appropriate solver (or a dynamically chosen solver) on a problem structure.</li>
+<li><code>statsfunhelper</code>, to ease the use of <code>options.statsfun</code>, which allows recording custom statistics at each iteration during optimization. See the tutorial.</li>
+<li><code>hessianextreme</code>, to compute minimal and maximal eigenvectors and eigenvalues of the Hessian of a cost function.</li>
+<li><code>surfprofile</code>, to complement <code>plotprofile</code>: used to plot a cost function restricted to a 1D or 2D subspace of a tangent space.</li>
+<li><code>tangentspherefactory</code> and <code>tangentspacefactory</code>, to obtain a manifold representation of the unit sphere on the tangent space to a manifold at a given point, or a representation of the whole tangent space. Useful to solve optimization problems over those spaces.</li>
+<li><code>dfunm</code>, <code>dexpm</code>, <code>dlogm</code>, <code>dsqrtm</code> : compute the Fréchet derivatives of matrix functions.</li>
+</ul></li>
+<li>Trust-region solver:
+<ul>
+<li>As of Manopt 1.0.6, the inner solver tCG monitors the model cost; an (innocuous) logic bug was corrected there. Theory behind this feature is now better understood (a paper reference + BibTex was added).</li>
+<li>Warns if many TR+ / TR- steps are detected, to suggest changing parameter values.</li>
+<li>Uses safe version of tic/toc timers (originally because Octave now supports them).</li>
+<li>In case <code>rho</code> evaluates to <code>NaN</code> (which really should not happen), the code now ensures that the step is rejected and the radius decreased, thus preventing stagnation. In an adversely crafted example, this helped the solver escape the region where NaN’s appear (again, this is not supposed to happen, but it’s good to handle it nonetheless).</li>
+<li>Many more comments inside the code.</li>
+</ul></li>
+<li>New <a href="https://github.com/NicolasBoumal/manopt/tree/master/examples">examples</a>:
+<ul>
+<li><code>robust_pca</code>, illustrating how to smooth a nonsmooth cost function (here, on the Grassmann manifold).</li>
+<li><code>low_rank_dist_completion</code>, illustrating usage of Manopt as a building block in a rank-incremental optimization algorithm for SDP.</li>
+<li><code>dominant_invariant_subspace_complex</code>, adapting <code>dominant_invariant_subspace</code> to the complex case.</li>
+<li><code>radio_interferometric_calibration</code>, illustrating the usage of the complex fixed-rank manifold.</li>
+<li><code>nonlinear_eigenspace</code>, showing how to address certain nonlinear eigenvalue problems.</li>
+<li><code>essential_svd</code>, demonstrating the new geometry <code>essentialfactory</code>.</li>
+<li><code>generalized_eigenvalue_computation</code>, shows how to use <code>grassmanngeneralizedfactory</code> to solve generalized eigenvalue problems.</li>
+<li><code>shapefit_smoothed</code>, does sensor network localization from pairwise direction measurements, following the <a href="https://arxiv.org/abs/1506.01437">ShapeFit</a> paper.</li>
+</ul></li>
+</ul>
+</section>
+<section id="manopt-1.0.7-packaged-august-12-2014." class="level3">
+<h3 class="anchored" data-anchor-id="manopt-1.0.7-packaged-august-12-2014."><a href="downloads/Manopt_1.0.7.zip">Manopt 1.0.7</a>, packaged August 12, 2014.</h3>
+<ul>
+<li>Added the <code>ehess2rhess</code> function to <code>complexcirclefactory</code>.</li>
+<li>Major revision of <code>fixedrankembeddedfactory</code> for support of optimization over fixed-rank matrices. It is now better documented, comes with an example called <code>low_rank_matrix_completion</code>, and also has support for <code>ehess2rhess</code> and <code>tangent2ambient</code>, a proper vector transport, works with the <code>hessianspectrum</code> tool, … This revision was executed with the precious and frequent help of Bart Vandereycken, who first described this geometry in a <a href="https://epubs.siam.org/doi/abs/10.1137/110845768">paper</a>.</li>
+<li>All solvers now also return the <code>options</code> structure, to make it easier to investigate what options a solver uses and what their default values are.</li>
+<li>It is now possible to specify a line-search hint function in the <code>problem</code> structure; the result of that function will be used as a first guess in an Armijo backtracking line-search procedure, <code>linesearch_hint</code>. This is very useful if, for a given problem, you are able to make a good guess at how far along the search line one should look. It is much easier this way than with the previous way, which required implementing a whole new line-search algorithm.</li>
+<li>Generally improved textual outputs (warnings, iteration information, stopping reasons…).</li>
+<li>The documentation (tutorial, reference) was updated to reflect all of these changes.</li>
+<li>The <code>sympositivedefinitefactory</code> now has the correct <code>dim()</code> function and implements a new vector transport as explained in the <a href="https://github.com/NicolasBoumal/manopt/blob/master/examples/positive_definite_intrinsic_mean.m">example</a>.</li>
+</ul>
+</section>
+<section id="manopt-1.0.6-packaged-june-25-2014." class="level3">
+<h3 class="anchored" data-anchor-id="manopt-1.0.6-packaged-june-25-2014."><a href="downloads/Manopt_1.0.6.zip">Manopt 1.0.6</a>, packaged June 25, 2014.</h3>
+<ul>
+<li>For uses of the <code>trustregions</code> solver with a nonlinear approximation of the Hessian (such as, for example, the default one if you do not specify a Hessian at all), the truncated-CG algorithm now explicitly checks that the model cost decreases with (inner) iterations. If an increase is witnessed (which is bad), tCG now returns the best step so far, which is always at least the Cauchy step.</li>
+<li>The <code>sympositivedefinitefactory</code> geometry for positive definite matrices was revised. It had a number of mistakes in it due to an incorrect assumption. You can access the file before 1.0.6 is released on <a href="https://groups.google.com/forum/embed/?place=forum%2Fmanopttoolbox&amp;showsearch=true&amp;showtabs=false&amp;theme=default#%21topic/manopttoolbox/nyX2rhKB9x4">the forum</a>.</li>
+<li>Small bug fix in <code>packing_on_the_sphere</code> example, along an improvement of how the smoothing term is computed numerically.</li>
+<li>Added a Riemannian Hessian conversion tool for the Stiefel manifold, <code>ehess2rhess</code>.</li>
+<li>Added a new (Euclidean) manifold, <code>symmetricfactory</code>, to deal with symmetric matrices.</li>
+<li>Multiple enhancements and bug fixes for the embedded geometry of fixed rank matrices <code>fixedrankembeddedfactory</code>: now works with <code>checkgradient</code>, changed hash and typical dist, and the vector transport is now correct (it was wrong before, leading to failure of CG and RTR-FD). Thanks to Bart Vandereycken for the correct code.</li>
+<li>Random vector generation in Stiefel and Grassmann now make more sense.</li>
+<li><code>PSO</code> (Particle Swarm Optimization) solver debugged to work with product and power manifolds too.</li>
+<li>Bug fix in <code>grassmannfactory</code> retraction for <span class="math inline">\(k &gt; 1\)</span>, and added final re-orthonormalization at the end of exponential map following forum discussions.</li>
+<li>The functions in <code>elliptopefactory</code> are now a tad faster, using <code>bsxfun</code>.</li>
+</ul>
+</section>
+<section id="manopt-1.0.5-packaged-january-2nd-2014." class="level3">
+<h3 class="anchored" data-anchor-id="manopt-1.0.5-packaged-january-2nd-2014."><a href="downloads/Manopt_1.0.5.zip">Manopt 1.0.5</a>, packaged January 2nd, 2014.</h3>
+<ul>
+<li>Many files are now better commented and documented. In particular, the solvers now have quite complete documentation in code, available using Matlab’s help command.</li>
+<li>The trust region solver was modified substantially. The algorithm is now slightly different from the previous versions, but is cleaner in its handling of errors, and behaves almost the same as before for normal operations. In particular, the fine-convergence heuristic has been changed to match a standard heuristic from the literature (see in code for references and the relevant option). The online documentation (UPDATE 2024: this documentation was deprecated) was extended as well. The original trust region radius (<code>Delta0</code> and <code>Delta_bar</code>) are now interpreted correctly. Their values are different from earlier Manopt versions as a result. if you get a lot of TR+ or TR- for the first few iterations, you may want to tweak those options.</li>
+<li>New geometry: <code>sympositivedefinitefactory</code>, for symmetric, positive definite matrices. Related example script: <code>positive_definite_karcher_mean</code>.</li>
+<li>Line search algorithms have been heavily modified. The basic line search for example is now invariant under shifting and rescaling of the cost function, and the built-in line search algorithms now accept options too. Line searches now do not expect to be given a normalized search direction anymore, and they can decide whether to use the norm as supplemental information or to be unaffected by it. For example, the default line search for the conjugate gradient solver (the adaptive line search) is not invariant to the norm of the search direction.</li>
+<li>New example for sparse PCA via optimization on the Stiefel manifold.</li>
+<li>Potential bug (that never triggered) with <code>purgeStoredb</code> corrected.</li>
+</ul>
+</section>
+<section id="manopt-1.0.4-packaged-august-22nd-2013." class="level3">
+<h3 class="anchored" data-anchor-id="manopt-1.0.4-packaged-august-22nd-2013."><a href="downloads/Manopt_1.0.4.zip">Manopt 1.0.4</a>, packaged August 22nd, 2013.</h3>
+<ul>
+<li>This release is a first step toward compatibility with Octave. We’re not there yet, but in the examples folder, you will find <code>maxcut_octave</code> (UPDATE: removed in 1.0.8), which should run in Octave 3.6.4. In there, more info about compatibility issues and limitations are provided.</li>
+<li>Manopt is not organized in a Matlab package anymore (so folders are called folder and not +folder): no <code>import</code> anymore. Simply call <code>importmanopt</code> to add all Manopt functions to the path, once.</li>
+<li>Sign error in right-hand side of Lyapunov equation in <code>elliptopefactory.projection</code> corrected.</li>
+</ul>
+</section>
+<section id="manopt-1.0.3-packaged-july-26-2013." class="level3">
+<h3 class="anchored" data-anchor-id="manopt-1.0.3-packaged-july-26-2013."><a href="downloads/Manopt_1.0.3.zip">Manopt 1.0.3</a>, packaged July 26, 2013.</h3>
+<ul>
+<li>The new <a href="https://github.com/NicolasBoumal/manopt/tree/master/examples">examples</a> directory now contains documented examples.</li>
+<li>Added manifolds <code>spectrahedron</code> and <code>elliptope</code>, for symmetric positive semidefinite fixed-rank matrices with constraints on the diagonal or the trace. Notably useful for max-cut like SDP relaxations (see examples) and correlation matrix approximation / completion etc.</li>
+<li>The Riemannian gradient and Hessian may be given via their Euclidean counterparts, using <code>problem.egrad</code> and <code>problem.ehess</code>.</li>
+<li>Improved <code>checkgradient</code> and <code>checkhessian</code> tools.</li>
+<li>Added Riemannian log map for the Grassmann manifold.</li>
+<li>Made <code>egrad2rgrad</code> and <code>ehess2rhess</code> available in more geometries.</li>
+<li>Added the tool <code>hessianspectrum</code> to compute the eigenvalues of the Hessian (with or without preconditioner).</li>
+<li>Added notions of <code>tangent</code> and <code>tangent2ambient</code> to manifolds.</li>
+<li>Added notions of <code>vec</code> and <code>mat</code> for manifolds, to represent tangent vectors as column vectors.</li>
+</ul>
+</section>
+<section id="manopt-1.0.2-packaged-june-11-2013." class="level3">
+<h3 class="anchored" data-anchor-id="manopt-1.0.2-packaged-june-11-2013."><a href="downloads/Manopt_1.0.2.zip">Manopt 1.0.2</a>, packaged June 11, 2013.</h3>
+<ul>
+<li>Improved <code>trustregions</code> solver (e.g., avoids a redundant Hessian computation).</li>
+<li>Improved <code>conjugategradient</code> solver: now admits preconditioning.</li>
+<li>Reorganized fixedrank geometries (not backward compatible).</li>
+<li>Many small improvements and bug fixes.</li>
+</ul>
+</section>
+<section id="manopt-1.0.1-packaged-february-7-2013." class="level3">
+<h3 class="anchored" data-anchor-id="manopt-1.0.1-packaged-february-7-2013."><a href="downloads/Manopt_1.0.1.zip">Manopt 1.0.1</a>, packaged February 7, 2013.</h3>
+</section>
+<section id="manopt-1.0-packaged-january-3rd-2013." class="level3">
+<h3 class="anchored" data-anchor-id="manopt-1.0-packaged-january-3rd-2013."><a href="downloads/Manopt_1.0.zip">Manopt 1.0</a>, packaged January 3rd, 2013.</h3>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  let localAlternateSentinel = 'alternate';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var filterRegex = new RegExp("https:\/\/www\.manopt\.org");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+          // target, if specified
+          link.setAttribute("target", "_blank");
+      }
+    }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center"><div class="cookie-consent-footer"><a href="#" id="open_preferences_center">Cookie preferences -- it helps us to know which pages are read the most</a></div></div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>
