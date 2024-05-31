@@ -1,0 +1,12 @@
+---
+title: "Forum"
+sidebar: false
+---
+
+You can access [the Manopt forum](https://groups.google.com/g/manopttoolbox) on Google Groups.
+
+This is the right place to discuss math and Matlab code related to the use of Manopt.
+
+You can also [report issues](https://github.com/NicolasBoumal/manopt/issues) and submit [pull requests](https://github.com/NicolasBoumal/manopt/pulls) directly on GitHub.
+
+For questions related to Python and Julia code, please see [PyManopt.org](https://www.pymanopt.org) and [Manoptjl.org](https://www.manoptjl.org).

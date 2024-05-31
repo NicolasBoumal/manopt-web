@@ -1,0 +1,184 @@
+---
+title: "About"
+sidebar: false
+---
+
+The purpose of Manopt is to facilitate experimentation with optimization on manifolds, as well as sharing geometries and algorithms.
+
+<!--
+What do people do with Manopt?
+Check out [the citations on Google Scholar](https://scholar.google.com/scholar?hl=en&as_sdt=2005&sciodt=0,5&cites=16406862999391922406&scipsc=&q=).
+-->
+
+The Matlab version of Manopt is developed by [Nicolas Boumal](https://www.nicolasboumal.net/) and [Bamdev Mishra](https://bamdevmishra.in/).
+The toolbox originated in 2012 within the RANSO group, led by [Pierre-Antoine Absil](https://perso.uclouvain.be/pa.absil/), [Yurii Nesterov](https://www.core.ucl.ac.be/%7Enesterov/) and [Rodolphe Sepulchre](https://www.montefiore.ulg.ac.be/%7Esepulch/).
+See also [PyManopt.org](https://www.pymanopt.org/) and [Manoptjl.org](https://www.manoptjl.org/) for information about the Python and Julia versions of Manopt.
+
+The toolbox is stable and can be used right away.
+Being research software, it is also perpetually work in progress.
+We welcome contributions, bug reports and feedback.
+Let us know what you think!
+
+If you use the Matlab version of Manopt, [please cite the paper](https://jmlr.org/papers/v15/boumal14a.html).
+Notice the 'o' in Manopt is lowercase.
+
+```latex
+@Article{manopt,
+    author  = {Boumal, N. and Mishra, B. and Absil, P.-A. and Sepulchre, R.},
+    journal = {Journal of Machine Learning Research},
+    title   = {{M}anopt, a {M}atlab Toolbox for Optimization on Manifolds},
+    year    = {2014},
+    number  = {42},
+    pages   = {1455--1459},
+    volume  = {15},
+    url     = {https://www.manopt.org}
+}
+```
+
+Researchers develop new solvers and geometries all the time. It is important for them that their work be credited properly.
+Please cite the relevant papers for the solvers and geometries you are using, as they may have been contributed by different authors.
+See the comments at the beginning of the m-files for instructions.
+Likewise, please cite the PyManopt and Manopt.jl papers if you use the Python or Julia versions.
+Thank you.
+
+Manopt won the [ORBEL Wolsey Award 2014](https://www.orbel.be/activities-wolsey.php) for best operational research software developed as part of a PhD thesis.
+
+![The RANSO group organized a [one-day workshop on Riemannian and nonsmooth optimization](https://sites.uclouvain.be/absil/RANSO-2015-09-25/) in Louvain-la-Neuve on Sept. 25, 2015.
+Most people involved with Manopt at the time were present for this delightful day.](images/ranso_2015.jpg)
+
+
+
+## Authorship and contributors
+
+The original design, code and documentation of the toolbox is due to [Nicolas Boumal](https://www.nicolasboumal.net).
+The design of the toolbox was imagined with [Pierre Borckmans](https://www.linkedin.com/in/pierre-borckmans-424a372/), who also contributed the PSO solver.
+The main developers are Nicolas and [Bamdev Mishra](https://bamdevmishra.in).
+The RANSO group ([Pierre-Antoine Absil](https://perso.uclouvain.be/pa.absil/), [Yurii Nesterov](https://www.core.ucl.ac.be/%7Enesterov/) and [Rodolphe Sepulchre](https://www.montefiore.ulg.ac.be/%7Esepulch/)) provided helpful support and guidance at the onset.
+
+The [GenRTR](https://www.math.fsu.edu/%7Ecbaker/GenRTR/) code by [Chris Baker](https://www.cgbaker.net/), Pierre-Antoine Absil and [Kyle Gallivan](https://www.math.fsu.edu/%7Egallivan/) was modified to become the [`trustregions`](https://github.com/NicolasBoumal/manopt/blob/master/manopt/solvers/trustregions/trustregions.m "Riemannian trust regions") solver.
+The latter is arguably the most important solver in the toolbox so far, hence Chris and his colleagues merit special credit.
+We thank them for releasing their excellent software under an open source license, which allowed us to build upon it.
+
+[Bart Vandereycken](https://www.unige.ch/math/vandereycken/) helped a lot in revising the geometry file [`fixedrankembeddedfactory`](https://github.com/NicolasBoumal/manopt/blob/master/manopt/manifolds/fixedrank/fixedrankembeddedfactory.m), as per [his paper](https://epubs.siam.org/doi/abs/10.1137/110845768).
+[Eitan Levin](https://scholar.google.com/citations?user=UraAgrEAAAAJ) added some numerical tweaks to the retraction that make it more robust close to "the brink" (matrices of lower rank), though also a bit slower to compute.
+
+[Hiroyuki Sato](https://sites.google.com/site/hiroyukisatoeng/) contributed the complex version of the Stiefel manifold, [`stiefelcomplexfactory`](https://github.com/NicolasBoumal/manopt/blob/master/manopt/manifolds/stiefel/stiefelcomplexfactory.m) as well as the complex Grassmann manifold, [`grassmanncomplexfactory`](https://github.com/NicolasBoumal/manopt/blob/master/manopt/manifolds/grassmann/grassmanncomplexfactory.m).
+These geometries are partly exposed in [his paper](https://ieeexplore.ieee.org/xpls/abs_all.jsp?arnumber=7040305).
+
+[Roberto Tron](https://fling.seas.upenn.edu/%7Etron/cgi-bin/) contributed code for Riemannian geometries of [the essential manifold](https://github.com/NicolasBoumal/manopt/tree/master/manopt/manifolds/essential), an important manifold in computer vision to handle relative camera information.
+He describes this geometry in [his paper](https://www.cv-foundation.org/openaccess/content_cvpr_2014/papers/Tron_On_the_Quotient_2014_CVPR_paper.pdf) with Kostas Daniilidis.
+
+[Sarod Yatawatta](https://scholar.google.com/citations?user=bT5B64wAAAAJ) contributed a factory for complex, Hermitian positive semidefinite matrices of fixed rank, [`symfixedrankYYcomplexfactory`](https://github.com/NicolasBoumal/manopt/blob/master/manopt/manifolds/symfixedrank/symfixedrankYYcomplexfactory.m). This geometry appears in [a paper](https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=6638382).
+
+[Hiroyuki Kasai](https://www.researchgate.net/profile/Hiroyuki_Kasai), together with Bamdev, contributed [`fixedrankfactory_tucker_preconditioned`](https://github.com/NicolasBoumal/manopt/blob/master/manopt/manifolds/fixedranktensors/fixedrankfactory_tucker_preconditioned.m), a geometry for tensors in Tucker format with fixed multilinear rank. This and the accompanying example is based on [their paper](https://arxiv.org/abs/1506.02159).
+Both, together with [Hiroyuki Sato](https://sites.google.com/site/hiroyukisatoeng/), also contributed the [`stochasticgradient`](https://github.com/NicolasBoumal/manopt/blob/master/manopt/solvers/stochasticgradient/stochasticgradient.m) solver.
+
+[Changshuo Liu](https://www.linkedin.com/in/changshuo-liu-9b233095/) contributed the Riemannian limited-memory BFGS solver, [`rlbfgs`](https://github.com/NicolasBoumal/manopt/blob/master/manopt/solvers/bfgs/rlbfgs.m).
+
+[Margherita Porcelli](https://scholar.google.it/citations?user=enI-AFAAAAAJ&hl=en) and [Bruno Iannazzo](https://poisson.phc.unipi.it/%7Emaxreen/bruno/) contributed the Barzilai-Borwein solver, [`barzilaiborwein`](https://github.com/NicolasBoumal/manopt/blob/master/manopt/solvers/barzilaiborwein/barzilaiborwein.m).
+
+[Jesus Briales](https://scholar.google.es/citations?user=CIunvHMAAAAJ&hl=en) contributed valuable improvements to the code via pull requests on GitHub.
+
+[Ahmed Douik](https://scholar.google.com/citations?user=_i7hPbgAAAAJ&hl=en) contributed factories for doubly stochastic matrices, symmetric ([`multinomialsymmetricfactory`](https://github.com/NicolasBoumal/manopt/blob/master/manopt/manifolds/multinomial/multinomialsymmetricfactory.m)) and non-symmetric ([`multinomialdoublystochasticfactory`](https://github.com/NicolasBoumal/manopt/blob/master/manopt/manifolds/multinomial/multinomialdoublystochasticgeneralfactory.m)), as well as an example ([`doubly_stochastic_denoising`](https://github.com/NicolasBoumal/manopt/blob/master/examples/doubly_stochastic_denoising.m)) and documentation for these.
+
+[Naman Agarwal](https://scholar.google.com/citations?user=sEMrGicAAAAJ&hl=en), [Brian Bullins](https://www.cs.princeton.edu/%7Ebbullins/) and [Coralia Cartis](https://www.maths.ox.ac.uk/people/coralia.cartis), together with Nicolas, contributed an implementation for the new solver [`arc`](https://github.com/NicolasBoumal/manopt/blob/master/manopt/solvers/arc/arc.m) (adaptive regularization with cubics), and [Bryan Zhu](https://www.linkedin.com/in/bryanzhu/) contributed the nonlinear CG-based [subproblem solver](https://github.com/NicolasBoumal/manopt/blob/master/manopt/solvers/arc/arc_conjugate_gradient.m).
+
+[Gennadij Heidel](https://www.genealogy.math.ndsu.nodak.edu/id.php?id=248082) contributed a factory for tensors of fixed multilinear rank in Tucker format: [`fixedranktensorembeddedfactory`](https://github.com/NicolasBoumal/manopt/blob/master/manopt/manifolds/fixedranktensors/fixedranktensorembeddedfactory.m).
+
+[Estelle Massart](https://scholar.google.be/citations?user=F_xNQ7IAAAAJ) contributed code to [`symfixedrankYYfactory`](https://github.com/NicolasBoumal/manopt/blob/master/manopt/manifolds/symfixedrank/symfixedrankYYfactory.m).
+
+[Ronny Bergmann](https://ronnybergmann.net/) contributed code to [`multinomialfactory`](https://github.com/NicolasBoumal/manopt/blob/master/manopt/manifolds/multinomial/multinomialfactory.m).
+
+[Michael Psenka](https://www.michaelpsenka.io/) contributed the code for optimization over tensors with fixed tensor-train rank, accessible through [`fixedTTrankfactory`](https://github.com/NicolasBoumal/manopt/tree/master/manopt/manifolds/ttfixedrank), together with an [example script](https://github.com/NicolasBoumal/manopt/blob/master/examples/low_rank_tensor_completion_TT.m).
+This geometry heavily relies on [TTeMPS](https://www.epfl.ch/labs/anchp/index-html/software/ttemps/) for all core functionalities except second-order optimization (specifically, M.ehess2rhess).
+TTeMPS is code distributed by [Michael Steinlechner](https://scholar.google.com/citations?user=N_15-1MAAAAJ&hl=nl), [Daniel Kressner](https://www.epfl.ch/labs/anchp/) and [Bart Vandereycken](https://www.unige.ch/math/vandereycken/).
+We thank them for releasing their excellent software under an open source license, which allowed us to build upon it.
+It is packaged in Manopt with small modifications.
+
+[Quentin Rebjock](https://people.epfl.ch/quentin.rebjock?lang=en) contributed [`poincareballfactory`](https://github.com/NicolasBoumal/manopt/blob/master/manopt/manifolds/hyperbolic/poincareballfactory.m) and more.
+
+[Xiaowen Jiang](https://github.com/Xiaowen-Jiang) worked in the group of Nicolas during the summer of 2021 to add support for [automatic differentiation](https://github.com/NicolasBoumal/manopt/tree/master/manopt/autodiff), based on [Matlab's Deep Learning Toolbox](https://www.mathworks.com/products/deep-learning.html).
+This fantastic feature aligns well with Manopt's overarching goal: to lower the entrance barrier for people who would like to give Riemannian optimization a try.
+It is available via `manoptAD`.
+Thanks a lot, Xiaowen!
+
+[Niklas Koep](https://scholar.google.com/citations?user=CpQ1YvMAAAAJ&hl=en) (sinxoverx), [Nick Vannieuwenhoven](https://scholar.google.com/citations?user=oVFJK2MAAAAJ&hl=en) (Storey-Liu for CG), [Spencer Kraisler](https://mathoverflow.net/users/141449/spencer-kraisler) (Rodrigues formula, Lie identity), [sfrcorne](https://github.com/sfrcorne) (rlbfgs invariant to positive scaling) brought welcome improvements after discussions on the github repo page.
+
+[Victor Liao](https://victorliao.com/) worked on Manopt in the group of Nicolas during the summer of 2022 and contributed: a long-awaited refactoring of the trustregions solver to allow for various subproblem solvers, a rewrite of the truncated CG (tCG) subproblem solver to improve performance by recycling computations after a step rejection, a new global subproblem solver based on code by [Yuji Nakatsukasa](https://scholar.google.com/citations?user=Ao3aPU0AAAAJ&hl=en), a constant step-size line-search helper for gradient methods, and various improvements (e.g., to `tangentorthobasis`).
+
+Below are some third-party open-source codes that are or were used at some point:
+
+*   The `multitransp` / `multiprod` pair is code by [Paolo de Leva](http://www.mathworks.com/matlabcentral/fileexchange/8773-multiple-matrix-multiplications-with-array-expansion-enabled) (no longer used: `multiprod` now calls [pagemtimes](https://ch.mathworks.com/help/matlab/ref/pagemtimes.html));
+*   `multitrace` is a wrapper around `diagsum`, which is code by [Wynton Moore](http://www.mathworks.com/matlabcentral/fileexchange/10062-multi-dimensional-matrix-product-outer-product-and-partial-trace) ;
+*   The `hashmd5` tool is a stripped version of more general hashing code (no longer available) by Michael Kleder. It is no longer used.
+
+
+
+
+## How to contribute
+
+Please [send a pull request on github](https://github.com/NicolasBoumal/manopt/pulls) for all contributions, big and small.
+
+Manopt is meant to ease the sharing of geometries and solvers.
+If you developed a Riemannian geometry, a solver or some other tool for optimization on manifolds and would like it to be featured in Manopt, 
+
+You should include:
+
+* An implementation of your manifold / solver / tool in the Manopt format.
+* An example script to illustrate its features.
+* Ample in-code documentation.
+
+We will gladly help: discussions can take place along your PR on github or prior to that on the [forum](forum.qmd).
+
+The documentation page as well as the code will, of course, visibly reflect the authors of the contribution as well as relevant publications.
+
+Contributors agree to the terms of the [Contributor License Agreement](CLA.txt).
+This agreement protects you as a contributor by making it clear that you retain your right to use your own contributions for any other purpose (you retain the copyrights).
+This agreement protects us as maintainers by authorizing us to distribute the toolbox under a unified license.
+
+
+## License
+
+Manopt, a Matlab toolbox for optimization on manifolds, is copyright by Nicolas Boumal and is distributed under the terms of the [GNU General Public License (GPL) version 3 (or later)](https://www.gnu.org/licenses/gpl.html). Contributed and third-party code is copyrighted by their respective authors, but is distributed under a unified license for the whole Manopt toolbox.
+
+In short, this means that everyone is free to use Manopt, to modify it and to redistribute it on a free basis. Manopt is not in the public domain; it is copyrighted and there are restrictions on its distribution (see the license and the related [frequently asked questions](https://www.gnu.org/copyleft/gpl-faq.html)). For example, you cannot integrate this version of Manopt (in full or in parts) in any closed-source software you plan to distribute (commercially or not). Please contact us for more information.
+
+The documentation of Manopt (this website) is copyright by Nicolas Boumal, all rights reserved.
+
+
+## Related software
+
+Manopt exists in three versions (which differ significantly):
+
+*   Manopt itself usually refers to the Matlab version (this website).
+*   [PyManopt](https://www.pymanopt.org/) is a Python version led by Jamie Townsend, Niklas Koep and Sebastian Weichwald.
+*   [Manopt.jl](https://www.manoptjl.org/) is a Julia version led by Ronny Bergmann.
+
+  
+You may also be interested in the following:
+
+*   [GenRTR](http://www.math.fsu.edu/%7Ecbaker/GenRTR/) is the Generic Riemannian Trust-Region package for Matlab (it is included in modified form in Manopt).
+*   [ROPTLIB](http://www.math.fsu.edu/%7Ewhuang2/ROPTLIB.htm) is a Riemannian optimization package in C++ (with mex interface to Matlab), by Wen Huang and Kyle Gallivan ; Ankit Rathore started a [Python version](http://sourceforge.net/projects/rieoptpack/).
+*   [ManifoldOptim](http://dx.doi.org/10.18637/jss.v093.i01) is an R interface to ROPTLIB.
+*   [Geomstats](https://github.com/geomstats) is a Python toolbox with lots of differential geometric tools.
+*   [McTorch](https://github.com/mctorch/mctorch) is a Python library for optimization on manifolds dedicated to deep learning, built on PyTorch.
+*   [Rieoptax](https://github.com/SaitejaUtpala/rieoptax) is library for Riemannian Optimization in JAX.
+*   [Geoopt](https://github.com/geoopt/geoopt) is also a Python library bringing Riemannian optimization tools to PyTorch.
+*   [GOPT](http://suvrit.de/work/soft/gopt.html) is designed for optimization over positive definite matrices.
+*   [CDOpt](https://cdopt.github.io/) is a Python toolbox for optimization on Riemannian manifolds with supports for deep learning.
+*   [SGMIN](http://www.cs.ucdavis.edu/%7Ebai/ET/other_methods/overview_SGMIN.html) performs Stiefel-Grassmann optimization.
+*   [QGOpt](https://github.com/LuchnikovI/QGOpt) extends TensorFlow to Riemannian manifolds that often arise in quantum mechanics.
+*   [GrassmannOptim](http://www.math.umbc.edu/%7Ekofi/GrassmannOptim/) is an R-package for optimization on the Grassmann manifold.
+*   [Optman](http://optman.blogs.rice.edu/) hosts a collection of algorithms for optimization with orthogonality constraints.
+*   [Traian Abrudan](http://signal.hut.fi/%7Etabrudan/unitary_optimization/index.html) has code for optimization under unitary matrix constraints.
+*   [LORM](http://homepage.univie.ac.at/manuel.graef/quadrature.php) is a C++ toolbox for global optimization of polynomials on the sphere and the special orthogonal group.
+*   [Optim.jl](https://julianlsolvers.github.io/Optim.jl/stable/#algo/manifolds/) in Julia now supports certain embedded manifolds, though it appears that this is not technically Riemannian optimization.
+*   [Manifolds.jl](https://github.com/JuliaManifolds/Manifolds.jl) is a Julia toolbox to work with manifolds: Manopt.jl is tightly connected to that project.
+
+
+Should we list your code? Let us know!
+
+
+## About the website
+
+This website is statically generated with [Quarto](https://quarto.org/) and uses [MathJax](https://www.mathjax.org/) to display math.

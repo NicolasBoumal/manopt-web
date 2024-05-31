@@ -1,0 +1,6 @@
+/* css styles */
+
+/* Hide the "salute" images in the TOC */
+nav#TOC > ul li img {
+    visibility: hidden;
+}

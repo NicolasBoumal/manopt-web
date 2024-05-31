@@ -1,0 +1,66 @@
+---
+title: "Manopt"
+subtitle: "Tool­boxes for opti­mization on manifolds and linear spaces"
+page-layout: full
+sidebar: false
+toc: false
+title-block-banner: true
+include-after-body:
+  # Make the main title bigger (but should really fine a better overall style for the landing page)
+  text: |
+    <style>
+      div.quarto-title .title { font-size: 4em; }
+      div.quarto-title .subtitle { font-size: 2em; }
+    </style>
+---
+
+::: {.grid}
+
+:::::: {.g-col-4}
+![](images/manopt_medium_transparent.png){width=60% fig-align="center"}
+::::::
+
+:::::: {.g-col-8}
+Optimization on manifolds is a versatile framework for continuous optimization.
+
+It encompasses optimization over vectors and matrices,
+
+and adds the possibility to optimize over curved spaces to handle constraints and symmetries such as orthonormality, low rank, positivity and invariance under group actions.
+
+Manopt makes it easy.
+
+[Download](download.qmd){.btn .btn-primary}
+[<i class="bi bi-github"></i> GitHub](https://github.com/NicolasBoumal/manopt){.btn .btn-secondary}
+[Mailing list](https://docs.google.com/forms/d/1U9Ntex_rWI8NfCLPP_b8uE5xDnKXgXG-HVvpHdq1PFo/viewform?usp=send_form){.btn .btn-info}
+<br>
+<br>
+
+::::::
+
+:::
+
+
+::: {.grid}
+
+:::::: {.g-col-4}
+### Matlab ![](images/matlab_logo_small.png){width=25}
+
+This website is the home of the Matlab version of Manopt.
+Install from [downloads](downloads.qmd) or from our [GitHub repository](https://github.com/NicolasBoumal/manopt), then run a [first example](firstexample.qmd).
+::::::
+
+:::::: {.g-col-4}
+### Python ![](images/python_logo_small.png){width=25}
+
+The [PyManopt website](https://www.pymanopt.org/) houses the Python version of Manopt and its documentation.
+Also check out the [GitHub repository](https://github.com/pymanopt/pymanopt).
+::::::
+
+:::::: {.g-col-4}
+### Julia ![](images/julia_logo_small.png){width=25}
+
+The [Manopt.jl website](https://www.manoptjl.org/) hosts the Julia version of Manopt and its documentation.
+The [GitHub repository](https://github.com/JuliaManifolds/) has both Manopt.jl and Manifolds.jl.
+::::::
+
+:::

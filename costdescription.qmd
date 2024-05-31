@@ -1,0 +1,496 @@
+---
+title: "Describing the cost function"
+subtitle: "And its derivatives (gradient, Hessian)"
+toc: true
+toc-depth: 3
+toc-expand: 2
+sidebar: tutorial
+aliases: # https://quarto.org/docs/websites/website-navigation.html#redirects
+  - tutorial.html#costdescription
+---
+
+
+## General philosophy ![](images/icon_salute.gif)
+
+An optimization problem in Manopt is represented as a `problem` structure.
+The latter must include a field `problem.M` which contains a structure describing a manifold, as obtained from [a factory](manifolds.qmd).
+On top of this, the problem structure must include some fields that describe the cost function $f$ to be minimized and, possibly, its derivatives.
+This is done with function handles.
+
+The solvers do _not_ query these function handles directly.
+Instead, they call core (internal) tools such as `getCost`, `getGradient`, `getHessian`, etc.
+These tools consider the available fields in the problem structure and "do their best" to return the requested object.
+
+As a result, we gain great flexibility in the cost function description.
+Indeed, as the needs grow during the life-cycle of the toolbox and new ways of describing the cost function become necessary, it suffices to update the core `get*` tools to take these new ways into account.
+This has made it much easier over time to incorporate (and improve) caching.
+Also, if a solver requests an object that is not available, then Manopt can automatically fall back to an approximation. <!-- (e.g., finite differences for Hessians).-->
+
+
+:::{.callout-note}
+## Try to provide the gradient
+If you do not provide the gradient and a solver queries it, then Manopt falls back to finite differences of the cost function to approximate the Riemannian gradient.
+This requires building an orthonormal basis for the tangent space (that's expensive) and then querying the cost function value along each basis vector (that's $\dim \mathcal{M}$ calls).
+Solvers will still run, but this feature is included only for convenience when prototyping.
+:::
+
+:::{.callout-note}
+## It's fine to omit the Hessian
+If you do not provide the Hessian and a solver queries it, then Manopt falls back to finite differences of the gradient to approximate the Hessian.
+This is typically good enough, and often has a computational cost similar to evaluating the true Hessian.
+You can control this further with [`approxhessianFD`](https://github.com/NicolasBoumal/manopt/blob/master/manopt/solvers/hessianapproximations/approxhessianFD.m).
+:::
+
+:::{.callout-note}
+## Check your derivatives
+Regardless of how you implement the gradient, make sure to check that it is correct by running `checkgradient(problem)` at least once.
+Likewise, check the Hessian with `checkhessian(problem)`.
+See the [tools](tools.qmd) page for more.
+:::
+
+
+## One example, five ways
+
+Similarly to the [first example](firstexample.qmd), consider minimizing
+$$
+  f(x) = \frac{1}{2} x^\top A x
+$$
+for $x$ on the unit sphere in $\mathbb{R}^n$, where $A$ is a symmetric matrix.
+The base code could look something like this:
+
+```matlab
+n = 1000;
+A = randsym(n);
+problem.M = spherefactory(n);
+
+% ... define the cost: see below
+
+x = trustregions(problem);
+```
+
+The cost function can be specified by adding fields to the `problem` structure.
+Let us go through a few different ways to do that.
+
+### The common way: via Euclidean extension
+
+If we think of $f$ as a function on $\mathbb{R}^n$ (ignoring the restriction to the sphere), then the gradient and Hessian of $f$ are easily derived:
+$$
+\begin{align}
+  \nabla f(x) = Ax, && \nabla^2 f(x)[u] = Au.
+\end{align}
+$$
+We think of this approach as "extending" the function from the sphere to the embedding space, which is the Euclidean space $\mathbb{R}^n$.
+You can tell Manopt what the gradient and Hessian for that Euclidean extension are using the fields `egrad` and `ehess`, as follows (mind the `e` for Euclidean or embedding):
+
+```matlab
+problem.cost = @(x) .5*x'*A*x;
+problem.egrad = @(x) A*x;
+problem.ehess = @(x, u) A*u; % optional
+```
+
+Manopt takes care of converting these to the Riemannian gradient and Hessian of $f$ on the sphere, using `problem.M.egrad2rgrad` and `problem.M.ehess2rhess`: this is automatic.
+
+A few comments:
+
+* It is fine to omit `ehess`, but try not to omit `egrad` (see earlier comments).
+* The computation `A*x` is redundant between `cost` and `egrad`: more on this later.
+* The input to `egrad` is a point $x$. The output is a vector in the _embedding space_, corresponding to $\nabla f(x)$.
+* The inputs to `ehess` are a point $x$ and a _tangent vector_ $u$ at $x$. The output is a vector in the _embedding space_, corresponding to $\nabla^2 f(x)[u]$. <!--Make sure to use the corresponding numerical representations.-->
+
+Mind the distinction between tangent vectors and vectors in the embedding space.
+For many manifolds, these are numerically represented in the same way, so the distinction does not matter (e.g., for `spherefactory` and `stiefelfactory`).
+However, some manifolds use different numerical representations (e.g., `rotationsfactory`).
+For those, you may want to call `M.tangent2ambient(x, u)` to obtain the embedding space equivalent of `u`.
+Read the `help` section of your manifold factory to make sure.
+
+### Coding the Riemannian derivatives manually
+
+There are instances where it is more natural or more efficient to describe the Riemannian derivatives directly (as opposed to the Euclidean extension approach), though this is not common.
+
+One example where this is preferred is when computing an [intrinsic mean](https://github.com/NicolasBoumal/manopt/blob/master/examples/positive_definite_intrinsic_mean.m).
+There, the cost function involves the squared Riemannian distance, whose Riemannian gradient is the logarithmic map.
+
+In our running example, the sphere is a _Riemannian submanifold_ of $\mathbb{R}^n$.
+Therefore,
+
+* The Riemannian gradient is the orthogonal projection of $\nabla f(x)$ to the tangent space at $x$ (see Proposition 3.61 in [this book](https://www.nicolasboumal.net/book)). The projector is available in `problem.M.proj`: $$\grad f(x) = \Proj_x(\nabla f(x)).$$
+* The Riemannian Hessian at $x$ along $u$ is the projection of the derivative of the _Riemannian_ gradient at $x$ along $u$ (see Corollary 5.16 in [the same book](https://www.nicolasboumal.net/book)): $$\Hess f(x)[u] = \Proj_x(\D\grad f(x)[u]).$$
+
+For the unit sphere, $\Proj_x(u) = u - (x^\top u)x$.
+It is then an exercise to work out the expressions above.
+
+<!--
+so $\grad f(x) = Ax - (x^\top Ax)x$ and $\D\grad f(x)[u] = Au - (x^\top Ax)u - (\textrm{some number}) x$.
+-->
+
+You can specify the Riemannian gradient and Hessian using the fields `grad` and `hess` (no `e`), as follows:
+
+```matlab
+problem.cost = @(x) .5*x'*A*x;
+problem.grad = @(x) problem.M.proj(x, A*x);
+problem.hess = @(x, u) problem.M.proj(x, A*u - (x'*A*x)*u); % optional
+```
+
+Some comments:
+ 
+* Again, it is fine to omit `hess`, but try not to omit `grad` (see earlier comments).
+* The input to `grad` is a point $x$. The output is a _tangent vector_ at $x$, corresponding to $\grad f(x)$.
+* The inputs to `hess` are a point $x$ and a _tangent vector_ $u$ at $x$. The output is a _tangent vector_ at $x$, corresponding to $\Hess f(x)[u]$.
+
+
+### Using automatic differentiation
+
+Automatic differentiation (AD) is a means to obtain gradients and Hessians automatically, without the need to derive and implement formulas for them.
+This is usually slower than (good) hand-written code, but it can drastically reduce coding time, making it great (at least) for prototyping.
+
+Manopt 7.0 added support for AD by building on Matlab's [Deep Learning Toolbox](https://ch.mathworks.com/products/deep-learning.html).
+To use it, simply define the cost and call `manoptAD`:
+
+```matlab
+problem.cost = @(x) .5*x'*A*x;
+problem = manoptAD(problem);
+```
+
+If it works, then the problem structure now includes access to the gradient and Hessian.
+If it does not work, check the following:
+
+* Do you have the Deep Learning Toolbox? Type `help dlarray`.
+* Is your Matlab version 2019 or later? Type `version`.
+* Is your Manopt version 7.0 or later? Type `manopt_version`.
+* Was there an error message? AD does not work for all functions. Check out:
+  * The list of [dlarray supported functions](https://ch.mathworks.com/help/deeplearning/ug/list-of-functions-with-dlarray-support.html), and
+  * The docs for AD in Manopt, specifically: `help manoptAD` and `help manoptADhelp`.
+* Keep in mind that `dlarray` support also depends on your versions of Matlab and the DL toolbox (e.g., support for AD with complex numbers was added in Matlab R2021b).
+* If a function you need is not supported (e.g., `diag`), see `help manoptADhelp` for a possible replacement (e.g., `cdiag`), or try to replace it with a direct implementation (e.g., `A(1:size(A,1)+1:end).'`).
+
+[Xiaowen Jiang](https://scholar.google.com/citations?user=g_MNvxwAAAAJ&hl=en) implemented `manoptAD` (and the system behind it) during an internship in 2021.
+
+
+### Fewer redundant computations with `costgrad`
+
+Computing the gradient at $x$ often requires going through some of the computations that are also necessary to compute $f(x).$
+In our example, both $f(x) = \frac{1}{2}x^\top Ax$ and $\grad f(x) = Ax - (x^\top Ax)x$ require computing $Ax$.
+
+Since solvers tend to query both $f$ and its gradient at the same point $x$, it is beneficial to offer solvers the option to query both at the same time.
+You can do so with the field `costgrad`, as follows:
+
+```matlab
+problem.costgrad = @(x) mycostgrad(A, x);
+function [f, g] = mycostgrad(A, x)
+    Ax = A*x; % this product is computed only once
+    f = .5*x'*Ax;
+    if nargout == 2 % compute gradient only if requested
+        g = Ax - 2*f*x;
+    end
+end
+```
+
+The input of `costgrad` is a point $x$.
+The outputs are the cost and (if requested) the _Riemannian_ gradient at $x$.
+If you prefer to define the _Euclidean_ gradient (as we often do) but still want to avoid redundant computations, read on.
+
+We might also want to provide the Riemannian Hessian with
+
+```matlab
+problem.hess = @(x, u) problem.M.proj(x, A*u - (x'*A*x)*u); % optional
+```
+
+However, now we see that the product `A*x` could also be reused there.
+The next section provides a more sophisticated approach which gives users full control over which computations to cache for reuse.
+
+
+### Using the `store` caching system
+
+<!--As discussed above, it is often the case that computing $f(x)$ produces intermediate results (such as the product $Ax$) that can be reused in order to compute other quantities such as the gradient and Hessian at $x$.-->
+Computing anything at a point $x$ (e.g., $f(x)$) may produce intermediate results that could be reused for other computations at $x$ (e.g., the gradient).
+<!--Furthermore, it may happen that a solver calls cost-related functions more than once at the same point $x$. For those cases, -->
+It may be beneficial to cache (that is, to store) some of those intermediate calculations.
+
+For that purpose, within the run of a solver, Manopt manages a database of `store` structures, with a class called [StoreDB](https://github.com/NicolasBoumal/manopt/blob/master/manopt/core/StoreDB.m).
+For each visited point $x$, a `store` structure is created in that database.
+StoreDB labels the points visited on the manifold with a `key` (an integer).
+This `key` uniquely identifies $x$: that is how the toolbox links $x$ with its associated `store`.
+<!--With it, we can read and write to the `store` for $x$.-->
+Only the stores pertaining to the most recently used points are kept in memory. <!--  (see the `options.storedepth` [option](solvers.qmd)). -->
+
+Whenever a solver calls, say, the `cost` function at some point $x$, the toolbox searches for a `store` structure associated to that $x$ in the database (using its `key`).
+If there is one and if `problem.cost` (for example) admits `store` as an input and as an output, the `store` is passed to the `cost` function.
+The `cost` function then performs its duty and gets to modify the `store` structure at will.
+
+The next time a function is called at the _same_ point $x$ (say, `problem.egrad`), the _same_ `store` structure is passed along, possibly modified, and stored again.
+
+As soon as the solver goes on to explore a _new_ point $x'$, a _different_ `store` structure is created and maintained in the same way.
+If the solver later decides to return to the previous $x$, we get access to that earlier `store` again (unless it was purged from memory).
+
+For our running example, the code below shows how we can use the caching system to implement the cost, gradient and Hessian without redundant computations.
+The principle is this:
+
+* Write a function `prepare` which computes all the things you want to cache at a given point.
+* Have `cost`, `egrad`, `ehess` etc. call `prepare` before they proceed with their own computations.
+
+The code is given in two versions (use the tabs to switch):
+
+* One version nests the functions `prepare`, `cost`, `egrad` and `ehess` within a top function (with a common scope).
+* One version allows for those functions to be defined in independent scopes.
+
+You may prefer one or the other depending on your use case.
+
+::: {.panel-tabset}
+
+## As a function with nested functions
+
+```matlab
+function x = rayleighmin(A)
+
+    problem.M = spherefactory(size(A, 1));
+
+    problem.cost = @cost;
+    problem.egrad = @egrad;
+    problem.ehess = @ehess; % optional
+
+    x = trustregions(problem);
+
+    % The functions below are nested:
+    % they can see the matrix A from the top scope.
+
+    function store = prepare(x, store)
+        if ~isfield(store, 'Ax')
+            store.Ax = A*x;
+        end
+    end
+    function [f, store] = cost(x, store)
+        store = prepare(x, store);
+        Ax = store.Ax;
+        f = .5*x'*Ax;
+    end
+    function [g, store] = egrad(x, store)
+        store = prepare(x, store);
+        Ax = store.Ax;
+        g = Ax;
+    end
+    function [h, store] = ehess(x, u, store)
+        % In general we would call prepare()
+        % here too, but for this example the
+        % Hessian is so simple that we don't
+        % need to.
+        % store = prepare(x, store);
+        h = A*u;
+    end
+
+end
+```
+
+## As a script with function handles
+
+```matlab
+clear; clc; clf;
+
+n = 1000;
+A = randsym(n);
+problem.M = spherefactory(n);
+
+problem.cost = @(x, store) cost(A, x, store);
+problem.egrad = @(x, store) egrad(A, x, store);
+problem.ehess = @(x, u, store) ehess(A, x, u, store); % optional
+
+x = trustregions(problem);
+
+% The functions below appear at the end of the script
+% (they could also be defined in separate files).
+% They do not see A, so they need to receive it as an input.
+% The function handles above are created in a part of the
+% script that can see A.
+
+function store = prepare(A, x, store)
+    if ~isfield(store, 'Ax')
+        store.Ax = A*x;
+    end
+end
+function [f, store] = cost(A, x, store)
+    store = prepare(A, x, store);
+    Ax = store.Ax;
+    f = .5*x'*Ax;
+end
+function [g, store] = egrad(A, x, store)
+    store = prepare(A, x, store);
+    Ax = store.Ax;
+    g = Ax;
+end
+function [h, store] = ehess(A, x, u, store)
+    % In general we would call prepare()
+    % here too, but for this example the
+    % Hessian is so simple that we don't
+    % need to.
+    % store = prepare(A, x, store);
+    h = A*u;
+end
+```
+
+:::
+
+It is instructive to execute such code with [the profiler](https://blogs.mathworks.com/community/2010/02/01/speeding-up-your-program-through-profiling/) activated and to look at how many times each line of code is executed.
+You should find that the matrix-vector products $Ax$ (computed only in `prepare`) are executed exactly as often as they should be.
+You can use [Manopt counters](tools.qmd#counters-to-track-computations) to track these products and more.
+
+<!--As of Manopt 5.0, by default, the cost value $f(x)$ is cached at every visited point (for as long as the memory associated to that point is retained.) This means that calling `getCost(problem, x, storedb, key)` multiple times with the same inputs only actually calls the cost function the first time. In practice, this provides good speed-ups for line-search algorithms. Similarly, the gradient and Euclidean gradient are cached by default, which provides speed-ups for a number of solvers. This is made practical by the new store managment system that allows solvers to more quickly discard irrelevant stores, thus minimizing memory usage. THIS WAS MOVED TO A NOTE-->
+
+<!--As of Manopt 1.0.8,-->
+The store structure also includes a field `store.shared`.
+The contents of that field are shared among all points the solver visited so far.
+
+:::{.callout-note}
+## Cache reusable computations only
+Manopt automatically caches the value and the gradient of $f$ (both Euclidean and Riemannian) at each queried point $x$.
+There is no need to cache those manually.
+Rather, use the `store` to cache the most expensive (and reusable) intermediate computations.
+<!--
+As of Manopt 5.0, by default, the cost value $f(x)$ is cached at every visited point (for as long as the memory associated to that point is retained.) This means that calling `getCost(problem, x, storedb, key)` multiple times with the same inputs only actually calls the cost function the first time. In practice, this provides good speed-ups for line-search algorithms. Similarly, the gradient and Euclidean gradient are cached by default, which provides speed-ups for a number of solvers. This is made practical by the new store management system that allows solvers to more quickly discard irrelevant stores, thus minimizing memory usage.
+-->
+:::
+
+:::{.callout-note}
+## Caching and the Hessian
+Each `store` is associated to a point $x$.
+Thus, calls to `ehess(x, u, store)`and `ehess(x, v, store)` with the same `x` and two different tangent vectors `u`, `v` receive access to the same `store`.
+Therefore, only cache quantities that depend on `x`, not on `u`.
+:::
+
+<!--I removed this note because the `prepare` idiom makes this natural.-->
+<!--You should never assume that the gradient function, for example, will be called after the cost function (even though this is usually the case).
+Always check that the fields you use in the store structure are populated; and if they are not, call the appropriate functions to make up for it, as in the example above.-->
+
+:::{.callout-note}
+## Lifespan of the cache
+Solvers take care of deleting older information when it is no longer relevant.
+This should be good enough, but you can also cap the maximum number of `store` structures kept in memory with `options.storedepth`.
+:::
+
+:::{.callout-note}
+## Caching and `statsfun`
+The `store` structure is readable (but not writable) by [`options.statsfun`](solvers.qmd#statsfun-option-for-recording-info-at-each-iteration).
+The `store.shared` mechanism was originally used together with `statsfun` to keep track of function calls.
+As of Manopt 5.0, it is much better to use [Manopt counters](tools.qmd#counters-to-track-computations) for this purpose.
+:::
+
+
+## All the ways to describe the cost
+
+Manopt offers many ways to implement $f$, its gradient, its Hessian and more.
+This is done by adding function handles as fields in the `problem` structure.
+We list them all below.
+
+You can mix and match what you include.
+If you provide more than one way to compute, say, the gradient, then the toolbox may use any and all of them: it makes an educated guess of which may be most efficient in context.
+Still, it is good practice to avoid redundancies.
+
+<!--
+You may specify as many of the following fields as you wish in the `problem` structure.
+If you specify some function more than once (for example, if you define `diff` _and_ `grad`, both of which could be used to compute directional derivatives), the toolbox does not specify which is called (hence, it is better not to, or to be really sure about consistency).
+Probably, the toolbox would assume the code for `diff` is more efficient than the code for `grad` when only a directional derivative is needed, but there is no guarantee.
+Bottom line: they should be consistent.
+(Use Matlab's `profile` if you want to trace what is called when.)
+-->
+
+Each function can be provided with one of three different calling patterns, as indicated below.
+The first one is the simplest and is perfectly fine for prototyping.
+The other calling patterns give explicit access to Manopt's caching system, in two flavors:
+
+* The normal way, with the `store` structure of the point `x` as an input and (possibly after modifications) as an output.
+* The advanced way, with the `storedb` database and the `key` associated to `x`: see the note down below.
+
+
+| Field name (`problem."..."`)  | Description  |
+|-|---|
+| `cost` | $f = f(x)$ <br> `f = cost(x)` <br> `[f, store] = cost(x, store)` <br> `f = cost(x, storedb, key)` |
+| `grad` | $g = \grad f(x)$ <br> `g = grad(x)` <br> `[g, store] = grad(x, store)` <br> `g = grad(x, storedb, key)` |
+| `costgrad` | Computes both $f = f(x)$ and $g = \grad f(x)$. <br> `[f, g] = costgrad(x)` <br> `[f, g, store] = costgrad(x, store)` <br> `[f, g] = costgrad(x, storedb, key)` |
+| `egrad` | For submanifolds of a Euclidean space and for quotient spaces with a total space embedded in a Euclidean space, computes $eg = \nabla f(x)$: the gradient of $f$ "as if" it were defined in that Euclidean space. This is passed to `M.egrad2rgrad`and is automatically cached for use with `ehess`. <br> `eg = egrad(x)` <br> `[eg, store] = egrad(x, store)` <br> `eg = egrad(x, storedb, key)` |
+| `partialgrad` | Assume the cost function `problem.cost` is a sum of many terms, as $f(x) = \sum_{i=1}^{d} f_i(x)$ where $d$ is specified as `problem.ncostterms = d`. For a subset $I$ of $1\ldots d$, `partialgrad(x, I)` computes the Riemannian gradient of the partial cost function $f_I(x) = \sum_{i \in I} f_i(x)$. <br> `pg = partialgrad(x, I)` <br> `[pg, store] = partialgrad(x, I, store)` <br> `pg = partialgrad(x, I, storedb, key)` |
+| `partialegrad` | Same as `partialgrad` but computes the Euclidean partial gradient. This is automatically transformed into a Riemannian partial gradient by Manopt. <br> `peg = partialegrad(x, I)` <br> `[peg, store] = partialegrad(x, I, store)` <br> `peg = partialegrad(x, I, storedb, key)` |
+| `approxgrad` | Approximation for the gradient of the cost at $x$. Solvers asking for the gradient when one is not provided automatically fall back to this approximation. If it is not provided either, a standard finite-difference approximation of the gradient based on the cost is built-in. This is slow because it involves generating an orthonormal basis of the tangent space at $x$ and computing a finite difference of the cost along each basis vector. This is useful almost exclusively for prototyping. Because of the limited accuracy, it may be necessary to increase `options.tolgradnorm` when using this feature. See [/solvers/gradientapproximations](https://github.com/NicolasBoumal/manopt/tree/master/manopt/solvers/gradientapproximations). <br> `g = approxgrad(x)` <br> `[g, store] = approxgrad(x, store)` <br> `g = approxgrad(x, storedb, key)` |
+| `subgrad` | Returns a Riemannian subgradient of the cost function at $x$, with a tolerance `tol` which is a nonnegative real number. If you wish to return the minimal norm subgradient (which may help solvers), see `smallestinconvexhull` on the [tools](tools.qmd) page. <br> `g = subgrad(x, tol)` <br> `[g, store] = subgrad(x, tol, store)` <br> `g = subgrad(x, tol, storedb, key)` |
+| `diff` | $d = \D f(x)[u]$ defines directional derivatives. If the gradient exists, it can be computed from this too (slowly.) <br> `d = diff(x, u)` <br> `[d, store] = diff(x, u, store)` <br> `d = diff(x, u, storedb, key)` |
+| `hess` | $h = \Hess f(x)[u]$, where $u$ represents a tangent vector. <br> `h = hess(x, u)` <br> `[h, store] = hess(x, u, store)` <br> `h = hess(x, u, storedb, key)` |
+| `ehess` | For the same settings as with `egrad`, this computes $eh = \nabla^2 f(x)[u]$: the Hessian of $f$ along $u$ "as if" it were defined in the embedding Euclidean space. This is passed to `M.ehess2rhess` and thus requires the Euclidean gradient to be accessible too (`egrad`). Input $u$ is a representation of the tangent vector. You may want to call `M.tangent2ambient(x, u)` to obtain the ambient space equivalent of $u$. The output `eh` should be a vector in the ambient space. <br> `eh = ehess(x, u)` <br> `[eh, store] = ehess(x, u, store)` <br> `eh = ehess(x, u, storedb, key)` |
+| `approxhess` | This can be any mapping from the tangent space at $x$ to itself. Often, one would like for it to be a linear, symmetric operator. Solvers asking for the Hessian when one is not provided automatically fall back to this approximate Hessian. If it is not provided either, a standard finite-difference approximation of the Hessian based on the gradient is built-in. See [/solvers/hessianapproximations](https://github.com/NicolasBoumal/manopt/tree/master/manopt/solvers/hessianapproximations). <br> `h = approxhess(x, u)` <br> `[h, store] = approxhess(x, u, store)` <br> `h = approxhess(x, u, storedb, key)` |
+| `precon` | $v = \operatorname{Prec}(x)[u]$, where $\operatorname{Prec}(x)$ is a preconditioner for the Hessian $\Hess f(x)$, that is, $\operatorname{Prec}(x)$ is a symmetric, positive-definite linear operator (w.r.t. the Riemannian metric) on the tangent space at $x$. Ideally, it is cheap to compute and such that solving a linear system in $$\operatorname{Prec}^{1/2}(x) \circ \Hess f(x) \circ \operatorname{Prec}^{1/2}(x)$$ is easier than without the preconditioner, i.e., it should approximate the inverse of the Hessian. See [/solvers/preconditioners](https://github.com/NicolasBoumal/manopt/tree/master/manopt/solvers/preconditioners). <br> `v = precon(x, u)` <br> `[v, store] = precon(x, u, store)` <br> `v = precon(x, u, storedb, key)` |
+| `sqrtprecon` | $v = \operatorname{Prec}^{1/2}(x)[u]$, where $\operatorname{Prec}^{1/2}(x)$ is an (operator) square root of a preconditioner for the Hessian $\Hess f(x)$, that is, $\operatorname{Prec}^{1/2}(x)$ is a symmetric, positive-definite linear operator (w.r.t. the Riemannian metric) on the tangent space at $x$, and applying it twice should amount to applying $\operatorname{Prec}(x)$ once. Solvers typically use `precon` rather than `sqrtprecon`, but some tools (such as `hessianspectrum`) can use `sqrtprecon` to speed up computations. <br> `v = sqrtprecon(x, u)` <br> `[v, store] = sqrtprecon(x, u, store)` <br> `v = sqrtprecon(x, u, storedb, key)` |
+| `linesearch` | Given a point $x$ and a tangent vector $u$ at $x$, assume $u$ is a descent direction. This means there exists $t > 0$ such that $\phi(t) < \phi(0)$ with $$\phi(t) = f(\Retr_x(td)).$$ Line-search algorithms, which are used by some solvers such as `steepestdescent` and `conjugategradient` are designed to (approximately) minimize $\phi$ at each iteration. There are built-in, generic ways of doing this. If you have additional structure in your problem that enables you to take a good guess at what $t$ should be, then you can specify it here, in this function handle. This (very much optional) function should return a positive $t > 0$ such that $t$ is a good guess of where to look for a minimizer of $\phi$. The line-search algorithm (if it decides to use this information) starts by looking at the step $td$, and decides to accept it or not based on its internal rules. See the `linesearch` option on the [solvers](solvers.qmd) page for details on available line-search algorithms and how to pick one. See [`low_rank_matrix_completion`](https://github.com/NicolasBoumal/manopt/blob/master/examples/low_rank_matrix_completion.m) for an example from the literature. <br> `t = linesearch(x, u)` <br> `[t, store] = linesearch(x, u, store)` <br> `t = linesearch(x, u, storedb, key)` | 
+
+: Table of all the ways one can describe the cost function in Manopt, including its derivatives, approximations, preconditioners and a line-search hint. {.striped}
+
+:::{.callout-note}
+## StoreDB and `key`, for solver developers and advanced users
+When given access to `storedb` and a `key` associated to $x$ rather than to a specific store, the store of $x$ can be obtained as `store = storedb.getStore(key)`.
+Put the modified `store` back into the database with `storedb.set(store, key)`.
+
+Access the shared memory directly as `storedb.shared`, _not_ via `store.shared`.
+This is important: `store` might have a `store.shared` field, but when `storedb` and `key` are explicitly used, `store.shared` will not be populated or read on get/set.
+
+Each point $x$ should be associated to a `key`, which is obtained by calling `storedb.getNewKey()`.
+From time to time, call `storedb.purge()` to reduce memory usage.
+Even better, as soon as you know that the `store` associated to a certain point is no longer useful, call `storedb.remove(key)` or `storedb.removefirstifdifferent(key1, key2)`.
+
+StoreDB is a [handle class](https://ch.mathworks.com/help/matlab/matlab_oop/comparing-handle-and-value-classes.html): its instances are passed by reference.
+This means that when a `storedb` object is passed as input to a function, and that function modifies the `storedb` object, the calling function sees the changes too (without the need to explicitly return the `storedb` object).
+Thus, each `storedb` object exists only once in memory.
+This makes for cleaner calling patterns and avoids unnecessary copies.
+This is not the case for the `store` structures though, which are passed by copy and thus must be returned if the changes are to be permanent.
+:::
+
+
+
+<!-- TODO: remove this whole section?
+## Generic Hessian approximations and preconditioners
+
+_This is from the old documentation._
+
+If the Hessian is complicated or costly to compute, it may be advantageous to resort to an approximation for it.
+Likewise, if the Hessian is poorly conditioned, it may be advantageous to provide a preconditioner for it (a cheap, approximate and positive definite inverse of the Hessian).
+Manopt allows for the definition of generic Hessian approximations and generic preconditioners.
+Check out these folders if you are interested:
+
+*   [/solvers/hessianapproximations](https://github.com/NicolasBoumal/manopt/tree/master/manopt/solvers/hessianapproximations).
+*   [/solvers/preconditioners](https://github.com/NicolasBoumal/manopt/tree/master/manopt/solvers/preconditioners).
+
+In any case, the `trustregions` solver by default works with a finite-difference approximation of the Hessian based on the gradient which has proven effective and robust over the years.
+See [this paper](https://link.springer.com/chapter/10.1007/978-3-319-25040-3_50#) for a proof of global convergence with this approximation.
+This finite difference approximation is also covered by the analysis in [that paper](https://academic.oup.com/imajna/advance-article/doi/10.1093/imanum/drx080/4836777).
+-->
+
+
+## Accessing the cost, gradient and Hessian
+
+Given a `problem` structure with a manifold `problem.M` and some description of the cost function $f$, Manopt provides access to $f$ and its derivatives with the tools `getCost`, `getGradient` and `getHessian`.
+Here is an example:
+
+```matlab
+A = randsym(10);
+problem.M = spherefactory(10);
+problem.cost = @(x) .5*x'*A*x;
+problem = manoptAD(problem);
+
+% For illustration, pick a random point on M
+x = problem.M.rand();
+% Compute f(x)
+f = getCost(problem, x);
+% Compute grad f(x) (Riemannian)
+g = getGradient(problem, x);
+% The Riemannian norm of the gradient is:
+problem.M.norm(x, g)
+
+% Pick a random tangent vector at x
+u = problem.M.randvec(x);
+% Compute Hess f(x)[u] (Riemannian)
+Hu = getHessian(problem, x, u);
+% The Hessian quadratic form <u, Hess f(x)[u]>_x is:
+problem.M.inner(x, u, Hu)
+```
+
+There are more functions of this type: see the [core tools](core.qmd) page.
+
+All of these tools also accept calls with `store` and `(storedb, key)` (from the caching system described above).
+This is mostly useful inside the code for a solver.
+
+To compute the eigenvalues of the Hessian, check out the tools `hessianspectrum`, `hessianextreme` and `hessianmatrix` on the [tools](tools.qmd) page.
+

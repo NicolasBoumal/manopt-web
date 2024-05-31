@@ -1,0 +1,493 @@
+---
+title: "Helpful tools"
+toc: true
+toc-depth: 3
+toc-expand: 2
+sidebar: tutorial
+aliases: # https://quarto.org/docs/websites/website-navigation.html#redirects
+  - tutorial.html#tools
+---
+
+Manopt offers a suite of tools to help with studying a problem's landscape, detecting bugs, speeding up computations, handling geometric objects, keeping track of computational efforts, etc.
+These are located in the folder [/manopt/tools](https://github.com/NicolasBoumal/manopt/tree/master/manopt/tools), and documented below.
+
+
+## Checks for the cost function
+
+The cost function $f$ and its derivatives satisfy certain relationships.
+By checking these numerically, we can detect possible coding errors.
+Manopt provides tools to this effect:
+
+* `checkdiff(problem)` checks directional derivatives (`problem.diff` etc.)
+* `checkgradient(problem)` checks the Riemannian gradient (`problem.egrad`, `problem.grad`, `problem.costgrad` etc.)
+* `checkhessian(problem)` checks the Riemannian Hessian (`problem.ehess`, `problem.hess` etc.)
+
+The theory underlying these checks is explained in Sections 4.8 and 6.8 of [this book](https://www.nicolasboumal.net/book).
+
+### Gradient check
+
+Pick a point $x$ on the manifold and a tangent vector $u$ at $x$.
+From a truncated Taylor expansion, we know that the following holds with any retraction $\Retr$:
+$$
+  E(t) = \Big| f(\Retr_x(tu)) - \big[ f(x) + t\cdot\D f(x)[u] \big] \Big| = \mathcal{O}(t^2).
+$$
+Hence, in a log-log plot with $\log(t)$ on the abscissa, the error should behave as $\log(t^2) = 2\log(t)$.
+That is, we should observe a slope of 2.
+Calling `checkdiff(problem, x, u)` produces such a plot and reports the slope of it in a text output.
+Numerical errors prevent the curve to have a slope of 2 everywhere even if directional derivatives are correct, so you should really inspect the plot visually.
+If `x` and `u` are omitted, they are picked at random.
+
+The Riemannian gradient is the (only) tangent vector field that satisfies
+$$
+  \inner{\grad f(x)}{u}_x = \D f(x)[u]
+$$
+for all $x, u$.
+Calling `checkgradient(problem, x, u)` computes $\grad f(x)$ then does two things:
+
+1. It runs `checkdiff(problem, x, u)` with $\D f(x)[u]$ replaced by $\inner{\grad f(x)}{u}_x$ in the expression for $E(t)$: this outputs the slope plot and text.
+2. It checks that the gradient is indeed a tangent vector, by reporting (as text) the norm of the difference between the gradient `gradfx` and the output of `problem.M.tangent(x, gradfx)`. This should be zero.
+
+If `x` and `u` are omitted, they are picked at random.
+
+### Hessian check
+
+Going back to $E(t)$ and including the next term in the Taylor expansion, we know that
+$$
+  E(t) = \left| f(\Retr_x(tu)) - \left[ f(x) + t\cdot\D f(x)[u] + \frac{t^2}{2} \cdot \inner{u}{\Hess f(x)[u]}_x \right] \right| = \mathcal{O}(t^3)
+$$
+as long as one (or both) of the two conditions holds:
+
+1. The retraction $\Retr$ is second order (see remarks below), or
+2. The point $x$ is a critical point: $\grad f(x) = 0$.
+
+Hence, in a log-log plot with $\log(t)$ on the abscissa, the error should behave as $\log(t^3) = 3\log(t)$, i.e., we should observe a slope of 3.
+This tool produces such a plot and tries to compute the slope of it.
+Again, numerical errors prevent the curve to have a slope of 3 everywhere even if the derivatives are correct, so you should inspect the plot visually.
+
+The tool also verifies that the Hessian indeed returns a tangent vector, in the same way that we checked above that the gradient is a tangent vector.
+This produces a text output.
+
+The Hessian is a linear, symmetric operator from the tangent space at $x$ to itself.
+The tool generates two random scalars $a_1, a_2$ and two random tangent vectors $u_1$ and $u_2$ at $x$ to test linearity:
+$$
+  \Big\| a_1 \cdot \Hess f(x)[u_1] + a_2 \cdot \Hess f(x)[u_2] - \Hess f(x)[a_1 u_1 + a_2 u_2] \Big\|_x = 0.
+$$
+The quantity on the left-hand side is reported in text output, and should be zero up to machine precision.
+
+To verify symmetry, the tool further computes the difference
+$$
+  \inner{\Hess f(x)[u_1]}{u_2}_x - \inner{u_1}{\Hess f(x)[u_2]}_x,
+$$
+which should also be zero.
+
+If `x` and `u` are omitted, they are picked at random.
+
+A couple of remarks:
+
+* It is important to check _both_ the slope test and the symmetry test. That is because $\inner{u}{\Hess f(x)[u]}_x$ only "sees" the symmetric part of $\Hess f(x)$. If the code for the Hessian has a skew-symmetric part, then the Hessian is wrong, yet the slope test could succeed.
+* The tool `checkhessian` tries to use the exponential map `M.exp` by default (since this is a second-order retraction). If that is not available, the default retraction is used. It may be second order: read the `help` section of your manifold factory to confirm this. If it is not, then the slope test is inconclusive.
+
+
+
+## Checks for manifolds
+
+* `checkretraction(M, x, v)` <br>
+  For manifolds `M` which have a correct exponential map `M.exp` implemented, this tool produces a slopt-test plot to check the order of agreement of the retraction `M.retr` with the exponential.
+  A slope of 2 indicates the retraction is a first-order approximation of the exponential (which is necessary for most (all?) convergence theorems to hold.)
+  A slope of 3 indicates the retraction is second-order, which is convenient in some cases.
+  The check is conducted at point `x` along direction `v`; they are generated at random if omitted.
+
+* `checkmanifold(M)` <br>
+  Runs a collection of tests on a manifold structure produced by a factory.
+  The purpose of this tool is ease the process of creating factories for new manifolds.
+  Contributions are welcome to extend it.
+
+
+## Eigenvalues and eigenvectors of the Hessian
+
+Given a function $f \colon \calM \to \reals$ and a point $x \in \calM$, we may want to investigate the spectrum of $\Hess f(x)$, that is, the Riemannian Hessian at $x$.
+With a `problem` structure to describe $f$, and `x` to identify the point $x$, we can do so in several ways using the tools
+
+* `hessianmatrix` (then `eig`)
+* `hessianspectrum` (internally via `eigs`)
+* `hessianextreme` (via optimization)
+
+### Via matrix representation
+
+The first way is to obtain a representation of the Hessian as a matrix, then to compute the eigenvalues of that matrix.
+The one-line vesion goes as follows:
+```matlab
+eig(hessianmatrix(problem, x)) % eigenvalues of Hess f(x)
+```
+More explicitly: $\Hess f(x)$ is a symmetric linear map on the tangent space $\T_x\calM$.
+If $b_1, \ldots, b_k \in \T_x\calM$ form an orthonormal basis for the tangent space, then the symmetric matrix $H \in \reals^{k \times k}$ with
+$$H_{ij} = \inner{b_i}{\Hess f(x)[b_j]}_x$$
+represents the Hessian in those coordinates, in the sense that if $v = a_1 b_1 + \cdots + a_k b_k$, then $\Hess f(x)[v] = c_1 b_1 + \cdots + c_k b_k$ where $c = Ha$.
+In particular, the eigenvalues of $H$ are the same as the eigenvalues of $\Hess f(x)$ because $b_1, \ldots, b_k$ are orthonormal.
+
+If `hessianmatrix` is called without providing an orthonormal basis, then a basis is generated at random via `tangentorthobasis`.
+You can recover that basis too, as follows:
+```matlab
+[H, basis] = hessianmatrix(problem, x);
+```
+Then, `basis` is a cell such that `basis{1}, basis{2}, ...` form an orthonormal basis $b_1, b_2, \ldots$ for $\T_x\calM$.
+This makes it possible to access the eigenvectors of $\Hess f(x)$ too, like so:
+```matlab
+[H, basis] = hessianmatrix(problem, x);
+[V, D] = eig(H);
+v = lincomb(problem.M, x, basis, V(:, 1)); % eigenvector for eigenvalue D(1, 1)
+```
+That code:
+
+1. generates an orthonormal basis for $\T_x\calM$ and computes the matrix $H$ which represents $\Hess f(x)$ in that basis with `hessianmatrix`,
+2. determines the eigenvalues and eigenvectors of $H$ with `eig`, then
+3. expands the first such eigenvector as a linear combination of the basis vectors with `lincomb`.
+
+The result is a tangent vector $v$ at $x$ which is an eigenvector of $\Hess f(x)$.
+You can check this by comparing `v` with `getHessian(problem, x, v)`.
+
+If you already have an orthonormal basis, you can use that one by calling
+```matlab
+H = hessianmatrix(problem, x, basis);
+```
+If `basis` is an orthonormal basis for a _subspace_ of the tangent space, then `H` is a matrix that represents the restriction of the Hessian to that subspace.
+
+:::{.callout-note}
+## The matrix-way does not scale well
+Generating the orthonormal basis takes time.
+So does applying the Hessian to each basis vector.
+This is a convenient tool for prototyping and exploration, but expect performance to degrade as dimension increases.
+:::
+
+
+### In a matrix-free way
+
+In contrast to the `hessianmatrix` tool, the `hessianspectrum` tool provides access to the eigenvalues of the Hessian without building a basis for the tangent vector (and therefore also without constructing a matrix representation of the Hessian).
+It relies on Matlab's `eigs`.
+An additional advantage is that it also provides access to the spectrum of the preconditioned Hessian (if a preconditioner is included in the `problem` structure).
+
+To compute the eigenvalues of the Hessian $\Hess f(x)$ at $x$ with this tool, call
+```matlab
+hessianspectrum(problem, x) % eigenvalues of Hess f(x)
+```
+If a preconditioner $\mathrm{Prec}$ is specified in the problem structure and you call
+```matlab
+hessianspectrum(problem, x, 'precon') % eigenvalues of preconditioned Hess f(x)
+```
+then the eigenvalues of the preconditioned Hessian $\Hess f(x) \circ \mathrm{Prec}(x)$ are computed.
+
+This function relies on `problem.M.vec` and `problem.M.mat` to pass the computations down to Matlab's built-in `eigs` function.
+For the eigenvalue problem to remain symmetric in the column-vector representation domain, we need `M.vec` and `M.mat` to be orthonormal, i.e., isometries (see `matvecareisometries` in the [manifold section](manifolds.qmd)).
+If they are not isometries, computations may take longer.
+
+Indeed, let $G$ denote the `M.vec` operator and let $G^{-1}$ represent the `M.mat` operator (on the appropriate domains).
+Let $H$ and $P$ denotes the Hessian and preconditioner at $x$ (with $P$ being identity if there is none).
+Then, `eigs` computes the spectrum of $GHG^{-1}$ or $GHPG^{-1}$, which are identical to, respectively, the spectra of $H$ and $HP$.
+This is only symmetric if there is no preconditioner and $G^\top = G^{-1}$.
+
+If a preconditioner is used, the symmetry of the eigenvalue problem is lost: $H$ and $P$ are symmetric, but $HP$ is not.
+If `M.vec` and `M.mat` are isometries and the dimension of the manifold is large, it may be useful to restore symmetry by giving this tool a function handle for the _square root_ of the preconditioner, $P^{1/2}$ (optional).
+Then, `eigs` is given the problem of computing the spectrum of $GP^{1/2}HP^{1/2}G^\top$ (symmetric), which is equal to the spectrum of $HP$.
+Typically, the square root of the preconditioner is given via `problem.sqrtprecon` (see [cost description](costdescription.qmd)).
+
+This tool can be faster than `hessianmatrix`, but it still aims to compute all eigenvalues.
+If you only need to compute an eigenvector for the largest or smallest eigenvalue, try `hessianextreme` as follows:
+```matlab
+[u_min, lambda_min] = hessianextreme(problem, x, 'min');
+[u_max, lambda_max] = hessianextreme(problem, x, 'max');
+```
+These run a Manopt solver on the Rayleigh quotient over the unit sphere in the tangent space $\T_x\calM$, aiming to compute (respectively) a minimizer and a maximizer.
+As such, this tool is not guaranteed to succeed, but it always provides an upperbound on the smallest eigenvalue and a lowerbound on the largest eigenvalue of $\Hess f(x)$.
+Call `help hessianextreme` for more options.
+
+Comments:
+
+* At this time, `hessianspectrum` outputs the eigenvalues only.
+  It does not provide access to the eigenvectors, though it could be modified to that effect.
+  It could also be modified to call `eigs` in a way that targets only extreme eigenvalues.
+* Both `hessianspectrum` and `hessianextreme` accept `(storedb, key)` as optional inputs, to use the caching system.
+
+
+
+## Finding critical points
+
+When studying the landscape of an optimization problem, we may want to find critical points of $f$, that is, points where the Riemannian gradient is zero.
+If `problem` is the structure that describes your manifold $\calM$ and cost function $f$ (with derivatives), call
+```matlab
+cp_problem = criticalpointfinder(problem);
+```
+to create a new problem structure.
+This one is on the same manifold $\calM$, but with the cost function
+$$
+  g(x) = \frac{1}{2} \| \grad f(x) \|^2_x.
+$$
+The gradient of $g$ is computed via $\grad g(x) = \Hess f(x)[\grad f(x)]$.
+An approximate Hessian can also be generated.
+
+Evidently, the minimizers of $g$ are the critical points of $f$.
+Thus, running a solver such as `x = trustregions(cp_problem)` could find a critical point of $f$.
+This is not guaranteed to work because $g$ may have non-global local minima.
+Accordingly, it is best to run the solver many times from various random initial guesses, and to check the gradient norm.
+For example:
+
+```matlab
+% first define the problem structure, then:
+cp_problem = criticalpointfinder(problem);
+nrepeats = 100;
+points = cell(nrepeats, 1);
+gradfnorms = inf(nrepeats, 1);
+cp_options.tolgradnorm = 1e-10;
+for rep = 1 : nrepeats
+    x = trustregions(cp_problem, [], cp_options); % random init
+    points{rep} = x;
+    gradfnorms(rep) = problem.M.norm(x, getGradient(problem, x));
+end
+% Now check which points have a satisfactorily small gradient norm.
+```
+
+
+## Plotting the cost function
+
+* `plotprofile(problem, x, d, t)` <br>
+  Plots the cost function along a geodesic or a retraction path starting at $x$, along direction $d$.
+  All inputs are optional except `problem`.
+  See `help plotprofile` for more information.
+
+* `surfprofile(problem, x, d1, d2, t1, t2)` <br>
+  Plots the cost function, lifted and restricted to a 2-dimensional subspace of the tangent space at $x$.
+  All inputs are optional except `problem`.
+  See `help surfprofile` for more information.
+
+
+## Matrix computations
+
+Manopt includes tools to facilitate certain matrix computations as listed in the first table below.
+They provide help to:
+
+* differentiate matrix functions,
+* solve matrix equations, and
+* compute factorizations.
+
+| Call | Description |
+|-|---|
+| `dfunm`, `dlogm`, `dexpm`, `dsqrtm` | Fréchet derivatives of the (built-in) matrix functions, and their particularization to `logm`, `expm` and `sqrtm`. For example, the call `[A, B] = dexpm(X, Xdot)` outputs both $A = \D\mathrm{exp}(X)[\dot X]$ and $B = \mathrm{exp}(X)$. |
+| `lyapunov_symmetric` | Tool to solve the Lyapunov matrix equation $AX + XA = C$ when $A = A^*$ (real symmetric or Hermitian). Can solve for more than one right-hand side at a time. |
+| `lyapunov_symmetric_eig` | Same as `lyapunov_symmetric` but the user supplies the eigenvalue decomposition of $A$ instead of $A$. This is more efficient if several systems with the same $A$ need to be solved, but the various right-hand sides are not all known at the same time. |
+| `sylvester_nochecks` | Solves the Sylvester equation $AX + XB = C$, where $A$ is an m-by-m matrix, $B$ is an n-by-n matrix, and $X$ and $C$ are two m-by-n matrices. This is a stripped-down version of Matlab's own `sylvester` function that bypasses any input checks. This is significantly faster for small m and n, which is often useful in Manopt. |
+| `qr_unique` | Given $A$ with full columns rank, `Q = qr_unique(A)` computes $Q$ of the same size as $A$ such that $A = QR$, $Q$ has orthonormal columns and $R$ is upper triangular with positive diagonal entries. This fully specifies $Q$. (Matlab's `[Q, ~] = qr(A, 0)` does not enforce positive diagonal entries of $R$ by default, losing the uniqueness property). This Q-factor is exactly what one would compute through Gram--Schmidt orthonormalization of the columns of $A$, but it is computed differently. Works with 3D arrays (on each slice separately) and with both real and complex matrices. |
+
+: Tools for matrix computations that sometimes come up when using Manopt. {.striped}
+
+Moreover, it is often useful to apply the same operations to many matrices.
+For best performance, it is important to vectorize such computations (in order to exploit [SIMD](https://en.wikipedia.org/wiki/Single_instruction,_multiple_data) features of processors).
+The table below list tools Manopt provides to do just that:
+
+| Call | Description |
+|-|---|
+| `B = multiscale(scale, A)` | For a 3D matrix `A` of size nxmxN and a vector `scale` of length N, outputs `B`: a 3D matrix of the same size as `A` such that `B(:, :, k) = scale(k) * A(:, :, k)` for each `k`. |
+| `tr = multitrace(A)` | For a 3D matrix `A` of size nxnxN, outputs a column vector `tr` of length N such that `tr(k) = trace(A(:, :, k))` for each `k`. |
+| `sq = multisqnorm(A)` | For a 3D matrix `A` of size nxmxN, outputs a column vector `sq` of length N such that `sq(k) = norm(A(:, :, k), 'fro')^2` for each `k`. |
+| `B = multitransp(A)` | For a 3D matrix `A` of size nxmxN, outputs `B`, a 3D matrix of size mxnxN such that `B(:, :, k) = A(:, :, k).'` for each `k` (transpose). |
+| `B = multihconj(A)` | For a 3D matrix `A` of size nxmxN, outputs `B`, a 3D matrix of size mxnxN such that `B(:, :, k) = A(:, :, k)'` for each `k` (conjugate transpose). |
+| `C = multiprod(A, B)` | For 3D matrices `A` of size nxpxN and `B` of size pxmxN, outputs `C`, a 3D matrix of size nxmxN such that `C(:, :, k) = A(:, :, k) * B(:, :, k)` for each `k`. |
+| `B = multiskew(A)` | For a 3D matrix `A` of size nxnxN, outputs a 3D matrix `B` the same size as `A` such that each slice `B(:, :, i)` is the skew-symmetric part of the slice `A(:, :, i)`, that is, `(A(:, :, i)-A(:, :, i).')/2`. |
+| `B = multiskewh(A)` | For a 3D matrix `A` of size nxnxN, outputs a 3D matrix `B` the same size as `A` such that each slice `B(:, :, i)` is the Hermitian skew-symmetric part of the slice `A(:, :, i)`, that is, `(A(:, :, i)-A(:, :, i)')/2`. |
+| `B = multisym(A)` | For a 3D matrix `A` of size nxnxN, outputs a 3D matrix `B` the same size as `A` such that each slice `B(:, :, i)` is the symmetric part of the slice `A(:, :, i)`, that is, `(A(:, :, i)+A(:, :, i).')/2`. |
+| `B = multiherm(A)` | For a 3D matrix `A` of size nxnxN, outputs a 3D matrix `B` the same size as `A` such that each slice `B(:, :, i)` is the Hermitian part of the slice `A(:, :, i)`, that is, `(A(:, :, i)+A(:, :, i)')/2`. |
+
+: Tools to apply the same computations to many matrices without for-loop. This improves performance significantly. {.striped}
+
+
+## Counters (to track computations)
+
+Manopt counters provide a way to track all sorts of metrics, including function calls, time spent in specific parts of them, particular operations, etc.
+They are accessed via two tools:
+
+* `S = statscounters(names)` is used to register Manopt counters in `options.statsfun` via `statsfunhelper`.
+* `incrementcounter(store, countername, increment)` increments a counter in a `store` or `storedb`.
+
+A basic usage would go as follows.
+See the [cost description](costdescription.qmd) page, especially the section about caching, for more information about how `store` and `prepare` are used here.
+
+```matlab
+function foo()
+
+    n = 100;
+    A = randsym(n);
+
+    problem.M = spherefactory(size(A, 1));
+
+    problem.cost = @cost;
+    problem.egrad = @egrad;
+    problem.ehess = @ehess;
+
+    % List the names of counters we want the optimization algorithm to log.
+    % The fields in the structure stats are function handles: one for each
+    % counter. Before passing stats to statsfunhelper, we could add more
+    % fields to stats to log other things as well.
+    %
+    % Names of the counters (here, Aproducts and some_other_counter) are
+    % for us to choose: they only need to be valid structure field names.
+    % They need not have been defined in advance.
+    stats = statscounters({'Aproducts', 'some_other_counter'});
+    options.statsfun = statsfunhelper(stats);
+
+    [x, fx, info] = trustregions(problem, [], options);
+
+
+    semilogy([info.Aproducts], [info.gradnorm], '.-');
+    xlabel('Number of matrix-vector products with A');
+    ylabel('Riemannian gradient norm');
+
+    % Below, we have the code for the cost function and its derivatives.
+    % Everytime we use a matrix-vector product with A, we increment the
+    % counter.
+
+    function store = prepare(x, store)
+        if ~isfield(store, 'Ax')
+            store.Ax = A*x;
+            store = incrementcounter(store, 'Aproducts');
+        end
+    end
+    function [f, store] = cost(x, store)
+        store = prepare(x, store);
+        Ax = store.Ax;
+        f = .5*x'*Ax;
+    end
+    function [g, store] = egrad(x, store)
+        store = prepare(x, store);
+        g = store.Ax;
+    end
+    function [h, store] = ehess(x, u, store)
+        h = A*u;
+        store = incrementcounter(store, 'Aproducts');
+    end
+
+end
+``` 
+
+By default, `incrementcounter` increments by 1.
+You may also specify the increment as the last input (it can be any `double` value, not necessarily integer or positive).
+
+See the [full working example](https://github.com/NicolasBoumal/manopt/blob/master/examples/using_counters.m) in the [/examples](https://github.com/NicolasBoumal/manopt/blob/master/examples) folder to see how to:
+
+* register more than one counter,
+* use counters in a stopping criterion,
+* run several solvers on the same problem and compare the metrics tracked by counters.
+
+:::{.callout-note}
+Counter names (such as `'Aproducts'` in the example) must be valid names for structure fields.
+Essentially, this means they should be valid variable names (no spaces, do not start with a digit, etc.)
+:::
+
+
+## Working with tangent vectors
+
+The following tools ease certain tasks involving tangent spaces and tangent vectors.
+
+ * `vec = lincomb(M, x, vectors, coeffs)` <br>
+   Given a cell `vectors` of $n$ tangent vectors to the manifold `M` at `x` and a vector `coeffs` of $n$ real coefficients, outputs the linear combination of the given vectors with the given coefficients.
+   The empty linear combination is the zero vector at `x`.
+   
+ * `coeffs = tangent2vec(M, x, basis, u)` <br>
+   Given a tangent vector `u` at `x` and an _orthonormal_ basis `basis` for the corresponding tangent space, outputs the coordinates `coeffs` of `u` in that basis.
+   The inverse operation is `u = lincomb(M, x, basis, coeffs)`, see above.
+   
+ * `G = grammatrix(M, x, vectors)` <br>
+   Given $n$ tangent vectors $v_1, \ldots, v_n$ to the manifold `M` at point `x` in a cell `vectors`, outputs a symmetric, positive semidefinite matrix `G` of size $n\times n$ such that $G_{ij} = \inner{v_i}{v_j}_x$.
+   
+ * `[orthobasis, L] = orthogonalize(M, x, basis)` <br>
+   Given a cell `basis` which contains linearly independent tangent vectors to the manifold `M` at `x`, outputs an _orthonormal_ basis of the subspace spanned by the given basis.
+   `L` is an upper triangular matrix containing the coefficients of the linear combinations needed to transform `basis` into `orthobasis`.
+   This is essentially a QR factorization, via modified Gram--Schmidt.
+   
+ * `[orthobasis, L] = orthogonalizetwice(M, x, basis)` <br>
+   Same as `orthogonalize`, but calls it twice in sequence for (much) improved numerical stability (at twice the computational cost).
+   
+ * `obasis = tangentorthobasis(M, x, n)` <br>
+   Given a point `x` on the manifold `M`, generates `n` unit-norm, pairwise orthogonal vectors in the tangent space to `M` at `x`, in a cell.
+   See `help tangentorthobasis` for more advanced call patterns.
+   
+ * `[u_norm, coeffs, u] = smallestinconvexhull(M, x, U)` <br>
+   Computes `u`, a tangent vector to `M` at `x` contained in the convex hull spanned by the $n$ vectors in the cell `U`, with minimal norm (according to the Riemannian metric on `M`).
+   This is obtained by solving a convex quadratic program involving the Gram matrix of the given tangent vectors.
+   The quadratic program is solved using Matlab's built-in `quadprog`, which requires the Optimization Toolbox.
+   
+ * `[A, B1, B2] = operator2matrix(M1, x, y, F, B1, B2, M2)` <br>
+   Given manifold structures `M1` and `M2`, two points `x` and `y` on these manifolds, and a function `F` encoding a linear operator from the tangent space $\T_x \calM_1$ to the tangent space $\T_y \calM_2$, this tool uses two orthonormal bases `B1` and `B2` (one for $\T_x \calM_1$, and one for $\T_y \calM_2$; generated at random if omitted), and forms the matrix `A` which represents the operator `F` in those bases.
+   In particular, the singular values of `A` are equal to the singular values of `F`.
+   If `M2` is omitted, then `M2 = M1`.
+   See the code for more use cases.
+ 
+
+
+## Interactive stopping criteria
+
+An interactive stopping criterion allows the user to stop the execution of a Manopt solver in real time.
+When it is triggered, the solver gracefully terminates and outputs the best iterate it produced so far.
+Matlab then proceeds to keep running the code that follows the call to the solver, so that the work done until that point is not lost.
+
+One such tool open a special figure once the solver starts running.
+The solver terminates if the figure is closed.
+```matlab
+options.stopfun = @stopifclosedfigure; % add this option
+trustregions(problem, x0, options);    % run this or any other solver
+```
+
+Another such tool (better suited if you are running Matlab without graphical user interface, e.g., over SSH) creates a special file.
+The solver terminates if that file is deleted.
+```matlab
+options.stopfun = stopifdeletedfile(); % add this option
+trustregions(problem, x0, options);    % run this or any other solver
+```
+By default, the file is called `MANOPT_DELETE_ME_TO_STOP_SOLVER`.
+You may also specify another file name as optional input to `stopifdeletedfile`.
+
+Note that termination may not be immediate as the solver has to finish the current iteration first.
+In particular, certain solvers (including `trustregions`) check stopping criteria only at outer iterations, not during inner iterations, further increasing the delay.
+
+
+## Utilities for solvers
+
+* `statsfunhelper` <br>
+  Helper function to place a function handle in the field `options.statsfun`, with the purpose of recording or displaying information about individual iterations.
+  See [this page](solvers.qmd#statsfun-option-for-recording-info-at-each-iteration) for documentation.
+  Also consider using `statscounters` and `incrementcounter` as documented [on this page](#counters-to-track-computations).
+
+* `manoptsolve` <br>
+  This tool presents itself as a solver, with their usual calling pattern:
+  ```matlab
+  [x, cost, info, options] = manoptsolve(problem, x0, options);
+  ```
+  It is a gateway function to call an actual Manopt solver.
+  You may specify which one to call by setting `options.solver` to a function handle corresponding to [a solver](https://github.com/NicolasBoumal/manopt/tree/master/manopt/solvers).
+  For example,
+  ```matlab
+  options.solver = @trustregions;
+  ```
+  If not, a solver is picked automatically.
+  This is mainly useful when programming meta algorithms which need to solve a Manopt problem, but one wants to leave the decision of which solver to use up to the final user (therefore making it an option).
+
+
+## Creating manifolds
+
+ * `productmanifold` and `powermanifold` <br>
+   These tools generate a structure that represents a product of manifolds.
+   See [this page](manifolds.qmd#product-manifolds) for documentation.
+
+ * `N = tangentspacefactory(M, x)` <br>
+   Given a manifold structure `M` and a point `x` on that manifold, outputs a manifold structure `N` representing the tangent space to `M` at `x`.
+   This is used in [preconhessiansolve](https://github.com/NicolasBoumal/manopt/blob/master/manopt/solvers/preconditioners/preconhessiansolve.m).
+
+ * `N = tangentspherefactory(M, x)` <br>
+   Given a manifold structure `M` and a point `x` on that manifold, outputs a manifold structure `N` representing the unit sphere on the tangent space to `M` at `x`.
+   This is used by the [hessianextreme](https://github.com/NicolasBoumal/manopt/blob/master/manopt/tools/hessianextreme.m) tool.
+   
+
+## Miscellaneous
+
+* `y = sinxoverx(x)` <br>
+  Computes $y = \sin(x)/x$, with the convention $\sin(0)/0 = 1$.
+
+* `s = getsize(x)` <br>
+  Estimates the memory usage of the input variable.

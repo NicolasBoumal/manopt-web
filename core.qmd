@@ -1,0 +1,96 @@
+---
+title: "Core tools (internals)"
+subtitle: "Mostly for advanced users"
+toc: true
+toc-depth: 3
+toc-expand: 2
+sidebar: tutorial
+aliases: # https://quarto.org/docs/websites/website-navigation.html#redirects
+  - tutorial.html#core
+---
+
+This page lists [the core tools](https://github.com/NicolasBoumal/manopt/tree/master/manopt/core) of Manopt.
+They are mostly relevant for users who develop solvers and tools (but not only).
+
+
+## getXYZ
+
+In our discussion of how to implement cost functions, [we already noted](costdescription.qmd#accessing-the-cost-gradient-and-hessian) that it is best to use the tools `getCost`, `getGradient` and `getHessian` to evaluate $f$ and its derivatives, as opposed to calling `problem.cost` or `problem.grad` directly.
+The main reason for this is that users have many choices available for how to implement these objects.
+For example, `problem.cost` may not exist if the user opted to define `problem.costgrad` instead.
+
+The inputs `storedb` and `key` are usually optional.
+It is a good idea to pass them if they are available, as this allows for caching to be used.
+
+ * `cost = getCost(problem, x, storedb, key)` 
+ * `[cost, grad] = getCostGrad(problem, x, storedb, key)` 
+ * `grad = getGradient(problem, x, storedb, key)` 
+ * `agrad = getApproxGradient(problem, x, storedb, key)` 
+ * `pgrad = getPartialGradient(problem, x, I, storedb, key)` 
+ * `egrad = getEuclideanGradient(problem, x, storedb, key)` 
+ * `pgrad = getPartialEuclideanGradient(problem, x, I, storedb, key)` 
+ * `subgrad = getSubgradient(problem, x, tol, storedb, key)` 
+ * `diff = getDirectionalDerivative(problem, x, d, storedb, key)` 
+ * `hess = getHessian(problem, x, d, storedb, key)` 
+ * `hessfd = getHessianFD(problem, x, d, storedb, key)` 
+ * `approxhess = getApproxHessian(problem, x, d, storedb, key)` 
+ * `t = getLinesearch(problem, x, d, storedb, key)` 
+ * `Pd = getPrecon(problem, x, d, storedb, key)` 
+ * `sqrtPd = getSqrtPrecon(problem, x, d, storedb, key)`
+
+
+## canGetXYZ
+
+Functions called `canGetXYZ` output `true` if the problem structure provides sufficient information for Manopt to compute `XYZ` exactly.
+They output `false` otherwise.
+
+If `false` is returned, that does _not_ imply a call to `getXYZ` will fail.
+For example, if the problem structure specifies the gradient via `problem.grad` but it does not provide the Hessian, then there is not enough information to compute the exact Hessian.
+Accordingly, `canGetHessian(problem)` ouputs `false`.
+Yet, a call to `getHessian(problem, x, u)` does produce something; namely, a finite difference approximation of the Hessian for the provided inputs.
+
+Typically, solvers and tools call `canGetXYZ` functions to assess what can be done with the given problem structure.
+They issue appropriate warnings as needed, then often proceed to call the `getXYZ` functions anyway.
+The general philosophy is that Manopt tries to do its best to answer the question asked, with the caveat that it might be slow or inaccurate.
+If so, tools and solvers normally give a heads up to that effect.
+
+
+ * `candoit = canGetCost(problem)` 
+ * `candoit = canGetDirectionalDerivative(problem)` 
+ * `candoit = canGetGradient(problem)` 
+ * `candoit = canGetApproxGradient(problem)` 
+ * `candoit = canGetPartialGradient(problem)` 
+ * `candoit = canGetEuclideanGradient(problem)` 
+ * `candoit = canGetPartialEuclideanGradient(problem)` 
+ * `candoit = canGetSubgradient(problem)` 
+ * `candoit = canGetHessian(problem)` 
+ * `candoit = canGetApproxHessian(problem)` 
+ * `candoit = canGetPrecon(problem)` 
+ * `candoit = canGetSqrtPrecon(problem)` 
+ * `candoit = canGetLinesearch(problem)`
+
+
+## Helpers for solvers
+
+When developing solvers (optimization algorithms), it is usually necessary to call these tools:
+
+ * `opts = getGlobalDefaults()` 
+ * `opts = mergeOptions(opts1, opts2)`
+ * `stats = applyStatsfun(problem, x, storedb, key, options, stats)` 
+ * `[stop, reason] = stoppingcriterion(problem, x, options, info, last)` 
+ * `[newx, newkey, info, hooked] = applyHook(problem, x, storedb, key, options, info, last)` (less common)
+
+For an example, read through the code of an existing solver, e.g., [`steepestdescent`](https://github.com/NicolasBoumal/manopt/blob/master/manopt/solvers/steepestdescent/steepestdescent.m).
+
+
+## Caching system
+
+The caching system is described on [this page](costdescription.qmd#using-the-store-caching-system).
+Internally, it is handled with the `StoreDB` class whose code is [here](https://github.com/NicolasBoumal/manopt/blob/master/manopt/core/StoreDB.m).
+
+ * `storedb = StoreDB()`
+
+The class inherits from `handle_light`, whose code is [here](https://github.com/NicolasBoumal/manopt/blob/master/manopt/core/handle_light.m).
+The latter comes from [a StackOverflow post](https://stackoverflow.com/a/13050111/5989015) by user [sclarke81](https://stackoverflow.com/users/1326370/sclarke81).
+
+

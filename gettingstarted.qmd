@@ -1,0 +1,61 @@
+---
+title: "Getting started"
+toc: false
+sidebar: tutorial
+aliases:
+    - tutorial.html
+---
+
+## Manopt's purpose and design
+
+With Manopt, you can solve optimization problems on manifolds and on linear spaces (e.g., matrix spaces) using state-of-the-art algorithms, with minimal effort.
+The toolbox targets great flexibility in the problem description and comes with advanced features, such as caching and automatic differentiation.
+
+The toolbox architecture is based on a separation of the manifolds, the solvers and the problem descriptions.
+For basic use, one only needs to pick a manifold from the library, describe the cost function (and possible derivatives) and pass it on to a solver.
+Accompanying tools help the user in common tasks such as numerically checking the derivatives, plotting the cost function, computing eigenvalues of the Hessian etc.
+
+This is a prototyping toolbox, built on the premise that the costly part of solving an optimization problem is querying the cost function, and not the inner machinery of the solver.
+It is also work in progress: feedback and contributions are welcome!
+
+[Mailing list](https://docs.google.com/forms/d/1U9Ntex_rWI8NfCLPP_b8uE5xDnKXgXG-HVvpHdq1PFo/viewform?usp=send_form){.btn .btn-info}
+Consider registering as a user to hear about updates.
+
+
+## Download
+
+There are two ways to get Manopt:
+
+[Download](download.qmd){.btn .btn-primary}
+Download the latest packaged version (v7.1, Sep. 30, 2022).
+
+[<i class="bi bi-github"></i> GitHub](https://github.com/NicolasBoumal/manopt){.btn .btn-secondary}
+Clone the GitHub repository to use the latest updates as they roll out.
+
+
+## Install
+
+1.  Either clone or unzip the whole `manopt` directory you just downloaded in a location of your choice, say, in `/my/directory/`.
+2.  Go to `/my/directory/manopt/` at the Matlab prompt and execute `importmanopt`.
+3.  You will be asked whether you want to save this path for your next Matlab sessions. If you reply `Y` (yes) and you have the rights to run `savepath`, then you won't need to go through these steps next time you open Matlab.
+
+
+## Check
+
+Go to `/my/directory/manopt/checkinstall/` and run the script `basicexample.m`. If there are no errors, you are done! Otherwise, feel free to [report issues on the forum](forum.qmd).
+
+## Move on to the first example
+
+This tutorial provides detailed instructions from zero to the advanced features of Manopt.
+Check out [a first example](firstexample.qmd) to get a feel for how things work,
+then continue through the detailed documentation.
+
+## Dig into more advanced examples
+
+You may find it helpful to look through the [examples](https://github.com/NicolasBoumal/manopt/tree/master/examples) that ship with Manopt.
+
+<!-- TODO: list some of them here to help people pick a first one to check out, with direct links. -->
+
+## Learn more of the math
+
+See our pointers for helpful [learning resources](learning.qmd) including video lectures and books.

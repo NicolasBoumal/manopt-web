@@ -1,0 +1,302 @@
+---
+title: "Manifolds"
+subtitle: "Available geometries and how they are built"
+toc: true
+toc-depth: 3
+toc-expand: 2
+sidebar: tutorial
+aliases: # https://quarto.org/docs/websites/website-navigation.html#redirects
+  - tutorial.html#manifolds
+---
+
+## General description ![](images/icon_salute.gif)
+
+Manifolds in Manopt are represented as structures and are obtained by calling a factory.
+Such a structure contains a collection of functions that make it possible to interact with the manifold.
+
+<!--
+Picking a manifold corresponds to specifying a search space for the decision variables.
+For the special (but common) case of a submanifold, the manifold represents a constraint on the decision variables (such as the sphere, which constrains vectors to have unit norm).
+In the case of a quotient manifold, the manifold captures an invariance in the cost function (such as the Grassmann manifold).
+-->
+
+
+## Available manifolds
+
+Manopt comes with a number of implementations for generically useful manifolds.
+Built-in factories are located in [`/manopt/manifolds`](https://github.com/NicolasBoumal/manopt/tree/master/manopt/manifolds).
+
+Of course, manifolds can also be user-defined.
+The best way to build your own is probably to read the code of some of the standard factories and to adapt what needs to be changed.
+If you develop an interesting manifold factory and would like to share it, [let us know](forum.qmd).
+
+Bear in mind that a manifold can be turned into a Riemannian manifold in many different ways, by choosing one or another metric.
+Which metric is best for a specific application may vary: experiments will tell.
+
+### Linear and affine subspaces
+
+* Euclidean space (real and complex vectors, matrices, tensors, ...)
+  * $\mathbb{R}^{n}$ <br>
+    `euclideanfactory(n)`
+  * $\mathbb{R}^{m \times n}$ <br>
+    `euclideanfactory(m, n)`
+  * $\mathbb{C}^{n}$ <br>
+    `euclideancomplexfactory(n)`
+  * $\mathbb{C}^{m \times n}$ <br>
+    `euclideancomplexfactory(m, n)`
+* Symmetric matrices
+  * $\{ X \in \mathbb{R}^{n \times n} : X = X^\top\}^k$ <br>
+    `symmetricfactory(n, k)`
+* Skew-symmetric matrices
+  * $\{ X \in \mathbb{R}^{n \times n} : X + X^\top = 0\}^k$ <br>
+    `skewsymmetricfactory(n, k)`
+* Centered matrices
+  * $\{ X \in \mathbb{R}^{m \times n} : X\mathbf{1}_n = 0_m \}$ <br>
+    `centeredmatrixfactory(m, n)`
+* Sparse matrices with fixed sparsity pattern
+  * $\{ X \in \mathbb{R}^{m \times n} : X_{ij} = 0 \textrm{ if } A_{ij} = 0 \}$ <br>
+    `euclideansparsefactory(A)` (inefficient implementation)
+* Linear subspace of a linear space
+  * $\{ x \in E : x = \mathrm{proj}(x) \}$ where $E$ is a linear space (obtained from a factory) and $\mathrm{proj}$ is an orthogonal projector to the desired subspace. <br>
+    `euclideansubspacefactory(E, proj, dim)`
+
+
+### Spheres, unit norm and unit modulus
+
+* Sphere
+  * $\{x\in\mathbb{R}^{n} : \|x\|_2 = 1\}$ <br>
+    `spherefactory(n)` (unit 2-norm)
+  * $\{X\in\mathbb{R}^{n\times m} : \|X\|_\mathrm{F} = 1\}$ <br>
+    `spherefactory(n, m)` (unit Frobenius norm)
+  * $\{x\in\mathbb{C}^{n} : \|x\|_2 = 1\}$ <br>
+    `spherecomplexfactory(n)` (unit 2-norm)
+  * $\{X\in\mathbb{C}^{n\times m} : \|X\|_\mathrm{F} = 1\}$ <br>
+    `spherecomplexfactory(n, m)` (unit Frobenius norm)
+* Sphere of symmetric matrices
+  * $\{X\in\mathbb{R}^{n\times n} : \|X\|_\mathrm{F} = 1 \textrm{ and } X = X^\top\}$ <br>
+    `spheresymmetricfactory(n)`
+* Oblique manifold (product of spheres)
+  * $\{X\in\mathbb{R}^{n\times m} : \|X_{:1}\| = \cdots = \|X_{:m}\| = 1\}$ <br>
+    `obliquefactory(n, m)` ($m$ normed columns in $\mathbb{R}^n$)
+  * $\{X\in\mathbb{R}^{m\times n} : \|X_{1:}\| = \cdots = \|X_{m:}\| = 1\}$ <br>
+    `obliquefactory(n, m, true)` ($m$ normed rows in $\mathbb{R}^n$)
+  * $\{X\in\mathbb{C}^{n\times m} : \|X_{:1}\| = \cdots = \|X_{:m}\| = 1\}$ <br>
+    `obliquecomplexfactory(n, m)` ($m$ normed columns in $\mathbb{C}^n$)
+  * $\{X\in\mathbb{C}^{m\times n} : \|X_{1:}\| = \cdots = \|X_{m:}\| = 1\}$ <br>
+    `obliquecomplexfactory(n, m, true)` ($m$ normed rows in $\mathbb{C}^n$)
+* Complex circle, phases
+  * $\{z\in\mathbb{C}^n : |z_1| = \cdots = |z_n| = 1\}$ <br>
+    `complexcirclefactory(n)`
+* Phases of discrete Fourier transform (DFT) of a real vector
+  * $\{z\in\mathbb{C}^n : |z_k| = 1, z_{1+\operatorname{mod}(k, n)} = \bar{z}_{1+\operatorname{mod}(n-k, n)} \ \forall k\}$ <br>
+    `realphasefactory(n)`
+
+### Stiefel, Grassmann and orthonormality
+
+* Stiefel manifold
+  * $\{X \in \mathbb{R}^{n \times p} : X^\top X = I_p\}^k$ <br>
+    `stiefelfactory(n, p, k)`
+  * $\{X \in \mathbb{C}^{n \times p} : X^*X = I_p\}^k$ <br>
+    `stiefelcomplexfactory(n, p, k)`
+* Generalized Stiefel manifold
+  * $\{X \in \mathbb{R}^{n \times p} : X^\top BX = I_p\}$ for some $B \succ 0$ <br>
+    `stiefelgeneralizedfactory(n, p, B)`
+* Stiefel manifold, stacked
+  * $\{X \in \mathbb{R}^{md \times k} : (XX^\top)_{ii} = I_d\}$ <br>
+    `stiefelstackedfactory(m, d, k)`
+* Rotation group
+  * $\{R \in \mathbb{R}^{n \times n} : R^\top R = I_n, \det(R) = 1\}^k$ <br>
+    `rotationsfactory(n, k)`
+* Special Euclidean group (rigid motion)
+  * $\{ (R, t) \in \mathbb{R}^{n \times n} \times \mathbb{R}^n : R^\top R = I_n, \det(R) = 1 \}^k$ <br>
+    `specialeuclideanfactory(n, k)`
+* Unitary matrices
+  * $\{ U \in \mathbb{C}^{n \times n} : U^*U = I_n \}^k$ <br>
+    `unitaryfactory(n, k)`
+* Grassmann manifold
+  * $\{\operatorname{span}(X) : X \in \mathbb{R}^{n \times p}, X^\top X = I_p\}^k$ <br>
+    `grassmannfactory(n, p, k)`
+  * $\{\operatorname{span}(X) : X \in \mathbb{C}^{n \times p}, X^*X = I_p\}^k$ <br>
+    `grassmanncomplexfactory(n, p, k)`
+* Generalized Grassmann manifold
+  * $\{\operatorname{span}(X) : X \in \mathbb{R}^{n \times p}, X^\top BX = I_p\}$ for some $B \succ 0$ <br>
+    `grassmannfactory(n, p, B)`
+
+### Rank constraints
+
+* Fixed-rank matrices
+  * $\{X \in \mathbb{R}^{m \times n} : \operatorname{rank}(X) = k\}$ <br>
+    `fixedrankembeddedfactory(m, n, k)` <br>
+    `fixedrankfactory_2factors(m, n, k)` <br>
+    `fixedrankfactory_2factors_preconditioned(m, n, k)` <br>
+    `fixedrankfactory_2factors_subspace_projection(m, n, k)` <br>
+    `fixedrankfactory_3factors(m, n, k)` <br>
+    `fixedrankMNquotientfactory(m, n, k)`
+* Fixed-rank tensors, Tucker
+  * Tensors of fixed multilinear rank in Tucker format <br>
+    `fixedranktensorembeddedfactory` <br>
+    `fixedrankfactory_tucker_preconditioned`
+* Fixed-rank tensors, tensor train
+  * Tensors of fixed tensor train rank in TT format <br>
+    `fixedTTrankfactory`
+
+See more rank-constrained manifolds in the category _Positivity constraints_.
+
+### Positivity constraints
+
+* Matrices with strictly positive entries
+  * $\{ X \in \mathbb{R}^{m\times n} : X_{ij} > 0 \ \forall i, j\}$ <br>
+    `positivefactory(m, n)`
+* Symmetric, positive definite matrices
+  * $\{ X \in \mathbb{R}^{n\times n} : X = X^\top \textrm{ and } X \succ 0\}$ <br>
+    `sympositivedefinitefactory(n)`
+* Symmetric positive semidefinite, fixed-rank
+  * $\{X \in \mathbb{R}^{n \times n} : X = X^\top \succeq 0 \textrm{ and } \operatorname{rank}(X) = k\}$ <br>
+    `symfixedrankYYfactory(n, k)`
+  * $\{X \in \mathbb{C}^{n \times n} : X = X^* \succeq 0 \textrm{ and } \operatorname{rank}(X) = k\}$ <br>
+    `symfixedrankYYcomplexfactory(n, k)`
+* Symmetric positive semidefinite, fixed-rank with unit diagonal
+  * $\{X \in \mathbb{R}^{n \times n} : X = X^\top \succeq 0, \operatorname{rank}(X) = k, \operatorname{diag}(X) = 1\}$ <br>
+    `elliptopefactory(n, k)`
+* Symmetric positive semidefinite, fixed-rank with unit trace
+  * $\{X \in \mathbb{R}^{n \times n} : X = X^\top \succeq 0, \operatorname{rank}(X) = k, \operatorname{trace}(X) = 1\}$ <br>
+    `spectrahedronfactory(n, k)`
+* Multinomial manifold (strict simplex elements)
+  * $\{ X \in \mathbb{R}^{n\times m} : X_{ij} > 0 \ \forall i,j \textrm{ and } X^\top \mathbf{1}_m = \mathbf{1}_n \}$ <br>
+    `multinomialfactory(n, m)`
+* Multinomial doubly stochastic manifold
+  * $\{ X \in \mathbb{R}^{n\times n} : X_{ij} > 0 \ \forall i,j \textrm{ and } X \mathbf{1}_n = \mathbf{1}_n, X^\top \mathbf{1}_n = \mathbf{1}_n \}$ <br>
+    `multinomialdoublystochasticfactory(n)`
+* Multinomial symmetric and stochastic manifold
+  * $\{ X \in \mathbb{R}^{n\times n} : X_{ij} > 0 \ \forall i,j \textrm{ and } X \mathbf{1}_n = \mathbf{1}_n, X = X^\top \}$ <br>
+    `multinomialsymmetricfactory(n)`
+* Positive definite simplex
+  * $\{ (X_1, \ldots, X_k) \in (\mathbb{R}^{n \times n})^k : X_i \succ 0 \ \forall i \textrm{ and } X_1 + \cdots + X_k = I_n \}$ <br>
+    `sympositivedefinitesimplexfactory(n, k)`
+  * $\{ (X_1, \ldots, X_k) \in (\mathbb{C}^{n \times n})^k : X_i \succ 0 \ \forall i \textrm{ and } X_1 + \cdots + X_k = I_n \}$ <br>
+    `sympositivedefinitesimplexcomplexfactory(n, k)`
+
+### Miscellaneous
+
+* Constant manifold (singleton)
+  * $\{ A \}$ <br>
+    `constantfactory(A)` <br>
+    This is convenient with `productmanifold`, to fix some variables.
+* Hyperbolic manifold
+  * $\{ x \in \mathbb{R}^{n+1} : x_0^2 = x_1^2 + \cdots + x_n^2 + 1 \}^m$ with Minkowski metric <br>
+    `hyperbolicfactory(n, m)`
+* Poincaré ball
+  * $\{ x \in \mathbb{R}^{k} : x^\top x < 1 \}^n$ with Poincaré metric <br>
+    `poincareballfactory(k, n)`
+* Essential manifold
+  * Epipolar constraint between projected points in two perspective views <br>
+    `essentialfactory(k, 'signed')` (or `unsigned`)
+
+
+## Product manifolds
+
+The tools `productmanifold` and `powermanifold` make it easy to work on products of existing manifolds.
+<!--We provide some information here: see the [tools](tools.qmd) page for more.-->
+
+For example, if you are minimizing a function $f(X, Y)$ where $X$ is a $3 \times 3$ matrix with unit Frobenius norm and $Y$ is $4 \times 2$ with orthonormal columns, then use `productmanifold` as follows:
+
+```matlab
+elements.X = spherefactory(3, 3);
+elements.Y = stiefelfactory(4, 2);
+M = productmanifold(elements);
+```
+
+Points on `M` are encoded as structures with fields `X` and `Y`.
+Likewise for tangent vectors and vectors in the embedding space.
+
+If you are minimizing a function $f(X_1, \ldots, X_7)$ where each $X_i$ is a $3 \times 4$ matrix of rank $2$ (the same manifold for each), then use `powermanifold` as follows:
+
+```matlab
+N = fixedrankembeddedfactory(3, 4, 2);
+M = powermanifold(N, 7)
+```
+
+Points on `M` are encoded as cells with $7$ entries.
+Likewise for tangent vectors and vectors in the embedding space.
+
+Of course, calls to `productmanifold` and `powermanifold` can be composed.
+
+However, bear in mind that these tools are provided mostly for convenience.
+They allow fast prototyping, but it may be possible to write a more efficient factory for your specific product manifold.
+For example, `obliquefactory(n, m)` encodes the same geometry as `powermanifold(spherefactory(n), m)`, but the former is more efficient than the latter.
+
+If a factory offers built-in support for products, it is highly recommend to prefer that over the tools here.
+For example, `stiefelfactory(n, p, k)` encodes the same geometry as `powermanifold(stiefelfactory(n, p), k)`, but the former is more efficient than the latter.
+
+
+## Manifold structures: what's in them?
+
+The documentation for a manifold factory should specify
+
+* How points on the manifold are represented numerically,
+* How tangent vectors to the manifold are represented numerically,
+* And likewise for the embedding space (submanifolds) or total space (quotient manifolds).
+
+Typically, points and tangent vector are represented by matrices, but they could be represented by structures, cells, etc.: there are no limitations.
+They can even be represented by data on a GPU.
+
+Based on these, the implementation of a Riemannian manifold is a collection of functions.
+These functions are collected into a structure: that is what a factory returns as output.
+
+These functions are listed below.
+Not all factories populate all of these fields, and that's okay: for many purposes, only a subset of these functions are necessary.
+
+Notice that it is possible to add or replace fields in a manifold structure after it was returned by a factory.
+Thus, one can easily experiment with various retractions, vector transports, etc.
+If you find ways to improve the built-in geometries, let us know.
+
+
+| Name  | Field usage  | Functionality  |
+|-|-|---|
+| Name | `M.name()` | Returns the name of the manifold as a string. |
+| Dimension  | `M.dim()`  | Returns the dimension of the manifold.  |
+| Metric  | `M.inner(x, u, v)`  | Computes the Riemannian metric $\langle u, v \rangle_x$.  |
+| Norm  | `M.norm(x, u)`  | Computes the Riemannian norm $\|u\|_x = \sqrt{\langle u, u \rangle_x}$. |
+| Distance  | `M.dist(x, y)`  | Computes the Riemannian distance $\operatorname{dist}(x, y)$.  |
+| Typical distance  | `M.typicaldist()`  | Returns the "scale" of the manifold. This is used by the trust-regions solver for example, to determine default initial and maximal trust-region radii. |
+| Tangent space projector  | `M.proj(x, u)`  | For manifolds embedded in a Euclidean space, computes the orthogonal projection $\operatorname{Proj}_x u$ of the vector $u$ from the embedding space to the tangent space at $x$. If `M` is a quotient manifold, then the projection is from the embedding space of the total space to the horizontal space at $x$.  |
+| Euclidean to Riemannian gradient | `M.egrad2rgrad(x, egrad)` | For manifolds embedded in a Euclidean space, converts the gradient of $f$ at $x$ seen as a function in that Euclidean space to the Riemannian gradient of $f$ on the manifold. Allowed to take `(storedb, key)` as input for caching, but must also allow to be called without it. |
+| Euclidean to Riemannian Hessian | `M.ehess2rhess(x, egrad, ehess, u)`  | Similarly to `egrad2rgrad`, converts the Euclidean gradient and Hessian of $f$ at $x$ along a tangent vector $u$ to the Riemannian Hessian of $f$ at $x$ along $u$ on the manifold. Allowed to take `(storedb, key)` as input for caching, but must also allow to be called without it. Mind the warning below. |
+| Tangentialize | `M.tangent(x, u)` | Re-tangentializes a vector. The input is a vector in the tangent vector representation, which possibly (for example because of error accumulations) is no longer tangent. The output is the "closest" tangent vector to the input. If tangent vectors are represented in the ambient space, this is equivalent to `proj`. |
+| Tangent to ambient representation | `M.tangent2ambient(x, u)` | Tangent vectors are sometimes represented differently from their counterpart in the ambient space. This function returns the ambient space representation of a tangent vector $u$. Useful when defining the Euclidean Hessian `ehess` for example.  |
+| Exponential map  | `M.exp(x, u, t)`  | Computes $\operatorname{Exp}_x(tu)$, the point you reach by following the vector $u$ scaled by $t$ starting at $x$. As of 5.0, this field should only exist if the manifold provides a genuine exponential map. Otherwise, manually fall back to `M.retr`. |
+| Retraction  | `M.retr(x, u, t)`  | Computes $\Retr_x(tu)$, where $\Retr$ is a retraction: a cheaper proxy for the exponential map. |
+| Logarithmic map  | `M.log(x, y)`  | Computes $\operatorname{Log}_x(y)$, a tangent vector at $x$ pointing toward $y$. This is meant to be the inverse of $\operatorname{Exp}$. |
+| Inverse retraction | `M.invretr(x, y)`  | Computes the inverse of the retraction: a tangent vector at $x$ pointing toward $y$. |
+| Random point  | `M.rand()`  | Computes a random point on the manifold.  |
+| Random vector  | `M.randvec(x)`  | Computes a random, unit-norm tangent vector in the tangent space at $x$.  |
+| Zero vector  | `M.zerovec(x)`  | Returns the zero tangent vector at $x$. |
+| Linear combination  | `M.lincomb(x, a1, u1, a2, u2)`  | Computes the tangent vector at $x$: $v = a_1 u_1 + a_2 u_2$, where $a_1, a_2$ are scalars and $u_1, u_2$ are tangent vectors at $x$. The inputs $a_2, u_2$ are optional. |
+| Vector transport  | `M.transp(x, y, u)`  | Computes a tangent vector at $y$ that "looks like" the tangent vector $u$ at $x$. This is not necessarily a parallel transport. |
+| Isometric transport | `M.isotransp(x, y, u)` | An isometric vector transport (few manifold implementations offer this, though for some `M.transp` is isometric: see their documentation). |
+| Pair mean  | `M.pairmean(x, y)`  | Computes the intrinsic mean of $x$ and $y$, that is, a point that lies mid-way between $x$ and $y$ on the geodesic arc joining them.  |
+| Hashing function  | `M.hash(x)`  | Computes a string that (almost) uniquely identifies the point $x$ and that can serve as a field name for a structure. (No longer used as of Manopt 2.0.) |
+| Vector representation | `M.vec(x, u)` | Returns a real column-vector representation of the tangent vector $u$. The length of the output is always the same and at least `M.dim()`. This function is linear and invertible in $u$ on the tangent space at $x$. |
+| Normal representation | `M.mat(x, u_vec)` | The inverse of the `vec` function: returns a tangent vector representation from a column vector such that `M.mat(x, M.vec(x, u)) = u`. |
+| Isometry check for `vec` and `mat` | `M.vecmatareisometries()` | Returns `true` if `M.vec` is a linear isometry, i.e., if for all tangent vectors $u,v$, `M.inner(x, u, v) == M.vec(x, u).'*M.vec(x, v)`. Then, `M.mat` is both the adjoint and the inverse of `M.vec` (on the tangent space). |
+| Lie group identity | `M.lie_identity()` | If the manifold is a Lie group, this function returns the identity element (e.g., for the rotation group in $\mathbb{R}^d$, that would be the identity matrix of size $d$). |
+
+: Manifolds are encoded as structures which contain fields. Most of these fields are function handles which make it possible to interact with the manifold. {.striped}
+
+::: {.callout-warning}
+## Mind the details for `ehess2rhess`.
+Consider a Riemannian manifold `M` embedded in a Euclidean space `E`.
+In the call pattern
+```matlab
+rhess = M.ehess2rhess(x, egrad, ehess, u)
+```
+the vectors `egrad` and `ehess` are vectors in the embedding space `E`, whereas the vectors `u` and `rhess` are tangent vectors to `M` at `x`.
+It is important to use the corresponding numerical representations, as documented by the manifold's factory.
+
+For factories which use the same numerical representation for tangent vectors and vectors in the embedding space (e.g., `spherefactory`), this causes no difficulties.
+However, for factories such as `rotationsfactory`, the distinction matters.
+The functions `M.proj` (from embedding space to tangent space) `M.tangent2ambient` (from tangent space to embedding space) may help.
+
+If `M` is a quotient manifold of a manifold `N` (called the total space) embedded in `E`, then `egrad` and `ehess` are still vectors in the embedding space `E` but `u` and `rhess` are horizontal vectors at `x`.
+For example, `grassmannfactory(n, p)` is a quotient of `stiefelfactory(n, p)` which is embedded in $\mathbb{R}^{n \times p}$.
+:::

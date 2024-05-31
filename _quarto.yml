@@ -1,0 +1,99 @@
+project:
+  type: website
+  output-dir: docs
+  resources:
+    - downloads/*
+  preview: 
+    port: 4200
+
+website:
+  title: "Manopt"
+  favicon: icon.png
+  site-url: https://www.manopt.org
+  open-graph: true
+
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+      - sidebar:tutorial # instead of href: gettingstarted.qmd, text: Tutorial
+      - href: learning.qmd
+        text: Learning
+      - href: downloads.qmd
+        text: Downloads
+      - href: forum.qmd
+        text: Forum
+      - href: about.qmd
+        text: About
+    right:
+      - icon: github
+        href: https://github.com/NicolasBoumal/manopt
+      - icon: envelope-at
+        href: mailto:manopttoolbox@gmail.com
+        aria-label: "E-mail"
+      #  target: _blank
+      # More icons here: https://icons.getbootstrap.com/
+
+  search:
+    location: navbar
+    type: overlay
+
+  # https://quarto.org/docs/websites/website-navigation.html#hybrid-navigation
+  sidebar:
+    id: tutorial
+    title: "Tutorial"
+    position: left
+    style: docked
+    contents: 
+      - href: gettingstarted.qmd
+        text: Getting started
+      - href: firstexample.qmd
+        text: A first example
+      - href: manifolds.qmd
+        text: Manifolds # Pick a manifold
+      - href: costdescription.qmd
+        text: Cost functions # Describe the cost
+      - href: solvers.qmd
+        text: Solvers # Run a solver
+      - href: tools.qmd
+        text: Helpful tools
+      - href: core.qmd
+        text: Core tools
+
+  google-analytics:
+    tracking-id: "G-71FCE8T97E"
+    storage: cookies
+    anonymize-ip: true
+  cookie-consent:
+    type: express
+    style: simple
+    palette: light
+    prefs-text: "Cookie preferences -- it helps us to know which pages are read the most"
+
+
+format:
+  html:
+    # https://quarto.org/docs/output-formats/html-themes.html
+    theme:
+      dark: [darkly, "custom_darkly.scss"]
+      light: sandstone
+    highlight-style: pygments # zenburn pygments breeze
+    css: styles.css
+    grid: # https://quarto.org/docs/output-formats/page-layout.html#grid-customization
+      sidebar-width: 230px
+      body-width: 800px
+      margin-width: 270px
+      gutter-width: 1.5rem
+    toc: true
+    html-math-method: mathjax
+    link-external-newwindow: true  # default links to "outside" to target _blank
+    link-external-icon: false
+    anchor-sections: true
+    smooth-scroll: true
+    strip-comments: true  # HTML comments in qmd files won't appear in HTML files produced by Quarto
+
+crossref:
+  eq-prefix: "Eq."
+
+include-in-header:
+  file: _header.html

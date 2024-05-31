@@ -1,0 +1,12 @@
+---
+title: "Downloading the latest release of Manopt"
+page-layout: full
+sidebar: false
+toc: false
+include-in-header:
+  text: '<meta http-equiv="refresh" content="0; URL=downloads/Manopt_7.1.zip">'
+---
+
+Your download should start now. [Click this link if not](downloads/Manopt_7.1.zip).
+
+Please consider registering to our [mailing list](https://docs.google.com/forms/d/1U9Ntex_rWI8NfCLPP_b8uE5xDnKXgXG-HVvpHdq1PFo/viewform?usp=send_form) for updates -- historically, less than one e-mail per year.
