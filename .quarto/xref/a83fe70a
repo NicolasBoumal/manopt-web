@@ -1,0 +1,1 @@
+{"headings":["general-philosophy","one-example-five-ways","the-common-way-via-euclidean-extension","coding-the-riemannian-derivatives-manually","using-automatic-differentiation","fewer-redundant-computations-with-costgrad","using-the-store-caching-system","all-the-ways-to-describe-the-cost","accessing-the-cost-gradient-and-hessian"],"entries":[],"options":{"eq-prefix":"Eq."}}

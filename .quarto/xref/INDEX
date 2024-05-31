@@ -1,0 +1,41 @@
+{
+  "about.qmd": {
+    "about.html": "c12ae999"
+  },
+  "core.qmd": {
+    "core.html": "1429bae7"
+  },
+  "costdescription.qmd": {
+    "costdescription.html": "a83fe70a"
+  },
+  "download.qmd": {
+    "download.html": "f50aa49b"
+  },
+  "downloads.qmd": {
+    "downloads.html": "c99145c5"
+  },
+  "firstexample.qmd": {
+    "firstexample.html": "35883b28"
+  },
+  "forum.qmd": {
+    "forum.html": "5ba0d2c7"
+  },
+  "gettingstarted.qmd": {
+    "gettingstarted.html": "32dc0977"
+  },
+  "index.qmd": {
+    "index.html": "925c66b2"
+  },
+  "learning.qmd": {
+    "learning.html": "a8e6fdcd"
+  },
+  "manifolds.qmd": {
+    "manifolds.html": "5299dde6"
+  },
+  "solvers.qmd": {
+    "solvers.html": "f0f9ffc3"
+  },
+  "tools.qmd": {
+    "tools.html": "a6f624d6"
+  }
+}
