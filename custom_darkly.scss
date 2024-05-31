@@ -1,6 +1,9 @@
 /* https://github.com/quarto-dev/quarto-cli/blob/main/src/resources/formats/html/bootstrap/themes/darkly.scss */
 
 /*-- scss:defaults --*/
+$cyan:    #3498db !default;
 
 $code-color: rgb(243, 199, 238) !default;
 $code-bg: rgba(67, 67, 67, 0.65) !default; /* https://quarto.org/docs/output-formats/html-themes.html#inline-code */
+
+$callout-color-note: $cyan !default;
