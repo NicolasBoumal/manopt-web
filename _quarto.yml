@@ -91,6 +91,7 @@ format:
     anchor-sections: true
     smooth-scroll: true
     strip-comments: true  # HTML comments in qmd files won't appear in HTML files produced by Quarto
+    callout-appearance: simple
 
 crossref:
   eq-prefix: "Eq."
