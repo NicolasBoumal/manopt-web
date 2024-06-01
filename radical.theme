@@ -58,8 +58,8 @@
             "text-color": "#5af5f0"
         },
         "BaseN": {
-            "selected-text-color": "#f834bb",
-            "text-color": "#f834bb"
+            "selected-text-color": "#ff96aa",
+            "text-color": "#ff96aa"
         },
         "BuiltIn": {
             "selected-text-color": "#999ee1",
@@ -85,8 +85,8 @@
         },
         "ControlFlow": {
             "bold": true,
-            "selected-text-color": "#d5358f",
-            "text-color": "#d5358f"
+            "selected-text-color": "#f3c7ee",
+            "text-color": "#f3c7ee"
         },
         "DataType": {
             "selected-text-color": "#ff85a1",
@@ -113,8 +113,8 @@
             "text-color": "#a8ffdb"
         },
         "Float": {
-            "selected-text-color": "#f834bb",
-            "text-color": "#f834bb"
+            "selected-text-color": "#ff96aa",
+            "text-color": "#ff96aa"
         },
         "Function": {
             "selected-text-color": "#a9fef7",
@@ -130,24 +130,24 @@
         },
         "Keyword": {
             "bold": true,
-            "selected-text-color": "#d5358f",
-            "text-color": "#d5358f"
+            "selected-text-color": "#f3c7ee",
+            "text-color": "#f3c7ee"
         },
         "Normal": {
             "selected-text-color": "#7c9c9e",
             "text-color": "#7c9c9e"
         },
         "Operator": {
-            "selected-text-color": "#d5358f",
-            "text-color": "#d5358f"
+            "selected-text-color": "#f3c7ee",
+            "text-color": "#f3c7ee"
         },
         "Others": {
             "selected-text-color": "#5effbd",
             "text-color": "#5effbd"
         },
         "Preprocessor": {
-            "selected-text-color": "#d5358f",
-            "text-color": "#d5358f"
+            "selected-text-color": "#f3c7ee",
+            "text-color": "#f3c7ee"
         },
         "RegionMarker": {
             "background-color": "#242560",
