@@ -253,12 +253,12 @@ If you find ways to improve the built-in geometries, let us know.
 
 | Name  | Field usage  | Functionality  |
 |-|-|---|
-| Name | `M.name()` | Returns the name of the manifold as a string. |
-| Dimension  | `M.dim()`  | Returns the dimension of the manifold.  |
-| Metric  | `M.inner(x, u, v)`  | Computes the Riemannian metric $\langle u, v \rangle_x$.  |
-| Norm  | `M.norm(x, u)`  | Computes the Riemannian norm $\|u\|_x = \sqrt{\langle u, u \rangle_x}$. |
-| Distance  | `M.dist(x, y)`  | Computes the Riemannian distance $\operatorname{dist}(x, y)$.  |
-| Typical distance  | `M.typicaldist()`  | Returns the "scale" of the manifold. This is used by the trust-regions solver for example, to determine default initial and maximal trust-region radii. |
+| Name | `M.name()` | Name of the manifold as a string. |
+| Dimension  | `M.dim()`  | Dimension of the manifold.  |
+| Metric  | `M.inner(x, u, v)`  | Riemannian metric $\langle u, v \rangle_x.$  |
+| Norm  | `M.norm(x, u)`  | Riemannian norm $\|u\|_x = \sqrt{\langle u, u \rangle_x}.$ |
+| Distance  | `M.dist(x, y)`  | Riemannian distance $\operatorname{dist}(x, y)$.  |
+| Typical distance  | `M.typicaldist()`  | "Scale" of the manifold. This is used by the trust-regions solver for example, to determine default initial and maximal trust-region radii. |
 | Tangent space projector  | `M.proj(x, u)`  | For manifolds embedded in a Euclidean space, computes the orthogonal projection $\operatorname{Proj}_x u$ of the vector $u$ from the embedding space to the tangent space at $x$. If `M` is a quotient manifold, then the projection is from the embedding space of the total space to the horizontal space at $x$.  |
 | Euclidean to Riemannian gradient | `M.egrad2rgrad(x, egrad)` | For manifolds embedded in a Euclidean space, converts the gradient of $f$ at $x$ seen as a function in that Euclidean space to the Riemannian gradient of $f$ on the manifold. Allowed to take `(storedb, key)` as input for caching, but must also allow to be called without it. |
 | Euclidean to Riemannian Hessian | `M.ehess2rhess(x, egrad, ehess, u)`  | Similarly to `egrad2rgrad`, converts the Euclidean gradient and Hessian of $f$ at $x$ along a tangent vector $u$ to the Riemannian Hessian of $f$ at $x$ along $u$ on the manifold. Allowed to take `(storedb, key)` as input for caching, but must also allow to be called without it. Mind the warning below. |
@@ -271,9 +271,9 @@ If you find ways to improve the built-in geometries, let us know.
 | Random point  | `M.rand()`  | Computes a random point on the manifold.  |
 | Random vector  | `M.randvec(x)`  | Computes a random, unit-norm tangent vector in the tangent space at $x$.  |
 | Zero vector  | `M.zerovec(x)`  | Returns the zero tangent vector at $x$. |
-| Linear combination  | `M.lincomb(x, a1, u1, a2, u2)`  | Computes the tangent vector at $x$: $v = a_1 u_1 + a_2 u_2$, where $a_1, a_2$ are scalars and $u_1, u_2$ are tangent vectors at $x$. The inputs $a_2, u_2$ are optional. |
-| Vector transport  | `M.transp(x, y, u)`  | Computes a tangent vector at $y$ that "looks like" the tangent vector $u$ at $x$. This is not necessarily a parallel transport. |
-| Isometric transport | `M.isotransp(x, y, u)` | An isometric vector transport (few manifold implementations offer this, though for some `M.transp` is isometric: see their documentation). |
+| Linear combination  | `M.lincomb(x, a1, u1, a2, u2)`  | Computes $v = a_1 u_1 + a_2 u_2$, where $a_1, a_2$ are scalars and $u_1, u_2$ are tangent vectors at $x$. The inputs $a_2, u_2$ are optional. |
+| Transporter  | `M.transp(x, y, u)`  | Computes a tangent vector at $y$ that "looks like" the tangent vector $u$ at $x$. This is not necessarily a parallel transport. Sometimes called a vector transport. |
+| Isometric transport | `M.isotransp(x, y, u)` | An isometric transporter (few manifold implementations offer this, though for some `M.transp` is isometric: see their documentation). |
 | Pair mean  | `M.pairmean(x, y)`  | Computes the intrinsic mean of $x$ and $y$, that is, a point that lies mid-way between $x$ and $y$ on the geodesic arc joining them.  |
 | Hashing function  | `M.hash(x)`  | Computes a string that (almost) uniquely identifies the point $x$ and that can serve as a field name for a structure. (No longer used as of Manopt 2.0.) |
 | Vector representation | `M.vec(x, u)` | Returns a real column-vector representation of the tangent vector $u$. The length of the output is always the same and at least `M.dim()`. This function is linear and invertible in $u$ on the tangent space at $x$. |
@@ -295,8 +295,9 @@ It is important to use the corresponding numerical representations, as documente
 
 For factories which use the same numerical representation for tangent vectors and vectors in the embedding space (e.g., `spherefactory`), this causes no difficulties.
 However, for factories such as `rotationsfactory`, the distinction matters.
-The functions `M.proj` (from embedding space to tangent space) `M.tangent2ambient` (from tangent space to embedding space) may help.
+The functions `M.proj` (from embedding space to tangent space) and `M.tangent2ambient` (from tangent space to embedding space) may help.
 
 If `M` is a quotient manifold of a manifold `N` (called the total space) embedded in `E`, then `egrad` and `ehess` are still vectors in the embedding space `E` but `u` and `rhess` are horizontal vectors at `x`.
 For example, `grassmannfactory(n, p)` is a quotient of `stiefelfactory(n, p)` which is embedded in $\mathbb{R}^{n \times p}$.
+Since `stiefelfactory(n, p)` uses the same representation for tangent vectors and vectors in the embedding space, there is no friction for that one either.
 :::

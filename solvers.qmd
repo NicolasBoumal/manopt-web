@@ -29,7 +29,7 @@ All provided solvers are _minimization_ algorithms.
 If you want to _maximize_ your objective function, multiply it by -1 (and accordingly for the derivatives of the objective function if needed), as we did in the [first example](firstexample.qmd).
 :::
 
-In principle, all solvers also admit a more complete call format:
+All solvers also admit a more complete call format:
 
 ```matlab
 [x, xcost, info, options] = mysolver(problem, x0, options)
@@ -304,8 +304,8 @@ Include a `statsfun` in your `options` structure: [read more here](solvers.qmd#s
 Also read about [Manopt counters](tools.qmd#counters-to-track-computations) to keep track of things such as function calls, Hessian calls, matrix products, etc.
 :::
 
-::: {.callout-important}
+::: {.callout-warning}
 ## About execution time recorded in `info.time`
 The execution time is logged _without_ incorporating time spent in `statsfun`, as it usually performs computations that are not needed to solve the optimization problem.
-If, however, you use information logged by `statsfun` for your `stopfun` criterion, and if this is important for your method (i.e., it is not just for convenience during prototyping), you should time the execution time of `statsfun` and add it to the `stats.time` field.
+If, however, your `statsfun` influences the final output of the solver (e.g., because it logs information that you then use in your `stopfun` criterion), then you should add the relevant computation time to the `stats.time` field.
 :::

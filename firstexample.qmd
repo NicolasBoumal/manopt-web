@@ -102,7 +102,7 @@ The second instruction creates a structure named `problem` and sets the field `p
 The `problem` structure is further populated with everything a solver might need to know about the problem in order to solve it, such as the cost function and its gradient:
 
 ```matlab
-problem.cost = @(x) -x'*(A*x);
+problem.cost  = @(x) -x'*(A*x);
 problem.egrad = @(x) -2*A*x;
 ```
 
@@ -129,10 +129,11 @@ We could also define the cost and its derivatives in several other ways, e.g., t
 In particular, with Manopt 7.0 and Matlab R2021a or later, if you have the Deep Learning Toolbox, then you can also use **automatic differentiation** (AD) instead of defining the gradient (and even the Hessian) yourself:
 
 ```matlab
-problem = manoptAD(problem);
+% problem.egrad = @(x) -2*A*x; -- we can replace that line with:
+problem = manoptAD(problem); % automatic differentiation
 ```
 
-See the [cost description](costdescription.qmd) page for more information about how this works, and about what to do when it does not work.
+See the [cost description](costdescription.qmd) page for more information. <!-- about how this works, and about what to do when it does not work.-->
 Keep in mind that, while AD is convenient and reasonably efficient, it is usually slower than (good) hand-written code.
 <!--Indeed, it is typical for AD to slow-down optimization by about a factor of five.
 Still, for prototyping, this is often a comfortable option.-->
@@ -156,7 +157,7 @@ The [checkgradient](https://github.com/NicolasBoumal/manopt/blob/master/manopt/t
 See the [tools page](tools.qmd) for further details and more helpful tools offered by Manopt.
 This tool generates the following figure:
 
-![The `checkgradient` tool outputs a figure and text in the command line. In the figure here, we see that part of the blue curve has a slope that matches that of the dashed line: that's what we like to see. If not, then it is likely that the gradient is incorrectly implemented.](images/tutorial-gradientcheck.png){width=80%}
+![The `checkgradient` tool outputs a figure and text in the command line. In the figure here, we see that part of the blue curve has a slope that matches that of the dashed line: that's what we like to see. If not, then it is likely that the gradient is incorrectly implemented. Try it: change `problem.egrad` to `@(x) A*x` for example and see what happens.](images/tutorial-gradientcheck.png){width=80%}
 
 The blue curve seems to have the same slope as the dashed line over a decent segment (highlighted in orange): that's what we want to see.
 Also check the text output in the command prompt.
@@ -191,7 +192,8 @@ This call issues a warning:
 > `Warning: No Hessian provided. Using FD approximation.`
 
 That is because the trust-regions algorithm normally requires the Hessian of the cost function to be provided in the problem structure.
-When the Hessian is not provided, Manopt approximates it using finite differences  on the gradient and it warns you about it.
+When the Hessian is not provided, Manopt approximates it using finite differences on the gradient and it warns you about it.
+This is mostly fine.
 You may disable this warning by calling `warning('off', 'manopt:getHessian:approx');`.
 
 Finally, we access the contents of the struct-array `info` to display a convergence plot:
@@ -218,8 +220,13 @@ Read this [MathWorks blog post](https://blogs.mathworks.com/loren/2007/04/19/vec
 
 ::: {.callout-warning}
 ## Fallback to finite differences is automatic
-If you do not specify the gradient, then Manopt approximates it with finite differences.
-This is convenient for prototyping on low-dimensional manifolds, but it is slow and can make it difficult to reach accurate solutions.
-As in that case the solver may have a hard time reaching points with a small gradient, you can pass an options structure to the solver with `options.tolgradnorm` set to a larger value to allow it to stop earlier.
+In the example above, we specified the gradient but not the Hessian.
+As a result, Manopt automatically uses FD to approximate the Hessian if needed.
+This is fine.
+
+If we also do not specify the gradient, then Manopt approximate that with FD as well.
+This is not fine: it is slow, and can hamper convergence.
+This approximation is good enough that it is convenient to have as a feature for prototyping on low-dimensional manifolds, but it should not be used for anything serious.
+If you use this, you may want to set `options.tolgradnorm` to a larger value and pass it to the `options` structure to the solver.
 :::
 
