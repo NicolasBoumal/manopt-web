@@ -103,7 +103,7 @@ A couple of remarks:
   Contributions are welcome to extend it.
 
 
-## Eigenvalues and eigenvectors of the Hessian
+## Hessian eigenvalues and eigenvectors
 
 Given a function $f \colon \calM \to \reals$ and a point $x \in \calM$, we may want to investigate the spectrum of $\Hess f(x)$, that is, the Riemannian Hessian at $x$.
 With a `problem` structure to describe $f$, and `x` to identify the point $x$, we can do so in several ways using the tools
