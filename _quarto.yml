@@ -77,7 +77,9 @@ format:
     theme:
       dark: [darkly, "custom_darkly.scss"]
       light: sandstone
-    highlight-style: pygments # zenburn pygments breeze
+    highlight-style: # https://stackoverflow.com/a/78000464/5989015
+      dark: radical.theme # dracula, zenburn, radical (with changes)
+      light: pygments.theme # pygments, zenburn, breeze
     css: styles.css
     grid: # https://quarto.org/docs/output-formats/page-layout.html#grid-customization
       sidebar-width: 230px

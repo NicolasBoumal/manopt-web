@@ -3,6 +3,10 @@
 /*-- scss:defaults --*/
 $cyan:    #3498db !default;
 
+/* For blocks of code */
+/* $code-block-bg: rgba(67, 67, 67, 0.65) !default; */
+
+/* For inline code */
 $code-color: rgb(243, 199, 238) !default;
 $code-bg: rgba(67, 67, 67, 0.65) !default; /* https://quarto.org/docs/output-formats/html-themes.html#inline-code */
 
