@@ -791,32 +791,32 @@ window.Quarto = {
 <tr class="odd">
 <td>Name</td>
 <td><code>M.name()</code></td>
-<td>Returns the name of the manifold as a string.</td>
+<td>Name of the manifold as a string.</td>
 </tr>
 <tr class="even">
 <td>Dimension</td>
 <td><code>M.dim()</code></td>
-<td>Returns the dimension of the manifold.</td>
+<td>Dimension of the manifold.</td>
 </tr>
 <tr class="odd">
 <td>Metric</td>
 <td><code>M.inner(x, u, v)</code></td>
-<td>Computes the Riemannian metric <span class="math inline">\(\langle u, v \rangle_x\)</span>.</td>
+<td>Riemannian metric <span class="math inline">\(\langle u, v \rangle_x.\)</span></td>
 </tr>
 <tr class="even">
 <td>Norm</td>
 <td><code>M.norm(x, u)</code></td>
-<td>Computes the Riemannian norm <span class="math inline">\(\|u\|_x = \sqrt{\langle u, u \rangle_x}\)</span>.</td>
+<td>Riemannian norm <span class="math inline">\(\|u\|_x = \sqrt{\langle u, u \rangle_x}.\)</span></td>
 </tr>
 <tr class="odd">
 <td>Distance</td>
 <td><code>M.dist(x, y)</code></td>
-<td>Computes the Riemannian distance <span class="math inline">\(\operatorname{dist}(x, y)\)</span>.</td>
+<td>Riemannian distance <span class="math inline">\(\operatorname{dist}(x, y)\)</span>.</td>
 </tr>
 <tr class="even">
 <td>Typical distance</td>
 <td><code>M.typicaldist()</code></td>
-<td>Returns the “scale” of the manifold. This is used by the trust-regions solver for example, to determine default initial and maximal trust-region radii.</td>
+<td>“Scale” of the manifold. This is used by the trust-regions solver for example, to determine default initial and maximal trust-region radii.</td>
 </tr>
 <tr class="odd">
 <td>Tangent space projector</td>
@@ -881,17 +881,17 @@ window.Quarto = {
 <tr class="odd">
 <td>Linear combination</td>
 <td><code>M.lincomb(x, a1, u1, a2, u2)</code></td>
-<td>Computes the tangent vector at <span class="math inline">\(x\)</span>: <span class="math inline">\(v = a_1 u_1 + a_2 u_2\)</span>, where <span class="math inline">\(a_1, a_2\)</span> are scalars and <span class="math inline">\(u_1, u_2\)</span> are tangent vectors at <span class="math inline">\(x\)</span>. The inputs <span class="math inline">\(a_2, u_2\)</span> are optional.</td>
+<td>Computes <span class="math inline">\(v = a_1 u_1 + a_2 u_2\)</span>, where <span class="math inline">\(a_1, a_2\)</span> are scalars and <span class="math inline">\(u_1, u_2\)</span> are tangent vectors at <span class="math inline">\(x\)</span>. The inputs <span class="math inline">\(a_2, u_2\)</span> are optional.</td>
 </tr>
 <tr class="even">
-<td>Vector transport</td>
+<td>Transporter</td>
 <td><code>M.transp(x, y, u)</code></td>
-<td>Computes a tangent vector at <span class="math inline">\(y\)</span> that “looks like” the tangent vector <span class="math inline">\(u\)</span> at <span class="math inline">\(x\)</span>. This is not necessarily a parallel transport.</td>
+<td>Computes a tangent vector at <span class="math inline">\(y\)</span> that “looks like” the tangent vector <span class="math inline">\(u\)</span> at <span class="math inline">\(x\)</span>. This is not necessarily a parallel transport. Sometimes called a vector transport.</td>
 </tr>
 <tr class="odd">
 <td>Isometric transport</td>
 <td><code>M.isotransp(x, y, u)</code></td>
-<td>An isometric vector transport (few manifold implementations offer this, though for some <code>M.transp</code> is isometric: see their documentation).</td>
+<td>An isometric transporter (few manifold implementations offer this, though for some <code>M.transp</code> is isometric: see their documentation).</td>
 </tr>
 <tr class="even">
 <td>Pair mean</td>
@@ -938,8 +938,8 @@ Mind the details for <code>ehess2rhess</code>.
 <p>Consider a Riemannian manifold <code>M</code> embedded in a Euclidean space <code>E</code>. In the call pattern</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="va">rhess</span> <span class="op">=</span> <span class="va">M</span>.<span class="va">ehess2rhess</span>(<span class="va">x</span><span class="op">,</span> <span class="va">egrad</span><span class="op">,</span> <span class="va">ehess</span><span class="op">,</span> <span class="va">u</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>the vectors <code>egrad</code> and <code>ehess</code> are vectors in the embedding space <code>E</code>, whereas the vectors <code>u</code> and <code>rhess</code> are tangent vectors to <code>M</code> at <code>x</code>. It is important to use the corresponding numerical representations, as documented by the manifold’s factory.</p>
-<p>For factories which use the same numerical representation for tangent vectors and vectors in the embedding space (e.g., <code>spherefactory</code>), this causes no difficulties. However, for factories such as <code>rotationsfactory</code>, the distinction matters. The functions <code>M.proj</code> (from embedding space to tangent space) <code>M.tangent2ambient</code> (from tangent space to embedding space) may help.</p>
-<p>If <code>M</code> is a quotient manifold of a manifold <code>N</code> (called the total space) embedded in <code>E</code>, then <code>egrad</code> and <code>ehess</code> are still vectors in the embedding space <code>E</code> but <code>u</code> and <code>rhess</code> are horizontal vectors at <code>x</code>. For example, <code>grassmannfactory(n, p)</code> is a quotient of <code>stiefelfactory(n, p)</code> which is embedded in <span class="math inline">\(\mathbb{R}^{n \times p}\)</span>.</p>
+<p>For factories which use the same numerical representation for tangent vectors and vectors in the embedding space (e.g., <code>spherefactory</code>), this causes no difficulties. However, for factories such as <code>rotationsfactory</code>, the distinction matters. The functions <code>M.proj</code> (from embedding space to tangent space) and <code>M.tangent2ambient</code> (from tangent space to embedding space) may help.</p>
+<p>If <code>M</code> is a quotient manifold of a manifold <code>N</code> (called the total space) embedded in <code>E</code>, then <code>egrad</code> and <code>ehess</code> are still vectors in the embedding space <code>E</code> but <code>u</code> and <code>rhess</code> are horizontal vectors at <code>x</code>. For example, <code>grassmannfactory(n, p)</code> is a quotient of <code>stiefelfactory(n, p)</code> which is embedded in <span class="math inline">\(\mathbb{R}^{n \times p}\)</span>. Since <code>stiefelfactory(n, p)</code> uses the same representation for tangent vectors and vectors in the embedding space, there is no friction for that one either.</p>
 </div>
 </div>
 

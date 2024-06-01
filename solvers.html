@@ -568,7 +568,7 @@ Min or max?
 <p>All provided solvers are <em>minimization</em> algorithms. If you want to <em>maximize</em> your objective function, multiply it by -1 (and accordingly for the derivatives of the objective function if needed), as we did in the <a href="./firstexample.html">first example</a>.</p>
 </div>
 </div>
-<p>In principle, all solvers also admit a more complete call format:</p>
+<p>All solvers also admit a more complete call format:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>[<span class="va">x</span><span class="op">,</span> <span class="va">xcost</span><span class="op">,</span> <span class="va">info</span><span class="op">,</span> <span class="va">options</span>] <span class="op">=</span> <span class="va">mysolver</span>(<span class="va">problem</span><span class="op">,</span> <span class="va">x0</span><span class="op">,</span> <span class="va">options</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><strong>Inputs:</strong></p>
 <ul>
@@ -878,7 +878,7 @@ Need to log problem-specific information at each iteration?
 <p>Include a <code>statsfun</code> in your <code>options</code> structure: <a href="./solvers.html#statsfun-option-for-recording-info-at-each-iteration">read more here</a>. Also read about <a href="./tools.html#counters-to-track-computations">Manopt counters</a> to keep track of things such as function calls, Hessian calls, matrix products, etc.</p>
 </div>
 </div>
-<div class="callout callout-style-simple callout-important callout-titled">
+<div class="callout callout-style-simple callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -888,7 +888,7 @@ About execution time recorded in <code>info.time</code>
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The execution time is logged <em>without</em> incorporating time spent in <code>statsfun</code>, as it usually performs computations that are not needed to solve the optimization problem. If, however, you use information logged by <code>statsfun</code> for your <code>stopfun</code> criterion, and if this is important for your method (i.e., it is not just for convenience during prototyping), you should time the execution time of <code>statsfun</code> and add it to the <code>stats.time</code> field.</p>
+<p>The execution time is logged <em>without</em> incorporating time spent in <code>statsfun</code>, as it usually performs computations that are not needed to solve the optimization problem. If, however, your <code>statsfun</code> influences the final output of the solver (e.g., because it logs information that you then use in your <code>stopfun</code> criterion), then you should add the relevant computation time to the <code>stats.time</code> field.</p>
 </div>
 </div>
 
