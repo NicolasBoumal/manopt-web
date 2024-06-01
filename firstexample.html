@@ -595,8 +595,8 @@ window.Quarto = {
 <p>The <a href="https://github.com/NicolasBoumal/manopt/blob/master/manopt/tools/checkgradient.m">checkgradient</a> tool verifies numerically that the cost function and its gradient agree up to the appropriate order. See the <a href="./tools.html">tools page</a> for further details and more helpful tools offered by Manopt. This tool generates the following figure:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/tutorial-gradientcheck-dark.png" class="img-fluid figure-img" style="width:70.0%"></p>
-<figcaption>The <code>checkgradient</code> tool outputs a figure and text in the command line. In the figure here, we see that part of the blue curve has a slope that matches that of the dashed line: that’s what we like to see. If not, then it is likely that the gradient is incorrectly implemented. Try it: change <code>problem.egrad</code> to <code>@(x) A*x</code> for example and see what happens.</figcaption>
+<p><img src="images/tutorial-gradientcheck-dark.png" class="img-fluid figure-img" style="width:35em"></p>
+<figcaption>The <code>checkgradient</code> tool outputs a figure and text in the command line. In the figure here, we see that part of the continuous curve has a slope that matches that of the dashed line: that’s what we like to see. If not, then it is likely that the gradient is incorrectly implemented. Try it: change <code>problem.egrad</code> to <code>@(x) A*x</code> for example and see what happens.</figcaption>
 </figure>
 </div>
 <p>The blue curve seems to have the same slope as the dashed line over a decent segment (highlighted in orange): that’s what we want to see. Also check the text output in the command prompt.</p>
@@ -636,7 +636,7 @@ Manopt always minimizes
 <p>This generates the following figure. For more information on what data is stored in <code>info</code>, look inside and see the <a href="./solvers.html">solvers</a> page.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/tutorial-gradientnorm-dark.png" class="img-fluid figure-img" style="width:70.0%"></p>
+<p><img src="images/tutorial-gradientnorm-dark.png" class="img-fluid figure-img" style="width:35em"></p>
 <figcaption>The Riemannian gradient norm is converging to zero fast: that’s what we like to see.</figcaption>
 </figure>
 </div>
