@@ -339,7 +339,7 @@ The store structure also includes a field `store.shared`.
 The contents of that field are shared among all points the solver visited so far.
 
 :::{.callout-note}
-## Cache reusable computations only
+## Cache reusable computations, not end results
 Manopt automatically caches the value and the gradient of $f$ (both Euclidean and Riemannian) at each queried point $x$.
 There is no need to cache those manually.
 Rather, use the `store` to cache the most expensive (and reusable) intermediate computations.

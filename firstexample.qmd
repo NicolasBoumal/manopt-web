@@ -139,7 +139,7 @@ Keep in mind that, while AD is convenient and reasonably efficient, it is usuall
 Still, for prototyping, this is often a comfortable option.-->
 
 <!--
-::: {.callout-tip}
+::: {.callout-note}
 ## Avoiding redundant computations
 Notice that the functions `cost` and `egrad` both compute the product $Ax$, which is likely to be the most expensive operation for large scale problems.
 This is perfectly fine for prototyping, but less so for a final version of the implementation.
@@ -172,10 +172,10 @@ This instruction calls [`trustregions`](https://github.com/NicolasBoumal/manopt/
 As a result, the solver generates a random initial guess automatically and resorts to the default values for all options.
 As a general feature in Manopt, all options are, well, optional.
 
-:::{.callout-note}
+::: {.callout-note}
 ## Manopt always minimizes
 All solvers in Manopt aim to _minimize_ the cost function in the problem structure.
-If you want to _maximize_ a function, do as we did earlier on this page: flip the sign of $f$ (and accordingly for its derivatives).
+If you want to _maximize_ a function, do as we did earlier on this page: flip the sign of $f$ (and likewise for its derivatives).
 :::
 
 The returned values are:
@@ -218,15 +218,15 @@ Read this [MathWorks blog post](https://blogs.mathworks.com/loren/2007/04/19/vec
 :::
 
 
-::: {.callout-warning}
-## Fallback to finite differences is automatic
+::: {.callout-note}
+## You may omit the gradient, but...
 In the example above, we specified the gradient but not the Hessian.
-As a result, Manopt automatically uses FD to approximate the Hessian if needed.
+As a result, Manopt automatically uses finite differences (FD) to approximate the Hessian if needed.
 This is fine.
 
-If we also do not specify the gradient, then Manopt approximate that with FD as well.
-This is not fine: it is slow, and can hamper convergence.
-This approximation is good enough that it is convenient to have as a feature for prototyping on low-dimensional manifolds, but it should not be used for anything serious.
-If you use this, you may want to set `options.tolgradnorm` to a larger value and pass it to the `options` structure to the solver.
+If we also do not specify the gradient, then Manopt approximates that with FD as well.
+The solver will run, but this is slow.
+The approximation is good enough that it is convenient to have as a feature for prototyping on low-dimensional manifolds, but it should not be used for anything serious.
+If you do, you may want to set `options.tolgradnorm` to a larger value (say, `1e-4`) and pass the `options` structure to the solver.
 :::
 

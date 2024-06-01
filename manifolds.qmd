@@ -284,7 +284,7 @@ If you find ways to improve the built-in geometries, let us know.
 : Manifolds are encoded as structures which contain fields. Most of these fields are function handles which make it possible to interact with the manifold. {.striped}
 
 ::: {.callout-warning}
-## Mind the details for `ehess2rhess`.
+## Mind the details for `ehess2rhess`
 Consider a Riemannian manifold `M` embedded in a Euclidean space `E`.
 In the call pattern
 ```matlab
