@@ -157,7 +157,7 @@ The [checkgradient](https://github.com/NicolasBoumal/manopt/blob/master/manopt/t
 See the [tools page](tools.qmd) for further details and more helpful tools offered by Manopt.
 This tool generates the following figure:
 
-![The `checkgradient` tool outputs a figure and text in the command line. In the figure here, we see that part of the blue curve has a slope that matches that of the dashed line: that's what we like to see. If not, then it is likely that the gradient is incorrectly implemented. Try it: change `problem.egrad` to `@(x) A*x` for example and see what happens.](images/tutorial-gradientcheck-dark.png){width=80%}
+![The `checkgradient` tool outputs a figure and text in the command line. In the figure here, we see that part of the blue curve has a slope that matches that of the dashed line: that's what we like to see. If not, then it is likely that the gradient is incorrectly implemented. Try it: change `problem.egrad` to `@(x) A*x` for example and see what happens.](images/tutorial-gradientcheck-dark.png){width=70%}
 
 The blue curve seems to have the same slope as the dashed line over a decent segment (highlighted in orange): that's what we want to see.
 Also check the text output in the command prompt.
@@ -207,7 +207,7 @@ ylabel('Norm of the gradient of f');
 This generates the following figure.
 For more information on what data is stored in `info`, look inside and see the [solvers](solvers.qmd) page.
 
-![The Riemannian gradient norm is converging to zero fast: that's what we like to see.](images/tutorial-gradientnorm-dark.png){width=80%}
+![The Riemannian gradient norm is converging to zero fast: that's what we like to see.](images/tutorial-gradientnorm-dark.png){width=70%}
 
 
 ::: {.callout-note}
