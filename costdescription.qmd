@@ -372,6 +372,27 @@ The `store.shared` mechanism was originally used together with `statsfun` to kee
 As of Manopt 5.0, it is much better to use [Manopt counters](tools.qmd#counters-to-track-computations) for this purpose.
 :::
 
+:::{.callout-note collapse=true}
+## StoreDB and `key` (for solver developers and advanced users; click to expand)
+When you have access to `storedb` and a `key` associated to $x$ rather than to a specific store, the store of $x$ can be obtained as `store = storedb.getStore(key)`.
+Put the modified `store` back into the database with `storedb.set(store, key)`.
+
+Access the shared memory directly as `storedb.shared`, _not_ via `store.shared`.
+This is important: `store` might have a `store.shared` field, but when `storedb` and `key` are explicitly used, `store.shared` will not be populated or read on get/set.
+
+If you are developing a solver and hence are managing the StoreDB object yourself:
+
+Each point $x$ should be associated to a `key`, which is obtained by calling `storedb.getNewKey()`.
+From time to time, call `storedb.purge()` to reduce memory usage.
+Even better, as soon as you know that the `store` associated to a certain point is no longer useful, call `storedb.remove(key)` or `storedb.removefirstifdifferent(key1, key2)`.
+
+StoreDB is a [handle class](https://ch.mathworks.com/help/matlab/matlab_oop/comparing-handle-and-value-classes.html): its instances are passed by reference.
+This means that when a `storedb` object is passed as input to a function, and that function modifies the `storedb` object, the calling function sees the changes too (without the need to explicitly return the `storedb` object).
+Thus, each `storedb` object exists only once in memory.
+This makes for cleaner calling patterns and avoids unnecessary copies.
+This is not the case for the `store` structures though, which are passed by copy and thus must be returned if the changes are to be permanent.
+:::
+
 
 ## All the ways to describe the cost
 
@@ -396,7 +417,7 @@ The first one is the simplest and is perfectly fine for prototyping.
 The other calling patterns give explicit access to Manopt's caching system, in two flavors:
 
 * The normal way, with the `store` structure of the point `x` as an input and (possibly after modifications) as an output.
-* The advanced way, with the `storedb` database and the `key` associated to `x`: see the note down below.
+* The advanced way, with the `storedb` database and the `key` associated to `x`: see the collapsible note above.
 
 
 | Field name (`problem."..."`)  | Description  |
@@ -418,25 +439,6 @@ The other calling patterns give explicit access to Manopt's caching system, in t
 | `linesearch` | Given a point $x$ and a tangent vector $u$ at $x$, assume $u$ is a descent direction. This means there exists $t > 0$ such that $\phi(t) < \phi(0)$ with $$\phi(t) = f(\Retr_x(td)).$$ Line-search algorithms, which are used by some solvers such as `steepestdescent` and `conjugategradient` are designed to (approximately) minimize $\phi$ at each iteration. There are built-in, generic ways of doing this. If you have additional structure in your problem that enables you to take a good guess at what $t$ should be, then you can specify it here, in this function handle. This (very much optional) function should return a positive $t > 0$ such that $t$ is a good guess of where to look for a minimizer of $\phi$. The line-search algorithm (if it decides to use this information) starts by looking at the step $td$, and decides to accept it or not based on its internal rules. See the `linesearch` option on the [solvers](solvers.qmd) page for details on available line-search algorithms and how to pick one. See [`low_rank_matrix_completion`](https://github.com/NicolasBoumal/manopt/blob/master/examples/low_rank_matrix_completion.m) for an example from the literature. <br> `t = linesearch(x, u)` <br> `[t, store] = linesearch(x, u, store)` <br> `t = linesearch(x, u, storedb, key)` | 
 
 : Table of all the ways one can describe the cost function in Manopt, including its derivatives, approximations, preconditioners and a line-search hint. {.striped}
-
-:::{.callout-note}
-## StoreDB and `key`, for solver developers and advanced users
-When given access to `storedb` and a `key` associated to $x$ rather than to a specific store, the store of $x$ can be obtained as `store = storedb.getStore(key)`.
-Put the modified `store` back into the database with `storedb.set(store, key)`.
-
-Access the shared memory directly as `storedb.shared`, _not_ via `store.shared`.
-This is important: `store` might have a `store.shared` field, but when `storedb` and `key` are explicitly used, `store.shared` will not be populated or read on get/set.
-
-Each point $x$ should be associated to a `key`, which is obtained by calling `storedb.getNewKey()`.
-From time to time, call `storedb.purge()` to reduce memory usage.
-Even better, as soon as you know that the `store` associated to a certain point is no longer useful, call `storedb.remove(key)` or `storedb.removefirstifdifferent(key1, key2)`.
-
-StoreDB is a [handle class](https://ch.mathworks.com/help/matlab/matlab_oop/comparing-handle-and-value-classes.html): its instances are passed by reference.
-This means that when a `storedb` object is passed as input to a function, and that function modifies the `storedb` object, the calling function sees the changes too (without the need to explicitly return the `storedb` object).
-Thus, each `storedb` object exists only once in memory.
-This makes for cleaner calling patterns and avoids unnecessary copies.
-This is not the case for the `store` structures though, which are passed by copy and thus must be returned if the changes are to be permanent.
-:::
 
 
 
