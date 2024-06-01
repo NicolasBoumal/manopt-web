@@ -26,7 +26,7 @@ Bear in mind that we are dealing with usually nonconvex, and possibly nonsmooth 
 ::: {.callout-note}
 ## Min or max?
 All provided solvers are _minimization_ algorithms.
-If you want to _maximize_ your objective function, multiply it by -1 (and accordingly for the derivatives of the objective function if needed), as we did in the [first example](firstexample.qmd).
+If you want to _maximize_ your objective function, multiply it by -1 (and likewise for the derivatives of the objective function), as we did in the [first example](firstexample.qmd).
 :::
 
 All solvers also admit a more complete call format:
