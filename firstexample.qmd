@@ -157,7 +157,7 @@ The [checkgradient](https://github.com/NicolasBoumal/manopt/blob/master/manopt/t
 See the [tools page](tools.qmd) for further details and more helpful tools offered by Manopt.
 This tool generates the following figure:
 
-![The `checkgradient` tool outputs a figure and text in the command line. In the figure here, we see that part of the blue curve has a slope that matches that of the dashed line: that's what we like to see. If not, then it is likely that the gradient is incorrectly implemented. Try it: change `problem.egrad` to `@(x) A*x` for example and see what happens.](images/tutorial-gradientcheck-dark.png){width=35em}
+![The `checkgradient` tool outputs a figure and text in the command line. In the figure here, we see that part of the continuous curve has a slope that matches that of the dashed line: that's what we like to see. If not, then it is likely that the gradient is incorrectly implemented. Try it: change `problem.egrad` to `@(x) A*x` for example and see what happens.](images/tutorial-gradientcheck-dark.png){width=35em}
 
 The blue curve seems to have the same slope as the dashed line over a decent segment (highlighted in orange): that's what we want to see.
 Also check the text output in the command prompt.
