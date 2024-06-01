@@ -613,7 +613,7 @@ Manopt always minimizes
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>All solvers in Manopt aim to <em>minimize</em> the cost function in the problem structure. If you want to <em>maximize</em> a function, do as we did earlier on this page: flip the sign of <span class="math inline">\(f\)</span> (and accordingly for its derivatives).</p>
+<p>All solvers in Manopt aim to <em>minimize</em> the cost function in the problem structure. If you want to <em>maximize</em> a function, do as we did earlier on this page: flip the sign of <span class="math inline">\(f\)</span> (and likewise for its derivatives).</p>
 </div>
 </div>
 <p>The returned values are:</p>
@@ -653,18 +653,18 @@ Manopt always minimizes
 <p>Notice that we write <code>[info.xyz]</code> with brackets, and not simply <code>info.xyz</code>. This is because <code>info</code> is a struct-array. Read this <a href="https://blogs.mathworks.com/loren/2007/04/19/vectorizing-access-to-an-array-of-structures/">MathWorks blog post</a> for further information.</p>
 </div>
 </div>
-<div class="callout callout-style-simple callout-warning callout-titled">
+<div class="callout callout-style-simple callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Fallback to finite differences is automatic
+You may omit the gradient, but…
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>In the example above, we specified the gradient but not the Hessian. As a result, Manopt automatically uses FD to approximate the Hessian if needed. This is fine.</p>
-<p>If we also do not specify the gradient, then Manopt approximate that with FD as well. This is not fine: it is slow, and can hamper convergence. This approximation is good enough that it is convenient to have as a feature for prototyping on low-dimensional manifolds, but it should not be used for anything serious. If you use this, you may want to set <code>options.tolgradnorm</code> to a larger value and pass it to the <code>options</code> structure to the solver.</p>
+<p>In the example above, we specified the gradient but not the Hessian. As a result, Manopt automatically uses finite differences (FD) to approximate the Hessian if needed. This is fine.</p>
+<p>If we also do not specify the gradient, then Manopt approximates that with FD as well. The solver will run, but this is slow. The approximation is good enough that it is convenient to have as a feature for prototyping on low-dimensional manifolds, but it should not be used for anything serious. If you do, you may want to set <code>options.tolgradnorm</code> to a larger value (say, <code>1e-4</code>) and pass the <code>options</code> structure to the solver.</p>
 </div>
 </div>
 
