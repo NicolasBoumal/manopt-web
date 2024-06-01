@@ -847,6 +847,26 @@ Caching and <code>statsfun</code>
 <p>The <code>store</code> structure is readable (but not writable) by <a href="./solvers.html#statsfun-option-for-recording-info-at-each-iteration"><code>options.statsfun</code></a>. The <code>store.shared</code> mechanism was originally used together with <code>statsfun</code> to keep track of function calls. As of Manopt 5.0, it is much better to use <a href="./tools.html#counters-to-track-computations">Manopt counters</a> for this purpose.</p>
 </div>
 </div>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+StoreDB and <code>key</code> (for solver developers and advanced users; click to expand)
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>When you have access to <code>storedb</code> and a <code>key</code> associated to <span class="math inline">\(x\)</span> rather than to a specific store, the store of <span class="math inline">\(x\)</span> can be obtained as <code>store = storedb.getStore(key)</code>. Put the modified <code>store</code> back into the database with <code>storedb.set(store, key)</code>.</p>
+<p>Access the shared memory directly as <code>storedb.shared</code>, <em>not</em> via <code>store.shared</code>. This is important: <code>store</code> might have a <code>store.shared</code> field, but when <code>storedb</code> and <code>key</code> are explicitly used, <code>store.shared</code> will not be populated or read on get/set.</p>
+<p>If you are developing a solver and hence are managing the StoreDB object yourself:</p>
+<p>Each point <span class="math inline">\(x\)</span> should be associated to a <code>key</code>, which is obtained by calling <code>storedb.getNewKey()</code>. From time to time, call <code>storedb.purge()</code> to reduce memory usage. Even better, as soon as you know that the <code>store</code> associated to a certain point is no longer useful, call <code>storedb.remove(key)</code> or <code>storedb.removefirstifdifferent(key1, key2)</code>.</p>
+<p>StoreDB is a <a href="https://ch.mathworks.com/help/matlab/matlab_oop/comparing-handle-and-value-classes.html">handle class</a>: its instances are passed by reference. This means that when a <code>storedb</code> object is passed as input to a function, and that function modifies the <code>storedb</code> object, the calling function sees the changes too (without the need to explicitly return the <code>storedb</code> object). Thus, each <code>storedb</code> object exists only once in memory. This makes for cleaner calling patterns and avoids unnecessary copies. This is not the case for the <code>store</code> structures though, which are passed by copy and thus must be returned if the changes are to be permanent.</p>
+</div>
+</div>
+</div>
 </section>
 </section>
 <section id="all-the-ways-to-describe-the-cost" class="level2">
@@ -856,7 +876,7 @@ Caching and <code>statsfun</code>
 <p>Each function can be provided with one of three different calling patterns, as indicated below. The first one is the simplest and is perfectly fine for prototyping. The other calling patterns give explicit access to Manopt’s caching system, in two flavors:</p>
 <ul>
 <li>The normal way, with the <code>store</code> structure of the point <code>x</code> as an input and (possibly after modifications) as an output.</li>
-<li>The advanced way, with the <code>storedb</code> database and the <code>key</code> associated to <code>x</code>: see the note down below.</li>
+<li>The advanced way, with the <code>storedb</code> database and the <code>key</code> associated to <code>x</code>: see the collapsible note above.</li>
 </ul>
 <table class="table-striped caption-top table">
 <caption>Table of all the ways one can describe the cost function in Manopt, including its derivatives, approximations, preconditioners and a line-search hint.</caption>
@@ -929,22 +949,6 @@ Caching and <code>statsfun</code>
 </tr>
 </tbody>
 </table>
-<div class="callout callout-style-simple callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-StoreDB and <code>key</code>, for solver developers and advanced users
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>When given access to <code>storedb</code> and a <code>key</code> associated to <span class="math inline">\(x\)</span> rather than to a specific store, the store of <span class="math inline">\(x\)</span> can be obtained as <code>store = storedb.getStore(key)</code>. Put the modified <code>store</code> back into the database with <code>storedb.set(store, key)</code>.</p>
-<p>Access the shared memory directly as <code>storedb.shared</code>, <em>not</em> via <code>store.shared</code>. This is important: <code>store</code> might have a <code>store.shared</code> field, but when <code>storedb</code> and <code>key</code> are explicitly used, <code>store.shared</code> will not be populated or read on get/set.</p>
-<p>Each point <span class="math inline">\(x\)</span> should be associated to a <code>key</code>, which is obtained by calling <code>storedb.getNewKey()</code>. From time to time, call <code>storedb.purge()</code> to reduce memory usage. Even better, as soon as you know that the <code>store</code> associated to a certain point is no longer useful, call <code>storedb.remove(key)</code> or <code>storedb.removefirstifdifferent(key1, key2)</code>.</p>
-<p>StoreDB is a <a href="https://ch.mathworks.com/help/matlab/matlab_oop/comparing-handle-and-value-classes.html">handle class</a>: its instances are passed by reference. This means that when a <code>storedb</code> object is passed as input to a function, and that function modifies the <code>storedb</code> object, the calling function sees the changes too (without the need to explicitly return the <code>storedb</code> object). Thus, each <code>storedb</code> object exists only once in memory. This makes for cleaner calling patterns and avoids unnecessary copies. This is not the case for the <code>store</code> structures though, which are passed by copy and thus must be returned if the changes are to be permanent.</p>
-</div>
-</div>
 </section>
 <section id="accessing-the-cost-gradient-and-hessian" class="level2">
 <h2 class="anchored" data-anchor-id="accessing-the-cost-gradient-and-hessian">Accessing the cost, gradient and Hessian</h2>
