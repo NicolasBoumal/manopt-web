@@ -1,5 +1,8 @@
 /* https://github.com/quarto-dev/quarto-cli/blob/main/src/resources/formats/html/bootstrap/themes/darkly.scss */
 
+/* This website makes it easy to test out SASS variables in themes::after
+   https://bootstrap.build/themes */
+
 /*-- scss:defaults --*/
 $cyan:    #3498db !default;
 
@@ -10,11 +13,13 @@ $cyan:    #3498db !default;
 $code-color: rgb(243, 199, 238) !default;
 $code-bg: rgba(67, 67, 67, 0.65) !default; /* https://quarto.org/docs/output-formats/html-themes.html#inline-code */
 
+/* https://quarto.org/docs/output-formats/html-themes.html#callouts */
 $callout-color-note: $cyan !default;
 
 $nav-tabs-border-radius: 0;
 /* $nav-tabs-link-active-bg controls the bg color of active tabs in a tab-set,
-   but I was unable to find the variable that controls this for inactive tabs. */
+   but I was unable to find the variable that controls this for inactive tabs.
+   https://github.com/twbs/bootstrap/blob/main/scss/_variables.scss */
 .nav-tabs .nav-link {
     background-color: unset; // Inactive tab background color
 }
