@@ -3,6 +3,14 @@
 /* This website makes it easy to test out SASS variables in themes::after
    https://bootstrap.build/themes */
 
+/*
+    Could also use sandstone as the base theme for dark mode,
+    and use this scss file to make just a few tweaks.
+    See here: https://bootswatch.com/sandstone
+    It seems it's mostly a question of changing the background
+    and text colors. The rest seems rather robust.
+*/
+
 /*-- scss:defaults --*/
 $cyan:    #3498db !default;
 
