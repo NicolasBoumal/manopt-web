@@ -17,11 +17,11 @@ On a *different page* have an FAQ of sorts, maybe a "How to" page: include a sec
 The following books (both available online for free) can be helpful to learn the relevant mathematics:
 
 ::: {layout-ncol=2}
-![An introduction to optimization on smooth manifolds](images/BoumalIntroSmoothManifoldsCover.png){.preview-image}
-[An introduction to optimization on smooth manifolds](https://www.nicolasboumal.net/book) <br> Nicolas Boumal, Cambridge University Press, 2023.
+[![An introduction to optimization on smooth manifolds](images/BoumalIntroSmoothManifoldsCover.png){.preview-image}
+An introduction to optimization on smooth manifolds](https://www.nicolasboumal.net/book) <br> Nicolas Boumal, Cambridge University Press, 2023.
 
-![Optimization algorithms on matrix manifolds](images/AbsilOptimizationMatrixManifoldsCover.jpg)
-[Optimization algorithms on matrix manifolds](https://press.princeton.edu/absil) <br> Pierre-Antoine Absil, Robert Mahony and Rodolphe Sepulchre, Princeton University Press, 2008.
+[![Optimization algorithms on matrix manifolds](images/AbsilOptimizationMatrixManifoldsCover.jpg)
+Optimization algorithms on matrix manifolds](https://press.princeton.edu/absil) <br> Pierre-Antoine Absil, Robert Mahony and Rodolphe Sepulchre, Princeton University Press, 2008.
 :::
 
 ### A full course
@@ -33,7 +33,7 @@ The following books (both available online for free) can be helpful to learn the
 
 * This [one-hour video](https://www.youtube.com/watch?v=UjaoZE0GBpg&ab_channel=SimonsInstitute) and this [two-hour video](https://www.youtube.com/watch?v=lK62DwSIjXA&t=6s&ab_channel=FMGDataDrivenControlSummerSchool) introduce the basics of differential geometry and Riemannian geometry for optimization on smooth manifolds.
   They cover more or less the same contents.
-  The [slides](https://www.nicolasboumal.net/SIAMOP2023/) were augmented for a 3-hour tutorial at the SIAM Conference on Optimization in 2023 (video not available).
+  The [slides](https://www.nicolasboumal.net/SIAMOP2023/) have been augmented for a longer in-person tutorial.
 * Week 5 of MATH-512 includes a lecture about Manopt: [the basics](https://mediaspace.epfl.ch/media/0_g5gfi47b) and [a bit more](https://mediaspace.epfl.ch/media/0_3a1jnw74).
 
 ### Blogs and blog posts
