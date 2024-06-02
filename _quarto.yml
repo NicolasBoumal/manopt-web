@@ -28,6 +28,7 @@ website:
     right:
       - icon: github
         href: https://github.com/NicolasBoumal/manopt
+        target: _blank
       - icon: envelope-at
         href: mailto:manopttoolbox@gmail.com
         aria-label: "E-mail"
@@ -76,7 +77,7 @@ format:
     # https://quarto.org/docs/output-formats/html-themes.html
     theme:
       dark: [darkly, "custom_darkly.scss"]
-      light: sandstone
+      light: flatly
     highlight-style: # https://stackoverflow.com/a/78000464/5989015
       dark: radical.theme # dracula, zenburn, radical (with changes)
       light: pygments.theme # pygments, zenburn, breeze
