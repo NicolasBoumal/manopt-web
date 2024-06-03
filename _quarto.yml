@@ -76,11 +76,11 @@ format:
   html:
     # https://quarto.org/docs/output-formats/html-themes.html
     theme:
-      dark: [darkly, "custom_darkly.scss"]
       light: flatly
+      dark: [darkly, "custom_darkly.scss"]
     highlight-style: # https://stackoverflow.com/a/78000464/5989015
-      dark: radical.theme # dracula, zenburn, radical (with changes)
       light: pygments.theme # pygments, zenburn, breeze
+      dark: radical.theme # dracula, zenburn, radical (with changes)
     css: styles.css
     grid: # https://quarto.org/docs/output-formats/page-layout.html#grid-customization
       sidebar-width: 230px
