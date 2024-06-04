@@ -246,7 +246,7 @@ The nuance is this: there is a `stats` structure for each _iteration_, but there
 <!--
 Hence, `statsfun` should not be used in conjunction with the `store` to count operations: use [Manopt counters](tools.qmd#counters-to-track-computations) for that.
 It is however possible to use `statsfun` with the `store` to compute, for example, alternate merit functions on the point x.
------ I commented this out because it was from the old trustregions.html documentation; since then, with Manopt counters, there is a clear, clean path to achieve such goals, so it's less likely that people would run into such issues.
+---- I commented this out because it was from the old trustregions.html documentation; since then, with Manopt counters, there is a clear, clean path to achieve such goals, so it's less likely that people would run into such issues.
 -->
 :::
 
