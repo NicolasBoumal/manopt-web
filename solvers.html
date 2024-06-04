@@ -806,6 +806,19 @@ Min or max?
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="va">metrics</span>.<span class="va">dist_to_ref</span> <span class="op">=</span> <span class="op">@</span>(<span class="va">problem</span><span class="op">,</span> <span class="va">x</span>) <span class="va">problem</span>.<span class="va">M</span>.<span class="va">dist</span>(<span class="va">x</span><span class="op">,</span> <span class="va">x_reference</span>)<span class="op">;</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="va">options</span>.<span class="va">statsfun</span> <span class="op">=</span> <span class="va">statsfunhelper</span>(<span class="va">metrics</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>See also <a href="./tools.html#counters-to-track-computations">how to use Manopt counters</a> to keep track of things such as the number of calls to cost, gradient and Hessian, or other special operations such as matrix-vector products. These counters are registered at every iteration and available in the returned stats structure. They can also be used in a stopping criterion.</p>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<code>statsfun</code> is called after <em>each</em> iteration <em>completes</em>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Upon completion of an iteration, <code>options.statsfun</code> is called with the point <code>x</code> that was reached last, <em>even if</em> that <code>x</code> did not change compared to the previous iteration. For example, with <code>trustregions</code>, this triggers after the accept/reject decision. If the step was accepted, we get that new <code>x</code>, with its <code>store</code>. If the step was rejected, we get the same <code>x</code> as previously, with its <code>store</code>. The nuance is this: there is a <code>stats</code> structure for each <em>iteration</em>, but there is a <code>store</code> structure for each <em>point</em>. </p>
+</div>
+</div>
 </section>
 <section id="option-to-specify-a-line-search" class="level3">
 <h3 class="anchored" data-anchor-id="option-to-specify-a-line-search">Option to specify a line-search</h3>
