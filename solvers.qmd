@@ -236,6 +236,19 @@ See also [how to use Manopt counters](tools.qmd#counters-to-track-computations) 
 These counters are registered at every iteration and available in the returned stats structure.
 They can also be used in a stopping criterion.
 
+::: {.callout-note}
+## `statsfun` is called after _each_ iteration _completes_
+Upon completion of an iteration, `options.statsfun` is called with the point `x` that was reached last, _even if_ that `x` did not change compared to the previous iteration.
+For example, with `trustregions`, this triggers after the accept/reject decision.
+If the step was accepted, we get that new `x`, with its `store`.
+If the step was rejected, we get the same `x` as previously, with its `store`. <!-- (also the same as before, though possibly updated)-->
+The nuance is this: there is a `stats` structure for each _iteration_, but there is a `store` structure for each _point_.
+<!--
+Hence, `statsfun` should not be used in conjunction with the `store` to count operations: use [Manopt counters](tools.qmd#counters-to-track-computations) for that.
+It is however possible to use `statsfun` with the `store` to compute, for example, alternate merit functions on the point x.
+----- I commented this out because it was from the old trustregions.html documentation; since then, with Manopt counters, there is a clear, clean path to achieve such goals, so it's less likely that people would run into such issues.
+-->
+:::
 
 
 ### Option to specify a line-search
