@@ -816,7 +816,7 @@ Min or max?
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Upon completion of an iteration, <code>options.statsfun</code> is called with the point <code>x</code> that was reached last, <em>even if</em> that <code>x</code> did not change compared to the previous iteration. For example, with <code>trustregions</code>, this triggers after the accept/reject decision. If the step was accepted, we get that new <code>x</code>, with its <code>store</code>. If the step was rejected, we get the same <code>x</code> as previously, with its <code>store</code>. The nuance is this: there is a <code>stats</code> structure for each <em>iteration</em>, but there is a <code>store</code> structure for each <em>point</em>. </p>
+<p>Upon completion of an iteration, <code>options.statsfun</code> is called with the point <code>x</code> that was reached last, <em>even if</em> that <code>x</code> did not change compared to the previous iteration. For example, with <code>trustregions</code>, this triggers after the accept/reject decision. If the step was accepted, we get that new <code>x</code>, optionally with its <code>store</code>. If the step was rejected, we get the same <code>x</code> as previously, likewise with its <code>store</code>. The nuance is this: there is a <code>stats</code> structure for each <em>iteration</em>, but there is a <code>store</code> structure for each <em>point</em>. </p>
 </div>
 </div>
 </section>
