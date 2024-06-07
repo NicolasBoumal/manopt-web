@@ -666,7 +666,7 @@ Check your derivatives
 <li>The docs for AD in Manopt, specifically: <code>help manoptAD</code> and <code>help manoptADhelp</code>.</li>
 </ul></li>
 <li>Keep in mind that <code>dlarray</code> support also depends on your versions of Matlab and the DL toolbox (e.g., support for AD with complex numbers was added in Matlab R2021b).</li>
-<li>If a function you need is not supported (e.g., <code>diag</code>), see <code>help manoptADhelp</code> for a possible replacement (e.g., <code>cdiag</code>), or try to replace it with a direct implementation (e.g., <code>A(1:size(A,1)+1:end).'</code>).</li>
+<li>If a function you need is not supported (e.g., <code>diag</code>), see <code>help manoptADhelp</code> for a possible replacement (e.g., <code>cdiag</code>), or try to replace it with a direct implementation (e.g., <code>mydiag = @(A) A(1:size(A,1)+1:end);'</code>).</li>
 <li>Are you using the caching system (<code>store</code>) in the definition of the cost function? This does not pair well with AD (and AD has its own caching system), so it is better not to mix the two.</li>
 </ul>
 <p><a href="https://scholar.google.com/citations?user=g_MNvxwAAAAJ&amp;hl=en">Xiaowen Jiang</a> implemented <code>manoptAD</code> (and the system behind it) during an internship in 2021.</p>
