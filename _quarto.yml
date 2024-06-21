@@ -58,6 +58,8 @@ website:
         text: Solvers # Run a solver
       - href: tools.qmd
         text: Helpful tools
+      - href: lifts.qmd
+        text: Lifts
       - href: core.qmd
         text: Core tools
 

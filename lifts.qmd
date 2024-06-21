@@ -1,0 +1,37 @@
+---
+title: "Lifts and parameterization"
+subtitle: "Use lifts to compose an optimization problem with a parameterization"
+toc: true
+toc-depth: 3
+toc-expand: 2
+sidebar: tutorial
+---
+
+## General idea ![](images/icon_salute.gif)
+
+## Available lifts
+
+The following lifts are available in Manopt:
+
+* 
+* 
+* 
+
+They can be used to optimize over several nonsmooth sets, as listed in the next few sections with further explanations.
+
+## Hadamard (entrywise product)
+
+## Burer-Monteiro for smooth SDP
+
+## Burer-Monteiro for general bounded-rank
+
+## Boxes
+
+## Balls
+
+
+## What is in a lift structure
+
+## Side comments
+
+The `desingularizationfactory` encode the geometry of a Riemannian manifold, but `egrad2rgrad` and `ehess2rhess` in that factory actually correspond to a lift, as described in the documentation of the factory.
