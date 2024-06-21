@@ -1,5 +1,5 @@
 ---
-title: "Lifts and parameterization"
+title: "Lifts: parameterizations made easy"
 subtitle: "Use lifts to compose an optimization problem with a parameterization"
 toc: true
 toc-depth: 3
@@ -8,6 +8,35 @@ sidebar: tutorial
 ---
 
 ## General idea ![](images/icon_salute.gif)
+
+At first sight, optimization on manifolds is restricted to optimization problems on smooth sets.
+Notwithstanding, we can use smooth parameterizations of (possibly) nonsmooth sets to extend the realm of applications.
+
+Consider the following commutative diagram.
+
+<!--https://q.uiver.app/#q=WzAsNSxbNCwzLCJcXG1hdGhjYWx7Tn0iXSxbOCwzLCJcXG1hdGhiYntSfSJdLFs0LDIsIlxcbWF0aGNhbHtNfSJdLFs0LDEsIlxcbWF0aGNhbHtFfSIsWzMwMCw2MCw2MCwxXV0sWzAsMF0sWzAsMSwiZiIsMl0sWzIsMCwiXFx2YXJwaGkiXSxbMiwxLCJnPWZcXGNpcmMgXFx2YXJwaGkiXSxbMiwzLCIiLDIseyJjb2xvdXIiOlszMDAsNjAsNjBdLCJzdHlsZSI6eyJ0YWlsIjp7Im5hbWUiOiJob29rIiwic2lkZSI6ImJvdHRvbSJ9fX1dLFszLDEsIlxcYmFye2d9IiwwLHsiY3VydmUiOi0yLCJjb2xvdXIiOlszMDAsNjAsNjBdfSxbMzAwLDYwLDYwLDFdXSxbMywwLCJcXGJhcntcXHZhcnBoaX0iLDIseyJjdXJ2ZSI6MywiY29sb3VyIjpbMzAwLDYwLDYwXX0sWzMwMCw2MCw2MCwxXV1d-->
+![Commutative diagram on which lifts are based.](images/lift_diagram_EMN.png){width=25em}
+
+The principal objects in this diagram are in black.
+They are as follows:
+
+* $\calM$ is a Riemannian manifold.
+* $\calN$ is a Riemannian manifold too (often, it is a Euclidean space).
+* $f \colon \calN \to \reals$ is the cost function we wish to minimize *on some subset*.
+* $\varphi \colon \calM \to \calN$ is the *lift* or *parameterization*: its image $\calX = \varphi(\calM)$ is a subset of $\calN$.
+* $g = f \circ \varphi \colon \calM \to \reals$ is the function we will actually minimize (without restriction on $\calM$).
+
+Notice that by minimizing $g$ on $\calM$, we are effectively minimizing $f$ on $\calX$, because $g(y) = f(\varphi(y))$ so that we only ever evaluate $f$ at points of the form $x = \varphi(y)$ which, by definition, are in $\calX$.
+
+Moreover, if $f$ and $\varphi$ are both smooth, then so is $f$ by composition.
+
+This means that even if $\calX$ is a nonsmooth set, we can still use Manopt to (try to) minimize $f$ on $\calX \subset \calN$.
+
+We can do this explicitly by constructing a `problem` structure for $g$ on $\calM$.
+Alternatively, we can construct a problem structure for $f$ on $\calN$ and compose it with $\varphi$ by using `manoptlift`.
+To do so, this tool requires some information about $\varphi$ and its derivatives: this is all stored in a `lift` structure.
+Manopt comes with some built-in lifts (see below), and users can create their own.
+
 
 ## Available lifts
 
