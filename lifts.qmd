@@ -59,8 +59,133 @@ They can be used to optimize over several nonsmooth sets, as listed in the next 
 ## Balls
 
 
-## What is in a lift structure
+## Lift structures: what's in them?
+
+The `lift` structure must provide enough information about $\varphi$ (in the form of function handles) so that Manopt can automatically deduce how to compute $g = f \circ \varphi$, its gradient and (ideally) its Hessian, based on similar information about $f$.
+
+Let $y \in \calM$ and $x = \varphi(y) \in \calN$.
+By the chain rule, for all $v \in \T_y\calM$ we have
+$$
+    \D g(y)[v] = \D(f \circ \varphi)(y)[v] = \D f(x)[\D\varphi(y)[v]].
+$$
+By definition of the Riemannian gradient, then by definition of the adjoint of a linear map, this yields
+$$
+    \inner{\grad g(y)}{v}_y = \inner{\grad f(x)}{\D\varphi(y)[v]}_x = \inner{\D\varphi(y)^*[\grad f(x)]}{v}_y.
+$$
+This holds for all $v$.
+Thus,
+$$
+    \grad g(y) = \D\varphi(y)^*[\grad f(x)].
+$$
+This illustrates how we can get the gradient of $g$ from that of $f$ provided the lift gives us access to $\D\varphi(y)^*$.
+For the Hessian, additional computations shown later on this page tell us what else needs to be included.
+
+
+| Name  | Field usage  | Functionality  |
+|-|--|---|
+| $\calM$ | `lift.M` | Manifold structure from a factory ("upstairs") |
+| $\calN$ | `lift.N` | Manifold structure from a factory ("downstairs") |
+| $\varphi$ | `x = lift.phi(y)` | Computes the image of $y \in \calM$ through $\varphi \colon \calM \to \calN$ |
+| $\D\varphi(y)$ | `u = lift.Dphi(y, v)` | Differential of $\varphi$ at $y \in \calM$ along $v \in \T_y\calM$. The output is $u = \D\varphi(y)[v]$ in $\T_x\calN$ where $x = \varphi(y)$. |
+| $\D\varphi(y)^*$ | `v = lift.Dphit(y, u)` | Adjoint of $\D\varphi(y)$ with respect ot the inner products on $\T_y\calM$ and $\T_x\calN$, where $x = \varphi(y)$. Thus, $$\inner{\D\varphi(y)[v]}{u}_x = \inner{v}{\D\varphi(y)^*[u]}_y.$$ |
+| $\Hess h_w(y)$ | `s = lift.hesshw(y, v, w)` | Given $y \in \calM$ and $w \in \T_x\calN$ where $x = \varphi(y)$, choose $q_w \colon \calN \to \reals$ such that $\grad q_w(x) = w$ (for the specified $x$). Let $h_w = q_w \circ \varphi \colon \calM \to \reals$. Then $s = \Hess h_w(y)[v]$. If $\calN$ is Euclidean, a typical choice is $q_w = \inner{\cdot}{w}_\calN$.  |
+| $\Hess q_w(y)$ | `s = lift.hessqw(x, u, w)` | Given $x \in \calN$ and $w \in \T_x\calN$, choose $q_w \colon \calN \to \reals$ such that $\grad q_w(x) = w$ (for the specified $x$). Then $s = \Hess q_w(x)[u]$. If $\calN$ is Euclidean, a typical choice is $q_w = \inner{\cdot}{w}_\calN$, in which case $\Hess q_w = 0$. If the field is omitted, it is assumed that the Hessian is zero.  |
+| $\varphi$ or $\bar{\varphi}$? | `lift.embedded` | Boolean flag set to `false` (by default) if all of the above indeed pertains to $\varphi$, and set to `true` if the above instead describes $\bar{\varphi} \colon \calE \to \calN$, where $\calE$ is the embedding space for $\calM$ (as specified in the documentation for the corresponding factory), as a smooth extension such that $\bar{\varphi}|_\calM = \varphi$. |
+: Fields in a `lift` structure.
+
+
+## How are the landscapes related?
+
+
 
 ## Side comments
 
 The `desingularizationfactory` encode the geometry of a Riemannian manifold, but `egrad2rgrad` and `ehess2rhess` in that factory actually correspond to a lift, as described in the documentation of the factory.
+
+
+## The Hessian of $g$
+
+To obtain the Hessian of $g = f \circ \varphi$, it is convenient to go through curves.
+Let $c \colon \reals \to \calM$ be a smooth curve satisfying $c(0) = y$, $c'(0) = v$ and $c''(0) = 0$ (zero initial intrinsic acceleration).
+
+Push it to a curve downstairs as $\gamma = \varphi \circ c$.
+It satisfies $\gamma(0) = \varphi(y) = x$.
+Let $u = \gamma'(0) = \D\varphi(c(0))[c'(0)] = \D\varphi(y)[v]$.
+
+The cost function along these curves satisfies
+$$
+    g \circ c = f \circ \varphi \circ c = f \circ \gamma.
+$$
+Thus, the derivatives of $g \circ c$ and $f \circ \gamma$ (two functions from $\reals$ to $\reals$) are identical.
+On the one hand, we compute
+$$
+    (g \circ c)'(t) = \D g(c(t))[c'(t)] = \inner{\grad g(c(t))}{c'(t)}_{c(t)}
+$$
+and
+$$
+    (g \circ c)''(t) = \inner{\Hess g(c(t))[c'(t)]}{c'(t)}_{c(t)} + \inner{\grad g(c(t))}{c''(t)}_{c(t)}.
+$$
+At $t = 0$, these yield
+$$
+    (g \circ c)'(0) = \inner{\grad g(y)}{v}_{y}
+$$
+and
+$$
+    (g \circ c)''(0) = \inner{\Hess g(y)[v]}{v}_{y} + \inner{\grad g(y)}{c''(0)}_{y}.
+$$
+On the other hand, applying the same computations to $f \circ \gamma$ instead of $g \circ c$ yields
+$$
+    (f \circ \gamma)'(0) = \inner{\grad f(x)}{u}_{x}
+$$
+and
+$$
+    (f \circ \gamma)''(0) = \inner{\Hess f(x)[u]}{u}_{x} + \inner{\grad f(x)}{\gamma''(0)}_{x}.
+$$
+We know that $(g \circ c)'(0) = (f \circ \gamma)'(0)$ and also that $(g \circ c)''(0) = (f \circ \gamma)''(0)$.
+We could use the first-order derivatives to recover the identity
+$$
+    \grad g(y) = \D\varphi(y)^*[\grad f(x)].
+$$
+Focusing on second-order derivatives, we have found that
+$$
+    \inner{\Hess g(y)[v]}{v}_{y} = \inner{\Hess f(x)[u]}{u}_{x} + \inner{\grad f(x)}{\gamma''(0)}_{x} - \inner{\grad g(y)}{c''(0)}_{y}.
+$$ {#eq-hessgfoo}
+Recall that we assume $c''(0) = 0$.
+To handle $\gamma''(0)$, we proceed as follows.
+
+Fix an arbitrary $w \in \T_x\calN$ and let $q_w \colon \calN \to \reals$ satisfy $\grad q_w(x) = w$ (that is, at the specific $x$ under consideration, the gradient of $q_w$ is $w$).
+For example, if $\calN$ is a Euclidean space, then a convenient choice is $q_w = \inner{\cdot}{w}_\calN$ (a linear function whose gradient at *all* points is $w$: it's more than we need).
+
+Let $h_w = q_w \circ \varphi$.
+This is a real function on $\calM$.
+Plug $h_w$ and $q_w$ in place of $g$ and $f$ in @eq-hessgfoo.
+This reveals
+$$
+    \inner{\Hess h_w(y)[v]}{v}_{y} = \inner{\Hess q_w(x)[u]}{u}_{x} + \inner{\grad q_w(x)}{\gamma''(0)}_{x}.
+$$
+Since $\grad q_w(x) = w$, we have found that
+$$
+    \inner{w}{\gamma''(0)}_{x} = \inner{\Hess h_w(y)[v]}{v}_{y} - \inner{\Hess q_w(x)[u]}{u}_{x}.
+$$
+Now let $w = \grad f(x)$ and plug this into @eq-hessgfoo in order to get rid of $\gamma''(0)$, as follows:
+$$
+    \inner{\Hess g(y)[v]}{v}_{y} = \inner{\Hess f(x)[u]}{u}_{x} + \inner{\Hess h_w(y)[v]}{v}_{y} - \inner{\Hess q_w(x)[u]}{u}_{x}.
+$$
+Recall that $u = \D\varphi(y)[v]$.
+Then, all in all, we have the following formula for the Riemannian Hessian of $g$ at $y$:
+$$
+    \Hess g(y) = \D\varphi(y)^* \circ \left( \Hess f(x) - \Hess q_w(x) \right) \circ \D\varphi(y) + \Hess h_w(y),
+$$ {#eq-hessgtotal}
+where
+
+* $x = \varphi(y)$,
+* $w = \grad f(x)$,
+* $q_w \colon \calN \to \reals$ is any smooth function which satisfies $\grad q_w(x) = w$, and
+* $h_w = q_w \circ \varphi$.
+
+(The choice of curve $c$ no longer plays a role.)
+
+The final formula @eq-hessgtotal tells us exactly what information we need about $\varphi$ in order to be able to compute the Hessian of $g$ based on the gradient and Hessian of $f$.
+The fields `lift.Dphi` and `lift.Dphit` encode the maps $\D\varphi(y)$ and $\D\varphi(y)^*$, while the field `lift.hesshw` encodes the map $\Hess h_w(y)$.
+If $\calN$ is a Euclidean space (which is typical), then we always choose $q_w = \inner{\cdot}{w}_\calN$ so that $\Hess q_w(x) = 0$.
+Otherwise, we need to provide that map too, in `lift.hessqw`.
