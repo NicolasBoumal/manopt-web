@@ -89,7 +89,7 @@ For the Hessian, additional computations shown later on this page tell us what e
 | $\D\varphi(y)$ | `u = lift.Dphi(y, v)` | Differential of $\varphi$ at $y \in \calM$ along $v \in \T_y\calM$. The output is $u = \D\varphi(y)[v]$ in $\T_x\calN$ where $x = \varphi(y)$. |
 | $\D\varphi(y)^*$ | `v = lift.Dphit(y, u)` | Adjoint of $\D\varphi(y)$ with respect ot the inner products on $\T_y\calM$ and $\T_x\calN$, where $x = \varphi(y)$. Thus, $$\inner{\D\varphi(y)[v]}{u}_x = \inner{v}{\D\varphi(y)^*[u]}_y.$$ |
 | $\Hess h_w(y)$ | `s = lift.hesshw(y, v, w)` | Given $y \in \calM$ and $w \in \T_x\calN$ where $x = \varphi(y)$, choose $q_w \colon \calN \to \reals$ such that $\grad q_w(x) = w$ (for the specified $x$). Let $h_w = q_w \circ \varphi \colon \calM \to \reals$. Then $s = \Hess h_w(y)[v]$. If $\calN$ is Euclidean, a typical choice is $q_w = \inner{\cdot}{w}_\calN$.  |
-| $\Hess q_w(y)$ | `s = lift.hessqw(x, u, w)` | Given $x \in \calN$ and $w \in \T_x\calN$, choose $q_w \colon \calN \to \reals$ such that $\grad q_w(x) = w$ (for the specified $x$). Then $s = \Hess q_w(x)[u]$. If $\calN$ is Euclidean, a typical choice is $q_w = \inner{\cdot}{w}_\calN$, in which case $\Hess q_w = 0$. If the field is omitted, it is assumed that the Hessian is zero.  |
+| $\Hess q_w(x)$ | `s = lift.hessqw(x, u, w)` | Given $x \in \calN$ and $w \in \T_x\calN$, choose $q_w \colon \calN \to \reals$ such that $\grad q_w(x) = w$ (for the specified $x$). Then $s = \Hess q_w(x)[u]$. If $\calN$ is Euclidean, a typical choice is $q_w = \inner{\cdot}{w}_\calN$, in which case $\Hess q_w = 0$. If the field is omitted, it is assumed that the Hessian is zero.  |
 | $\varphi$ or $\bar{\varphi}$? | `lift.embedded` | Boolean flag set to `false` (by default) if all of the above indeed pertains to $\varphi$, and set to `true` if the above instead describes $\bar{\varphi} \colon \calE \to \calN$, where $\calE$ is the embedding space for $\calM$ (as specified in the documentation for the corresponding factory), as a smooth extension such that $\bar{\varphi}|_\calM = \varphi$. |
 : Fields in a `lift` structure.
 
@@ -181,7 +181,7 @@ where
 * $x = \varphi(y)$,
 * $w = \grad f(x)$,
 * $q_w \colon \calN \to \reals$ is any smooth function which satisfies $\grad q_w(x) = w$, and
-* $h_w = q_w \circ \varphi$.
+* $h_w = q_w \circ \varphi \colon \calM \to \reals$.
 
 (The choice of curve $c$ no longer plays a role.)
 
