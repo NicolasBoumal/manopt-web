@@ -7,15 +7,24 @@ toc-expand: 2
 sidebar: tutorial
 ---
 
+
+::: {.callout-warning}
+## Run `importmanopt`
+Lifts were added to Manopt late June 2024.
+To use them, you need a sufficiently recent version of the code (e.g., from [github](https://github.com/NicolasBoumal/manopt/)).
+Lifts are stored in a new folder `/manopt/lifts` that needs to be on Matlab's path.
+To ensure this, call `importmanopt`.
+:::
+
 ## General idea ![](images/icon_salute.gif)
 
 At first sight, optimization on manifolds is restricted to optimization problems on smooth sets.
 Notwithstanding, we can use smooth parameterizations of (possibly) nonsmooth sets to extend the realm of applications.
-This eases the process of:
+This eases the process of working with:
 
-* working with constraints,
-* with nonsmooth sets, or simply
-* with a change of variables.
+* constraints,
+* nonsmooth sets, or simply
+* a change of variables.
 
 <!--This is done with the tool `manoptlift`. -- Commented out because the pink color of the code suggests it corresponds to the pink parts in the diagram, but it doesn't. We have manoptlift in the title of the next section, so it's fine. -->
 
@@ -82,26 +91,19 @@ General theory for this is developed in the following paper, with many examples 
 > [Mathematical Programming](https://link.springer.com/article/10.1007/s10107-024-02058-3), 2024
 
 
-::: {.callout-warning}
-## Run `importmanopt`
-Lifts were added to Manopt late June 2024.
-To use them, you need a sufficiently recent version of the code (e.g., from [github](https://github.com/NicolasBoumal/manopt/)).
-Lifts are stored in a new folder `/manopt/lifts` that needs to be on Matlab's path.
-To ensure this, call `importmanopt`.
-:::
-
 
 ## Lift structures: what's in them?
 
-The `lift` structure must provide enough information about $\varphi$ (in the form of function handles) so that Manopt can automatically deduce how to compute $g = f \circ \varphi$, its gradient and (ideally) its Hessian, based on the corresponding information about $f$.
+The `lift` structure must provide enough information about $\varphi$ so that Manopt can deduce how to compute $g = f \circ \varphi$, its gradient and (ideally) its Hessian, based on the corresponding information about $f$.
 @tbl-liftfields lists the fields in `lift`, including manifold structures for $\calM$ and $\calN$, and function handles for $\varphi$ and more.
 
 Let $y \in \calM$ and $x = \varphi(y) \in \calN$.
 By the chain rule, for all $v \in \T_y\calM$ we have
 $$
-    \D g(y)[v] = \D(f \circ \varphi)(y)[v] = \D f(x)[\D\varphi(y)[v]].
+    \D g(y)[v] = \D(f \circ \varphi)(y)[v] = \D f(x)[\D\varphi(y)[v]],
 $$
-By definition of the Riemannian gradient, then by definition of the adjoint of a linear map, this yields
+where $\D\varphi(y) \colon \T_y\calM \to \T_x\calN$ is the differential of $\varphi$ at $y$.
+By definition of the Riemannian gradient, then by definition of the adjoint of a linear map (indicated by a star $\cdot^*$), this yields
 $$
     \inner{\grad g(y)}{v}_y = \inner{\grad f(x)}{\D\varphi(y)[v]}_x = \inner{\D\varphi(y)^*[\grad f(x)]}{v}_y.
 $$
@@ -111,7 +113,7 @@ $$
     \grad g(y) = \D\varphi(y)^*[\grad f(x)].
 $$
 This illustrates how we can get the gradient of $g$ from that of $f$ provided the lift gives us access to $\D\varphi(y)^*$.
-(We might call this map `fgrad2ggrad` to echo the similar role it plays when compared to `egrad2rgrad`, where $\varphi$ is the inclusion map from the manifold into its embedding space.)
+<!--(We might call this map `fgrad2ggrad` to echo the similar role it plays when compared to `egrad2rgrad` if $\varphi$ were the inclusion map from the manifold into its embedding space.)-->
 For the Hessian, additional computations shown later on this page tell us what else needs to be included: see @eq-hessgtotal.
 
 
@@ -133,13 +135,25 @@ For the Hessian, additional computations shown later on this page tell us what e
 
 ## Available lifts
 
-The following lifts are available in Manopt:
+A number of lifts are readily available in Manopt, making it possible to optimize over various nonsmooth sets $\calX = \varphi(\calM)$.
+We list them in a table now, and detail the corresponding lifts below with some examples.
 
-* 
-* 
-* 
+| Name | $\calX$ | lift |
+|:--|:---|:---|
+| Box | $\{ x \in \Rn : -1 \leq x_{i} \leq 1 \, \forall i \}$ | `boxlift(n)` |
+|  | $\{ X \in \Rnm : -1 \leq X_{ij} \leq 1 \, \forall i,j \}$ | `boxlift(n, m)` |
+| Ball | $\{ x \in \Rn : \|x\| \leq 1 \}$ | `ballslift(n)` |
+| Balls | $\{ X \in \Rnm : \|X_{:, i}\| \leq 1 \, \forall i \}$ | `ballslift(n, m)` |
+| Simplex | $\{ x \in \Rn : x_1 + \cdots + x_n = 1, x_i \geq 0 \, \forall i \}$ | `hadamardlift('simplex', n)` |
+| Column stochastic | $\{ X \in \Rnm : X^\top\One = \One, X_{ij} \geq 0 \}$ | `hadamardlift('colstochastic', n, m)` | 
+| Row stochastic | $\{ X \in \Rnm : X\One = \One, X_{ij} \geq 0 \}$ | `hadamardlift('rowstochastic', n, m)` | 
+| Nonnegative orthant | $\{ X \in \Rnm : X_{ij} \geq 0 \, \forall i,j \}$ | `hadamardlift('nonnegative', n, m)` |
+| Bounded-rank | $\{ X \in \Rmn : \rank(X) \leq r \}$ | `burermonteiroLRlift(m, n, r)` |
+| Bounded-rank, psd | $S_n^p \triangleq \{ X \in \Rnn : X \succeq 0, \rank(X) \leq p \}$ | `burermonteirolift('free', n, p)` |
+| With unit trace | $\{ X \in S_n^p : \trace(X) = 1 \}$ | `burermonteirolift('unittrace', n, p)` |
+| With unit diagonal | $\{ X \in S_n^p : \diag(X) = \One \}$ | `burermonteirolift('unitdiag', n, p)` |
+: Sets on which we can optimize with Manopt using a lift.
 
-They can be used to optimize over several nonsmooth sets, as listed in the next few sections with further explanations.
 
 ## Hadamard (entrywise product)
 
