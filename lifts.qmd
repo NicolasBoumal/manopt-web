@@ -11,8 +11,13 @@ sidebar: tutorial
 
 At first sight, optimization on manifolds is restricted to optimization problems on smooth sets.
 Notwithstanding, we can use smooth parameterizations of (possibly) nonsmooth sets to extend the realm of applications.
-This eases the process of working with constraints, nonsmooth sets or simply a change of variables.
-This is done with the tool `manoptlift`.
+This eases the process of:
+
+* working with constraints,
+* with nonsmooth sets, or simply
+* with a change of variables.
+
+<!--This is done with the tool `manoptlift`. -- Commented out because the pink color of the code suggests it corresponds to the pink parts in the diagram, but it doesn't. We have manoptlift in the title of the next section, so it's fine. -->
 
 Consider the following commutative diagram.
 
@@ -78,45 +83,18 @@ General theory for this is developed in the following paper, with many examples 
 
 
 ::: {.callout-warning}
-## Run `importmanopt`.
+## Run `importmanopt`
 Lifts were added to Manopt late June 2024.
-To use them, you will need a sufficiently recent version of the code (e.g., from [github](https://github.com/NicolasBoumal/manopt/).)
+To use them, you need a sufficiently recent version of the code (e.g., from [github](https://github.com/NicolasBoumal/manopt/)).
 Lifts are stored in a new folder `/manopt/lifts` that needs to be on Matlab's path.
 To ensure this, call `importmanopt`.
 :::
 
 
-## Available lifts
-
-The following lifts are available in Manopt:
-
-* 
-* 
-* 
-
-They can be used to optimize over several nonsmooth sets, as listed in the next few sections with further explanations.
-
-## Hadamard (entrywise product)
-
-## Burer-Monteiro for smooth SDP
-
-## Burer-Monteiro for general bounded-rank
-
-:::{.callout-note}
-## Desingularization lift of bounded rank matrices.
-The `desingularizationfactory` encodes the geometry of a Riemannian manifold, but `egrad2rgrad` and `ehess2rhess` in that factory actually correspond to a lift, as described in the documentation of the factory.
-Thus, it is not a lift in Manopt's code base, but mathematically it acts as a lift of the set of bounded-rank matrices to a smooth manifold.
-This is a good alternative to the $LR^\top$ lift, with stronger theoretical properties as detailed in [this paper](https://arxiv.org/abs/2406.14211).
-:::
-
-## Boxes
-
-## Balls
-
-
 ## Lift structures: what's in them?
 
 The `lift` structure must provide enough information about $\varphi$ (in the form of function handles) so that Manopt can automatically deduce how to compute $g = f \circ \varphi$, its gradient and (ideally) its Hessian, based on the corresponding information about $f$.
+@tbl-liftfields lists the fields in `lift`, including manifold structures for $\calM$ and $\calN$, and function handles for $\varphi$ and more.
 
 Let $y \in \calM$ and $x = \varphi(y) \in \calN$.
 By the chain rule, for all $v \in \T_y\calM$ we have
@@ -147,9 +125,38 @@ For the Hessian, additional computations shown later on this page tell us what e
 | $\Hess h_w(y)$ | `s = lift.hesshw(y, v, w)` | Given $y \in \calM$ and $w \in \T_x\calN$ where $x = \varphi(y)$, choose $q_w \colon \calN \to \reals$ such that $\grad q_w(x) = w$ (for the specified $x$). Let $h_w = q_w \circ \varphi \colon \calM \to \reals$. Then $s = \Hess h_w(y)[v]$. If $\calN$ is Euclidean, a typical choice is $q_w = \inner{\cdot}{w}_\calN$.  |
 | $\Hess q_w(x)$ | `s = lift.hessqw(x, u, w)` | Given $x \in \calN$ and $w \in \T_x\calN$, choose $q_w \colon \calN \to \reals$ such that $\grad q_w(x) = w$ (for the specified $x$). Then $s = \Hess q_w(x)[u]$. If $\calN$ is Euclidean, a typical choice is $q_w = \inner{\cdot}{w}_\calN$, in which case $\Hess q_w(x) = 0$. If the field is omitted, it is assumed to be zero.  |
 | $\varphi$ or $\bar{\varphi}$? | `lift.embedded` | Boolean flag set to `false` (by default) if all of the above indeed pertains to $\varphi$, and set to `true` if the above instead describes $\bar{\varphi} \colon \calE \to \calN$, where $\calE$ is the embedding space for $\calM$ (as specified in the documentation for the corresponding factory), as a smooth extension such that $\bar{\varphi}|_\calM = \varphi$. See @fig-diagramEMN. In that case, the lift enables computation of $\grad \bar{g}$ and $\Hess \bar{g}$, which $\calM$ can then convert to $\grad g$ and $\Hess g$ using `egrad2rgrad` and `ehess2rhess`. |
-: Fields in a `lift` structure.
+: Fields in a `lift` structure. {#tbl-liftfields}
 
 
+
+
+
+## Available lifts
+
+The following lifts are available in Manopt:
+
+* 
+* 
+* 
+
+They can be used to optimize over several nonsmooth sets, as listed in the next few sections with further explanations.
+
+## Hadamard (entrywise product)
+
+## Burer-Monteiro for smooth SDP
+
+## Burer-Monteiro for general bounded-rank
+
+:::{.callout-note}
+## Desingularization lift of bounded rank matrices.
+The `desingularizationfactory` encodes the geometry of a Riemannian manifold, but `egrad2rgrad` and `ehess2rhess` in that factory actually correspond to a lift, as described in the documentation of the factory.
+Thus, it is not a lift in Manopt's code base, but mathematically it acts as a lift of the set of bounded-rank matrices to a smooth manifold.
+This is a good alternative to the $LR^\top$ lift, with stronger theoretical properties as detailed in [this paper](https://arxiv.org/abs/2406.14211).
+:::
+
+## Boxes
+
+## Balls
 
 
 ## The Hessian of $g$
