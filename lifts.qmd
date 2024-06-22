@@ -11,6 +11,8 @@ sidebar: tutorial
 
 At first sight, optimization on manifolds is restricted to optimization problems on smooth sets.
 Notwithstanding, we can use smooth parameterizations of (possibly) nonsmooth sets to extend the realm of applications.
+This eases the process of working with constraints, nonsmooth sets or simply a change of variables.
+This is done with the tool `manoptlift`.
 
 Consider the following commutative diagram.
 
@@ -36,6 +38,35 @@ We can do this explicitly by constructing a `problem` structure for $g$ on $\cal
 Alternatively, we can construct a problem structure for $f$ on $\calN$ and compose it with $\varphi$ by using `manoptlift`.
 To do so, this tool requires some information about $\varphi$ and its derivatives: this is all stored in a `lift` structure.
 Manopt comes with some built-in lifts (see below), and users can create their own.
+
+## Upstairs, downstairs and `manoptlift`
+
+There are now two related optimization problems to consider.
+The problem **downstairs** is
+$$
+    \min_{x \in \calN} f(x) \quad \textrm{ subject to } \quad x \in \calX,
+$$
+where $\calX = \varphi(\calM) \subset \calN$ is the image of the lift and $f \colon \calN \to \reals$ is the cost function.
+The problem **upstairs** is
+$$
+    \min_{y \in \calM} g(y),
+$$
+where $g = f \circ \varphi \colon \calM \to \reals$.
+The names "upstairs" and "downstairs" are reminiscent of the diagram in @fig-diagramEMN, and echo the meaning of a "lift" as a tool to go from downstairs to upstairs.
+
+In order to solve the downstairs problem, we first go through the following steps:
+
+1. Build a problem structure `downstairs` for $f \colon \calN \to \reals$ (*ignoring* the constraint $x \in \calX$).
+2. Build a `lift` structure for $\varphi \colon \calM \to \calN$.
+3. Call `upstairs = manoptlift(downstairs, lift)`.
+
+The outcome is a problem structure `upstairs` which encodes $g \colon \calM \to \reals$ with $g = f \circ \varphi$.
+Then,
+
+4. Call a solver on the upstairs problem, e.g., `y = trustregions(upstairs)`.
+5. Map $y$ down to $x = \varphi(y)$ with `x = lift.phi(y)`.
+
+The resulting $x$ is guaranteed to be in $\calX$ (by construction)
 
 
 ## Available lifts
@@ -90,8 +121,8 @@ For the Hessian, additional computations shown later on this page tell us what e
 | $\D\varphi(y)$ | `u = lift.Dphi(y, v)` | Differential of $\varphi$ at $y \in \calM$ along $v \in \T_y\calM$. The output is $u = \D\varphi(y)[v]$ in $\T_x\calN$ where $x = \varphi(y)$. |
 | $\D\varphi(y)^*$ | `v = lift.Dphit(y, u)` | Adjoint of $\D\varphi(y)$ with respect ot the inner products on $\T_y\calM$ and $\T_x\calN$, where $x = \varphi(y)$. Thus, $$\inner{\D\varphi(y)[v]}{u}_x = \inner{v}{\D\varphi(y)^*[u]}_y.$$ |
 | $\Hess h_w(y)$ | `s = lift.hesshw(y, v, w)` | Given $y \in \calM$ and $w \in \T_x\calN$ where $x = \varphi(y)$, choose $q_w \colon \calN \to \reals$ such that $\grad q_w(x) = w$ (for the specified $x$). Let $h_w = q_w \circ \varphi \colon \calM \to \reals$. Then $s = \Hess h_w(y)[v]$. If $\calN$ is Euclidean, a typical choice is $q_w = \inner{\cdot}{w}_\calN$.  |
-| $\Hess q_w(x)$ | `s = lift.hessqw(x, u, w)` | Given $x \in \calN$ and $w \in \T_x\calN$, choose $q_w \colon \calN \to \reals$ such that $\grad q_w(x) = w$ (for the specified $x$). Then $s = \Hess q_w(x)[u]$. If $\calN$ is Euclidean, a typical choice is $q_w = \inner{\cdot}{w}_\calN$, in which case $\Hess q_w = 0$. If the field is omitted, it is assumed that the Hessian is zero.  |
-| $\varphi$ or $\bar{\varphi}$? | `lift.embedded` | Boolean flag set to `false` (by default) if all of the above indeed pertains to $\varphi$, and set to `true` if the above instead describes $\bar{\varphi} \colon \calE \to \calN$, where $\calE$ is the embedding space for $\calM$ (as specified in the documentation for the corresponding factory), as a smooth extension such that $\bar{\varphi}|_\calM = \varphi$. See @fig-diagramEMN. In that case, the lift enables computation of $\grad \bar{g}$ and $\Hess \bar{g}$, which $\calM$ can then convert to $\grad g$ and $\hess g$ using `egrad2rgrad` and `ehess2rhess`. |
+| $\Hess q_w(x)$ | `s = lift.hessqw(x, u, w)` | Given $x \in \calN$ and $w \in \T_x\calN$, choose $q_w \colon \calN \to \reals$ such that $\grad q_w(x) = w$ (for the specified $x$). Then $s = \Hess q_w(x)[u]$. If $\calN$ is Euclidean, a typical choice is $q_w = \inner{\cdot}{w}_\calN$, in which case $\Hess q_w(x) = 0$. If the field is omitted, it is assumed to be zero.  |
+| $\varphi$ or $\bar{\varphi}$? | `lift.embedded` | Boolean flag set to `false` (by default) if all of the above indeed pertains to $\varphi$, and set to `true` if the above instead describes $\bar{\varphi} \colon \calE \to \calN$, where $\calE$ is the embedding space for $\calM$ (as specified in the documentation for the corresponding factory), as a smooth extension such that $\bar{\varphi}|_\calM = \varphi$. See @fig-diagramEMN. In that case, the lift enables computation of $\grad \bar{g}$ and $\Hess \bar{g}$, which $\calM$ can then convert to $\grad g$ and $\Hess g$ using `egrad2rgrad` and `ehess2rhess`. |
 : Fields in a `lift` structure.
 
 
