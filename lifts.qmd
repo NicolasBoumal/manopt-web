@@ -61,7 +61,7 @@ They can be used to optimize over several nonsmooth sets, as listed in the next 
 
 ## Lift structures: what's in them?
 
-The `lift` structure must provide enough information about $\varphi$ (in the form of function handles) so that Manopt can automatically deduce how to compute $g = f \circ \varphi$, its gradient and (ideally) its Hessian, based on similar information about $f$.
+The `lift` structure must provide enough information about $\varphi$ (in the form of function handles) so that Manopt can automatically deduce how to compute $g = f \circ \varphi$, its gradient and (ideally) its Hessian, based on the corresponding information about $f$.
 
 Let $y \in \calM$ and $x = \varphi(y) \in \calN$.
 By the chain rule, for all $v \in \T_y\calM$ we have
