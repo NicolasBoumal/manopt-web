@@ -15,7 +15,7 @@ Notwithstanding, we can use smooth parameterizations of (possibly) nonsmooth set
 Consider the following commutative diagram.
 
 <!--https://q.uiver.app/#q=WzAsNSxbNCwzLCJcXG1hdGhjYWx7Tn0iXSxbOCwzLCJcXG1hdGhiYntSfSJdLFs0LDIsIlxcbWF0aGNhbHtNfSJdLFs0LDEsIlxcbWF0aGNhbHtFfSIsWzMwMCw2MCw2MCwxXV0sWzAsMF0sWzAsMSwiZiIsMl0sWzIsMCwiXFx2YXJwaGkiXSxbMiwxLCJnPWZcXGNpcmMgXFx2YXJwaGkiXSxbMiwzLCIiLDIseyJjb2xvdXIiOlszMDAsNjAsNjBdLCJzdHlsZSI6eyJ0YWlsIjp7Im5hbWUiOiJob29rIiwic2lkZSI6ImJvdHRvbSJ9fX1dLFszLDEsIlxcYmFye2d9IiwwLHsiY3VydmUiOi0yLCJjb2xvdXIiOlszMDAsNjAsNjBdfSxbMzAwLDYwLDYwLDFdXSxbMywwLCJcXGJhcntcXHZhcnBoaX0iLDIseyJjdXJ2ZSI6MywiY29sb3VyIjpbMzAwLDYwLDYwXX0sWzMwMCw2MCw2MCwxXV1d-->
-![Commutative diagram on which lifts are based.](images/lift_diagram_EMN.png){width=25em}
+![Commutative diagram on which lifts are based.](images/lift_diagram_EMN.png){#fig-diagramEMN width=25em}
 
 The principal objects in this diagram are in black.
 They are as follows:
@@ -78,7 +78,8 @@ $$
     \grad g(y) = \D\varphi(y)^*[\grad f(x)].
 $$
 This illustrates how we can get the gradient of $g$ from that of $f$ provided the lift gives us access to $\D\varphi(y)^*$.
-For the Hessian, additional computations shown later on this page tell us what else needs to be included.
+(We might call this map `fgrad2ggrad` to echo the similar role it plays when compared to `egrad2rgrad`, where $\varphi$ is the inclusion map from the manifold into its embedding space.)
+For the Hessian, additional computations shown later on this page tell us what else needs to be included: see @eq-hessgtotal.
 
 
 | Name  | Field usage  | Functionality  |
@@ -90,7 +91,7 @@ For the Hessian, additional computations shown later on this page tell us what e
 | $\D\varphi(y)^*$ | `v = lift.Dphit(y, u)` | Adjoint of $\D\varphi(y)$ with respect ot the inner products on $\T_y\calM$ and $\T_x\calN$, where $x = \varphi(y)$. Thus, $$\inner{\D\varphi(y)[v]}{u}_x = \inner{v}{\D\varphi(y)^*[u]}_y.$$ |
 | $\Hess h_w(y)$ | `s = lift.hesshw(y, v, w)` | Given $y \in \calM$ and $w \in \T_x\calN$ where $x = \varphi(y)$, choose $q_w \colon \calN \to \reals$ such that $\grad q_w(x) = w$ (for the specified $x$). Let $h_w = q_w \circ \varphi \colon \calM \to \reals$. Then $s = \Hess h_w(y)[v]$. If $\calN$ is Euclidean, a typical choice is $q_w = \inner{\cdot}{w}_\calN$.  |
 | $\Hess q_w(x)$ | `s = lift.hessqw(x, u, w)` | Given $x \in \calN$ and $w \in \T_x\calN$, choose $q_w \colon \calN \to \reals$ such that $\grad q_w(x) = w$ (for the specified $x$). Then $s = \Hess q_w(x)[u]$. If $\calN$ is Euclidean, a typical choice is $q_w = \inner{\cdot}{w}_\calN$, in which case $\Hess q_w = 0$. If the field is omitted, it is assumed that the Hessian is zero.  |
-| $\varphi$ or $\bar{\varphi}$? | `lift.embedded` | Boolean flag set to `false` (by default) if all of the above indeed pertains to $\varphi$, and set to `true` if the above instead describes $\bar{\varphi} \colon \calE \to \calN$, where $\calE$ is the embedding space for $\calM$ (as specified in the documentation for the corresponding factory), as a smooth extension such that $\bar{\varphi}|_\calM = \varphi$. |
+| $\varphi$ or $\bar{\varphi}$? | `lift.embedded` | Boolean flag set to `false` (by default) if all of the above indeed pertains to $\varphi$, and set to `true` if the above instead describes $\bar{\varphi} \colon \calE \to \calN$, where $\calE$ is the embedding space for $\calM$ (as specified in the documentation for the corresponding factory), as a smooth extension such that $\bar{\varphi}|_\calM = \varphi$. See @fig-diagramEMN. In that case, the lift enables computation of $\grad \bar{g}$ and $\Hess \bar{g}$, which $\calM$ can then convert to $\grad g$ and $\hess g$ using `egrad2rgrad` and `ehess2rhess`. |
 : Fields in a `lift` structure.
 
 
