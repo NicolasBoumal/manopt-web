@@ -184,8 +184,8 @@ $$
 $$
 where $\sin$ is applied entrywise.
 
-This lift satisfies local $\rightarrow$ local and 2 $\rightarrow$ 1 everywhere.
-It also satisifies $1 \rightarrow 1$ at all $Y \in \Rnm$ such that $|X_{ij}| < 1$ for all $i,j$ with $X = \varphi(Y)$.
+This lift satisfies local $\Rightarrow$ local and 2 $\Rightarrow$ 1 everywhere.
+It also satisifies $1 \Rightarrow 1$ at all $Y \in \Rnm$ such that $|X_{ij}| < 1$ for all $i,j$ with $X = \varphi(Y)$.
 
 As an example, consider minimizing a quadratic in a cube:
 
