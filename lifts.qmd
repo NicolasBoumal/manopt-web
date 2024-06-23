@@ -216,12 +216,12 @@ n = 5;
 A = randsym(n);
 b = randn(n, 1);
 
-lift = cubeslift(n);
-
 downstairs.M = euclideanfactory(n); % optional
 downstairs.cost = @(x) .5*(x'*A*x) + b'*x;
 downstairs.grad = @(x) A*x + b;
 downstairs.hess = @(x, xdot) A*xdot;
+
+lift = cubeslift(n);
 
 upstairs = manoptlift(downstairs, lift);
 
@@ -239,9 +239,9 @@ n = 5;
 A = randsym(n);
 b = randn(n, 1);
 
-lift = cubeslift(n);
-
 downstairs.cost = @(x) .5*(x'*A*x) + b'*x;
+
+lift = cubeslift(n);
 
 [upstairs, downstairs] = manoptlift(downstairs, lift, 'AD');
 
@@ -253,10 +253,10 @@ x = lift.phi(y);
 :::
 
 Note that $\calX$ is convex.
-If $f$ is also convex (e.g., in the example above, if $A$ is positive semidefinite), then the problem downstairs is convex.
+**If $f$ is convex** (e.g., in the example above, if $A$ is positive semidefinite), then the problem downstairs is convex.
 Therefore, first-order stationary points are global minima.
 Since the lift satisfies 2 $\Rightarrow$ 1, it follows that second-order critical points upstairs are global minima.
-In other words: the problem upstairs enjoys the strict saddle property (benign nonconvexity).
+In other words: the problem upstairs enjoys the **strict saddle property (benign nonconvexity)**.
 
 
 ### Balls and disks
