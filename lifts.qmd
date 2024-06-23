@@ -201,8 +201,9 @@ $$
 $$
 where $\sin$ is applied entrywise.
 
-This lift satisfies local $\Rightarrow$ local and 2 $\Rightarrow$ 1 everywhere.
-It also satisifies $1 \Rightarrow 1$ at all $Y \in \Rnm$ such that $|X_{ij}| < 1$ for all $i,j$ with $X = \varphi(Y)$.
+This lift satisfies **local $\Rightarrow$ local** and **2 $\Rightarrow$ 1** everywhere.
+It also satisifies 1 $\Rightarrow$ 1 at all $Y \in \Rnm$ such that $|X_{ij}| < 1$ for all $i,j$ with $X = \varphi(Y)$.
+<!--One way to prove this is by studying the lift explicitly for $m = n = 1$ and then using the general results in our paper for products of lifts.-->
 
 As an example, consider $\min_{x \in \Rn} \frac{1}{2} x^\top A x + b^\top x$ subject to $-1 \leq x_i \leq 1$ for $i = 1, \ldots, n$:
 
@@ -217,7 +218,7 @@ b = randn(n, 1);
 
 lift = cubeslift(n);
 
-downstairs.M = lift.N;
+downstairs.M = euclideanfactory(n); % optional
 downstairs.cost = @(x) .5*(x'*A*x) + b'*x;
 downstairs.grad = @(x) A*x + b;
 downstairs.hess = @(x, xdot) A*xdot;
@@ -240,7 +241,6 @@ b = randn(n, 1);
 
 lift = cubeslift(n);
 
-downstairs.M = lift.N;
 downstairs.cost = @(x) .5*(x'*A*x) + b'*x;
 
 [upstairs, downstairs] = manoptlift(downstairs, lift, 'AD');
@@ -255,7 +255,8 @@ x = lift.phi(y);
 Note that $\calX$ is convex.
 If $f$ is also convex (e.g., in the example above, if $A$ is positive semidefinite), then the problem downstairs is convex.
 Therefore, first-order stationary points are global minima.
-Since the lift satisfies 2 $\Righarrow$ 1, it follows that second-order critical points upstairs are global minima, even though the problem upstairs is nonconvex.
+Since the lift satisfies 2 $\Rightarrow$ 1, it follows that second-order critical points upstairs are global minima.
+In other words: the problem upstairs enjoys the strict saddle property (benign nonconvexity).
 
 
 ### Balls and disks
