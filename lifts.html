@@ -1,0 +1,1585 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.46">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Lifts: parameterizations made easy – Manopt</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./icon.png" rel="icon" type="image/png">
+<script src="site_libs/cookie-consent/cookie-consent.js"></script>
+<link href="site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-71FCE8T97E"></script>
+
+<script type="text/plain" cookie-consent="tracking">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-71FCE8T97E', { 'anonymize_ip': true});
+</script>
+
+<script type="text/javascript" charset="UTF-8">
+document.addEventListener('DOMContentLoaded', function () {
+cookieconsent.run({
+  "notice_banner_type":"simple",
+  "consent_type":"express",
+  "palette":"light",
+  "language":"en",
+  "page_load_consent_levels":["strictly-necessary"],
+  "notice_banner_reject_button_hide":false,
+  "preferences_center_close_button_hide":false,
+  "website_name":""
+  ,
+"language":"en"
+  });
+});
+</script> 
+  
+<style>html{ scroll-behavior: smooth; }</style>
+<script>
+
+window.MathJax = {
+
+    tex: {
+
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+
+      macros: {
+
+        reals: "\\mathbb{R}",
+
+        inner: ["\\left\\langle #1, #2 \\right\\rangle", 2],
+
+        smallinner: ["\\langle #1, #2 \\rangle", 2],
+
+        innersmall: ["\\langle #1, #2 \\rangle", 2],
+
+        innerbig: ["\\big\\langle #1, #2 \\big\\rangle", 2],
+
+        sqfrobnorm: ["\\left\\|#1\\right\\|_{\\mathrm{F}}^2", 1],
+
+        sqfrobnormsmall: ["\\|#1\\|_{\\mathrm{F}}^2", 1],
+
+        sqfrobnormbig: ["\\big\\|#1\\big\\|_{\\mathrm{F}}^2", 1],
+
+        calM: "\\mathcal{M}",
+
+        calN: "\\mathcal{N}",
+
+        calA: "\\mathcal{A}",
+
+        calX: "\\mathcal{X}",
+
+        T: "\\mathrm{T}",
+
+        skeww: "\\mathrm{skew}",
+
+        symm: "\\mathrm{sym}",
+
+        Sym: "\\mathrm{Sym}",
+
+        Proj: "\\mathrm{Proj}",
+
+        grad: "\\mathrm{grad}",
+
+        Hess: "\\mathrm{Hess}",
+
+        Retr: "\\mathrm{R}",
+
+        D: "\\mathrm{D}",
+
+        calE: "\\mathcal{E}",
+
+        Stnp: "\\mathrm{St}(n,p)",
+
+        Rnp: "\\mathbb{R}^{n \\times p}",
+
+        Rmp: "\\mathbb{R}^{m \\times p}",
+
+        Rnr: "\\mathbb{R}^{n \\times r}",
+
+        Rrn: "\\mathbb{R}^{r \\times n}",
+
+        Rmr: "\\mathbb{R}^{m \\times r}",
+
+        Rnn: "\\mathbb{R}^{n \\times n}",
+
+        Rmn: "\\mathbb{R}^{m \\times n}",
+
+        Rnm: "\\mathbb{R}^{n \\times m}",
+
+        Rpp: "\\mathbb{R}^{p \\times p}",
+
+        Rmnr: "\\mathbb{R}^{m \\times n}_r",
+
+        Rmnlr: "\\mathbb{R}^{m \\times n}_{\\leq r}",
+
+        Rn: "\\mathbb{R}^{n}",
+
+        Rm: "\\mathbb{R}^{m}",
+
+        Rp: "\\mathbb{R}^{p}",
+
+        Rd: "\\mathbb{R}^{d}",
+
+        Rk: "\\mathbb{R}^{k}",
+
+        Sn: "\\mathbb{S}^{n}",
+
+        Sm: "\\mathbb{S}^{m}",
+
+        Sd: "\\mathbb{S}^{d-1}",
+
+        trace: "\\mathrm{Tr}",
+
+        Trace: "\\mathrm{Tr}",
+
+        diag: "\\mathrm{diag}",
+
+        sign: "\\mathrm{sign}",
+
+        Od: "\\mathrm{O}(d)",
+
+        On: "\\mathrm{O}(n)",
+
+        Om: "\\mathrm{O}(m)",
+
+        SOd: "\\mathrm{SO}(d)",
+
+        SOn: "\\mathrm{SO}(n)",
+
+        rank: "\\mathrm{rank}",
+
+        frakX: "\\mathfrak{X}",
+
+        frakF: "\\mathfrak{F}",
+
+        One: "\\mathbf{1}",
+
+        dist: "\\mathrm{dist}",
+
+        calP: "\\mathcal{P}",
+
+        calK: "\\mathcal{K}",
+
+        Rdd: "\\mathbb{R}^{d \\times d}",
+
+        calU: "\\mathcal{U}",
+
+        calV: "\\mathcal{V}",
+
+        calW: "\\mathcal{W}",
+
+        Exp: "\\mathrm{Exp}",
+
+        Log: "\\mathrm{Log}",
+
+        inj: "\\mathrm{inj}",
+
+        dom: "\\operatorname{dom}",
+
+        bigger: "<",
+
+        dt: "\\mathrm{d}t",
+
+        transpose: "^\\top\\! ",
+
+        sigmamax: "\\sigma_{\\mathrm{max}}",
+
+        sigmamin: "\\sigma_{\\mathrm{min}}",
+
+        lambdamax: "\\lambda_{\\mathrm{max}}",
+
+        lambdamin: "\\lambda_{\\mathrm{min}}",
+
+        TODO: ["\\textcolor{red}{[\\textrm{#1}]}", 1]
+
+      }
+
+    },
+
+    svg: {
+
+      fontCache: 'global'
+
+    }
+
+  };
+
+</script>
+
+
+
+<script>
+
+  window.addEventListener('load', function() {
+
+    document.getElementById("cc-nb-title").innerHTML = "May we use cookies for anonymized analytics?";
+
+    // to improve your browsing experience on our website, 
+
+    document.getElementById("cc-nb-text").innerHTML = "We would like to use cookies to analyze our website traffic, and to understand where our visitors are coming from.";
+
+  });
+
+</script>
+
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="styles.css">
+<meta property="og:title" content="Manopt - Lifts: parameterizations made easy">
+<meta property="og:description" content="Use lifts to compose an optimization problem with a parameterization">
+<meta property="og:site_name" content="Manopt">
+</head>
+
+<body class="nav-sidebar docked nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Manopt</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-tutorial" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Tutorial</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-tutorial">    
+        <li>
+    <a class="dropdown-item" href="./gettingstarted.html">
+ <span class="dropdown-text">Getting started</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./firstexample.html">
+ <span class="dropdown-text">A first example</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./manifolds.html">
+ <span class="dropdown-text">Manifolds</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./costdescription.html">
+ <span class="dropdown-text">Cost functions</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./solvers.html">
+ <span class="dropdown-text">Solvers</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./tools.html">
+ <span class="dropdown-text">Helpful tools</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./lifts.html">
+ <span class="dropdown-text">Lifts</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./core.html">
+ <span class="dropdown-text">Core tools</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="./learning.html"> 
+<span class="menu-text">Learning</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./downloads.html"> 
+<span class="menu-text">Downloads</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./forum.html"> 
+<span class="menu-text">Forum</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/NicolasBoumal/manopt" target="_blank"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="mailto:manopttoolbox@gmail.com"> <i class="bi bi-envelope-at" role="img" aria-label="E-mail">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./lifts.html">Lifts</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./gettingstarted.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Getting started</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./firstexample.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">A first example</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./manifolds.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Manifolds</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./costdescription.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Cost functions</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./solvers.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Solvers</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tools.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Helpful tools</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./lifts.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Lifts</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./core.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Core tools</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="2">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#general-idea" id="toc-general-idea" class="nav-link active" data-scroll-target="#general-idea">General idea <img src="images/icon_salute.gif" class="img-fluid"></a></li>
+  <li><a href="#upstairs-downstairs-and-manoptlift" id="toc-upstairs-downstairs-and-manoptlift" class="nav-link" data-scroll-target="#upstairs-downstairs-and-manoptlift">Upstairs, downstairs and <code>manoptlift</code></a></li>
+  <li><a href="#landscape-relations" id="toc-landscape-relations" class="nav-link" data-scroll-target="#landscape-relations">Landscape relations</a></li>
+  <li><a href="#lift-structures-whats-in-them" id="toc-lift-structures-whats-in-them" class="nav-link" data-scroll-target="#lift-structures-whats-in-them">Lift structures: what’s in them?</a></li>
+  <li><a href="#available-lifts" id="toc-available-lifts" class="nav-link" data-scroll-target="#available-lifts">Available lifts</a>
+  <ul class="collapse">
+  <li><a href="#cubes-and-squares" id="toc-cubes-and-squares" class="nav-link" data-scroll-target="#cubes-and-squares">Cubes and squares</a></li>
+  <li><a href="#balls-and-disks" id="toc-balls-and-disks" class="nav-link" data-scroll-target="#balls-and-disks">Balls and disks</a></li>
+  <li><a href="#hadamard-entrywise-product" id="toc-hadamard-entrywise-product" class="nav-link" data-scroll-target="#hadamard-entrywise-product">Hadamard (entrywise product)</a></li>
+  <li><a href="#burer-monteiro-for-smooth-sdp" id="toc-burer-monteiro-for-smooth-sdp" class="nav-link" data-scroll-target="#burer-monteiro-for-smooth-sdp">Burer-Monteiro for smooth SDP</a></li>
+  <li><a href="#burer-monteiro-for-general-bounded-rank" id="toc-burer-monteiro-for-general-bounded-rank" class="nav-link" data-scroll-target="#burer-monteiro-for-general-bounded-rank">Burer-Monteiro for general bounded-rank</a></li>
+  </ul></li>
+  <li><a href="#the-hessian-of-g" id="toc-the-hessian-of-g" class="nav-link" data-scroll-target="#the-hessian-of-g">The Hessian of <span class="math inline">\(g\)</span></a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Lifts: parameterizations made easy</h1>
+<p class="subtitle lead">Use lifts to compose an optimization problem with a parameterization</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-simple callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Run <code>importmanopt</code>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Lifts were added to Manopt late June 2024. To use them, you need a sufficiently recent version of the code (e.g., from <a href="https://github.com/NicolasBoumal/manopt/">github</a>). Lifts are stored in a new folder <code>/manopt/lifts</code> that needs to be on Matlab’s path. To ensure this, call <code>importmanopt</code>.</p>
+</div>
+</div>
+<section id="general-idea" class="level2">
+<h2 class="anchored" data-anchor-id="general-idea">General idea <img src="images/icon_salute.gif" class="img-fluid"></h2>
+<p>At first sight, optimization on manifolds is restricted to optimization problems on smooth sets. Notwithstanding, we can use smooth parameterizations of (possibly) nonsmooth sets to extend the realm of applications. See built-in examples in <a href="#tbl-lifts" class="quarto-xref">Table&nbsp;2</a>. This eases the process of working with:</p>
+<ul>
+<li>constraints,</li>
+<li>nonsmooth sets, or simply</li>
+<li>a change of variables.</li>
+</ul>
+<p>Consider the following commutative diagram.</p>
+<div id="fig-diagramEMN" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-diagramEMN-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/lift_diagram_EMN.png" class="img-fluid figure-img" style="width:25em">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-diagramEMN-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Commutative diagram on which lifts are based.
+</figcaption>
+</figure>
+</div>
+<p>The principal objects in this diagram are in black. They are as follows:</p>
+<ul>
+<li><span class="math inline">\(\calM\)</span> is a Riemannian manifold.</li>
+<li><span class="math inline">\(\calN\)</span> is a Riemannian manifold too (often, it is a Euclidean space).</li>
+<li><span class="math inline">\(f \colon \calN \to \reals\)</span> is the cost function we wish to minimize <em>on some subset</em>.</li>
+<li><span class="math inline">\(\varphi \colon \calM \to \calN\)</span> is the <em>lift</em> or <em>parameterization</em>: its image <span class="math inline">\(\calX = \varphi(\calM)\)</span> is a subset of <span class="math inline">\(\calN\)</span>.</li>
+<li><span class="math inline">\(g = f \circ \varphi \colon \calM \to \reals\)</span> is the function we will actually minimize (without restriction on <span class="math inline">\(\calM\)</span>).</li>
+</ul>
+<p>Notice that by minimizing <span class="math inline">\(g\)</span> on <span class="math inline">\(\calM\)</span>, we are effectively minimizing <span class="math inline">\(f\)</span> on <span class="math inline">\(\calX\)</span>, because <span class="math inline">\(g(y) = f(\varphi(y))\)</span> so that we only ever evaluate <span class="math inline">\(f\)</span> at points of the form <span class="math inline">\(x = \varphi(y)\)</span> which, by definition, are in <span class="math inline">\(\calX\)</span>.</p>
+<p>Moreover, if <span class="math inline">\(f\)</span> and <span class="math inline">\(\varphi\)</span> are both smooth, then so is <span class="math inline">\(g\)</span> by composition.</p>
+<p>This means that even if <span class="math inline">\(\calX\)</span> is a nonsmooth set, we can still use Manopt to (try to) minimize <span class="math inline">\(f\)</span> on <span class="math inline">\(\calX \subseteq \calN\)</span>.</p>
+<p>We can do this explicitly by constructing a <code>problem</code> structure for <span class="math inline">\(g\)</span> on <span class="math inline">\(\calM\)</span>. Alternatively, we can construct a problem structure for <span class="math inline">\(f\)</span> on <span class="math inline">\(\calN\)</span> and compose it with <span class="math inline">\(\varphi\)</span> by using <code>manoptlift</code>. To do so, this tool requires some information about <span class="math inline">\(\varphi\)</span> and its derivatives: this is all stored in a <code>lift</code> structure. Manopt comes with some built-in lifts (see below), and users can create their own.</p>
+</section>
+<section id="upstairs-downstairs-and-manoptlift" class="level2">
+<h2 class="anchored" data-anchor-id="upstairs-downstairs-and-manoptlift">Upstairs, downstairs and <code>manoptlift</code></h2>
+<p>There are now two related optimization problems to consider. The problem <strong>downstairs</strong> is <span class="math display">\[
+    \min_{x \in \calN} f(x) \quad \textrm{ subject to } \quad x \in \calX,
+\]</span> where <span class="math inline">\(\calX = \varphi(\calM) \subseteq \calN\)</span> is the image of the lift and <span class="math inline">\(f \colon \calN \to \reals\)</span> is the cost function. The problem <strong>upstairs</strong> is <span class="math display">\[
+    \min_{y \in \calM} g(y),
+\]</span> where <span class="math inline">\(g = f \circ \varphi \colon \calM \to \reals\)</span>. The names “upstairs” and “downstairs” are reminiscent of the diagram in <a href="#fig-diagramEMN" class="quarto-xref">Figure&nbsp;1</a>, and echo the meaning of a “lift” as a tool to go from downstairs to upstairs.</p>
+<p>In order to solve the downstairs problem, we first go through the following steps:</p>
+<ol type="1">
+<li>Build a problem structure <code>downstairs</code> for <span class="math inline">\(f \colon \calN \to \reals\)</span> (<em>ignoring</em> the constraint <span class="math inline">\(x \in \calX\)</span>).</li>
+<li>Build a <code>lift</code> structure for <span class="math inline">\(\varphi \colon \calM \to \calN\)</span>, e.g., by selecting an existing one.</li>
+<li>Call <code>upstairs = manoptlift(downstairs, lift)</code>.</li>
+</ol>
+<p>The outcome is a problem structure <code>upstairs</code> which encodes <span class="math inline">\(g \colon \calM \to \reals\)</span> with <span class="math inline">\(g = f \circ \varphi\)</span>. Then,</p>
+<ol start="4" type="1">
+<li>Call a solver on the upstairs problem, e.g., <code>y = trustregions(upstairs)</code>.</li>
+<li>Map <span class="math inline">\(y\)</span> down to <span class="math inline">\(x = \varphi(y)\)</span> with <code>x = lift.phi(y)</code>.</li>
+</ol>
+<p>The resulting <span class="math inline">\(x\)</span> is guaranteed to be in <span class="math inline">\(\calX\)</span> (by construction). If <span class="math inline">\(y\)</span> is optimal, so is <span class="math inline">\(x\)</span>.</p>
+<p>There are several ways to call <code>manoptlift</code>:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>[<span class="va">upstairs</span><span class="op">,</span> <span class="va">downstairs</span>] <span class="op">=</span> <span class="va">manoptlift</span>(<span class="va">downstairs</span><span class="op">,</span> <span class="va">lift</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>[<span class="va">upstairs</span><span class="op">,</span> <span class="va">downstairs</span>] <span class="op">=</span> <span class="va">manoptlift</span>(<span class="va">downstairs</span><span class="op">,</span> <span class="va">lift</span><span class="op">,</span> <span class="ss">'AD'</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>[<span class="va">upstairs</span><span class="op">,</span> <span class="va">downstairs</span>] <span class="op">=</span> <span class="va">manoptlift</span>(<span class="va">downstairs</span><span class="op">,</span> <span class="va">lift</span><span class="op">,</span> <span class="ss">'noAD'</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>[<span class="va">upstairs</span><span class="op">,</span> <span class="va">downstairs</span>] <span class="op">=</span> <span class="va">manoptlift</span>(<span class="va">downstairs</span><span class="op">,</span> <span class="va">lift</span><span class="op">,</span> <span class="ss">'ADnohess'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>The third input (optional) is a string:
+<ul>
+<li>If it is omitted, or <code>''</code>, or <code>'noAD'</code>, there is no effect.</li>
+<li>If it is <code>'AD'</code>, then automatic differentiation is used on <code>downstairs</code> with <code>manoptAD</code> before <code>upstairs</code> is built.</li>
+<li>If it is <code>'ADnohess'</code>, then <code>manoptAD</code> is called with the <code>nohess</code> option.</li>
+</ul></li>
+<li>The <code>downstairs</code> structure is available as second output (optional) because <code>manoptlift</code> may modify it in the following circumstances:
+<ul>
+<li>If <code>downstairs.M</code> is omitted, then it is set to <code>lift.N</code>.</li>
+<li>If automatic differentiation is used.</li>
+</ul></li>
+</ul>
+</section>
+<section id="landscape-relations" class="level2">
+<h2 class="anchored" data-anchor-id="landscape-relations">Landscape relations</h2>
+<p>A point <span class="math inline">\(y \in \calM\)</span> maps to a point <span class="math inline">\(x = \varphi(y) \in \calX\)</span>. With respect to the landscapes of the cost functions <span class="math inline">\(g = f \circ \varphi\)</span> and <span class="math inline">\(f\)</span>, we may be interested in the following properties:</p>
+<ul>
+<li><strong>global <span class="math inline">\(\Rightarrow\)</span> global</strong>: if <span class="math inline">\(y\)</span> is a global minimum upstairs, then <span class="math inline">\(x\)</span> is a global minimum downstairs. This is always true, simply because <span class="math inline">\(\varphi\)</span> is a surjection to <span class="math inline">\(\calX\)</span>.</li>
+<li><strong>local <span class="math inline">\(\Rightarrow\)</span> local</strong>: if <span class="math inline">\(y\)</span> is a local minimum upstairs, then <span class="math inline">\(x\)</span> is a local minimum downstairs. This is true if and only if <span class="math inline">\(\varphi\)</span> is an open map from <span class="math inline">\(\calM\)</span> to <span class="math inline">\(\calX\)</span>.</li>
+<li><strong>1 <span class="math inline">\(\Rightarrow\)</span> 1</strong>: if <span class="math inline">\(y\)</span> is a first-order critical point upstairs, then <span class="math inline">\(x\)</span> is a first-order stationary point downstairs. This is not often the case. In particular, it requires the tangent cone to <span class="math inline">\(\calX\)</span> at <span class="math inline">\(x\)</span> to be linear.</li>
+<li><strong>2 <span class="math inline">\(\Rightarrow\)</span> 1</strong>: if <span class="math inline">\(y\)</span> is a second-order critical point upstairs, then <span class="math inline">\(x\)</span> is a first-order stationary point downstairs. This is more common.</li>
+</ul>
+<p>Context, proofs and general theory are developed in the following paper:</p>
+<blockquote class="blockquote">
+<p>Eitan Levin, Joe Kileel, Nicolas Boumal<br> <em>The effect of smooth parametrizations on nonconvex optimization landscapes</em><br> <a href="https://link.springer.com/article/10.1007/s10107-024-02058-3">Mathematical Programming</a>, 2024</p>
+</blockquote>
+<p>Many of the lifts included in Manopt are treated as explicit examples in that paper.</p>
+</section>
+<section id="lift-structures-whats-in-them" class="level2">
+<h2 class="anchored" data-anchor-id="lift-structures-whats-in-them">Lift structures: what’s in them?</h2>
+<p>The <code>lift</code> structure must provide enough information about <span class="math inline">\(\varphi\)</span> so that Manopt can deduce how to compute <span class="math inline">\(g = f \circ \varphi\)</span>, its gradient and (ideally) its Hessian, based on the corresponding information about <span class="math inline">\(f\)</span>. <a href="#tbl-liftfields" class="quarto-xref">Table&nbsp;1</a> lists the fields in <code>lift</code>, including manifold structures for <span class="math inline">\(\calM\)</span> and <span class="math inline">\(\calN\)</span>, and function handles for <span class="math inline">\(\varphi\)</span> and more.</p>
+<p>Let <span class="math inline">\(y \in \calM\)</span> and <span class="math inline">\(x = \varphi(y) \in \calN\)</span>. By the chain rule, for all <span class="math inline">\(v \in \T_y\calM\)</span> we have <span class="math display">\[
+    \D g(y)[v] = \D(f \circ \varphi)(y)[v] = \D f(x)[\D\varphi(y)[v]],
+\]</span> where <span class="math inline">\(\D\varphi(y) \colon \T_y\calM \to \T_x\calN\)</span> is the differential of <span class="math inline">\(\varphi\)</span> at <span class="math inline">\(y\)</span>. By definition of the Riemannian gradient, then by definition of the adjoint of a linear map (indicated by a star <span class="math inline">\(\cdot^*\)</span>), this yields <span class="math display">\[
+    \inner{\grad g(y)}{v}_y = \inner{\grad f(x)}{\D\varphi(y)[v]}_x = \inner{\D\varphi(y)^*[\grad f(x)]}{v}_y.
+\]</span> This holds for all <span class="math inline">\(v\)</span>. Thus, <span class="math display">\[
+    \grad g(y) = \D\varphi(y)^*[\grad f(x)].
+\]</span> This illustrates how we can get the gradient of <span class="math inline">\(g\)</span> from that of <span class="math inline">\(f\)</span> provided the lift gives us access to <span class="math inline">\(\D\varphi(y)^*\)</span>. For the Hessian, additional computations shown later on this page tell us what else needs to be included: see <a href="#eq-hessgtotal" class="quarto-xref">Eq.&nbsp;2</a>.</p>
+<div id="tbl-liftfields" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-liftfields-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;1: Fields in a <code>lift</code> structure.
+</figcaption>
+<div aria-describedby="tbl-liftfields-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 22%">
+<col style="width: 33%">
+<col style="width: 44%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Name</th>
+<th style="text-align: left;">Field usage</th>
+<th style="text-align: left;">Functionality</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\(\calM\)</span></td>
+<td style="text-align: left;"><code>lift.M</code></td>
+<td style="text-align: left;">Manifold structure from a factory (“upstairs”)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\(\calN\)</span></td>
+<td style="text-align: left;"><code>lift.N</code></td>
+<td style="text-align: left;">Manifold structure from a factory (“downstairs”)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\(\varphi\)</span></td>
+<td style="text-align: left;"><code>x = lift.phi(y)</code></td>
+<td style="text-align: left;">Computes the image of <span class="math inline">\(y \in \calM\)</span> through <span class="math inline">\(\varphi \colon \calM \to \calN\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\(\D\varphi(y)\)</span></td>
+<td style="text-align: left;"><code>u = lift.Dphi(y, v)</code></td>
+<td style="text-align: left;">Differential of <span class="math inline">\(\varphi\)</span> at <span class="math inline">\(y \in \calM\)</span> along <span class="math inline">\(v \in \T_y\calM\)</span>. The output is <span class="math inline">\(u = \D\varphi(y)[v]\)</span> in <span class="math inline">\(\T_x\calN\)</span> where <span class="math inline">\(x = \varphi(y)\)</span>.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\(\D\varphi(y)^*\)</span></td>
+<td style="text-align: left;"><code>v = lift.Dphit(y, u)</code></td>
+<td style="text-align: left;">Adjoint of <span class="math inline">\(\D\varphi(y)\)</span> with respect ot the inner products on <span class="math inline">\(\T_y\calM\)</span> and <span class="math inline">\(\T_x\calN\)</span>, where <span class="math inline">\(x = \varphi(y)\)</span>. Thus, <span class="math display">\[\inner{\D\varphi(y)[v]}{u}_x = \inner{v}{\D\varphi(y)^*[u]}_y.\]</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\(\Hess h_w(y)\)</span></td>
+<td style="text-align: left;"><code>s = lift.hesshw(y, v, w)</code></td>
+<td style="text-align: left;">Given <span class="math inline">\(y \in \calM\)</span> and <span class="math inline">\(w \in \T_x\calN\)</span> where <span class="math inline">\(x = \varphi(y)\)</span>, choose <span class="math inline">\(q_w \colon \calN \to \reals\)</span> such that <span class="math inline">\(\grad q_w(x) = w\)</span> (for the specified <span class="math inline">\(x\)</span>). Let <span class="math inline">\(h_w = q_w \circ \varphi \colon \calM \to \reals\)</span>. Then <span class="math inline">\(s = \Hess h_w(y)[v]\)</span>. If <span class="math inline">\(\calN\)</span> is Euclidean, a typical choice is <span class="math inline">\(q_w = \inner{\cdot}{w}_\calN\)</span>.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\(\Hess q_w(x)\)</span></td>
+<td style="text-align: left;"><code>s = lift.hessqw(x, u, w)</code></td>
+<td style="text-align: left;">Given <span class="math inline">\(x \in \calN\)</span> and <span class="math inline">\(w \in \T_x\calN\)</span>, choose <span class="math inline">\(q_w \colon \calN \to \reals\)</span> such that <span class="math inline">\(\grad q_w(x) = w\)</span> (for the specified <span class="math inline">\(x\)</span>). Then <span class="math inline">\(s = \Hess q_w(x)[u]\)</span>. If <span class="math inline">\(\calN\)</span> is Euclidean, a typical choice is <span class="math inline">\(q_w = \inner{\cdot}{w}_\calN\)</span>, in which case <span class="math inline">\(\Hess q_w(x) = 0\)</span>. If the field is omitted, it is assumed to be zero.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\(\varphi\)</span> or <span class="math inline">\(\bar{\varphi}\)</span>?</td>
+<td style="text-align: left;"><code>lift.embedded</code></td>
+<td style="text-align: left;">Boolean flag set to <code>false</code> (by default) if all of the above indeed pertains to <span class="math inline">\(\varphi\)</span>, and set to <code>true</code> if the above instead describes <span class="math inline">\(\bar{\varphi} \colon \calE \to \calN\)</span>, where <span class="math inline">\(\calE\)</span> is the embedding space for <span class="math inline">\(\calM\)</span> (as specified in the documentation for the corresponding factory), as a smooth extension such that <span class="math inline">\(\bar{\varphi}|_\calM = \varphi\)</span>. See <a href="#fig-diagramEMN" class="quarto-xref">Figure&nbsp;1</a>. In that case, the lift enables computation of <span class="math inline">\(\grad \bar{g}\)</span> and <span class="math inline">\(\Hess \bar{g}\)</span>, which <span class="math inline">\(\calM\)</span> can then convert to <span class="math inline">\(\grad g\)</span> and <span class="math inline">\(\Hess g\)</span> using <code>egrad2rgrad</code> and <code>ehess2rhess</code>.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+</section>
+<section id="available-lifts" class="level2">
+<h2 class="anchored" data-anchor-id="available-lifts">Available lifts</h2>
+<p>A number of lifts are readily available in Manopt, making it possible to optimize over various nonsmooth sets <span class="math inline">\(\calX = \varphi(\calM)\)</span>. We list them in a table now, and detail the corresponding lifts below with some examples.</p>
+<div id="tbl-lifts" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-lifts-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;2: Examples of nonsmooth sets on which we can optimize with Manopt using a lift.
+</figcaption>
+<div aria-describedby="tbl-lifts-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 27%">
+<col style="width: 36%">
+<col style="width: 36%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Name</th>
+<th style="text-align: left;"><span class="math inline">\(\calX = \varphi(\calM)\)</span></th>
+<th style="text-align: left;">lift</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Cube</td>
+<td style="text-align: left;"><span class="math inline">\(\{ x \in \Rn : -1 \leq x_{i} \leq 1 \, \forall i \}\)</span></td>
+<td style="text-align: left;"><code>cubeslift(n)</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Cubes</td>
+<td style="text-align: left;"><span class="math inline">\(\{ X \in \Rnm : -1 \leq X_{ij} \leq 1 \, \forall i,j \}\)</span></td>
+<td style="text-align: left;"><code>cubeslift(n, m)</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Ball</td>
+<td style="text-align: left;"><span class="math inline">\(\{ x \in \Rn : \|x\| \leq 1 \}\)</span></td>
+<td style="text-align: left;"><code>ballslift(n)</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Balls</td>
+<td style="text-align: left;"><span class="math inline">\(\{ X \in \Rnm : \|X_{:, i}\| \leq 1 \, \forall i \}\)</span></td>
+<td style="text-align: left;"><code>ballslift(n, m)</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Simplex</td>
+<td style="text-align: left;"><span class="math inline">\(\{ x \in \Rn : x_1 + \cdots + x_n = 1, x_i \geq 0 \, \forall i \}\)</span></td>
+<td style="text-align: left;"><code>hadamardlift('simplex', n)</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Column stochastic</td>
+<td style="text-align: left;"><span class="math inline">\(\{ X \in \Rnm : X^\top\One = \One, X_{ij} \geq 0 \}\)</span></td>
+<td style="text-align: left;"><code>hadamardlift('colstochastic', n, m)</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Row stochastic</td>
+<td style="text-align: left;"><span class="math inline">\(\{ X \in \Rnm : X\One = \One, X_{ij} \geq 0 \}\)</span></td>
+<td style="text-align: left;"><code>hadamardlift('rowstochastic', n, m)</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Nonnegative orthant</td>
+<td style="text-align: left;"><span class="math inline">\(\{ X \in \Rnm : X_{ij} \geq 0 \, \forall i,j \}\)</span></td>
+<td style="text-align: left;"><code>hadamardlift('nonnegative', n, m)</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Bounded-rank</td>
+<td style="text-align: left;"><span class="math inline">\(\{ X \in \Rmn : \rank(X) \leq r \}\)</span></td>
+<td style="text-align: left;"><code>burermonteiroLRlift(m, n, r)</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Bounded-rank, semidefinite</td>
+<td style="text-align: left;"><span class="math inline">\(S_n^p \triangleq \{ X \in \Rnn : X \succeq 0, \rank(X) \leq p \}\)</span></td>
+<td style="text-align: left;"><code>burermonteirolift('free', n, p)</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">⤷ unit trace</td>
+<td style="text-align: left;"><span class="math inline">\(\{ X \in S_n^p : \trace(X) = 1 \}\)</span></td>
+<td style="text-align: left;"><code>burermonteirolift('unittrace', n, p)</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">⤷ unit diagonal</td>
+<td style="text-align: left;"><span class="math inline">\(\{ X \in S_n^p : \diag(X) = \One \}\)</span></td>
+<td style="text-align: left;"><code>burermonteirolift('unitdiag', n, p)</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<section id="cubes-and-squares" class="level3">
+<h3 class="anchored" data-anchor-id="cubes-and-squares">Cubes and squares</h3>
+<div class="sourceCode" id="cb2"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="va">lift</span> <span class="op">=</span> <span class="va">cubeslift</span>(<span class="va">n</span>)<span class="op">;</span>     <span class="co">% m = 1 by default</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="va">lift</span> <span class="op">=</span> <span class="va">cubeslift</span>(<span class="va">n</span><span class="op">,</span> <span class="va">m</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The target set <span class="math inline">\(\calX\)</span> consists of vectors or matrices whose entries are in the closed interval <span class="math inline">\([-1, 1]\)</span>: <span class="math display">\[
+    \calX = \{ X \in \Rnm : -1 \leq X_{ij} \leq 1 \ \forall i, j \}.
+\]</span> One way to think about it is as <span class="math inline">\(m\)</span> points in the cube <span class="math inline">\([-1, 1]^n\)</span> (the columns of <span class="math inline">\(X\)</span>), or <span class="math inline">\(n\)</span> points in the cube <span class="math inline">\([-1, 1]^m\)</span> (the rows of <span class="math inline">\(X\)</span>). This is a subset of <span class="math inline">\(\calN = \Rnm\)</span>, realized as the image of the lift <span class="math inline">\(\varphi \colon \calM \to \calN\)</span> with <span class="math inline">\(\calM = \Rnm\)</span> and <span class="math display">\[
+    \varphi(Y) = \sin(Y),
+\]</span> where <span class="math inline">\(\sin\)</span> is applied entrywise.</p>
+<p>This lift satisfies <strong>local <span class="math inline">\(\Rightarrow\)</span> local</strong> and <strong>2 <span class="math inline">\(\Rightarrow\)</span> 1</strong> everywhere. It also satisifies 1 <span class="math inline">\(\Rightarrow\)</span> 1 at all <span class="math inline">\(Y \in \Rnm\)</span> such that <span class="math inline">\(|X_{ij}| &lt; 1\)</span> for all <span class="math inline">\(i,j\)</span> with <span class="math inline">\(X = \varphi(Y)\)</span>. </p>
+<p>As an example, consider <span class="math inline">\(\min_{x \in \Rn} \frac{1}{2} x^\top A x + b^\top x\)</span> subject to <span class="math inline">\(-1 \leq x_i \leq 1\)</span> for <span class="math inline">\(i = 1, \ldots, n\)</span>:</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">Without automatic differentiation</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">With AD</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<div class="sourceCode" id="cb3"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="va">n</span> <span class="op">=</span> <span class="fl">5</span><span class="op">;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="va">A</span> <span class="op">=</span> <span class="va">randsym</span>(<span class="va">n</span>)<span class="op">;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="va">b</span> <span class="op">=</span> <span class="va">randn</span>(<span class="va">n</span><span class="op">,</span> <span class="fl">1</span>)<span class="op">;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="va">downstairs</span>.<span class="va">M</span> <span class="op">=</span> <span class="va">euclideanfactory</span>(<span class="va">n</span>)<span class="op">;</span> <span class="co">% optional</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="va">downstairs</span>.<span class="va">cost</span> <span class="op">=</span> <span class="op">@</span>(<span class="va">x</span>) <span class="fl">.5</span><span class="op">*</span>(<span class="va">x</span><span class="op">'*</span><span class="va">A</span><span class="op">*</span><span class="va">x</span>) <span class="op">+</span> <span class="va">b</span><span class="op">'*</span><span class="va">x</span><span class="op">;</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="va">downstairs</span>.<span class="va">grad</span> <span class="op">=</span> <span class="op">@</span>(<span class="va">x</span>) <span class="va">A</span><span class="op">*</span><span class="va">x</span> <span class="op">+</span> <span class="va">b</span><span class="op">;</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="va">downstairs</span>.<span class="va">hess</span> <span class="op">=</span> <span class="op">@</span>(<span class="va">x</span><span class="op">,</span> <span class="va">xdot</span>) <span class="va">A</span><span class="op">*</span><span class="va">xdot</span><span class="op">;</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="va">lift</span> <span class="op">=</span> <span class="va">cubeslift</span>(<span class="va">n</span>)<span class="op">;</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="va">upstairs</span> <span class="op">=</span> <span class="va">manoptlift</span>(<span class="va">downstairs</span><span class="op">,</span> <span class="va">lift</span>)<span class="op">;</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="va">y</span> <span class="op">=</span> <span class="va">trustregions</span>(<span class="va">upstairs</span>)<span class="op">;</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="va">x</span> <span class="op">=</span> <span class="va">lift</span>.<span class="va">phi</span>(<span class="va">y</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<div class="sourceCode" id="cb4"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="va">n</span> <span class="op">=</span> <span class="fl">5</span><span class="op">;</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="va">A</span> <span class="op">=</span> <span class="va">randsym</span>(<span class="va">n</span>)<span class="op">;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="va">b</span> <span class="op">=</span> <span class="va">randn</span>(<span class="va">n</span><span class="op">,</span> <span class="fl">1</span>)<span class="op">;</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="va">downstairs</span>.<span class="va">cost</span> <span class="op">=</span> <span class="op">@</span>(<span class="va">x</span>) <span class="fl">.5</span><span class="op">*</span>(<span class="va">x</span><span class="op">'*</span><span class="va">A</span><span class="op">*</span><span class="va">x</span>) <span class="op">+</span> <span class="va">b</span><span class="op">'*</span><span class="va">x</span><span class="op">;</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="va">lift</span> <span class="op">=</span> <span class="va">cubeslift</span>(<span class="va">n</span>)<span class="op">;</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>[<span class="va">upstairs</span><span class="op">,</span> <span class="va">downstairs</span>] <span class="op">=</span> <span class="va">manoptlift</span>(<span class="va">downstairs</span><span class="op">,</span> <span class="va">lift</span><span class="op">,</span> <span class="ss">'AD'</span>)<span class="op">;</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="va">y</span> <span class="op">=</span> <span class="va">trustregions</span>(<span class="va">upstairs</span>)<span class="op">;</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="va">x</span> <span class="op">=</span> <span class="va">lift</span>.<span class="va">phi</span>(<span class="va">y</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+<p>Note that <span class="math inline">\(\calX\)</span> is convex. <strong>If <span class="math inline">\(f\)</span> is convex</strong> (e.g., in the example above, if <span class="math inline">\(A\)</span> is positive semidefinite), then the problem downstairs is convex. Therefore, first-order stationary points are global minima. Since the lift satisfies 2 <span class="math inline">\(\Rightarrow\)</span> 1, it follows that second-order critical points upstairs are global minima. In other words: the problem upstairs enjoys the <strong>strict saddle property (benign nonconvexity)</strong>.</p>
+</section>
+<section id="balls-and-disks" class="level3">
+<h3 class="anchored" data-anchor-id="balls-and-disks">Balls and disks</h3>
+<div class="sourceCode" id="cb5"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="va">lift</span> <span class="op">=</span> <span class="va">ballslift</span>(<span class="va">n</span>)     <span class="co">% m = 1 by default</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="va">lift</span> <span class="op">=</span> <span class="va">ballslift</span>(<span class="va">n</span><span class="op">,</span> <span class="va">m</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The target set <span class="math inline">\(\calX\)</span> consists of matrices whose columns have norm at most one: <span class="math display">\[
+    \calX = \{ X \in \Rnm : X_{1i}^2 + \cdots + X_{ni}^2 \leq 1 \textrm{ for } i = 1, \ldots, m \}.
+\]</span> We can think of <span class="math inline">\(X\)</span> as <span class="math inline">\(m\)</span> points (the columns of <span class="math inline">\(X\)</span>) in the ball <span class="math inline">\(B_n = \{ x \in \Rn : \|x\| \leq 1 \}\)</span>. This is a subset of <span class="math inline">\(\calN = \Rnm\)</span>, realized as the image of the lift <span class="math inline">\(\varphi \colon \calM \to \calN\)</span> with <span class="math display">\[
+\calM = \mathrm{Oblique}(n+1, m) = \{ y \in \reals^{n+1} : \|y\| = 1 \}^m \subset \reals^{(n+1) \times m}
+\]</span> a product of <span class="math inline">\(m\)</span> spheres in <span class="math inline">\(\reals^{n+1}\)</span> and <span class="math display">\[
+    \varphi(Y) = Y_{1:n, 1:m}
+\]</span> the map which (column-wise) projects from <span class="math inline">\(\reals^{n+1}\)</span> down to <span class="math inline">\(\Rn\)</span> by removing the last coordinate.</p>
+<p>This lift satisfies <strong>local <span class="math inline">\(\Rightarrow\)</span> local</strong> and <strong>2 <span class="math inline">\(\Rightarrow\)</span> 1</strong> everywhere. It also satisifies 1 <span class="math inline">\(\Rightarrow\)</span> 1 at all <span class="math inline">\(Y \in \calM\)</span> such that <span class="math inline">\(\|X_{:i}\| &lt; 1\)</span> for all <span class="math inline">\(i\)</span> with <span class="math inline">\(X = \varphi(Y)\)</span>: see Example 4.3 and Corollary 4.12 in <a href="https://link.springer.com/article/10.1007/s10107-024-02058-3">the lifts paper</a>.</p>
+<p>As an example, fix <span class="math inline">\(\sigma &gt; 0\)</span> and consider <span class="math inline">\(\min_{x_1, \ldots, x_m \in \Rn} \log\!\left( \sum_{i, j} e^{-\frac{\|x_i - x_j\|^2}{2\sigma^2}} \right)\)</span> subject to <span class="math inline">\(\|x_i\| \leq 1\)</span> for <span class="math inline">\(i = 1, \ldots, m\)</span>. The <a href="https://en.wikipedia.org/wiki/LogSumExp">log-sum-exp</a> is a smoothed version of the max over the numbers <span class="math inline">\(-\|x_i - x_j\|^2\)</span>. Therefore, this optimization problem (approximately) aims to <a href="https://en.wikipedia.org/wiki/Sphere_packing">pack</a> <span class="math inline">\(m\)</span> points in a ball in <span class="math inline">\(\Rn\)</span> in such a way that the minimal distance between any two points is as large as possible.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">% Try to pack m points in a ball in R^n</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="va">n</span> <span class="op">=</span> <span class="fl">2</span><span class="op">;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="va">m</span> <span class="op">=</span> <span class="fl">64</span><span class="op">;</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="va">lift</span> <span class="op">=</span> <span class="va">ballslift</span>(<span class="va">n</span><span class="op">,</span> <span class="va">m</span>)<span class="op">;</span> <span class="co">% replace with cubeslift to pack in a cube</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co">% Transforms a Gram matrix G to a squared Euclidean distance matrix.</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co">% Uses cdiag instead of diag to be compatible with AD.</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="va">gram2edm</span> <span class="op">=</span> <span class="op">@</span>(<span class="va">G</span>) <span class="va">cdiag</span>(<span class="va">G</span>)<span class="op">*</span><span class="va">ones</span>(<span class="fl">1</span><span class="op">,</span> <span class="va">m</span>) <span class="op">+</span> <span class="va">ones</span>(<span class="va">m</span><span class="op">,</span> <span class="fl">1</span>)<span class="op">*</span><span class="va">cdiag</span>(<span class="va">G</span>)<span class="op">.'</span> <span class="op">-</span> <span class="fl">2</span><span class="op">*</span><span class="va">G</span><span class="op">;</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="va">sigma</span> <span class="op">=</span> <span class="fl">.05</span><span class="op">;</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="va">downstairs</span>.<span class="va">cost</span> <span class="op">=</span> <span class="op">@</span>(<span class="va">X</span>) <span class="va">log</span>(<span class="va">sum</span>(<span class="va">exp</span>(<span class="op">-</span><span class="va">gram2edm</span>(<span class="va">X</span><span class="op">.'*</span><span class="va">X</span>)<span class="op">/</span>(<span class="fl">2</span><span class="op">*</span><span class="va">sigma</span><span class="op">^</span><span class="fl">2</span>))<span class="op">,</span> <span class="ss">'all'</span>))<span class="op">;</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="va">upstairs</span> <span class="op">=</span> <span class="va">manoptlift</span>(<span class="va">downstairs</span><span class="op">,</span> <span class="va">lift</span><span class="op">,</span> <span class="ss">'AD'</span>)<span class="op">;</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="va">Y</span> <span class="op">=</span> <span class="va">trustregions</span>(<span class="va">upstairs</span>)<span class="op">;</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="va">X</span> <span class="op">=</span> <span class="va">lift</span>.<span class="va">phi</span>(<span class="va">Y</span>)<span class="op">;</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="co">% Some code to display the results.</span></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a><span class="kw">if</span> <span class="va">n</span> <span class="op">==</span> <span class="fl">2</span></span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>    <span class="va">plot</span>(<span class="va">X</span>(<span class="fl">1</span><span class="op">,</span> <span class="op">:</span>)<span class="op">,</span> <span class="va">X</span>(<span class="fl">2</span><span class="op">,</span> <span class="op">:</span>)<span class="op">,</span> <span class="ss">'.'</span><span class="op">,</span> <span class="ss">'MarkerSize'</span><span class="op">,</span> <span class="fl">20</span>)<span class="op">;</span></span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>    <span class="va">hold</span> <span class="va">all</span><span class="op">;</span></span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>    <span class="va">t</span> <span class="op">=</span> <span class="va">linspace</span>(<span class="fl">0</span><span class="op">,</span> <span class="fl">2</span><span class="op">*</span><span class="va">pi</span><span class="op">,</span> <span class="fl">251</span>)<span class="op">;</span></span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>    <span class="va">plot</span>(<span class="va">cos</span>(<span class="va">t</span>)<span class="op">,</span> <span class="va">sin</span>(<span class="va">t</span>)<span class="op">,</span> <span class="ss">'k-'</span><span class="op">,</span> <span class="ss">'LineWidth'</span><span class="op">,</span> <span class="fl">2</span>)<span class="op">;</span></span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>    <span class="va">plot</span>(<span class="fl">0</span><span class="op">,</span> <span class="fl">0</span><span class="op">,</span> <span class="ss">'k.'</span><span class="op">,</span> <span class="ss">'MarkerSize'</span><span class="op">,</span> <span class="fl">10</span>)<span class="op">;</span></span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>    <span class="va">axis</span> <span class="va">equal</span> <span class="va">off</span><span class="op">;</span></span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>    <span class="va">set</span>(<span class="va">gcf</span><span class="op">,</span> <span class="ss">'Color'</span><span class="op">,</span> <span class="ss">'w'</span>)<span class="op">;</span></span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="hadamard-entrywise-product" class="level3">
+<h3 class="anchored" data-anchor-id="hadamard-entrywise-product">Hadamard (entrywise product)</h3>
+<p><em>Documentation will be added.</em></p>
+</section>
+<section id="burer-monteiro-for-smooth-sdp" class="level3">
+<h3 class="anchored" data-anchor-id="burer-monteiro-for-smooth-sdp">Burer-Monteiro for smooth SDP</h3>
+<p><em>Documentation will be added.</em></p>
+</section>
+<section id="burer-monteiro-for-general-bounded-rank" class="level3">
+<h3 class="anchored" data-anchor-id="burer-monteiro-for-general-bounded-rank">Burer-Monteiro for general bounded-rank</h3>
+<p><em>Documentation will be added.</em></p>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Desingularization lift of bounded rank matrices.
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The <code>desingularizationfactory</code> encodes the geometry of a Riemannian manifold, but <code>egrad2rgrad</code> and <code>ehess2rhess</code> in that factory actually correspond to a lift, as described in the documentation of the factory. Thus, it is not a lift in Manopt’s code base, but mathematically it acts as a lift of the set of bounded-rank matrices to a smooth manifold. This is a good alternative to the <span class="math inline">\(LR^\top\)</span> lift, with stronger theoretical properties as detailed in <a href="https://arxiv.org/abs/2406.14211">this paper</a>.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="the-hessian-of-g" class="level2">
+<h2 class="anchored" data-anchor-id="the-hessian-of-g">The Hessian of <span class="math inline">\(g\)</span></h2>
+<p>To obtain the Hessian of <span class="math inline">\(g = f \circ \varphi\)</span>, it is convenient to go through curves. Let <span class="math inline">\(c \colon \reals \to \calM\)</span> be a smooth curve satisfying <span class="math inline">\(c(0) = y\)</span>, <span class="math inline">\(c'(0) = v\)</span> and <span class="math inline">\(c''(0) = 0\)</span> (zero initial intrinsic acceleration).</p>
+<p>Push it to a curve downstairs as <span class="math inline">\(\gamma = \varphi \circ c\)</span>. It satisfies <span class="math inline">\(\gamma(0) = \varphi(y) = x\)</span>. Let <span class="math inline">\(u = \gamma'(0) = \D\varphi(c(0))[c'(0)] = \D\varphi(y)[v]\)</span>.</p>
+<p>The cost function along these curves satisfies <span class="math display">\[
+    g \circ c = f \circ \varphi \circ c = f \circ \gamma.
+\]</span> Thus, the derivatives of <span class="math inline">\(g \circ c\)</span> and <span class="math inline">\(f \circ \gamma\)</span> (two functions from <span class="math inline">\(\reals\)</span> to <span class="math inline">\(\reals\)</span>) are identical. On the one hand, we compute <span class="math display">\[
+    (g \circ c)'(t) = \D g(c(t))[c'(t)] = \inner{\grad g(c(t))}{c'(t)}_{c(t)}
+\]</span> and <span class="math display">\[
+    (g \circ c)''(t) = \inner{\Hess g(c(t))[c'(t)]}{c'(t)}_{c(t)} + \inner{\grad g(c(t))}{c''(t)}_{c(t)}.
+\]</span> At <span class="math inline">\(t = 0\)</span>, these yield <span class="math display">\[
+    (g \circ c)'(0) = \inner{\grad g(y)}{v}_{y}
+\]</span> and <span class="math display">\[
+    (g \circ c)''(0) = \inner{\Hess g(y)[v]}{v}_{y} + \inner{\grad g(y)}{c''(0)}_{y}.
+\]</span> On the other hand, applying the same computations to <span class="math inline">\(f \circ \gamma\)</span> instead of <span class="math inline">\(g \circ c\)</span> yields <span class="math display">\[
+    (f \circ \gamma)'(0) = \inner{\grad f(x)}{u}_{x}
+\]</span> and <span class="math display">\[
+    (f \circ \gamma)''(0) = \inner{\Hess f(x)[u]}{u}_{x} + \inner{\grad f(x)}{\gamma''(0)}_{x}.
+\]</span> We know that <span class="math inline">\((g \circ c)'(0) = (f \circ \gamma)'(0)\)</span> and also that <span class="math inline">\((g \circ c)''(0) = (f \circ \gamma)''(0)\)</span>. We could use the first-order derivatives to recover the identity <span class="math display">\[
+    \grad g(y) = \D\varphi(y)^*[\grad f(x)].
+\]</span> Focusing on second-order derivatives, we have found that <span id="eq-hessgfoo"><span class="math display">\[
+    \inner{\Hess g(y)[v]}{v}_{y} = \inner{\Hess f(x)[u]}{u}_{x} + \inner{\grad f(x)}{\gamma''(0)}_{x} - \inner{\grad g(y)}{c''(0)}_{y}.
+\tag{1}\]</span></span> Recall that we assume <span class="math inline">\(c''(0) = 0\)</span>. To handle <span class="math inline">\(\gamma''(0)\)</span>, we proceed as follows.</p>
+<p>Fix an arbitrary <span class="math inline">\(w \in \T_x\calN\)</span> and let <span class="math inline">\(q_w \colon \calN \to \reals\)</span> satisfy <span class="math inline">\(\grad q_w(x) = w\)</span> (that is, at the specific <span class="math inline">\(x\)</span> under consideration, the gradient of <span class="math inline">\(q_w\)</span> is <span class="math inline">\(w\)</span>). For example, if <span class="math inline">\(\calN\)</span> is a Euclidean space, then a convenient choice is <span class="math inline">\(q_w = \inner{\cdot}{w}_\calN\)</span> (a linear function whose gradient at <em>all</em> points is <span class="math inline">\(w\)</span>: it’s more than we need).</p>
+<p>Let <span class="math inline">\(h_w = q_w \circ \varphi\)</span>. This is a real function on <span class="math inline">\(\calM\)</span>. Plug <span class="math inline">\(h_w\)</span> and <span class="math inline">\(q_w\)</span> in place of <span class="math inline">\(g\)</span> and <span class="math inline">\(f\)</span> in <a href="#eq-hessgfoo" class="quarto-xref">Eq.&nbsp;1</a>. This reveals <span class="math display">\[
+    \inner{\Hess h_w(y)[v]}{v}_{y} = \inner{\Hess q_w(x)[u]}{u}_{x} + \inner{\grad q_w(x)}{\gamma''(0)}_{x}.
+\]</span> Since <span class="math inline">\(\grad q_w(x) = w\)</span>, we have found that <span class="math display">\[
+    \inner{w}{\gamma''(0)}_{x} = \inner{\Hess h_w(y)[v]}{v}_{y} - \inner{\Hess q_w(x)[u]}{u}_{x}.
+\]</span> Now let <span class="math inline">\(w = \grad f(x)\)</span> and plug this into <a href="#eq-hessgfoo" class="quarto-xref">Eq.&nbsp;1</a> in order to get rid of <span class="math inline">\(\gamma''(0)\)</span>, as follows: <span class="math display">\[
+    \inner{\Hess g(y)[v]}{v}_{y} = \inner{\Hess f(x)[u]}{u}_{x} + \inner{\Hess h_w(y)[v]}{v}_{y} - \inner{\Hess q_w(x)[u]}{u}_{x}.
+\]</span> Recall that <span class="math inline">\(u = \D\varphi(y)[v]\)</span>. Then, all in all, we have the following formula for the Riemannian Hessian of <span class="math inline">\(g\)</span> at <span class="math inline">\(y\)</span>: <span id="eq-hessgtotal"><span class="math display">\[
+    \Hess g(y) = \D\varphi(y)^* \circ \left( \Hess f(x) - \Hess q_w(x) \right) \circ \D\varphi(y) + \Hess h_w(y),
+\tag{2}\]</span></span> where</p>
+<ul>
+<li><span class="math inline">\(x = \varphi(y)\)</span>,</li>
+<li><span class="math inline">\(w = \grad f(x)\)</span>,</li>
+<li><span class="math inline">\(q_w \colon \calN \to \reals\)</span> is any smooth function which satisfies <span class="math inline">\(\grad q_w(x) = w\)</span>, and</li>
+<li><span class="math inline">\(h_w = q_w \circ \varphi \colon \calM \to \reals\)</span>.</li>
+</ul>
+<p>(The choice of curve <span class="math inline">\(c\)</span> no longer plays a role.)</p>
+<p>The final formula <a href="#eq-hessgtotal" class="quarto-xref">Eq.&nbsp;2</a> tells us exactly what information we need about <span class="math inline">\(\varphi\)</span> in order to be able to compute the Hessian of <span class="math inline">\(g\)</span> based on the gradient and Hessian of <span class="math inline">\(f\)</span>. The fields <code>lift.Dphi</code> and <code>lift.Dphit</code> encode the maps <span class="math inline">\(\D\varphi(y)\)</span> and <span class="math inline">\(\D\varphi(y)^*\)</span>, while the field <code>lift.hesshw</code> encodes the map <span class="math inline">\(\Hess h_w(y)\)</span>. If <span class="math inline">\(\calN\)</span> is a Euclidean space (which is typical), then we always choose <span class="math inline">\(q_w = \inner{\cdot}{w}_\calN\)</span> so that <span class="math inline">\(\Hess q_w(x) = 0\)</span>. Otherwise, we need to provide that map too, in <code>lift.hessqw</code>.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+    let newTheme = '';
+    if(darkModeDefault) {
+      newTheme = isAlternate ? baseTheme : alternateTheme;
+    } else {
+      newTheme = isAlternate ? alternateTheme : baseTheme;
+    }
+    const changeGiscusTheme = () => {
+      // From: https://github.com/giscus/giscus/issues/336
+      const sendMessage = (message) => {
+        const iframe = document.querySelector('iframe.giscus-frame');
+        if (!iframe) return;
+        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+      }
+      sendMessage({
+        setConfig: {
+          theme: newTheme
+        }
+      });
+    }
+    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+    if (isGiscussLoaded) {
+      changeGiscusTheme();
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  const darkModeDefault = false;
+  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+    toggleGiscusIfUsed(toAlternate, darkModeDefault);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/www\.manopt\.org");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+          // target, if specified
+          link.setAttribute("target", "_blank");
+          if (link.getAttribute("rel") === null) {
+            link.setAttribute("rel", "noopener");
+          }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+
+<div class="cookie-consent-footer"><a href="#" id="open_preferences_center">Cookie preferences -- it helps us to know which pages are read the most</a></div></div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>
