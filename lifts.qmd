@@ -20,6 +20,7 @@ To ensure this, call `importmanopt`.
 
 At first sight, optimization on manifolds is restricted to optimization problems on smooth sets.
 Notwithstanding, we can use smooth parameterizations of (possibly) nonsmooth sets to extend the realm of applications.
+See built-in examples in @tbl-lifts.
 This eases the process of working with:
 
 * constraints,
@@ -178,7 +179,7 @@ We list them in a table now, and detail the corresponding lifts below with some 
 | Bounded-rank, semidefinite | $S_n^p \triangleq \{ X \in \Rnn : X \succeq 0, \rank(X) \leq p \}$ | `burermonteirolift('free', n, p)` |
 | With unit trace | $\{ X \in S_n^p : \trace(X) = 1 \}$ | `burermonteirolift('unittrace', n, p)` |
 | With unit diagonal | $\{ X \in S_n^p : \diag(X) = \One \}$ | `burermonteirolift('unitdiag', n, p)` |
-: Examples of nonsmooth sets on which we can optimize with Manopt using a lift.
+: Examples of nonsmooth sets on which we can optimize with Manopt using a lift. {#tbl-lifts}
 
 
 ### Cubes and squares
