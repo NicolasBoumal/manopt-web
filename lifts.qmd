@@ -273,21 +273,21 @@ $$
 We can think of $X$ as $m$ points (the columns of $X$) in the ball $B_n = \{ x \in \Rn : \|x\| \leq 1 \}$.
 This is a subset of $\calN = \Rnm$, realized as the image of the lift $\varphi \colon \calM \to \calN$ with
 $$
-\calM = \OB(n+1, m) = \{ y \in \reals^{n+1} : \|y\| = 1 \}^m \subset \reals^{(n+1) \times m}
+\calM = \mathrm{Oblique}(n+1, m) = \{ y \in \reals^{n+1} : \|y\| = 1 \}^m \subset \reals^{(n+1) \times m}
 $$
 a product of $m$ spheres in $\reals^{n+1}$ and
 $$
     \varphi(Y) = Y_{1:n, 1:m}
 $$
-the map which projects from $\reals^{n+1}$ down to $\Rn$ by removing the last coordinate.
+the map which (column-wise) projects from $\reals^{n+1}$ down to $\Rn$ by removing the last coordinate.
 
 This lift satisfies **local $\Rightarrow$ local** and **2 $\Rightarrow$ 1** everywhere.
-It also satisifies 1 $\Rightarrow$ 1 at all $Y \in \Rnm$ such that $\|X_{:i}\| < 1$ for all $i$ with $X = \varphi(Y)$:
+It also satisifies 1 $\Rightarrow$ 1 at all $Y \in \calM$ such that $\|X_{:i}\| < 1$ for all $i$ with $X = \varphi(Y)$:
 see Example 4.3 and Corollary 4.12 in [the lifts paper](https://link.springer.com/article/10.1007/s10107-024-02058-3).
 
 As an example, fix $\sigma > 0$ and consider $\min_{x_1, \ldots, x_m \in \Rn} \log\!\left( \sum_{i, j} e^{-\frac{\|x_i - x_j\|^2}{2\sigma^2}} \right)$ subject to $\|x_i\| \leq 1$ for $i = 1, \ldots, m$.
 The [log-sum-exp](https://en.wikipedia.org/wiki/LogSumExp) is a smoothed version of the max over the numbers $-\|x_i - x_j\|^2$.
-Therefore, this optimization problems (approximately) aims to [pack](https://en.wikipedia.org/wiki/Sphere_packing) $m$ points in a ball in $\Rn$ in such a way that the minimal distance between any two points is as large as possible.
+Therefore, this optimization problem (approximately) aims to [pack](https://en.wikipedia.org/wiki/Sphere_packing) $m$ points in a ball in $\Rn$ in such a way that the minimal distance between any two points is as large as possible.
 
 ```matlab
 % Try to pack m points in a ball in R^n
@@ -324,10 +324,15 @@ end
 
 ### Hadamard (entrywise product)
 
+*Documentation will be added.*
+
 ### Burer-Monteiro for smooth SDP
+
+*Documentation will be added.*
 
 ### Burer-Monteiro for general bounded-rank
 
+*Documentation will be added.*
 
 :::{.callout-note}
 ## Desingularization lift of bounded rank matrices.
