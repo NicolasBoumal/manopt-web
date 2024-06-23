@@ -91,6 +91,17 @@ General theory for this is developed in the following paper, with many examples 
 > [Mathematical Programming](https://link.springer.com/article/10.1007/s10107-024-02058-3), 2024
 
 
+There are several ways to call `manoptlift`:
+
+``` matlab
+[upstairs, downstairs] = manoptlift(downstairs, lift)
+[upstairs, downstairs] = manoptlift(downstairs, lift, 'AD')
+[upstairs, downstairs] = manoptlift(downstairs, lift, 'noAD')
+[upstairs, downstairs] = manoptlift(downstairs, lift, 'ADnohess')
+```
+
+
+
 
 ## Lift structures: what's in them?
 
@@ -140,8 +151,8 @@ We list them in a table now, and detail the corresponding lifts below with some 
 
 | Name | $\calX$ | lift |
 |:--|:---|:---|
-| Box | $\{ x \in \Rn : -1 \leq x_{i} \leq 1 \, \forall i \}$ | `boxlift(n)` |
-|  | $\{ X \in \Rnm : -1 \leq X_{ij} \leq 1 \, \forall i,j \}$ | `boxlift(n, m)` |
+| Cube | $\{ x \in \Rn : -1 \leq x_{i} \leq 1 \, \forall i \}$ | `cubeslift(n)` |
+| Cubes | $\{ X \in \Rnm : -1 \leq X_{ij} \leq 1 \, \forall i,j \}$ | `cubeslift(n, m)` |
 | Ball | $\{ x \in \Rn : \|x\| \leq 1 \}$ | `ballslift(n)` |
 | Balls | $\{ X \in \Rnm : \|X_{:, i}\| \leq 1 \, \forall i \}$ | `ballslift(n, m)` |
 | Simplex | $\{ x \in \Rn : x_1 + \cdots + x_n = 1, x_i \geq 0 \, \forall i \}$ | `hadamardlift('simplex', n)` |
@@ -149,17 +160,63 @@ We list them in a table now, and detail the corresponding lifts below with some 
 | Row stochastic | $\{ X \in \Rnm : X\One = \One, X_{ij} \geq 0 \}$ | `hadamardlift('rowstochastic', n, m)` | 
 | Nonnegative orthant | $\{ X \in \Rnm : X_{ij} \geq 0 \, \forall i,j \}$ | `hadamardlift('nonnegative', n, m)` |
 | Bounded-rank | $\{ X \in \Rmn : \rank(X) \leq r \}$ | `burermonteiroLRlift(m, n, r)` |
-| Bounded-rank, psd | $S_n^p \triangleq \{ X \in \Rnn : X \succeq 0, \rank(X) \leq p \}$ | `burermonteirolift('free', n, p)` |
+| Bounded-rank, semidefinite | $S_n^p \triangleq \{ X \in \Rnn : X \succeq 0, \rank(X) \leq p \}$ | `burermonteirolift('free', n, p)` |
 | With unit trace | $\{ X \in S_n^p : \trace(X) = 1 \}$ | `burermonteirolift('unittrace', n, p)` |
 | With unit diagonal | $\{ X \in S_n^p : \diag(X) = \One \}$ | `burermonteirolift('unitdiag', n, p)` |
 : Sets on which we can optimize with Manopt using a lift.
 
 
-## Hadamard (entrywise product)
+### Cubes and squares
 
-## Burer-Monteiro for smooth SDP
+``` matlab
+lift = cubeslift(n);     % m = 1 by default
+lift = cubeslift(n, m);
+```
 
-## Burer-Monteiro for general bounded-rank
+The target set $\calX$ consists of vectors or matrices whose entries are in the closed interval $[-1, 1]$:
+$$
+    \calX = \{ X \in \Rnm : -1 \leq X_{ij} \leq 1 \ \forall i, j \}.
+$$
+One way to think about it is as $m$ points in the cube $[-1, 1]^n$ (the columns of $X$), or $n$ points in the cube $[-1, 1]^m$ (the rows of $X$).
+This is a subset of $\calN = \Rnm$, realized as the image of the lift $\varphi \colon \calM \to \calN$ with $\calM = \Rnm$ and
+$$
+    \varphi(Y) = \sin(Y),
+$$
+where $\sin$ is applied entrywise.
+
+This lift satisfies local $\rightarrow$ local and 2 $\rightarrow$ 1 everywhere.
+It also satisifies $1 \rightarrow 1$ at all $Y \in \Rnm$ such that $|X_{ij}| < 1$ for all $i,j$ with $X = \varphi(Y)$.
+
+As an example, consider minimizing a quadratic in a cube:
+
+``` matlab
+n = 5;
+A = randsym(n);
+b = randn(n, 1);
+
+lift = cubeslift(n);
+
+downstairs.M = lift.N;
+downstairs.cost = @(x) .5*(x'*A*x) + b'*x;
+downstairs.grad = @(x) A*x + b;
+downstairs.hess = @(x, xdot) A*xdot;
+
+upstairs = manoptlift(downstairs, lift);
+
+[y, ~, info] = trustregions(upstairs);
+
+x = lift.phi(y)
+```
+
+
+### Balls and disks
+
+### Hadamard (entrywise product)
+
+### Burer-Monteiro for smooth SDP
+
+### Burer-Monteiro for general bounded-rank
+
 
 :::{.callout-note}
 ## Desingularization lift of bounded rank matrices.
@@ -167,10 +224,6 @@ The `desingularizationfactory` encodes the geometry of a Riemannian manifold, bu
 Thus, it is not a lift in Manopt's code base, but mathematically it acts as a lift of the set of bounded-rank matrices to a smooth manifold.
 This is a good alternative to the $LR^\top$ lift, with stronger theoretical properties as detailed in [this paper](https://arxiv.org/abs/2406.14211).
 :::
-
-## Boxes
-
-## Balls
 
 
 ## The Hessian of $g$
