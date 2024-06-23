@@ -261,6 +261,67 @@ In other words: the problem upstairs enjoys the **strict saddle property (benign
 
 ### Balls and disks
 
+``` matlab
+lift = ballslift(n)     % m = 1 by default
+lift = ballslift(n, m)
+```
+
+The target set $\calX$ consists of matrices whose columns have norm at most one:
+$$
+    \calX = \{ X \in \Rnm : X_{1i}^2 + \cdots + X_{ni}^2 \leq 1 \textrm{ for } i = 1, \ldots, m \}.
+$$
+We can think of $X$ as $m$ points (the columns of $X$) in the ball $B_n = \{ x \in \Rn : \|x\| \leq 1 \}$.
+This is a subset of $\calN = \Rnm$, realized as the image of the lift $\varphi \colon \calM \to \calN$ with
+$$
+\calM = \OB(n+1, m) = \{ y \in \reals^{n+1} : \|y\| = 1 \}^m \subset \reals^{(n+1) \times m}
+$$
+a product of $m$ spheres in $\reals^{n+1}$ and
+$$
+    \varphi(Y) = Y_{1:n, 1:m}
+$$
+the map which projects from $\reals^{n+1}$ down to $\Rn$ by removing the last coordinate.
+
+This lift satisfies **local $\Rightarrow$ local** and **2 $\Rightarrow$ 1** everywhere.
+It also satisifies 1 $\Rightarrow$ 1 at all $Y \in \Rnm$ such that $\|X_{:i}\| < 1$ for all $i$ with $X = \varphi(Y)$:
+see Example 4.3 and Corollary 4.12 in [the lifts paper](https://link.springer.com/article/10.1007/s10107-024-02058-3).
+
+As an example, let $\sigma = .1$ and consider $\min_{x_1, \ldots, x_m \in \Rn} \log\!\left( \sum_{i, j} e^{-\frac{\|x_i - x_j\|^2}{2\sigma^2}} \right)$ subject to $\|x_i\| \leq 1$ for $i = 1, \ldots, m$.
+The [log-sum-exp](https://en.wikipedia.org/wiki/LogSumExp) is a smoothed version of the max over the numbers $-\|x_i - x_j\|^2$.
+Therefore, this optimization problems (approximately) aims to [pack](https://en.wikipedia.org/wiki/Sphere_packing) $m$ points in a ball in $\Rn$ in such a way that the minimal distance between any two points is as large as possible.
+
+```matlab
+% Try to pack m points in a ball in R^n
+n = 2;
+m = 50;
+
+lift = ballslift(n, m); % replace with cubeslift to pack in a cube
+
+% Transforms a Gram matrix G to a squared Euclidean distance matrix.
+% Uses cdiag instead of diag to be compatible with AD.
+gram2edm = @(G) cdiag(G)*ones(1, m) + ones(m, 1)*cdiag(G).' - 2*G;
+
+sigma = .1;
+downstairs.cost = @(X) log(sum(exp(-gram2edm(X.'*X)/(2*sigma^2)), 'all'));
+
+upstairs = manoptlift(downstairs, lift, 'AD');
+
+Y = trustregions(upstairs);
+
+X = lift.phi(Y);
+
+% Some code to display the results.
+if n == 2
+    plot(X(1, :), X(2, :), '.', 'MarkerSize', 20);
+    hold all;
+    t = linspace(0, 2*pi, 251);
+    plot(cos(t), sin(t), 'k-', 'LineWidth', 2);
+    plot(0, 0, 'k.', 'MarkerSize', 10);
+    axis equal off;
+    set(gcf, 'Color', 'w');
+end
+```
+
+
 ### Hadamard (entrywise product)
 
 ### Burer-Monteiro for smooth SDP
