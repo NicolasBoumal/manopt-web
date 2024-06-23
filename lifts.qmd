@@ -81,15 +81,6 @@ Then,
 5. Map $y$ down to $x = \varphi(y)$ with `x = lift.phi(y)`.
 
 The resulting $x$ is guaranteed to be in $\calX$ (by construction).
-If $y$ is a global minimizer for the problem upstairs, then $x$ is a global minimizer for the problem downstairs.
-
-Moreover, depending on the properties of the lift, we may also have that if $y$ is a local minimizer then so is $x$; or that if $y$ is a (say) second-order critical point then $x$ is a (say) first-order stationary point.
-General theory for this is developed in the following paper, with many examples included in Manopt:
-
-> Eitan Levin, Joe Kileel, Nicolas Boumal<br>
-> *The effect of smooth parametrizations on nonconvex optimization landscapes*<br>
-> [Mathematical Programming](https://link.springer.com/article/10.1007/s10107-024-02058-3), 2024
-
 
 There are several ways to call `manoptlift`:
 
@@ -100,7 +91,23 @@ There are several ways to call `manoptlift`:
 [upstairs, downstairs] = manoptlift(downstairs, lift, 'ADnohess')
 ```
 
+## Landscape relations
 
+A point $y \in \calM$ maps to a point $x = \varphi(y) \in \calX$.
+With respect to the landscapes of the cost functions $g = f \circ \varphi$ and $f$, we may be interested in the following properties:
+
+* **global $\rightarrow$ global**: if $y$ is a global minimum upstairs, then $x$ is a global minimum downstairs. This is always true, simply because $\varphi$ is a surjection to $\calX$.
+* **local $\rightarrow$ local**: if $y$ is a local minimum upstairs, then $x$ is a local minimum downstairs. This is true if and only if $\varphi$ is an open map from $\calM$ to $\calX$.
+* **1 $\rightarrow$ 1**: if $y$ is a first-order critical point upstairs, then $x$ is a first-order stationary point downstairs. This is not often the case. In particular, it requires the tangent cone to $\calX$ at $x$ to be linear.
+* **2 $\rightarrow$ 2**: if $y$ is a second-order critical point upstairs, then $x$ is a first-order stationary point downstairs. This is more common.
+
+Context, proofs and general theory are developed in the following paper:
+
+> Eitan Levin, Joe Kileel, Nicolas Boumal<br>
+> *The effect of smooth parametrizations on nonconvex optimization landscapes*<br>
+> [Mathematical Programming](https://link.springer.com/article/10.1007/s10107-024-02058-3), 2024
+
+Many of the lifts included in Manopt are treated as explicit examples in that paper.
 
 
 ## Lift structures: what's in them?
