@@ -146,7 +146,7 @@ For the Hessian, additional computations shown later on this page tell us what e
 
 
 | Name  | Field usage  | Functionality  |
-|:-|:--|:---|
+|:-|:--|:----|
 | $\calM$ | `lift.M` | Manifold structure from a factory ("upstairs") |
 | $\calN$ | `lift.N` | Manifold structure from a factory ("downstairs") |
 | $\varphi$ | `x = lift.phi(y)` | Computes the image of $y \in \calM$ through $\varphi \colon \calM \to \calN$ |
