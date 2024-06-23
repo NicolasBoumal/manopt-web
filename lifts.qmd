@@ -107,7 +107,7 @@ With respect to the landscapes of the cost functions $g = f \circ \varphi$ and $
 * **global $\Rightarrow$ global**: if $y$ is a global minimum upstairs, then $x$ is a global minimum downstairs. This is always true, simply because $\varphi$ is a surjection to $\calX$.
 * **local $\Rightarrow$ local**: if $y$ is a local minimum upstairs, then $x$ is a local minimum downstairs. This is true if and only if $\varphi$ is an open map from $\calM$ to $\calX$.
 * **1 $\Rightarrow$ 1**: if $y$ is a first-order critical point upstairs, then $x$ is a first-order stationary point downstairs. This is not often the case. In particular, it requires the tangent cone to $\calX$ at $x$ to be linear.
-* **2 $\Rightarrow$ 2**: if $y$ is a second-order critical point upstairs, then $x$ is a first-order stationary point downstairs. This is more common.
+* **2 $\Rightarrow$ 1**: if $y$ is a second-order critical point upstairs, then $x$ is a first-order stationary point downstairs. This is more common.
 
 Context, proofs and general theory are developed in the following paper:
 
