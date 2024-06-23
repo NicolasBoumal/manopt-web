@@ -47,7 +47,7 @@ Notice that by minimizing $g$ on $\calM$, we are effectively minimizing $f$ on $
 
 Moreover, if $f$ and $\varphi$ are both smooth, then so is $g$ by composition.
 
-This means that even if $\calX$ is a nonsmooth set, we can still use Manopt to (try to) minimize $f$ on $\calX \subset \calN$.
+This means that even if $\calX$ is a nonsmooth set, we can still use Manopt to (try to) minimize $f$ on $\calX \subseteq \calN$.
 
 We can do this explicitly by constructing a `problem` structure for $g$ on $\calM$.
 Alternatively, we can construct a problem structure for $f$ on $\calN$ and compose it with $\varphi$ by using `manoptlift`.
@@ -61,7 +61,7 @@ The problem **downstairs** is
 $$
     \min_{x \in \calN} f(x) \quad \textrm{ subject to } \quad x \in \calX,
 $$
-where $\calX = \varphi(\calM) \subset \calN$ is the image of the lift and $f \colon \calN \to \reals$ is the cost function.
+where $\calX = \varphi(\calM) \subseteq \calN$ is the image of the lift and $f \colon \calN \to \reals$ is the cost function.
 The problem **upstairs** is
 $$
     \min_{y \in \calM} g(y),
@@ -82,6 +82,7 @@ Then,
 5. Map $y$ down to $x = \varphi(y)$ with `x = lift.phi(y)`.
 
 The resulting $x$ is guaranteed to be in $\calX$ (by construction).
+If $y$ is optimal, so is $x$.
 
 There are several ways to call `manoptlift`:
 
