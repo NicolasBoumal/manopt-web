@@ -178,8 +178,8 @@ We list them in a table now, and detail the corresponding lifts below with some 
 | Nonnegative orthant | $\{ X \in \Rnm : X_{ij} \geq 0 \, \forall i,j \}$ | `hadamardlift('nonnegative', n, m)` |
 | Bounded-rank | $\{ X \in \Rmn : \rank(X) \leq r \}$ | `burermonteiroLRlift(m, n, r)` |
 | Bounded-rank, semidefinite | $S_n^p \triangleq \{ X \in \Rnn : X \succeq 0, \rank(X) \leq p \}$ | `burermonteirolift('free', n, p)` |
-| With unit trace | $\{ X \in S_n^p : \trace(X) = 1 \}$ | `burermonteirolift('unittrace', n, p)` |
-| With unit diagonal | $\{ X \in S_n^p : \diag(X) = \One \}$ | `burermonteirolift('unitdiag', n, p)` |
+| &rdca; unit trace | $\{ X \in S_n^p : \trace(X) = 1 \}$ | `burermonteirolift('unittrace', n, p)` |
+| &rdca; unit diagonal | $\{ X \in S_n^p : \diag(X) = \One \}$ | `burermonteirolift('unitdiag', n, p)` |
 : Examples of nonsmooth sets on which we can optimize with Manopt using a lift. {#tbl-lifts}
 
 
