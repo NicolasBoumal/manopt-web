@@ -45,7 +45,7 @@ They are as follows:
 
 Notice that by minimizing $g$ on $\calM$, we are effectively minimizing $f$ on $\calX$, because $g(y) = f(\varphi(y))$ so that we only ever evaluate $f$ at points of the form $x = \varphi(y)$ which, by definition, are in $\calX$.
 
-Moreover, if $f$ and $\varphi$ are both smooth, then so is $f$ by composition.
+Moreover, if $f$ and $\varphi$ are both smooth, then so is $g$ by composition.
 
 This means that even if $\calX$ is a nonsmooth set, we can still use Manopt to (try to) minimize $f$ on $\calX \subset \calN$.
 
