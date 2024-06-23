@@ -91,15 +91,23 @@ There are several ways to call `manoptlift`:
 [upstairs, downstairs] = manoptlift(downstairs, lift, 'ADnohess')
 ```
 
+* The third input (optional) is a string:
+    - If it is omitted, or `''`, or `'noAD'`, there is no effect.
+    - If it is `'AD'`, then automatic differentiation is used on `downstairs` with `manoptAD` before `upstairs` is built.
+    - If it is `'ADnohess'`, then `manoptAD` is called with the `nohess` option.
+* The `downstairs` structure is available as second output (optional) because `manoptlift` may modify it in the following circumstances:
+    - If `downstairs.M` is omitted, then it is set to `lift.N`.
+    - If automatic differentiation is used.
+
 ## Landscape relations
 
 A point $y \in \calM$ maps to a point $x = \varphi(y) \in \calX$.
 With respect to the landscapes of the cost functions $g = f \circ \varphi$ and $f$, we may be interested in the following properties:
 
-* **global $\rightarrow$ global**: if $y$ is a global minimum upstairs, then $x$ is a global minimum downstairs. This is always true, simply because $\varphi$ is a surjection to $\calX$.
-* **local $\rightarrow$ local**: if $y$ is a local minimum upstairs, then $x$ is a local minimum downstairs. This is true if and only if $\varphi$ is an open map from $\calM$ to $\calX$.
-* **1 $\rightarrow$ 1**: if $y$ is a first-order critical point upstairs, then $x$ is a first-order stationary point downstairs. This is not often the case. In particular, it requires the tangent cone to $\calX$ at $x$ to be linear.
-* **2 $\rightarrow$ 2**: if $y$ is a second-order critical point upstairs, then $x$ is a first-order stationary point downstairs. This is more common.
+* **global $\Rightarrow$ global**: if $y$ is a global minimum upstairs, then $x$ is a global minimum downstairs. This is always true, simply because $\varphi$ is a surjection to $\calX$.
+* **local $\Rightarrow$ local**: if $y$ is a local minimum upstairs, then $x$ is a local minimum downstairs. This is true if and only if $\varphi$ is an open map from $\calM$ to $\calX$.
+* **1 $\Rightarrow$ 1**: if $y$ is a first-order critical point upstairs, then $x$ is a first-order stationary point downstairs. This is not often the case. In particular, it requires the tangent cone to $\calX$ at $x$ to be linear.
+* **2 $\Rightarrow$ 2**: if $y$ is a second-order critical point upstairs, then $x$ is a first-order stationary point downstairs. This is more common.
 
 Context, proofs and general theory are developed in the following paper:
 
@@ -156,7 +164,7 @@ For the Hessian, additional computations shown later on this page tell us what e
 A number of lifts are readily available in Manopt, making it possible to optimize over various nonsmooth sets $\calX = \varphi(\calM)$.
 We list them in a table now, and detail the corresponding lifts below with some examples.
 
-| Name | $\calX$ | lift |
+| Name | $\calX = \varphi(\calM)$ | lift |
 |:--|:---|:---|
 | Cube | $\{ x \in \Rn : -1 \leq x_{i} \leq 1 \, \forall i \}$ | `cubeslift(n)` |
 | Cubes | $\{ X \in \Rnm : -1 \leq X_{ij} \leq 1 \, \forall i,j \}$ | `cubeslift(n, m)` |
@@ -170,7 +178,7 @@ We list them in a table now, and detail the corresponding lifts below with some 
 | Bounded-rank, semidefinite | $S_n^p \triangleq \{ X \in \Rnn : X \succeq 0, \rank(X) \leq p \}$ | `burermonteirolift('free', n, p)` |
 | With unit trace | $\{ X \in S_n^p : \trace(X) = 1 \}$ | `burermonteirolift('unittrace', n, p)` |
 | With unit diagonal | $\{ X \in S_n^p : \diag(X) = \One \}$ | `burermonteirolift('unitdiag', n, p)` |
-: Sets on which we can optimize with Manopt using a lift.
+: Examples of nonsmooth sets on which we can optimize with Manopt using a lift.
 
 
 ### Cubes and squares
@@ -194,7 +202,11 @@ where $\sin$ is applied entrywise.
 This lift satisfies local $\Rightarrow$ local and 2 $\Rightarrow$ 1 everywhere.
 It also satisifies $1 \Rightarrow 1$ at all $Y \in \Rnm$ such that $|X_{ij}| < 1$ for all $i,j$ with $X = \varphi(Y)$.
 
-As an example, consider minimizing a quadratic in a cube:
+As an example, consider $\min_{x \in \Rn} \frac{1}{2} x^\top A x + b^\top x$ subject to $-1 \leq x_i \leq 1$ for $i = 1, \ldots, n$:
+
+::: {.panel-tabset}
+
+## Without automatic differentiation
 
 ``` matlab
 n = 5;
@@ -210,10 +222,38 @@ downstairs.hess = @(x, xdot) A*xdot;
 
 upstairs = manoptlift(downstairs, lift);
 
-[y, ~, info] = trustregions(upstairs);
+y = trustregions(upstairs);
 
-x = lift.phi(y)
+x = lift.phi(y);
 ```
+
+## With AD
+
+
+
+``` matlab
+n = 5;
+A = randsym(n);
+b = randn(n, 1);
+
+lift = cubeslift(n);
+
+downstairs.M = lift.N;
+downstairs.cost = @(x) .5*(x'*A*x) + b'*x;
+
+[upstairs, downstairs] = manoptlift(downstairs, lift, 'AD');
+
+y = trustregions(upstairs);
+
+x = lift.phi(y);
+```
+
+:::
+
+Note that $\calX$ is convex.
+If $f$ is also convex (e.g., in the example above, if $A$ is positive semidefinite), then the problem downstairs is convex.
+Therefore, first-order stationary points are global minima.
+Since the lift satisfies 2 $\Righarrow$ 1, it follows that second-order critical points upstairs are global minima, even though the problem upstairs is nonconvex.
 
 
 ### Balls and disks
