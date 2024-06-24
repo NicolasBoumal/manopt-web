@@ -347,7 +347,7 @@ lift = hadamardlift('nonnegative', n, m)
 Recall @fig-diagramEMN, including the parts in pink.
 The manifold upstairs, $\calM$, is embedded in $\calE = \Rnm$.
 The manifold downstairs is $\calN = \Rnm$.
-The lift $\varphi \colon \calM \to \calN$ is the restriction of the map $\bar{\varphi} \colon \calE \to \calN$ to $\calM$, as follows:
+The lift $\varphi \colon \calM \to \calN$ is the restriction to $\calM$ of the map $\bar{\varphi} \colon \calE \to \calN$, as follows:
 $$\begin{align*}
     \varphi = \bar{\varphi}|_{\calM} && \textrm{ and } && \bar{\varphi}(Y) = Y \odot Y,
 \end{align*}$$
@@ -376,8 +376,7 @@ lift = hadamardlift('colstochastic', n, m);
 % random stochastic matrix
 A = lift.phi(lift.M.rand());
 
-inner = @(U, V) U(:).'*V(:);
-sqfrobnorm = @(U) inner(U, U);
+sqfrobnorm = @(U) sum(U(:).^2);
 downstairs.cost = @(X) sqfrobnorm(X*X-A);
 
 [upstairs, downstairs] = manoptlift(downstairs, lift, 'AD');
