@@ -365,6 +365,10 @@ The various options set $\calM$ in different ways:
 * `('nonnegative', n)` sets $\calM$ to be all of $\Rn$ so that $\calX$ is the nonnegative orthant in $\Rn$.
 * `('nonnegative', n, m)` does the same with $\Rn$ replaced by $\Rnm$.
 
+This lift satisfies **local $\Rightarrow$ local** and **2 $\Rightarrow$ 1** everywhere.
+It also satisifies 1 $\Rightarrow$ 1 at all $Y \in \calM$ such that $X_{ij} > 0$ for all $i, j$:
+see Sections 2.1 and 4 in [the lifts paper](https://link.springer.com/article/10.1007/s10107-024-02058-3).
+
 The implementation is simple: it is instructive to look inside.
 The key is to describe $\bar{\varphi} \colon \Rnm \to \Rnm$ and its derivatives (rather than $\varphi$ itself).
 The former is a simple quadratic between linear spaces, and it is independent of $\calM$: we only need to do the work once.
