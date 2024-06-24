@@ -371,6 +371,8 @@ see Sections 2.1 and 4 in [the lifts paper](https://link.springer.com/article/10
 
 Here is a naive example aiming to compute a [column-stochastic square root](https://www.sciencedirect.com/science/article/pii/S0024379510001849) of a column stochastic matrix:
 ```matlab
+n = 5;
+m = n;
 lift = hadamardlift('colstochastic', n, m);
 
 % random stochastic matrix
@@ -379,7 +381,7 @@ A = lift.phi(lift.M.rand());
 sqfrobnorm = @(U) sum(U(:).^2);
 downstairs.cost = @(X) sqfrobnorm(X*X-A);
 
-[upstairs, downstairs] = manoptlift(downstairs, lift, 'AD');
+upstairs = manoptlift(downstairs, lift, 'AD');
 
 Y = trustregions(upstairs);
 X = lift.phi(Y);
@@ -389,7 +391,7 @@ X = lift.phi(Y);
 
 The implementation of `hadamardlift` is simple: it is instructive to [look inside](https://github.com/NicolasBoumal/manopt/blob/master/manopt/lifts/hadamardlift.m).
 
-The key is to describe $\bar{\varphi} \colon \Rnm \to \Rnm$ and its derivatives (rather than $\varphi$ itself).
+The key is to describe $\bar{\varphi} \colon \Rnm \to \Rnm$ rather than $\varphi$ itself.
 The former is a simple quadratic between linear spaces, and it is independent of $\calM$: we only need to do the work once.
 Then, by setting `lift.embedded = true`, Manopt knows that the composition $f \circ \bar{\varphi}$ is $\bar{g}$.
 That is a smooth extension of $g$ from $\calM$ to $\calE$.
