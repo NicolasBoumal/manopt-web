@@ -401,7 +401,7 @@ In turn, Manopt knows to use `upstairs.M.egrad2rgrad` and `upstairs.M.ehess2rhes
 All of this is automatic, keeping the code for `hadamardlift` concise.
 
 ```matlab
-lift.embedded = true;  % below describes \bar\varphi rather than \phi
+lift.embedded = true;  % below describes \bar\varphi rather than \varphi
 lift.phi = @(Y) Y.*Y;
 lift.Dphi = @(Y, V) 2*Y.*V;
 lift.Dphit = @(Y, U) 2*Y.*U;
