@@ -335,7 +335,53 @@ end
 
 ### Hadamard (entrywise product)
 
-*Documentation will be added.*
+```matlab
+lift = hadamardlift('simplex', n)           % m = 1 by default
+lift = hadamardlift('simplex', n, m)
+lift = hadamardlift('colstochastic', n, m)
+lift = hadamardlift('rowstochastic', n, m)
+lift = hadamardlift('nonnegative', n)       % m = 1 by default
+lift = hadamardlift('nonnegative', n, m)
+```
+
+Recall @fig-diagramEMN, including the parts in pink.
+The manifold upstairs, $\calM$, is embedded in $\calE = \Rnm$.
+The manifold downstairs is $\calN = \Rnm$.
+The lift $\varphi \colon \calM \to \calN$ is the restriction of the map $\bar{\varphi} \colon \calE \to \calN$ to $\calM$, as follows:
+$$\begin{align*}
+    \varphi = \bar{\varphi}|_{\calM} && \textrm{ and } && \bar{\varphi}(Y) = Y \odot Y,
+\end{align*}$$
+where $\odot$ denotes entrywise multiplication (the Hadamard product), that is, `.*` in Matlab.
+
+The image $\calX = \varphi(\calM)$ depends on the choice of $\calM$.
+For example, if $\calM = \Sn = \{ y \in \Rn : y_1^2 + \cdots + y_n^2 = 1 \}$, then $x = \varphi(y) = (y_1^2, \ldots, y_n^2)$ so that $\calX = \{ x \in \Rn : x_1 + \cdots + x_n = 1; x_1, \ldots, x_n \geq 0 \}$ (the simplex).
+
+The various options set $\calM$ in different ways:
+
+* `('simplex', n)` sets $\calM$ to a sphere in $\Rn$ so that $\calX$ is the simplex in $\Rn$.
+* `('simplex', n, m)` does the same with $\Rn$ replaced by $\Rnm$.
+* `('colstochastic', n, m)` sets $\calM$ to a product of $m$ spheres in $\Rn$ so that $\calX$ is the set of column stochastic matrices of size $n \times m$.
+* `('rowstochastic', n, m)` sets $\calM$ to a product of $n$ spheres in $\Rm$ so that $\calX$ is the set of row stochastic matrices of size $n \times m$.
+* `('nonnegative', n)` sets $\calM$ to be all of $\Rn$ so that $\calX$ is the nonnegative orthant in $\Rn$.
+* `('nonnegative', n, m)` does the same with $\Rn$ replaced by $\Rnm$.
+
+The implementation is simple: it is instructive to look inside.
+The key is to describe $\bar{\varphi} \colon \Rnm \to \Rnm$ and its derivatives (rather than $\varphi$ itself).
+The former is a simple quadratic between linear spaces, and it is independent of $\calM$: we only need to do the work once.
+Then, by setting `lift.embedded = true`, Manopt knows that the composition $f \circ \bar{\varphi}$ is $\bar{g}$.
+That is a smooth extension of $g$ from $\calM$ to $\calE$.
+Thus, `manoptlift` sets the fields `upstairs.egrad` and `upstairs.ehess` which indeed correspond to $\bar{g}$ (rather than setting `upstairs.grad` and `upstairs.hess`, which correspond to $g$).
+In turn, Manopt knows to use `upstairs.M.egrad2rgrad` and `upstairs.M.ehess2rhess` to convert the gradient and Hessian of $\bar{g}$ to those of $g$.
+All of this is automatic, keeping the code for `hadamardlift` concise.
+
+```matlab
+lift.embedded = true;  % below describes \bar\varphi rather than \phi
+lift.phi = @(Y) Y.*Y;
+lift.Dphi = @(Y, V) 2*Y.*V;
+lift.Dphit = @(Y, U) 2*Y.*U;
+lift.hesshw = @(Y, V, W) 2*V.*W;
+```
+
 
 ### Burer-Monteiro for smooth SDP
 
