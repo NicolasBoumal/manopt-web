@@ -358,9 +358,9 @@ For example, if $\calM = \Sn = \{ y \in \Rn : y_1^2 + \cdots + y_n^2 = 1 \}$, th
 
 The various options set $\calM$ in different ways:
 
-* `('simplex', n)` sets $\calM$ to a sphere in $\Rn$ so that $\calX$ is the simplex in $\Rn$.
+* `('simplex', n)` sets $\calM$ to a sphere in $\Rn$ so that $\calX$ is the [simplex](https://en.wikipedia.org/wiki/Simplex#Standard_simplex) in $\Rn$.
 * `('simplex', n, m)` does the same with $\Rn$ replaced by $\Rnm$.
-* `('colstochastic', n, m)` sets $\calM$ to a product of $m$ spheres in $\Rn$ so that $\calX$ is the set of column stochastic matrices of size $n \times m$.
+* `('colstochastic', n, m)` sets $\calM$ to a product of $m$ spheres in $\Rn$ so that $\calX$ is the set of column [stochastic matrices](https://en.wikipedia.org/wiki/Stochastic_matrix) of size $n \times m$.
 * `('rowstochastic', n, m)` sets $\calM$ to a product of $n$ spheres in $\Rm$ so that $\calX$ is the set of row stochastic matrices of size $n \times m$.
 * `('nonnegative', n)` sets $\calM$ to be all of $\Rn$ so that $\calX$ is the nonnegative orthant in $\Rn$.
 * `('nonnegative', n, m)` does the same with $\Rn$ replaced by $\Rnm$.
@@ -369,11 +369,32 @@ This lift satisfies **local $\Rightarrow$ local** and **2 $\Rightarrow$ 1** ever
 It also satisifies 1 $\Rightarrow$ 1 at all $Y \in \calM$ such that $X_{ij} > 0$ for all $i, j$:
 see Sections 2.1 and 4 in [the lifts paper](https://link.springer.com/article/10.1007/s10107-024-02058-3).
 
-The implementation is simple: it is instructive to look inside.
+Here is a naive example aiming to compute a [column-stochastic square root](https://www.sciencedirect.com/science/article/pii/S0024379510001849) of a column stochastic matrix:
+```matlab
+lift = hadamardlift('colstochastic', n, m);
+
+% random stochastic matrix
+A = lift.phi(lift.M.rand());
+
+inner = @(U, V) U(:).'*V(:);
+sqfrobnorm = @(U) inner(U, U);
+downstairs.cost = @(X) sqfrobnorm(X*X-A);
+
+[upstairs, downstairs] = manoptlift(downstairs, lift, 'AD');
+
+Y = trustregions(upstairs);
+X = lift.phi(Y);
+
+% X is a column stochastic matrix such that X*X is (we hope) close to A.
+```
+
+The implementation of `hadamardlift` is simple: it is instructive to [look inside](https://github.com/NicolasBoumal/manopt/blob/master/manopt/lifts/hadamardlift.m).
+
 The key is to describe $\bar{\varphi} \colon \Rnm \to \Rnm$ and its derivatives (rather than $\varphi$ itself).
 The former is a simple quadratic between linear spaces, and it is independent of $\calM$: we only need to do the work once.
 Then, by setting `lift.embedded = true`, Manopt knows that the composition $f \circ \bar{\varphi}$ is $\bar{g}$.
 That is a smooth extension of $g$ from $\calM$ to $\calE$.
+
 Thus, `manoptlift` sets the fields `upstairs.egrad` and `upstairs.ehess` which indeed correspond to $\bar{g}$ (rather than setting `upstairs.grad` and `upstairs.hess`, which correspond to $g$).
 In turn, Manopt knows to use `upstairs.M.egrad2rgrad` and `upstairs.M.ehess2rhess` to convert the gradient and Hessian of $\bar{g}$ to those of $g$.
 All of this is automatic, keeping the code for `hadamardlift` concise.
