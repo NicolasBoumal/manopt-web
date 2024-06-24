@@ -220,9 +220,9 @@ window.MathJax = {
 
         Rk: "\\mathbb{R}^{k}",
 
-        Sn: "\\mathbb{S}^{n}",
+        Sn: "\\mathbb{S}^{n-1}",
 
-        Sm: "\\mathbb{S}^{m}",
+        Sm: "\\mathbb{S}^{m-1}",
 
         Sd: "\\mathbb{S}^{d-1}",
 
@@ -682,9 +682,9 @@ Table&nbsp;1: Fields in a <code>lift</code> structure.
 <div aria-describedby="tbl-liftfields-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
 <colgroup>
-<col style="width: 22%">
-<col style="width: 33%">
-<col style="width: 44%">
+<col style="width: 20%">
+<col style="width: 30%">
+<col style="width: 50%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -938,7 +938,50 @@ Table&nbsp;2: Examples of nonsmooth sets on which we can optimize with Manopt us
 </section>
 <section id="hadamard-entrywise-product" class="level3">
 <h3 class="anchored" data-anchor-id="hadamard-entrywise-product">Hadamard (entrywise product)</h3>
-<p><em>Documentation will be added.</em></p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="va">lift</span> <span class="op">=</span> <span class="va">hadamardlift</span>(<span class="ss">'simplex'</span><span class="op">,</span> <span class="va">n</span>)           <span class="co">% m = 1 by default</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="va">lift</span> <span class="op">=</span> <span class="va">hadamardlift</span>(<span class="ss">'simplex'</span><span class="op">,</span> <span class="va">n</span><span class="op">,</span> <span class="va">m</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="va">lift</span> <span class="op">=</span> <span class="va">hadamardlift</span>(<span class="ss">'colstochastic'</span><span class="op">,</span> <span class="va">n</span><span class="op">,</span> <span class="va">m</span>)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="va">lift</span> <span class="op">=</span> <span class="va">hadamardlift</span>(<span class="ss">'rowstochastic'</span><span class="op">,</span> <span class="va">n</span><span class="op">,</span> <span class="va">m</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="va">lift</span> <span class="op">=</span> <span class="va">hadamardlift</span>(<span class="ss">'nonnegative'</span><span class="op">,</span> <span class="va">n</span>)       <span class="co">% m = 1 by default</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="va">lift</span> <span class="op">=</span> <span class="va">hadamardlift</span>(<span class="ss">'nonnegative'</span><span class="op">,</span> <span class="va">n</span><span class="op">,</span> <span class="va">m</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Recall <a href="#fig-diagramEMN" class="quarto-xref">Figure&nbsp;1</a>, including the parts in pink. The manifold upstairs, <span class="math inline">\(\calM\)</span>, is embedded in <span class="math inline">\(\calE = \Rnm\)</span>. The manifold downstairs is <span class="math inline">\(\calN = \Rnm\)</span>. The lift <span class="math inline">\(\varphi \colon \calM \to \calN\)</span> is the restriction of the map <span class="math inline">\(\bar{\varphi} \colon \calE \to \calN\)</span> to <span class="math inline">\(\calM\)</span>, as follows: <span class="math display">\[\begin{align*}
+    \varphi = \bar{\varphi}|_{\calM} &amp;&amp; \textrm{ and } &amp;&amp; \bar{\varphi}(Y) = Y \odot Y,
+\end{align*}\]</span> where <span class="math inline">\(\odot\)</span> denotes entrywise multiplication (the Hadamard product), that is, <code>.*</code> in Matlab.</p>
+<p>The image <span class="math inline">\(\calX = \varphi(\calM)\)</span> depends on the choice of <span class="math inline">\(\calM\)</span>. For example, if <span class="math inline">\(\calM = \Sn = \{ y \in \Rn : y_1^2 + \cdots + y_n^2 = 1 \}\)</span>, then <span class="math inline">\(x = \varphi(y) = (y_1^2, \ldots, y_n^2)\)</span> so that <span class="math inline">\(\calX = \{ x \in \Rn : x_1 + \cdots + x_n = 1; x_1, \ldots, x_n \geq 0 \}\)</span> (the simplex).</p>
+<p>The various options set <span class="math inline">\(\calM\)</span> in different ways:</p>
+<ul>
+<li><code>('simplex', n)</code> sets <span class="math inline">\(\calM\)</span> to a sphere in <span class="math inline">\(\Rn\)</span> so that <span class="math inline">\(\calX\)</span> is the <a href="https://en.wikipedia.org/wiki/Simplex#Standard_simplex">simplex</a> in <span class="math inline">\(\Rn\)</span>.</li>
+<li><code>('simplex', n, m)</code> does the same with <span class="math inline">\(\Rn\)</span> replaced by <span class="math inline">\(\Rnm\)</span>.</li>
+<li><code>('colstochastic', n, m)</code> sets <span class="math inline">\(\calM\)</span> to a product of <span class="math inline">\(m\)</span> spheres in <span class="math inline">\(\Rn\)</span> so that <span class="math inline">\(\calX\)</span> is the set of column <a href="https://en.wikipedia.org/wiki/Stochastic_matrix">stochastic matrices</a> of size <span class="math inline">\(n \times m\)</span>.</li>
+<li><code>('rowstochastic', n, m)</code> sets <span class="math inline">\(\calM\)</span> to a product of <span class="math inline">\(n\)</span> spheres in <span class="math inline">\(\Rm\)</span> so that <span class="math inline">\(\calX\)</span> is the set of row stochastic matrices of size <span class="math inline">\(n \times m\)</span>.</li>
+<li><code>('nonnegative', n)</code> sets <span class="math inline">\(\calM\)</span> to be all of <span class="math inline">\(\Rn\)</span> so that <span class="math inline">\(\calX\)</span> is the nonnegative orthant in <span class="math inline">\(\Rn\)</span>.</li>
+<li><code>('nonnegative', n, m)</code> does the same with <span class="math inline">\(\Rn\)</span> replaced by <span class="math inline">\(\Rnm\)</span>.</li>
+</ul>
+<p>This lift satisfies <strong>local <span class="math inline">\(\Rightarrow\)</span> local</strong> and <strong>2 <span class="math inline">\(\Rightarrow\)</span> 1</strong> everywhere. It also satisifies 1 <span class="math inline">\(\Rightarrow\)</span> 1 at all <span class="math inline">\(Y \in \calM\)</span> such that <span class="math inline">\(X_{ij} &gt; 0\)</span> for all <span class="math inline">\(i, j\)</span>: see Sections 2.1 and 4 in <a href="https://link.springer.com/article/10.1007/s10107-024-02058-3">the lifts paper</a>.</p>
+<p>Here is a naive example aiming to compute a <a href="https://www.sciencedirect.com/science/article/pii/S0024379510001849">column-stochastic square root</a> of a column stochastic matrix:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="va">lift</span> <span class="op">=</span> <span class="va">hadamardlift</span>(<span class="ss">'colstochastic'</span><span class="op">,</span> <span class="va">n</span><span class="op">,</span> <span class="va">m</span>)<span class="op">;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co">% random stochastic matrix</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="va">A</span> <span class="op">=</span> <span class="va">lift</span>.<span class="va">phi</span>(<span class="va">lift</span>.<span class="va">M</span>.<span class="va">rand</span>())<span class="op">;</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="va">inner</span> <span class="op">=</span> <span class="op">@</span>(<span class="va">U</span><span class="op">,</span> <span class="va">V</span>) <span class="va">U</span>(<span class="op">:</span>)<span class="op">.'*</span><span class="va">V</span>(<span class="op">:</span>)<span class="op">;</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="va">sqfrobnorm</span> <span class="op">=</span> <span class="op">@</span>(<span class="va">U</span>) <span class="va">inner</span>(<span class="va">U</span><span class="op">,</span> <span class="va">U</span>)<span class="op">;</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="va">downstairs</span>.<span class="va">cost</span> <span class="op">=</span> <span class="op">@</span>(<span class="va">X</span>) <span class="va">sqfrobnorm</span>(<span class="va">X</span><span class="op">*</span><span class="va">X</span><span class="op">-</span><span class="va">A</span>)<span class="op">;</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>[<span class="va">upstairs</span><span class="op">,</span> <span class="va">downstairs</span>] <span class="op">=</span> <span class="va">manoptlift</span>(<span class="va">downstairs</span><span class="op">,</span> <span class="va">lift</span><span class="op">,</span> <span class="ss">'AD'</span>)<span class="op">;</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="va">Y</span> <span class="op">=</span> <span class="va">trustregions</span>(<span class="va">upstairs</span>)<span class="op">;</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="va">X</span> <span class="op">=</span> <span class="va">lift</span>.<span class="va">phi</span>(<span class="va">Y</span>)<span class="op">;</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="co">% X is a column stochastic matrix such that X*X is (we hope) close to A.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The implementation of <code>hadamardlift</code> is simple: it is instructive to <a href="https://github.com/NicolasBoumal/manopt/blob/master/manopt/lifts/hadamardlift.m">look inside</a>.</p>
+<p>The key is to describe <span class="math inline">\(\bar{\varphi} \colon \Rnm \to \Rnm\)</span> and its derivatives (rather than <span class="math inline">\(\varphi\)</span> itself). The former is a simple quadratic between linear spaces, and it is independent of <span class="math inline">\(\calM\)</span>: we only need to do the work once. Then, by setting <code>lift.embedded = true</code>, Manopt knows that the composition <span class="math inline">\(f \circ \bar{\varphi}\)</span> is <span class="math inline">\(\bar{g}\)</span>. That is a smooth extension of <span class="math inline">\(g\)</span> from <span class="math inline">\(\calM\)</span> to <span class="math inline">\(\calE\)</span>.</p>
+<p>Thus, <code>manoptlift</code> sets the fields <code>upstairs.egrad</code> and <code>upstairs.ehess</code> which indeed correspond to <span class="math inline">\(\bar{g}\)</span> (rather than setting <code>upstairs.grad</code> and <code>upstairs.hess</code>, which correspond to <span class="math inline">\(g\)</span>). In turn, Manopt knows to use <code>upstairs.M.egrad2rgrad</code> and <code>upstairs.M.ehess2rhess</code> to convert the gradient and Hessian of <span class="math inline">\(\bar{g}\)</span> to those of <span class="math inline">\(g\)</span>. All of this is automatic, keeping the code for <code>hadamardlift</code> concise.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="va">lift</span>.<span class="va">embedded</span> <span class="op">=</span> <span class="va">true</span><span class="op">;</span>  <span class="co">% below describes \bar\varphi rather than \phi</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="va">lift</span>.<span class="va">phi</span> <span class="op">=</span> <span class="op">@</span>(<span class="va">Y</span>) <span class="va">Y</span><span class="op">.*</span><span class="va">Y</span><span class="op">;</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="va">lift</span>.<span class="va">Dphi</span> <span class="op">=</span> <span class="op">@</span>(<span class="va">Y</span><span class="op">,</span> <span class="va">V</span>) <span class="fl">2</span><span class="op">*</span><span class="va">Y</span><span class="op">.*</span><span class="va">V</span><span class="op">;</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="va">lift</span>.<span class="va">Dphit</span> <span class="op">=</span> <span class="op">@</span>(<span class="va">Y</span><span class="op">,</span> <span class="va">U</span>) <span class="fl">2</span><span class="op">*</span><span class="va">Y</span><span class="op">.*</span><span class="va">U</span><span class="op">;</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="va">lift</span>.<span class="va">hesshw</span> <span class="op">=</span> <span class="op">@</span>(<span class="va">Y</span><span class="op">,</span> <span class="va">V</span><span class="op">,</span> <span class="va">W</span>) <span class="fl">2</span><span class="op">*</span><span class="va">V</span><span class="op">.*</span><span class="va">W</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="burer-monteiro-for-smooth-sdp" class="level3">
 <h3 class="anchored" data-anchor-id="burer-monteiro-for-smooth-sdp">Burer-Monteiro for smooth SDP</h3>
