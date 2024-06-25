@@ -411,7 +411,9 @@ lift.hesshw = @(Y, V, W) 2*V.*W;
 
 ### Burer-Monteiro for general bounded rank
 
-`lift = burermonteiroLRlift(m, n, r)`
+``` matlab
+lift = burermonteiroLRlift(m, n, r)
+```
 
 The manifold upstairs is $\calM = \Rmr \times \Rnr$.
 The manifold downstairs is $\calN = \Rmn$.
@@ -569,7 +571,40 @@ As the code examples above demonstrate, it is easy to switch from fixed rank to 
 
 ### Burer-Monteiro for smooth SDP
 
-*Documentation will be added.*
+```matlab
+lift = burermonteirolift('free', n, p)
+lift = burermonteirolift('unittrace', n, p)
+lift = burermonteirolift('unitdiag', n, p)
+```
+
+Recall @fig-diagramEMN, including the parts in pink.
+The manifold upstairs, $\calM$, is embedded in $\calE = \Rnp$.
+The manifold downstairs is $\calN = \Rnn$.
+The lift $\varphi \colon \calM \to \calN$ is the restriction to $\calM$ of the map $\bar{\varphi} \colon \calE \to \calN$, as follows:
+$$\begin{align*}
+    \varphi = \bar{\varphi}|_{\calM} && \textrm{ and } && \bar{\varphi}(Y) = YY\transpose.
+\end{align*}$$
+Notice that $\bar{\varphi}(\calE)$ is the set of positive semidefinite matrices of size $n$ and rank at most $p$.
+[Burer and Monteiro](https://link.springer.com/article/10.1007/s10107-002-0352-8) popularized this parameterization as a means to solve [semidefinite programs](https://en.wikipedia.org/wiki/Semidefinite_programming) (SDP).
+
+The image $\calX = \varphi(\calM)$ depends on the choice of $\calM$.
+For example, if $\calM = \{ Y \in \Rnp : \sqfrobnorm{Y} = 1 \}$, then $X = \varphi(Y) = YY^\top$ satisfies $\trace(X) = \trace(YY^\top) = \sqfrobnorm{Y} = 1$ so that $\calX = \{ X \in \Rnn : X \succeq 0, \rank(X) \leq p \textrm{ and } \trace(X) = 1 \}$.
+
+The various options set $\calM$ in different ways.
+(Setting $p \geq n$ makes the rank constraint vacuous, reducing $\calX$ to known convex sets.)
+
+* `('free', n, p)` sets $\calM = \calE = \Rnp$ so that $\calX = S_n^p \triangleq \{ X \in \Rnn : X \succeq 0 \textrm{ and } \rank(X) \leq p \}$. (Setting $p \geq n$ yields the semidefinite cone.)
+* `('unittrace', n, p)` sets $\calM$ to be the unit sphere in $\Rnp$ (i.e., $\sqfrobnorm{Y} = 1$) so that $\calX$ is the intersection of $S_n^p$ with the constraint $\trace(X) = 1$. (Setting $p \geq n$ yields the [spectraplex](https://en.wikipedia.org/wiki/Spectrahedron).)
+* `('unitdiag', n, p)` sets $\calM$ to a product of $n$ spheres in $\Rp$ (each row of $Y$ has unit norm) so that $\calX$ is the intersection of $S_n^p$ with the constraint $\diag(X) = \One$. (Setting $p \geq n$ yields the [elliptope](https://en.wiktionary.org/wiki/elliptope).)
+
+This lift satisfies **local $\Rightarrow$ local** and **2 $\Rightarrow$ 1** everywhere.
+It also satisifies 1 $\Rightarrow$ 1 at all $Y \in \calM$ such that $\rank(Y) = p$:
+see Sections 2.2 and 4 in [the lifts paper](https://link.springer.com/article/10.1007/s10107-024-02058-3).
+
+A few words about efficiency:
+
+* To avoid manipulating matrices of size $n \times n$ directly, the space $\calN = \Rnn$ downstairs is encoded with `euclideanlargefactory`rather than with `euclideanfactory`: see [the $LR^\top$ documentation](#burer-monteiro-for-general-bounded-rank) for more.
+* The space downstairs could have been defined as $\Sym(n) = \{ X \in \Rnn : X = X^\top \}$. If so, then $\grad f(X)$ and $\Hess f(X)[\dot X]$ are necessarily symmetric matrices, which can be exploited for some computational gains. By default, this is not the case (because assuming so without the user's knowledge would result in silent bugs). Still, you can tell Manopt that your gradients and Hessians downstairs are symmetric by adding `'symmetric'` as an optional input when creating the lift, e.g., `lift = burermonteirolift('unitdiag', n, p, 'symmetric')`.
 
 
 ## The Hessian of $g$
