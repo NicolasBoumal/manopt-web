@@ -446,6 +446,7 @@ This also means that the code we write for $f$ and its derivatives in the `downs
 Look inside the code of [`euclideanlargefactory`](https://github.com/NicolasBoumal/manopt/blob/master/manopt/manifolds/euclidean/euclideanlargefactory.m) for a list of available functions to ease this process.
 
 Here is example code to solve $\min_{\rank(X) \leq r} \sqfrobnorm{X - A}$ where $A$ is a given sparse matrix.
+For the same problem, alternative versions of the code also show how to use `fixedrankembeddedfactory` and `desingularizationfactory` (see the note below).
 
 ::: {.panel-tabset}
 
@@ -462,9 +463,9 @@ Rmn = euclideanlargefactory(m, n); % mind the 'large'
 
 
 dwnstrs.M = Rmn;
-dwnstrs.cost = @(X) .5*Rmn.dist(X, A)^2;
-dwnstrs.grad = @(X) Rmn.diff(X, A);
-dwnstrs.hess = @(X, Xdot) Xdot;
+dwnstrs.cost  = @(X) .5*Rmn.dist(X, A)^2;
+dwnstrs.grad  = @(X) Rmn.diff(X, A);
+dwnstrs.hess  = @(X, Xdot) Xdot;
 
 lift = burermonteiroLRlift(m, n, r);
 upstairs = manoptlift(dwnstrs, lift);
@@ -496,18 +497,18 @@ r = 5;
 A = sprand(m, n, .01); % random sparse matrix
 
 Rmn = euclideanlargefactory(m, n); % mind the 'large'
-fixedrk = fixedrankembeddedfactory(m, n, r); % submanifold
+fixdrk = fixedrankembeddedfactory(m, n, r); % submanifold
 
-problem.M = fixedrk;
-problem.cost = @(X) .5*Rmn.dist(X, A)^2;
+problem.M = fixdrk;
+problem.cost  = @(X) .5*Rmn.dist(X, A)^2;
 problem.egrad = @(X) Rmn.diff(X, A);      % mind the 'e'
-problem.ehess = @(X, Xdot) fixedrk.tangent2ambient(X, Xdot); % !
+problem.ehess = @(X, Xdot) fixdrk.tangent2ambient(X, Xdot); % !
 
 
 
 
 % initialization close to zero
-X0 = fixedrk.rand();
+X0 = fixdrk.rand();
 X0.S = diag(rand(r, 1)/1000);
 
 X = trustregions(problem, X0);
@@ -533,7 +534,7 @@ Rmn = euclideanlargefactory(m, n); % mind the 'large'
 desing = desingularizationfactory(m, n, r); % (X, P) lift
 
 problem.M = desing;
-problem.cost = @(X) .5*Rmn.dist(X, A)^2;
+problem.cost  = @(X) .5*Rmn.dist(X, A)^2;
 problem.egrad = @(X) Rmn.diff(X, A);      % mind the 'e'
 problem.ehess = @(X, Xdot) desing.tangent2ambient(X, Xdot).X; % !!
 
@@ -562,6 +563,7 @@ svds(A, r+1)'
 The [`desingularizationfactory`](https://github.com/NicolasBoumal/manopt/blob/master/manopt/manifolds/fixedrank/desingularizationfactory.m) encodes the geometry of a Riemannian manifold, but `egrad2rgrad` and `ehess2rhess` in that factory actually correspond to a lift, as described in the documentation of the factory.
 Thus, it is not a lift in Manopt's code base, but mathematically it acts as a lift of the set of bounded-rank matrices to a smooth manifold.
 This is a good alternative to the $LR^\top$ lift, with stronger theoretical properties as detailed in [this paper](https://arxiv.org/abs/2406.14211).
+As the code examples above demonstrate, it is easy to switch from fixed rank to bounded rank with this factory.
 :::
 
 
