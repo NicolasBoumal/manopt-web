@@ -606,6 +606,54 @@ A few words about efficiency:
 * To avoid manipulating matrices of size $n \times n$ directly, the space $\calN = \Rnn$ downstairs is encoded with `euclideanlargefactory`rather than with `euclideanfactory`: see [the $LR^\top$ documentation](#burer-monteiro-for-general-bounded-rank) for more.
 * The space downstairs could have been defined as $\Sym(n) = \{ X \in \Rnn : X = X^\top \}$. If so, then $\grad f(X)$ and $\Hess f(X)[\dot X]$ are necessarily symmetric matrices, which can be exploited for some computational gains. By default, this is not the case (because assuming so without the user's knowledge would result in silent bugs). Still, you can tell Manopt that your gradients and Hessians downstairs are symmetric by adding `'symmetric'` as an optional input when creating the lift, e.g., `lift = burermonteirolift('unitdiag', n, p, 'symmetric')`.
 
+The code below shows the rank-constrained SDP approach to [Max-Cut](https://en.wikipedia.org/wiki/Maximum_cut) for a random sparse graph with adjacency matrix $C$: $\min_{X \succeq 0} f(X) = \trace(CX) = \inner{C}{X}$ subject to $\diag(X) = \One$ and $\rank(X) \leq p$.
+For this simple task, we could have easily implemented the function $g(Y) = \inner{C}{YY^\top} = \inner{CY}{Y}$ directly.
+That is equivalent but more efficient: both codes are provided.
+
+::: {.panel-tabset}
+
+## Via `manoptlift`
+
+```matlab
+n = 1000;
+p = 15;
+
+C = abs(sprandsym(n, .001)); % random adjacency matrix
+
+Rnn = euclideanlargefactory(n, n);  % mind the 'large'
+downstairs.M = Rnn;
+downstairs.cost = @(X) Rnn.inner(C, X);
+downstairs.grad = @(X) C;
+downstairs.hess = @(X, Xdot) Rnn.zero();
+
+% Our gradient and Hessian downstairs are symmetric,
+% so we add the flag 'symmetric' to enable some savings.
+lift = burermonteirolift('unitdiag', n, p, 'symmetric');
+
+upstairs = manoptlift(downstairs, lift);
+
+Y = trustregions(upstairs);
+```
+
+## Direct implementation
+
+```matlab
+n = 1000;
+p = 15;
+
+C = abs(sprandsym(n, .001)); % random adjacency matrix
+
+problem.M = obliquefactory(p, n, true); % nxp, unit rows
+inner = @(U, V) U(:).'*V(:);
+problem.cost = @(Y) inner(C*Y, Y);
+problem.egrad = @(Y) 2*C*Y;
+problem.ehess = @(Y, Ydot) 2*C*Ydot;
+
+Y = trustregions(problem);
+```
+
+:::
+
 
 ## The Hessian of $g$
 
