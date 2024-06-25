@@ -409,20 +409,165 @@ lift.hesshw = @(Y, V, W) 2*V.*W;
 ```
 
 
-### Burer-Monteiro for smooth SDP
+### Burer-Monteiro for general bounded rank
 
-*Documentation will be added.*
+`lift = burermonteiroLRlift(m, n, r)`
 
-### Burer-Monteiro for general bounded-rank
+The manifold upstairs is $\calM = \Rmr \times \Rnr$.
+The manifold downstairs is $\calN = \Rmn$.
+The lift $\varphi \colon \calM \to \calN$ is the map
+$$
+    \varphi(L, R) = LR\transpose.
+$$
+The image of the lift is the set of bounded-rank matrices:
+$$
+    \calX = \varphi(\calM) = \{ X \in \Rmn : \rank(X) \leq r \}.
+$$
+This is a nonsmooth set.
+Contrast it with [`fixedrankembeddedfactory`](https://github.com/NicolasBoumal/manopt/blob/master/manopt/manifolds/fixedrank/fixedrankembeddedfactory.m), which is the manifold of matrices of rank *equal* to $r$.
 
-*Documentation will be added.*
+This lift satisfies **2 $\Rightarrow$ 1** everywhere.
+It also satisifies local $\Rightarrow$ local and 1 $\Rightarrow$ 1 at some pairs $(L, R)$, under some conditions:
+see Sections 2.3 and 5 in [the lifts paper](https://link.springer.com/article/10.1007/s10107-024-02058-3).
+
+One purpose of working with rank bounds is to handle situations where the dimension of $\Rmn$ is large.
+Indeed, the dimension of $\calX$ is $r(m+n-r)$, which can be far smaller than $mn$.
+Accordingly, it is important to be able to describe the problem downstairs in an efficient way, so as to avoid direct manipulation of objects in $\Rmn$ at any time.
+
+To this end, for the problem downstairs, we encode $\calN = \Rmn$ with [`euclideanlargefactory`](https://github.com/NicolasBoumal/manopt/blob/master/manopt/manifolds/euclidean/euclideanlargefactory.m) rather than [`euclideanfactory`](https://github.com/NicolasBoumal/manopt/blob/master/manopt/manifolds/euclidean/euclideanfactory.m).
+The latter allows us to represent a matrix $X \in \Rmn$ (no constraints) in any of the following formats:
+
+* As a matrix $X$, dense (if needed) or sparse (if possible).
+* As a structure with fields `L` and `R`, which encode the matrix as $X = LR\transpose$.
+* As a structure with fields `U`, `S` and `V`, which encode the matrix as $X = USV\transpose$.
+* As a structure with fields `times` and `transpose_times`, two function handles which encode the matrix as follows: `times(A)` is $XA$ and `transpose_times(B)` is $X\transpose B$ for all $A, B$ of compatible sizes.
+
+This also means that the code we write for $f$ and its derivatives in the `downstairs` problem must accept all of the above.
+Look inside the code of [`euclideanlargefactory`](https://github.com/NicolasBoumal/manopt/blob/master/manopt/manifolds/euclidean/euclideanlargefactory.m) for a list of available functions to ease this process.
+
+Here is example code to solve $\min_{\rank(X) \leq r} \sqfrobnorm{X - A}$ where $A$ is a given sparse matrix.
+
+::: {.panel-tabset}
+
+## $LR^\top$ lift
+
+``` matlab
+m = 1000;
+n = 1500;
+r = 5;
+
+A = sprand(m, n, .01); % random sparse matrix
+
+Rmn = euclideanlargefactory(m, n); % mind the 'large'
+
+
+dwnstrs.M = Rmn;
+dwnstrs.cost = @(X) .5*Rmn.dist(X, A)^2;
+dwnstrs.grad = @(X) Rmn.diff(X, A);
+dwnstrs.hess = @(X, Xdot) Xdot;
+
+lift = burermonteiroLRlift(m, n, r);
+upstairs = manoptlift(dwnstrs, lift);
+
+% initialization close to zero
+LR0.L = randn(m, r)/sqrt(m*r)/1000;
+LR0.R = randn(n, r)/sqrt(n*r)/1000;
+
+LR = trustregions(upstairs, LR0);
+
+% Confirm that the positive singular values of L*R'
+% match the r top singular values of A.
+% For efficiency, we do not form X = LR.L * LR.R'.
+% Instead, we apply a QR to both L and R, and
+% deduce the singular values of X from there.
+[Ql, Rl] = qr(LR.L, 0);
+[Qr, Rr] = qr(LR.R, 0);
+svd(Rl*Rr')'
+svds(A, r+1)'
+```
+
+## Fixed-rank
+
+``` matlab
+m = 1000;
+n = 1500;
+r = 5;
+
+A = sprand(m, n, .01); % random sparse matrix
+
+Rmn = euclideanlargefactory(m, n); % mind the 'large'
+fixedrk = fixedrankembeddedfactory(m, n, r); % submanifold
+
+problem.M = fixedrk;
+problem.cost = @(X) .5*Rmn.dist(X, A)^2;
+problem.egrad = @(X) Rmn.diff(X, A);      % mind the 'e'
+problem.ehess = @(X, Xdot) fixedrk.tangent2ambient(X, Xdot); % !
+
+
+
+
+% initialization close to zero
+X0 = fixedrk.rand();
+X0.S = diag(rand(r, 1)/1000);
+
+X = trustregions(problem, X0);
+
+% Confirm that the positive singular values of X
+% in the fixedrankembeddedfactory format (U, S, V)
+% match the top singular values of A.
+% For efficiency, we do not form X.
+svd(X.S)'
+svds(A, r+1)'
+```
+
+## Desingularization
+
+```matlab
+m = 1000;
+n = 1500;
+r = 5;
+
+A = sprand(m, n, .01); % random sparse matrix
+
+Rmn = euclideanlargefactory(m, n); % mind the 'large'
+desing = desingularizationfactory(m, n, r); % (X, P) lift
+
+problem.M = desing;
+problem.cost = @(X) .5*Rmn.dist(X, A)^2;
+problem.egrad = @(X) Rmn.diff(X, A);      % mind the 'e'
+problem.ehess = @(X, Xdot) desing.tangent2ambient(X, Xdot).X; % !!
+
+
+
+
+% initialization close to zero
+X0 = desing.rand();
+X0.S = diag(rand(r, 1)/1000);
+
+X = trustregions(problem, X0);
+
+% Confirm that the positive singular values of X
+% in the desingularizationfactory format (U, S, V)
+% match the top singular values of A.
+% For efficiency, we do not form X.
+svd(X.S)'
+svds(A, r+1)'
+```
+
+:::
+
 
 :::{.callout-note}
 ## Desingularization lift of bounded rank matrices.
-The `desingularizationfactory` encodes the geometry of a Riemannian manifold, but `egrad2rgrad` and `ehess2rhess` in that factory actually correspond to a lift, as described in the documentation of the factory.
+The [`desingularizationfactory`](https://github.com/NicolasBoumal/manopt/blob/master/manopt/manifolds/fixedrank/desingularizationfactory.m) encodes the geometry of a Riemannian manifold, but `egrad2rgrad` and `ehess2rhess` in that factory actually correspond to a lift, as described in the documentation of the factory.
 Thus, it is not a lift in Manopt's code base, but mathematically it acts as a lift of the set of bounded-rank matrices to a smooth manifold.
 This is a good alternative to the $LR^\top$ lift, with stronger theoretical properties as detailed in [this paper](https://arxiv.org/abs/2406.14211).
 :::
+
+
+### Burer-Monteiro for smooth SDP
+
+*Documentation will be added.*
 
 
 ## The Hessian of $g$
