@@ -39,7 +39,8 @@ Which metric is best for a specific application may vary: experiments will tell.
   * $\mathbb{R}^{n}$ <br>
     `euclideanfactory(n)`
   * $\mathbb{R}^{m \times n}$ <br>
-    `euclideanfactory(m, n)`
+    `euclideanfactory(m, n)` <br>
+    `euclideanlargefactory(m, n)` (to handle high dimensions)
   * $\mathbb{C}^{n}$ <br>
     `euclideancomplexfactory(n)`
   * $\mathbb{C}^{m \times n}$ <br>
@@ -57,7 +58,7 @@ Which metric is best for a specific application may vary: experiments will tell.
   * $\{ X \in \mathbb{R}^{m \times n} : X_{ij} = 0 \textrm{ if } A_{ij} = 0 \}$ <br>
     `euclideansparsefactory(A)` (inefficient implementation)
 * Linear subspace of a linear space
-  * $\{ x \in E : x = \mathrm{proj}(x) \}$ where $E$ is a linear space (obtained from a factory) and $\mathrm{proj}$ is an orthogonal projector to the desired subspace. <br>
+  * $\{ x \in E : x = \mathrm{proj}(x) \}$ where $E$ is a linear space (from a factory) and $\mathrm{proj}$ is an orthogonal projector to the subspace. <br>
     `euclideansubspacefactory(E, proj, dim)`
 
 
@@ -132,6 +133,9 @@ Which metric is best for a specific application may vary: experiments will tell.
     `fixedrankfactory_2factors_subspace_projection(m, n, k)` <br>
     `fixedrankfactory_3factors(m, n, k)` <br>
     `fixedrankMNquotientfactory(m, n, k)`
+* Bounded-rank matrices
+  * $\{X \in \mathbb{R}^{m \times n} : \operatorname{rank}(X) \leq k\}$ <br>
+    `desingularizationfactory(m, n, k)` (see also [lifts](lifts.qmd))
 * Fixed-rank tensors, Tucker
   * Tensors of fixed multilinear rank in Tucker format <br>
     `fixedranktensorembeddedfactory` <br>

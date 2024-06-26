@@ -90,12 +90,12 @@ Both, together with [Hiroyuki Sato](https://sites.google.com/site/hiroyukisatoen
 [Ronny Bergmann](https://ronnybergmann.net/) contributed code to [`multinomialfactory`](https://github.com/NicolasBoumal/manopt/blob/master/manopt/manifolds/multinomial/multinomialfactory.m).
 
 [Michael Psenka](https://www.michaelpsenka.io/) contributed the code for optimization over tensors with fixed tensor-train rank, accessible through [`fixedTTrankfactory`](https://github.com/NicolasBoumal/manopt/tree/master/manopt/manifolds/ttfixedrank), together with an [example script](https://github.com/NicolasBoumal/manopt/blob/master/examples/low_rank_tensor_completion_TT.m).
-This geometry heavily relies on [TTeMPS](https://www.epfl.ch/labs/anchp/index-html/software/ttemps/) for all core functionalities except second-order optimization (specifically, M.ehess2rhess).
+This geometry heavily relies on [TTeMPS](https://www.epfl.ch/labs/anchp/index-html/software/ttemps/) for all core functionalities except second-order optimization (specifically, `M.ehess2rhess`).
 TTeMPS is code distributed by [Michael Steinlechner](https://scholar.google.com/citations?user=N_15-1MAAAAJ&hl=nl), [Daniel Kressner](https://www.epfl.ch/labs/anchp/) and [Bart Vandereycken](https://www.unige.ch/math/vandereycken/).
 We thank them for releasing their excellent software under an open source license, which allowed us to build upon it.
 It is packaged in Manopt with small modifications.
 
-[Quentin Rebjock](https://people.epfl.ch/quentin.rebjock?lang=en) contributed [`poincareballfactory`](https://github.com/NicolasBoumal/manopt/blob/master/manopt/manifolds/hyperbolic/poincareballfactory.m) and more.
+[Quentin Rebjock](https://people.epfl.ch/quentin.rebjock?lang=en) contributed [`poincareballfactory`](https://github.com/NicolasBoumal/manopt/blob/master/manopt/manifolds/hyperbolic/poincareballfactory.m), [`desingularizationfactory`](https://github.com/NicolasBoumal/manopt/blob/master/manopt/manifolds/fixedrank/desingularizationfactory.m), and more.
 
 [Xiaowen Jiang](https://github.com/Xiaowen-Jiang) worked in the group of Nicolas during the summer of 2021 to add support for [automatic differentiation](https://github.com/NicolasBoumal/manopt/tree/master/manopt/autodiff), based on [Matlab's Deep Learning Toolbox](https://www.mathworks.com/products/deep-learning.html).
 This fantastic feature aligns well with Manopt's overarching goal: to lower the entrance barrier for people who would like to give Riemannian optimization a try.
