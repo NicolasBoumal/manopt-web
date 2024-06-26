@@ -643,7 +643,7 @@ p = 15;
 
 C = abs(sprandsym(n, .001)); % random adjacency matrix
 
-problem.M = obliquefactory(p, n, true); % nxp, unit rows
+problem.M = obliquefactory(n, p, 'rows'); % nxp, unit rows
 inner = @(U, V) U(:).'*V(:);
 problem.cost = @(Y) inner(C*Y, Y);
 problem.egrad = @(Y) 2*C*Y;

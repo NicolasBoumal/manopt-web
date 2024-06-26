@@ -79,8 +79,8 @@ Which metric is best for a specific application may vary: experiments will tell.
 * Oblique manifold (product of spheres)
   * $\{X\in\mathbb{R}^{n\times m} : \|X_{:1}\| = \cdots = \|X_{:m}\| = 1\}$ <br>
     `obliquefactory(n, m)` ($m$ normed columns in $\mathbb{R}^n$)
-  * $\{X\in\mathbb{R}^{m\times n} : \|X_{1:}\| = \cdots = \|X_{m:}\| = 1\}$ <br>
-    `obliquefactory(n, m, true)` ($m$ normed rows in $\mathbb{R}^n$)
+  * $\{X\in\mathbb{R}^{n\times m} : \|X_{1:}\| = \cdots = \|X_{n:}\| = 1\}$ <br>
+    `obliquefactory(n, m, 'rows')` ($n$ normed rows in $\mathbb{R}^m$)
   * $\{X\in\mathbb{C}^{n\times m} : \|X_{:1}\| = \cdots = \|X_{:m}\| = 1\}$ <br>
     `obliquecomplexfactory(n, m)` ($m$ normed columns in $\mathbb{C}^n$)
   * $\{X\in\mathbb{C}^{m\times n} : \|X_{1:}\| = \cdots = \|X_{m:}\| = 1\}$ <br>
