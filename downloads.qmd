@@ -56,7 +56,8 @@ We'd love to know about this and get feedback.
     * Made `fixedrankembeddedfactory` compatible with `euclideanlargefactory`.
     * Deep rewrites of `obliquefactory` and `obliquecomplexfactory` for improved efficiency and readability. Backward compatible.
     * Removed `M.dist` in factories where that was only triggering an error message.
-    * TODO: uniformize and document retr2 + point2ambient, isotransp?
+    * Removed `M.exp` in a few factories where that was still only redirecting to `M.retr` with a warning.
+    * **TODO: uniformize and document retr2 + point2ambient, isotransp?**
 
 *   Solvers
     * In `trs_tCG`, fixed update of `e_Pd` when `useRand = true`, and now allowing to set nonzero `eta0` as input.
@@ -80,6 +81,7 @@ We'd love to know about this and get feedback.
 *   Examples
     * Adapted several examples to reflect current best practices with Manopt, e.g., in `maxcut` and `elliptope_SDP`.
     * Rewrote `low_rank_matrix_completion` in full to showcase three ways to solve the same problem, two of them new to this release.
+    * New example `packing_in_a_ball` to illustrate Manopt lifts.
 
 *   Performance
     * Replaced `bsxfun` with more efficient calls in `obliquefactory`, `obliquecomplexfactory`, `qr_unique`, `lyapunov_symmetric_eig`, `hyperbolicfactory`.
