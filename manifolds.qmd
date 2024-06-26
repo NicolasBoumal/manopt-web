@@ -83,8 +83,8 @@ Which metric is best for a specific application may vary: experiments will tell.
     `obliquefactory(n, m, 'rows')` ($n$ normed rows in $\mathbb{R}^m$)
   * $\{X\in\mathbb{C}^{n\times m} : \|X_{:1}\| = \cdots = \|X_{:m}\| = 1\}$ <br>
     `obliquecomplexfactory(n, m)` ($m$ normed columns in $\mathbb{C}^n$)
-  * $\{X\in\mathbb{C}^{m\times n} : \|X_{1:}\| = \cdots = \|X_{m:}\| = 1\}$ <br>
-    `obliquecomplexfactory(n, m, true)` ($m$ normed rows in $\mathbb{C}^n$)
+  * $\{X\in\mathbb{C}^{n\times m} : \|X_{1:}\| = \cdots = \|X_{n:}\| = 1\}$ <br>
+    `obliquecomplexfactory(n, m, 'rows')` ($n$ normed rows in $\mathbb{C}^m$)
 * Complex circle, phases
   * $\{z\in\mathbb{C}^n : |z_1| = \cdots = |z_n| = 1\}$ <br>
     `complexcirclefactory(n)`
@@ -126,16 +126,16 @@ Which metric is best for a specific application may vary: experiments will tell.
 ### Rank constraints
 
 * Fixed-rank matrices
-  * $\{X \in \mathbb{R}^{m \times n} : \operatorname{rank}(X) = k\}$ <br>
-    `fixedrankembeddedfactory(m, n, k)` <br>
-    `fixedrankfactory_2factors(m, n, k)` <br>
-    `fixedrankfactory_2factors_preconditioned(m, n, k)` <br>
-    `fixedrankfactory_2factors_subspace_projection(m, n, k)` <br>
-    `fixedrankfactory_3factors(m, n, k)` <br>
-    `fixedrankMNquotientfactory(m, n, k)`
+  * $\{X \in \mathbb{R}^{m \times n} : \operatorname{rank}(X) = r\}$ <br>
+    `fixedrankembeddedfactory(m, n, r)` <br>
+    `fixedrankfactory_2factors(m, n, r)` <br>
+    `fixedrankfactory_2factors_preconditioned(m, n, r)` <br>
+    `fixedrankfactory_2factors_subspace_projection(m, n, r)` <br>
+    `fixedrankfactory_3factors(m, n, r)` <br>
+    `fixedrankMNquotientfactory(m, n, r)`
 * Bounded-rank matrices
-  * $\{X \in \mathbb{R}^{m \times n} : \operatorname{rank}(X) \leq k\}$ <br>
-    `desingularizationfactory(m, n, k)` (see also [lifts](lifts.qmd))
+  * $\{X \in \mathbb{R}^{m \times n} : \operatorname{rank}(X) \leq r\}$ <br>
+    `desingularizationfactory(m, n, r)` (see also [lifts](lifts.qmd))
 * Fixed-rank tensors, Tucker
   * Tensors of fixed multilinear rank in Tucker format <br>
     `fixedranktensorembeddedfactory` <br>
@@ -147,6 +147,9 @@ Which metric is best for a specific application may vary: experiments will tell.
 See more rank-constrained manifolds in the category _Positivity constraints_.
 
 ### Positivity constraints
+
+The positivity constraints here are *strict* ($x > 0$).
+See also [lifts](lifts.qmd) for nonnegativity constraints ($x \geq 0$).
 
 * Matrices with strictly positive entries
   * $\{ X \in \mathbb{R}^{m\times n} : X_{ij} > 0 \ \forall i, j\}$ <br>
@@ -259,8 +262,8 @@ If you find ways to improve the built-in geometries, let us know.
 |-|-|---|
 | Name | `M.name()` | Name of the manifold as a string. |
 | Dimension  | `M.dim()`  | Dimension of the manifold.  |
-| Metric  | `M.inner(x, u, v)`  | Riemannian metric $\langle u, v \rangle_x.$  |
-| Norm  | `M.norm(x, u)`  | Riemannian norm $\|u\|_x = \sqrt{\langle u, u \rangle_x}.$ |
+| Metric  | `M.inner(x, u, v)`  | Riemannian metric $\inner{u}{v}_x.$  |
+| Norm  | `M.norm(x, u)`  | Riemannian norm $\|u\|_x = \sqrt{\inner{u}{u}_x}.$ |
 | Distance  | `M.dist(x, y)`  | Riemannian distance $\operatorname{dist}(x, y)$.  |
 | Typical distance  | `M.typicaldist()`  | "Scale" of the manifold. This is used by the trust-regions solver for example, to determine default initial and maximal trust-region radii. |
 | Tangent space projector  | `M.proj(x, u)`  | For manifolds embedded in a Euclidean space, computes the orthogonal projection $\operatorname{Proj}_x u$ of the vector $u$ from the embedding space to the tangent space at $x$. If `M` is a quotient manifold, then the projection is from the embedding space of the total space to the horizontal space at $x$.  |
