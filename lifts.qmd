@@ -101,6 +101,13 @@ There are several ways to call `manoptlift`:
     - If `downstairs.M` is omitted, then it is set to `lift.N`.
     - If automatic differentiation is used.
 
+
+::: {.callout-warning}
+## No composition of lifts yet.
+Because of how caching is currently handled, it is not safe to lift a lifted problem, that is, to compose lifts.
+If you need this feature, let us know on the forum.
+:::
+
 ## Landscape relations
 
 A point $y \in \calM$ maps to a point $x = \varphi(y) \in \calX$.
