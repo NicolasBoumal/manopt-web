@@ -61,6 +61,7 @@ We'd love to know about this and get feedback.
 *   Solvers
     * In `trs_tCG`, fixed update of `e_Pd` when `useRand = true`, and now allowing to set nonzero `eta0` as input.
     * Added support for $\beta$-type rules and fixed Liu-Storey rule in `conjugategradient`.
+    * New trust-regions subproblem solver `trs_lanczos`.
 
 *   Tools
     * New `manoptlift`, see above.
@@ -85,8 +86,8 @@ We'd love to know about this and get feedback.
     * GPU support for `obliquefactory` and `obliquecomplexfactory`.
 
 *   Bug fixes
-    * Fixed `obliquecomplexfactory.log`.
-    * Typo in `elliptopefactory.name`.
+    * Fixed `obliquecomplexfactory.log` in transposed case.
+    * Corrected typo in `elliptopefactory.name`.
 
 *   File structure
     * Moved files from `/auxiliary` to root, so the file tree is the same between releases and git clones.
