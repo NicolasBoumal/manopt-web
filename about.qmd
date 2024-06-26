@@ -87,7 +87,7 @@ Both, together with [Hiroyuki Sato](https://sites.google.com/site/hiroyukisatoen
 
 [Estelle Massart](https://scholar.google.be/citations?user=F_xNQ7IAAAAJ) contributed code to [`symfixedrankYYfactory`](https://github.com/NicolasBoumal/manopt/blob/master/manopt/manifolds/symfixedrank/symfixedrankYYfactory.m).
 
-[Ronny Bergmann](https://ronnybergmann.net/) contributed code to [`multinomialfactory`](https://github.com/NicolasBoumal/manopt/blob/master/manopt/manifolds/multinomial/multinomialfactory.m).
+[Ronny Bergmann](https://ronnybergmann.net/) contributed code to [`multinomialfactory`](https://github.com/NicolasBoumal/manopt/blob/master/manopt/manifolds/multinomial/multinomialfactory.m), added `checkinverseretraction`, and more.
 
 [Michael Psenka](https://www.michaelpsenka.io/) contributed the code for optimization over tensors with fixed tensor-train rank, accessible through [`fixedTTrankfactory`](https://github.com/NicolasBoumal/manopt/tree/master/manopt/manifolds/ttfixedrank), together with an [example script](https://github.com/NicolasBoumal/manopt/blob/master/examples/low_rank_tensor_completion_TT.m).
 This geometry heavily relies on [TTeMPS](https://www.epfl.ch/labs/anchp/index-html/software/ttemps/) for all core functionalities except second-order optimization (specifically, `M.ehess2rhess`).
@@ -105,6 +105,10 @@ Thanks a lot, Xiaowen!
 [Niklas Koep](https://scholar.google.com/citations?user=CpQ1YvMAAAAJ&hl=en) (sinxoverx), [Nick Vannieuwenhoven](https://scholar.google.com/citations?user=oVFJK2MAAAAJ&hl=en) (Storey-Liu for CG), [Spencer Kraisler](https://mathoverflow.net/users/141449/spencer-kraisler) (Rodrigues formula, Lie identity), [sfrcorne](https://github.com/sfrcorne) (rlbfgs invariant to positive scaling) brought welcome improvements after discussions on the github repo page.
 
 [Victor Liao](https://victorliao.com/) worked on Manopt in the group of Nicolas during the summer of 2022 and contributed: a long-awaited refactoring of the trustregions solver to allow for various subproblem solvers, a rewrite of the truncated CG (tCG) subproblem solver to improve performance by recycling computations after a step rejection, a new global subproblem solver based on code by [Yuji Nakatsukasa](https://scholar.google.com/citations?user=Ao3aPU0AAAAJ&hl=en), a constant step-size line-search helper for gradient methods, and various improvements (e.g., to `tangentorthobasis`).
+
+[Andreea Mu&#351;at](https://github.com/AndreeaMusat) contributed several improvements to solvers and factories.
+
+[Ivan Bioli](https://www.linkedin.com/in/ivan-bioli-059a001a6/) added support for $\beta$-type rules and fixed Liu-Storey rule in `conjugategradient`.
 
 Below are some third-party open-source codes that are or were used at some point:
 
