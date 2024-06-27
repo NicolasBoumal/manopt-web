@@ -254,7 +254,7 @@ These functions are listed below.
 Not all factories populate all of these fields, and that's okay: for many purposes, only a subset of these functions are necessary.
 
 Notice that it is possible to add or replace fields in a manifold structure after it was returned by a factory.
-Thus, one can easily experiment with various retractions, vector transports, etc.
+Thus, one can easily experiment with various retractions, transporters, etc.
 If you find ways to improve the built-in geometries, let us know.
 
 
@@ -266,7 +266,7 @@ If you find ways to improve the built-in geometries, let us know.
 | Norm  | `M.norm(x, u)`  | Riemannian norm $\|u\|_x = \sqrt{\inner{u}{u}_x}.$ |
 | Distance  | `M.dist(x, y)`  | Riemannian distance $\operatorname{dist}(x, y)$.  |
 | Typical distance  | `M.typicaldist()`  | "Scale" of the manifold. This is used by the trust-regions solver for example, to determine default initial and maximal trust-region radii. |
-| Tangent space projector  | `M.proj(x, u)`  | For manifolds embedded in a Euclidean space, computes the orthogonal projection $\operatorname{Proj}_x u$ of the vector $u$ from the embedding space to the tangent space at $x$. If `M` is a quotient manifold, then the projection is from the embedding space of the total space to the horizontal space at $x$.  |
+| Tangent space projector  | `M.proj(x, u)`  | For manifolds embedded in a Euclidean space, computes the orthogonal projection $\operatorname{Proj}_x u$ of the vector $u$ from the embedding space to the tangent space at $x$. If `M` is a quotient manifold, then the projection is from the embedding space of the total space to the horizontal space at $x.$  |
 | Euclidean to Riemannian gradient | `M.egrad2rgrad(x, egrad)` | For manifolds embedded in a Euclidean space, converts the gradient of $f$ at $x$ seen as a function in that Euclidean space to the Riemannian gradient of $f$ on the manifold. Allowed to take `(storedb, key)` as input for caching, but must also allow to be called without it. |
 | Euclidean to Riemannian Hessian | `M.ehess2rhess(x, egrad, ehess, u)`  | Similarly to `egrad2rgrad`, converts the Euclidean gradient and Hessian of $f$ at $x$ along a tangent vector $u$ to the Riemannian Hessian of $f$ at $x$ along $u$ on the manifold. Allowed to take `(storedb, key)` as input for caching, but must also allow to be called without it. Mind the warning below. |
 | Tangentialize | `M.tangent(x, u)` | Re-tangentializes a vector. The input is a vector in the tangent vector representation, which possibly (for example because of error accumulations) is no longer tangent. The output is the "closest" tangent vector to the input. If tangent vectors are represented in the ambient space, this is equivalent to `proj`. |
@@ -279,7 +279,7 @@ If you find ways to improve the built-in geometries, let us know.
 | Random vector  | `M.randvec(x)`  | Computes a random, unit-norm tangent vector in the tangent space at $x$.  |
 | Zero vector  | `M.zerovec(x)`  | Returns the zero tangent vector at $x$. |
 | Linear combination  | `M.lincomb(x, a1, u1, a2, u2)`  | Computes $v = a_1 u_1 + a_2 u_2$, where $a_1, a_2$ are scalars and $u_1, u_2$ are tangent vectors at $x$. The inputs $a_2, u_2$ are optional. |
-| Transporter  | `M.transp(x, y, u)`  | Computes a tangent vector at $y$ that "looks like" the tangent vector $u$ at $x$. This is not necessarily a parallel transport. Sometimes called a vector transport. |
+| Transporter  | `M.transp(x, y, u)`  | Computes a tangent vector at $y$ that "looks like" the tangent vector $u$ at $x$. This is closely related to parallel transports and vector transports. |
 | Isometric transport | `M.isotransp(x, y, u)` | An isometric transporter (few manifold implementations offer this, though for some `M.transp` is isometric: see their documentation). |
 | Pair mean  | `M.pairmean(x, y)`  | Computes the intrinsic mean of $x$ and $y$, that is, a point that lies mid-way between $x$ and $y$ on the geodesic arc joining them.  |
 | Hashing function  | `M.hash(x)`  | Computes a string that (almost) uniquely identifies the point $x$ and that can serve as a field name for a structure. (No longer used as of Manopt 2.0.) |

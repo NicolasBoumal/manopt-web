@@ -373,12 +373,12 @@ We'd love to know about this and get feedback.
 ### [Manopt 1.0.7](downloads/Manopt_1.0.7.zip), packaged August 12, 2014.
 
 *   Added the `ehess2rhess` function to `complexcirclefactory`.
-*   Major revision of `fixedrankembeddedfactory` for support of optimization over fixed-rank matrices. It is now better documented, comes with an example called `low_rank_matrix_completion`, and also has support for `ehess2rhess` and `tangent2ambient`, a proper vector transport, works with the `hessianspectrum` tool, ... This revision was executed with the precious and frequent help of Bart Vandereycken, who first described this geometry in a [paper](https://epubs.siam.org/doi/abs/10.1137/110845768).
+*   Major revision of `fixedrankembeddedfactory` for support of optimization over fixed-rank matrices. It is now better documented, comes with an example called `low_rank_matrix_completion`, and also has support for `ehess2rhess` and `tangent2ambient`, a proper transporter, works with the `hessianspectrum` tool, ... This revision was executed with the precious and frequent help of Bart Vandereycken, who first described this geometry in a [paper](https://epubs.siam.org/doi/abs/10.1137/110845768).
 *   All solvers now also return the `options` structure, to make it easier to investigate what options a solver uses and what their default values are.
 *   It is now possible to specify a line-search hint function in the `problem` structure; the result of that function will be used as a first guess in an Armijo backtracking line-search procedure, `linesearch_hint`. This is very useful if, for a given problem, you are able to make a good guess at how far along the search line one should look. It is much easier this way than with the previous way, which required implementing a whole new line-search algorithm.
 *   Generally improved textual outputs (warnings, iteration information, stopping reasons...).
 *   The documentation (tutorial, reference) was updated to reflect all of these changes.
-*   The `sympositivedefinitefactory` now has the correct `dim()` function and implements a new vector transport as explained in the [example](https://github.com/NicolasBoumal/manopt/blob/master/examples/positive_definite_intrinsic_mean.m).
+*   The `sympositivedefinitefactory` now has the correct `dim()` function and implements a new transporter as explained in the [example](https://github.com/NicolasBoumal/manopt/blob/master/examples/positive_definite_intrinsic_mean.m).
 
   
 
@@ -389,7 +389,7 @@ We'd love to know about this and get feedback.
 *   Small bug fix in `packing_on_the_sphere` example, along an improvement of how the smoothing term is computed numerically.
 *   Added a Riemannian Hessian conversion tool for the Stiefel manifold, `ehess2rhess`.
 *   Added a new (Euclidean) manifold, `symmetricfactory`, to deal with symmetric matrices.
-*   Multiple enhancements and bug fixes for the embedded geometry of fixed rank matrices `fixedrankembeddedfactory`: now works with `checkgradient`, changed hash and typical dist, and the vector transport is now correct (it was wrong before, leading to failure of CG and RTR-FD). Thanks to Bart Vandereycken for the correct code.
+*   Multiple enhancements and bug fixes for the embedded geometry of fixed rank matrices `fixedrankembeddedfactory`: now works with `checkgradient`, changed hash and typical dist, and the transporter is now correct (it was wrong before, leading to failure of CG and RTR-FD). Thanks to Bart Vandereycken for the correct code.
 *   Random vector generation in Stiefel and Grassmann now make more sense.
 *   `PSO` (Particle Swarm Optimization) solver debugged to work with product and power manifolds too.
 *   Bug fix in `grassmannfactory` retraction for $k > 1$, and added final re-orthonormalization at the end of exponential map following forum discussions.
