@@ -62,8 +62,8 @@ You can also propose your own solvers.
 
 | Name | $f$ | $\nabla f$ | $\nabla^2 f$ | $P$ | Comment | Call |
 |:--|:-:|:-:|:-:|:-:|:----|
-| [Trust-regions (RTR)](https://github.com/NicolasBoumal/manopt/blob/master/manopt/solvers/trustregions/trustregions.m) | &#9733; | &#9733; | &#9733; | &#9734; | #1 choice for smooth optimization. | `trustregions` |
-| [Adaptive regularization by cubics (ARC)](https://github.com/NicolasBoumal/manopt/blob/master/manopt/solvers/arc/arc.m) | &#9733; | &#9733; | &#9733; |  | Alternative to RTR. | `arc` |
+| [Trust-regions (RTR)](https://github.com/NicolasBoumal/manopt/blob/master/manopt/solvers/trustregions/trustregions.m) | &#9733; | &#9733; | &#9733; | &#9734; | #1 choice for smooth optimization. Still good without true Hessian. | `trustregions` |
+| [Adaptive regularization by cubics (ARC)](https://github.com/NicolasBoumal/manopt/blob/master/manopt/solvers/arc/arc.m) | &#9733; | &#9733; | &#9733; |  | Alternative to RTR. Still good without true Hessian. | `arc` |
 | [Steepest descent](https://github.com/NicolasBoumal/manopt/blob/master/manopt/solvers/steepestdescent/steepestdescent.m)  | &#9733; | &#9733; | |  |  Gradient descent (GD) with line-search (default is backtracking). | `steepestdescent` |
 | [Conjugate gradient](https://github.com/NicolasBoumal/manopt/blob/master/manopt/solvers/conjugategradient/conjugategradient.m)  | &#9733; | &#9733; | | &#9734; |  Often better than steepest descent. Requires `M.transp`. | `conjugategradient` |
 | [Barzilai-Borwein](https://github.com/NicolasBoumal/manopt/blob/master/manopt/solvers/barzilaiborwein/barzilaiborwein.m)  | &#9733; | &#9733; | | |  Gradient descent with BB step-size heuristic. Requires `M.transp`. | `barzilaiborwein` |
