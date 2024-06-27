@@ -60,19 +60,19 @@ The toolbox was designed to accommodate many more solvers though: we have since 
 In particular, we look forward to proposing algorithms for nonsmooth cost functions (which notably arise when L1 penalties are at play).
 You can also propose your own solvers.
 
-| Name | Requires (benefits of) | Comment | Call |
-|-|-|-|-|
-| [Trust-regions (RTR)](https://github.com/NicolasBoumal/manopt/blob/master/manopt/solvers/trustregions/trustregions.m) | Cost, gradient (Hessian, approximate Hessian, preconditioner) | #1 choice for smooth optimization; uses finite differences (FD) of the gradient in the absence of Hessian. | `trustregions` |
-| [Adaptive regularization by cubics (ARC)](https://github.com/NicolasBoumal/manopt/blob/master/manopt/solvers/arc/arc.m)  | Cost, gradient (Hessian, approximate Hessian) | Alternative to RTR; uses FD of the gradient in the absence of Hessian. | `arc` |
-| [Steepest descent](https://github.com/NicolasBoumal/manopt/blob/master/manopt/solvers/steepestdescent/steepestdescent.m) | Cost, gradient | Gradient descent (GD) with line-search (default is backtracking-based). | `steepestdescent` |
-| [Conjugate gradient](https://github.com/NicolasBoumal/manopt/blob/master/manopt/solvers/conjugategradient/conjugategradient.m) | Cost, gradient (preconditioner) | Often performs better than steepest descent. | `conjugategradient` |
-| [Barzilai-Borwein](https://github.com/NicolasBoumal/manopt/blob/master/manopt/solvers/barzilaiborwein/barzilaiborwein.m) | Cost, gradient | Gradient descent with BB step size heuristic. | `barzilaiborwein` |
-| [BFGS](https://github.com/NicolasBoumal/manopt/blob/master/manopt/solvers/bfgs/rlbfgs.m) | Cost, gradient | Limited-memory version of BFGS. | `rlbfgs` |
-| [SGD](https://github.com/NicolasBoumal/manopt/blob/master/manopt/solvers/stochasticgradient/stochasticgradient.m) | Partial gradient (preconditioner) [Cost not needed] | Stochastic gradient algorithm for optimization of large sums. | `stochasticgradient` |
-| [Particle swarm (PSO)](https://github.com/NicolasBoumal/manopt/blob/master/manopt/solvers/pso/pso.m) | Cost | Derivative-free optimizer (DFO) based on a population of points. | `pso` |
-| [Nelder-Mead](https://github.com/NicolasBoumal/manopt/blob/master/manopt/solvers/neldermead/neldermead.m) | Cost | DFO based on a simplex; requires `M.pairmean`; limited to (very) low-dimensional problems. | `neldermead` |
+| Name | $f$ | $\nabla f$ | $\nabla^2 f$ | $P$ | Comment | Call |
+|:--|:-:|:-:|:-:|:-:|:----|
+| [Trust-regions (RTR)](https://github.com/NicolasBoumal/manopt/blob/master/manopt/solvers/trustregions/trustregions.m) | &#9733; | &#9733; | &#9733; | &#9734; | #1 choice for smooth optimization. | `trustregions` |
+| [Adaptive regularization by cubics (ARC)](https://github.com/NicolasBoumal/manopt/blob/master/manopt/solvers/arc/arc.m) | &#9733; | &#9733; | &#9733; |  | Alternative to RTR. | `arc` |
+| [Steepest descent](https://github.com/NicolasBoumal/manopt/blob/master/manopt/solvers/steepestdescent/steepestdescent.m)  | &#9733; | &#9733; | |  |  Gradient descent (GD) with line-search (default is backtracking). | `steepestdescent` |
+| [Conjugate gradient](https://github.com/NicolasBoumal/manopt/blob/master/manopt/solvers/conjugategradient/conjugategradient.m)  | &#9733; | &#9733; | | &#9734; |  Often better than steepest descent. Requires `M.transp`. | `conjugategradient` |
+| [Barzilai-Borwein](https://github.com/NicolasBoumal/manopt/blob/master/manopt/solvers/barzilaiborwein/barzilaiborwein.m)  | &#9733; | &#9733; | | |  Gradient descent with BB step-size heuristic. Requires `M.transp`. | `barzilaiborwein` |
+| [BFGS](https://github.com/NicolasBoumal/manopt/blob/master/manopt/solvers/bfgs/rlbfgs.m)  | &#9733; | &#9733; | | |  Limited-memory version of BFGS. Requires `M.transp`. | `rlbfgs` |
+| [SGD](https://github.com/NicolasBoumal/manopt/blob/master/manopt/solvers/stochasticgradient/stochasticgradient.m)  | | &#9733;' | | |  Stochastic gradient algorithm for optimization of large sums. | `stochasticgradient` |
+| [Particle swarm (PSO)](https://github.com/NicolasBoumal/manopt/blob/master/manopt/solvers/pso/pso.m)  | &#9733; | | | |  Derivative-free optimizer (DFO) based on a population of points. | `pso` |
+| [Nelder-Mead](https://github.com/NicolasBoumal/manopt/blob/master/manopt/solvers/neldermead/neldermead.m)  | &#9733; | | | |  DFO based on a simplex; requires `M.pairmean`. | `neldermead` |
 
-: Table of minimization algorithms available in Manopt. {.striped}
+: Table of minimization algorithms available in Manopt. The symbol &#9733; means the algorithm uses that part of $f$. If it is not available, Manopt automatically tries its best to make up for it (e.g., by calling a provided approximation, or with finite differences). The symbol &#9734; means the algorithm can benefit from that feature if it is available, but it is not required. $P$ means preconditioner. The &#9733;' for SGD indicates it only needs a partial gradient. {.striped}
 
 
 ## The options structure
@@ -117,7 +117,7 @@ The following table lists options for some standard criteria.
 
 : Table of generic stopping criterion options used by most solvers.
 
-Some solvers offer additional stopping criteria.
+Some solvers offer additional stopping criteria: type `help solvername` to learn more.
 
 Users can also define **custom stopping criteria** with `options.stopfun`.
 The general usage pattern is as follows:
