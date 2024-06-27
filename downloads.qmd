@@ -31,7 +31,7 @@ We'd love to know about this and get feedback.
 
 ## Previous releases and change logs
 
-### [Manopt X.Y](download.qmd), packaged xyz, 2024 (release this summer, already on github)
+### [Manopt X.Y](download.qmd), packaged xyz, 2024 (release coming this summer, already on github)
 
 *   Core functionalities
     * Added support and documentation for [lifts](lifts.qmd) through `manoptlift`.
