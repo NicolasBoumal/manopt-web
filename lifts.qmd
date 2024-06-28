@@ -376,7 +376,18 @@ This lift satisfies **local $\Rightarrow$ local** and **2 $\Rightarrow$ 1** ever
 It also satisifies 1 $\Rightarrow$ 1 at all $Y \in \calM$ such that $X_{ij} > 0$ for all $i, j$:
 see Sections 2.1 and 4 in [the lifts paper](https://link.springer.com/article/10.1007/s10107-024-02058-3).
 
-Here is a naive example aiming to compute a [column-stochastic square root](https://www.sciencedirect.com/science/article/pii/S0024379510001849) of a column stochastic matrix:
+Here are two example:
+
+* One attempts to compute a [column-stochastic square root](https://www.sciencedirect.com/science/article/pii/S0024379510001849) of a column stochastic matrix.
+  This can have bad local minima.
+* The other minimizes a convex quadratic in the nonnegative orthant, $\min_{x \geq 0} \frac{1}{2} x^\top Ax + b^\top x$.
+  This has benign non-convexity since the problem downstairs is convex and the lift enjoys 2 $\Rightarrow$ 1.
+  See also Section 5.1 in [this paper](https://arxiv.org/abs/2310.01784).
+
+::: {.panel-tabset}
+
+## Stochastic square root
+
 ```matlab
 n = 5;
 m = n;
@@ -395,6 +406,46 @@ X = lift.phi(Y);
 
 % X is a column stochastic matrix such that X*X is (we hope) close to A.
 ```
+
+## Quadratic in orthant
+
+```matlab
+% For large n, say, 5'000+, lifts beat quadprog.
+n = 5000;
+lift = hadamardlift('nonnegative', n);
+
+% Random convex quadratic f(x) = .5*x'*A*x + b'*x
+A = randsym(n) + n*eye(n);
+b = randn(n, 1);
+
+downstairs.costgrad = @(x) costgrad(A, b, x);
+function [f, g] = costgrad(A, b, x)
+    Ax = A*x;
+    f = x'*(.5*Ax + b);
+    if nargout == 2
+        g = Ax + b;
+    end
+end
+downstairs.hess = @(x, xdot) A*xdot;
+
+upstairs = manoptlift(downstairs, lift);
+
+t_manopt = tic();
+y = trustregions(upstairs);
+x_manopt = lift.phi(y);
+t_manopt = toc(t_manopt);
+
+t_quadprog = tic();
+x_quadprog = quadprog(A, b, [], [], [], [], zeros(n, 1), []);
+t_quadprog = toc(t_quadprog);
+
+fprintf('Manopt:  \n  Time: %.3e,  min(x): %.3e,  f(x): %.10e\n', ...
+            t_manopt, min(x_manopt), getCost(downstairs, x_manopt));
+fprintf('Quadprog:\n  Time: %.3e,  min(x): %.3e,  f(x): %.10e\n', ...
+            t_quadprog, min(x_quadprog), getCost(downstairs, x_quadprog));
+```
+
+:::
 
 The implementation of `hadamardlift` is simple: it is instructive to [look inside](https://github.com/NicolasBoumal/manopt/blob/master/manopt/lifts/hadamardlift.m).
 
