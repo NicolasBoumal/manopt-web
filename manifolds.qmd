@@ -308,3 +308,14 @@ If `M` is a quotient manifold of a manifold `N` (called the total space) embedde
 For example, `grassmannfactory(n, p)` is a quotient of `stiefelfactory(n, p)` which is embedded in $\mathbb{R}^{n \times p}$.
 Since `stiefelfactory(n, p)` uses the same representation for tangent vectors and vectors in the embedding space, there is no friction for that one either.
 :::
+
+
+## A closer look at
+
+### Submanifolds of linear spaces
+
+Most manifolds in Manopt are submanifolds of a linear space (typically, a set of matrices, or tuples of matrices).
+
+<!--https://q.uiver.app/#q=WzAsMyxbMCwyLCJcXG1hdGhjYWx7RX0iXSxbNCwyLCJcXHJlYWxzIl0sWzAsMCwiXFxtYXRoY2Fse019Il0sWzAsMSwiXFxiYXJ7Zn0iLDJdLFsyLDAsImkiLDIseyJzdHlsZSI6eyJ0YWlsIjp7Im5hbWUiOiJob29rIiwic2lkZSI6InRvcCJ9fX1dLFsyLDEsImYgPSBcXGJhcntmfSBcXGNpcmMgaSJdXQ==-->
+![Commutative diagram relating a cost function on a manifold and its embedding space.](images/embedded_diagram_EMi.png){#fig-diagramEMi width=20em}
+
