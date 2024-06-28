@@ -314,7 +314,15 @@ Since `stiefelfactory(n, p)` uses the same representation for tangent vectors an
 
 ### Submanifolds of linear spaces
 
-Most manifolds in Manopt are submanifolds of a linear space (typically, a set of matrices, or tuples of matrices).
+Most manifolds in Manopt are explicitly described as submanifolds of a linear space (typically, a set of matrices, or tuples of matrices).
+Formally, we can think of this situation as follows:
+
+* $\calE$ is a linear space endowed with an inner product $\inner{\cdot}{\cdot}_\calE$, making it a Euclidean space.
+* $\calM$ is an embedded submanifold (think, a smooth subset) of $\calE$ endowed with a Riemannian metric, making it a Riemannian manifold.
+* $i \colon \calM \to \calE$ is an [embedding](https://en.wikipedia.org/wiki/Embedding#Differential_topology) of $\calM$ into $\calE$, that is, $i$ is a diffeomorphism from $\calM$ to $i(\calM) \subseteq \calE$.
+
+The most common situation is that where $i$ is an [inclusion](https://en.wikipedia.org/wiki/Inclusion_map), that is, $i(x) = x$.
+This is the identity map, up to the fact that the domains are important: $i \colon \calM \to \calE$ is only defined on $\calM$, which is a subset of $\calE$.
 
 <!--https://q.uiver.app/#q=WzAsMyxbMCwyLCJcXG1hdGhjYWx7RX0iXSxbNCwyLCJcXHJlYWxzIl0sWzAsMCwiXFxtYXRoY2Fse019Il0sWzAsMSwiXFxiYXJ7Zn0iLDJdLFsyLDAsImkiLDIseyJzdHlsZSI6eyJ0YWlsIjp7Im5hbWUiOiJob29rIiwic2lkZSI6InRvcCJ9fX1dLFsyLDEsImYgPSBcXGJhcntmfSBcXGNpcmMgaSJdXQ==-->
 ![Commutative diagram relating a cost function on a manifold and its embedding space.](images/embedded_diagram_EMi.png){#fig-diagramEMi width=20em}
