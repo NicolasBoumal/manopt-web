@@ -417,6 +417,9 @@ lift = hadamardlift('nonnegative', n);
 % Random convex quadratic f(x) = .5*x'*A*x + b'*x
 A = randsym(n) + n*eye(n);
 b = randn(n, 1);
+% If A were sparse, the lifts approach would be even better.
+% For example, try this:
+% A = sprandsym(n, .01) + n*speye(n);
 
 downstairs.costgrad = @(x) costgrad(A, b, x);
 function [f, g] = costgrad(A, b, x)
