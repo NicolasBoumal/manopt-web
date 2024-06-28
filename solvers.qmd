@@ -128,13 +128,12 @@ options.stopfun = @mystopfun;
 x = mysolver(problem, [], options);
 
 function [stopnow, reason] = mystopfun(problem, x, info, last)
-   if xyz % decide if should stop based on inputs
-    stopnow = true;
-    reason = 'This optional message explains why we stopped.';
-  else
     stopnow = false;
     reason = '';
-  end
+    if xyz % decide if solver should stop based on inputs
+        stopnow = true;
+        reason = 'This optional message explains why we stopped.';
+    end
 end
 ```
 

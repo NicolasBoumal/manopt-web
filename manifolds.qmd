@@ -247,7 +247,7 @@ The documentation for a manifold factory should specify
 Typically, points and tangent vector are represented by matrices, but they could be represented by structures, cells, etc.: there are no limitations.
 They can even be represented by data on a GPU.
 
-Based on these, the implementation of a Riemannian manifold is a collection of functions.
+Based on these, **the implementation of a Riemannian manifold is a collection of functions.**
 These functions are collected into a structure: that is what a factory returns as output.
 
 These functions are listed below.
@@ -288,7 +288,7 @@ If you find ways to improve the built-in geometries, let us know.
 | Isometry check for `vec` and `mat` | `M.vecmatareisometries()` | Returns `true` if `M.vec` is a linear isometry, i.e., if for all tangent vectors $u,v$, `M.inner(x, u, v) == M.vec(x, u).'*M.vec(x, v)`. Then, `M.mat` is both the adjoint and the inverse of `M.vec` (on the tangent space). |
 | Lie group identity | `M.lie_identity()` | If the manifold is a Lie group, this function returns the identity element (e.g., for the rotation group in $\mathbb{R}^d$, that would be the identity matrix of size $d$). |
 
-: Manifolds are encoded as structures which contain fields. Most of these fields are function handles which make it possible to interact with the manifold. {.striped}
+: Manifolds are encoded as structures which contain fields. Most of these fields are function handles we use to interact with the manifold. {.striped}
 
 ::: {.callout-warning}
 ## Mind the details for `ehess2rhess`
