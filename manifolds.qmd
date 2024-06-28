@@ -310,6 +310,8 @@ Since `stiefelfactory(n, p)` uses the same representation for tangent vectors an
 :::
 
 
+<!--
+
 ## A closer look at
 
 ### Submanifolds of linear spaces
@@ -324,6 +326,7 @@ Formally, we can think of this situation as follows:
 The most common situation is that where $i$ is an [inclusion](https://en.wikipedia.org/wiki/Inclusion_map), that is, $i(x) = x$.
 This is the identity map, up to the fact that the domains are important: $i \colon \calM \to \calE$ is only defined on $\calM$, which is a subset of $\calE$.
 
-<!--https://q.uiver.app/#q=WzAsMyxbMCwyLCJcXG1hdGhjYWx7RX0iXSxbNCwyLCJcXHJlYWxzIl0sWzAsMCwiXFxtYXRoY2Fse019Il0sWzAsMSwiXFxiYXJ7Zn0iLDJdLFsyLDAsImkiLDIseyJzdHlsZSI6eyJ0YWlsIjp7Im5hbWUiOiJob29rIiwic2lkZSI6InRvcCJ9fX1dLFsyLDEsImYgPSBcXGJhcntmfSBcXGNpcmMgaSJdXQ==-->
+https://q.uiver.app/#q=WzAsMyxbMCwyLCJcXG1hdGhjYWx7RX0iXSxbNCwyLCJcXHJlYWxzIl0sWzAsMCwiXFxtYXRoY2Fse019Il0sWzAsMSwiXFxiYXJ7Zn0iLDJdLFsyLDAsImkiLDIseyJzdHlsZSI6eyJ0YWlsIjp7Im5hbWUiOiJob29rIiwic2lkZSI6InRvcCJ9fX1dLFsyLDEsImYgPSBcXGJhcntmfSBcXGNpcmMgaSJdXQ==
 ![Commutative diagram relating a cost function on a manifold and its embedding space.](images/embedded_diagram_EMi.png){#fig-diagramEMi width=20em}
 
+-->
