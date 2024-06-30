@@ -737,7 +737,7 @@ Whatever the minimizer of $g_\lambda$ may be, it belongs to some fiber; in that 
 -->
 
 ::: {.callout-note collapse="true"}
-## Click to show details relating $\min g_\lambda$ and $\min f_\lambda$.
+## Click to detail why $\min g_\lambda$ and $\min f_\lambda$ are equal.
 Assume $\bar y$ minimizes $g_\lambda$ and let $\bar x = \varphi(\bar y)$.
 Then,
 $$\begin{align*}
@@ -746,8 +746,11 @@ $$\begin{align*}
                       & = g_\lambda(\bar y) \\
                       & \leq g_\lambda(y)  \quad \textrm{ for all } y \in \calM.
 \end{align*}$$
-The latter holds for all $y$; thus, it holds in particular for all $y$ such that $r(x) = \rho(y)$ with $x = \varphi(y)$.
-Therefore, $f_\lambda(\bar x) \leq f(x) + \lambda r(x) = f_\lambda(x)$ for all $x$, that is, $\bar x$ minimizes $f_\lambda$ over $\calX = \varphi(\calM)$.
+The latter holds for all $y$.
+In particular, for each $x \in \calX = \varphi(\calM)$ we can** choose $y$ such that $\varphi(y) = x$ and $\rho(y) = r(x)$,
+and deduce that $f_\lambda(\bar x) \leq f(x) + \lambda r(x) = f_\lambda(x)$ for all $x$, that is, $\bar x$ minimizes $f_\lambda$ over $\calX$.
+
+** If $\rho$ does not attain its minimum on $\varphi^{-1}(x)$, choose $y$ within $\varepsilon > 0$ of the infimum and let $\varepsilon$ go to zero.
 :::
 
 
