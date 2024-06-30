@@ -753,7 +753,7 @@ and deduce that $f_\lambda(\bar x) \leq f(x) + \lambda r(x) = f_\lambda(x)$ for 
 ** If $\rho$ does not attain its minimum on $\varphi^{-1}(x)$, choose $y$ within $\varepsilon > 0$ of the infimum and let $\varepsilon$ go to zero.
 :::
 
-
+To apply a regularizer, use a `lift` structure with the required fields to compute $\rho$ and (ideally) its gradient and Hessian (see @tbl-liftfields-regularizer), and call `manoptlift` with a positive `lambda`.
 
 | Name  | Field usage  | Functionality  |
 |:-|:--|:----|
