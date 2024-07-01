@@ -754,17 +754,7 @@ and deduce that $f_\lambda(\bar x) \leq f(x) + \lambda r(x) = f_\lambda(x)$ for 
 ** If $\rho$ does not attain its minimum on $\varphi^{-1}(x)$, choose $y$ within $\varepsilon > 0$ of the infimum and let $\varepsilon$ go to zero.
 :::
 
-To use a regularizer, the `lift` structure should provide certain fields to compute $\rho$, its gradient and (ideally) its Hessian (see @tbl-liftfields-regularizer).
-
-| Name  | Field usage  | Functionality  |
-|:-|:--|:----|
-| $\rho$ | `lift.rho(y)` | Value fo the regularizer upstairs, $\rho(y)$. |
-| $\grad \rho$ | `lift.gradrho(y)` | Gradient of the regularizer upstairs, $\grad \rho(y)$. If `lift.embedded = false`, this is the Riemannian gradient of $\rho$ on $\calM$. If `lift.embedded = true`, this is the gradient of $\rho$ extended to the embedding space of $\calM$, as one would do to define its `egrad`. |
-| $\Hess \rho$ | `lift.hessrho(y, v)` | Hessian of the regularizer upstairs, $\Hess \rho(y)[v]$. Same comment about `lift.embedded`. |
-: Fields to define a regularizer in a `lift` structure. {#tbl-liftfields-regularizer}
-
-Built-in examples are listed in @tbl-lift-regularizers.
-Such a lift can be passed to `manoptlift` with a positive `lambda` to activate the regularizer.
+This becomes interesting when we look at particular example: take a look at @tbl-lift-regularizers.
 
 | lift | $\varphi \colon \calM \to \calN$ | $\rho \colon \calM \to \reals$ | $r \colon \calN \to \reals$ |
 |:--|:---|:---|:---|
@@ -773,18 +763,29 @@ Such a lift can be passed to `manoptlift` with a positive `lambda` to activate t
 | `hadamarddifferencelift` | $\varphi(u, v) = u \odot u - v \odot v$ | $\rho(u, v) = \|u\|^2 + \|v\|^2$ | $r(x) = \|x\|_1$ |
 : Regularizers availabe in Manopt lifts, activated with the optional input `lambda` passed to `manoptlift`. {#tbl-lift-regularizers}
 
-For example, $\varphi \colon \Rn \times \Rn \to \Rn$ defined by $\varphi(u, v) = u \odot u - v \odot v$ is a lift of $\calX = \Rn$, known as the *Hadamard difference parameterization*.
+To use a regularizer, the `lift` structure should provide certain fields to compute $\rho$, its gradient and (ideally) its Hessian: see @tbl-liftfields-regularizer.
+
+| Name  | Field usage  | Functionality  |
+|:-|:--|:----|
+| $\rho$ | `lift.rho(y)` | Value fo the regularizer upstairs, $\rho(y)$. |
+| $\grad \rho$ | `lift.gradrho(y)` | Gradient of the regularizer upstairs, $\grad \rho(y)$. If `lift.embedded = false`, this is the Riemannian gradient of $\rho$ on $\calM$. If `lift.embedded = true`, this is the gradient of $\rho$ extended to the embedding space of $\calM$, as one would do to define its `egrad`. |
+| $\Hess \rho$ | `lift.hessrho(y, v)` | Hessian of the regularizer upstairs, $\Hess \rho(y)[v]$. Same comment about `lift.embedded`. |
+: Fields to define a regularizer in a `lift` structure. {#tbl-liftfields-regularizer}
+
+Such a lift can be passed to `manoptlift` with a positive `lambda` to activate the regularizer.
+
+For example, $\varphi \colon \Rn \times \Rn \to \Rn$ defined by $\varphi(u, v) = u \odot u - v \odot v$ is a lift of $\calX = \Rn$, known as the *Hadamard difference parameterization* (`hadamarddifferencelift`).
 It is known that the regularizer $\rho(u, v) = \|u\|^2 + \|v\|^2$ has the remarkable property that
 $$
     r(x) = \min_{u, v : \varphi(u, v) = x} \rho(u, v) = \|x\|_1.
 $$
 Thus, if $f$ is smooth, then $g_\lambda$ is smooth, yet minimizing $g_\lambda$ offers a way to minimize $f_\lambda(x) = f(x) + \lambda \|x\|_1$, which is *not* smooth.
 This is all the more relevant considering that the 1-norm regularizer promotes sparsity in $x$.
-See this [2023 paper](https://arxiv.org/abs/2307.03571) for a discussion of this lift and associated regularizer together with bibliographic references, and a broad extension to group-lasso regularizers and more.
+See this [2023 paper](https://arxiv.org/abs/2307.03571) for a discussion of that lift and associated regularizer, together with bibliographic references and a broad extension to group-sparsity regularizers and more.
 <!--this [2019 paper](https://proceedings.neurips.cc/paper/2019/hash/5cf21ce30208cfffaa832c6e44bb567d-Abstract.html) for its use in the context of diagonal linear neural networks, another one [in 2020](https://proceedings.mlr.press/v125/woodworth20a.html), and  --- there's many, let's not litigate here who came up with this first. -->
 
 The following example shows how to solve the [Lasso problem](https://en.wikipedia.org/wiki/Lasso_(statistics)#Least_squares) in Lagrangian form through that lift:
-the aim is to minimize $f_\lambda(x) = \frac{1}{2}\|Ax - b\|^2 + \lambda\|x\|_1$.
+the aim is to minimize $f_\lambda(x) = \frac{1}{2}\|Ax - b\|^2 + \lambda\|x\|_1$ in order to recover a sparse $x \in \Rn$ from $m < n$ linear measurements.
 
 ``` matlab
 clear; clf; clc;
