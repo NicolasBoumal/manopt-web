@@ -187,6 +187,7 @@ We list them in a table now, and detail the corresponding lifts below with some 
 | Bounded-rank, semidefinite | $S_n^p \triangleq \{ X \in \Rnn : X \succeq 0, \rank(X) \leq p \}$ | `burermonteirolift('free', n, p)` |
 | &rdca; unit trace | $\{ X \in S_n^p : \trace(X) = 1 \}$ | `burermonteirolift('unittrace', n, p)` |
 | &rdca; unit diagonal | $\{ X \in S_n^p : \diag(X) = \One \}$ | `burermonteirolift('unitdiag', n, p)` |
+| Hadamard difference | $\Rn$ | `hadamarddifferencelift(n)` |
 : Examples of nonsmooth sets on which we can optimize with Manopt using a lift. {#tbl-lifts}
 
 
@@ -753,7 +754,7 @@ and deduce that $f_\lambda(\bar x) \leq f(x) + \lambda r(x) = f_\lambda(x)$ for 
 ** If $\rho$ does not attain its minimum on $\varphi^{-1}(x)$, choose $y$ within $\varepsilon > 0$ of the infimum and let $\varepsilon$ go to zero.
 :::
 
-To apply a regularizer, use a `lift` structure with the required fields to compute $\rho$ and (ideally) its gradient and Hessian (see @tbl-liftfields-regularizer), and call `manoptlift` with a positive `lambda`.
+To use a regularizer, the `lift` structure should provide certain fields to compute $\rho$, its gradient and (ideally) its Hessian (see @tbl-liftfields-regularizer).
 
 | Name  | Field usage  | Functionality  |
 |:-|:--|:----|
@@ -761,6 +762,68 @@ To apply a regularizer, use a `lift` structure with the required fields to compu
 | $\grad \rho$ | `lift.gradrho(y)` | Gradient of the regularizer upstairs, $\grad \rho(y)$. If `lift.embedded = false`, this is the Riemannian gradient of $\rho$ on $\calM$. If `lift.embedded = true`, this is the gradient of $\rho$ extended to the embedding space of $\calM$, as one would do to define its `egrad`. |
 | $\Hess \rho$ | `lift.hessrho(y, v)` | Hessian of the regularizer upstairs, $\Hess \rho(y)[v]$. Same comment about `lift.embedded`. |
 : Fields to define a regularizer in a `lift` structure. {#tbl-liftfields-regularizer}
+
+Built-in examples are listed in @tbl-lift-regularizers.
+Such a lift can be passed to `manoptlift` with a positive `lambda` to activate the regularizer.
+
+| lift | $\varphi \colon \calM \to \calN$ | $\rho \colon \calM \to \reals$ | $r \colon \calN \to \reals$ |
+|:--|:---|:---|:---|
+| `burermonteiroLRlift` | $\varphi(L, R) = LR^\top$ | $\rho(L, R) = \frac{1}{2}(\sqfrobnorm{U} + \sqfrobnorm{V})$ | $r(X) = \|X\|_{\mathrm{nuclear}}$ |
+| `burermonteirolift` | $\varphi(Y) = YY^\top$ | $\rho(Y) = \sqfrobnorm{Y}$ | $r(X) = \trace(X) = \|X\|_{\mathrm{nuclear}}$ |
+| `hadamarddifferencelift` | $\varphi(u, v) = u \odot u - v \odot v$ | $\rho(u, v) = \|u\|^2 + \|v\|^2$ | $r(x) = \|x\|_1$ |
+: Regularizers availabe in Manopt lifts, activated with the optional input `lambda` passed to `manoptlift`. {#tbl-lift-regularizers}
+
+For example, $\varphi \colon \Rn \times \Rn \to \Rn$ defined by $\varphi(u, v) = u \odot u - v \odot v$ is a lift of $\calX = \Rn$, known as the *Hadamard difference parameterization*.
+It is known that the regularizer $\rho(u, v) = \|u\|^2 + \|v\|^2$ has the remarkable property that
+$$
+    r(x) = \min_{u, v : \varphi(u, v) = x} \rho(u, v) = \|x\|_1.
+$$
+Thus, if $f$ is smooth, then $g_\lambda$ is smooth, yet minimizing $g_\lambda$ offers a way to minimize $f_\lambda(x) = f(x) + \lambda \|x\|_1$, which is *not* smooth.
+This is all the more relevant considering that the 1-norm regularizer promotes sparsity in $x$.
+See this [2023 paper](https://arxiv.org/abs/2307.03571) for a discussion of this lift and associated regularizer together with bibliographic references, and a broad extension to group-lasso regularizers and more.
+<!--this [2019 paper](https://proceedings.neurips.cc/paper/2019/hash/5cf21ce30208cfffaa832c6e44bb567d-Abstract.html) for its use in the context of diagonal linear neural networks, another one [in 2020](https://proceedings.mlr.press/v125/woodworth20a.html), and  --- there's many, let's not litigate here who came up with this first. -->
+
+The following example shows how to solve the [Lasso problem](https://en.wikipedia.org/wiki/Lasso_(statistics)#Least_squares) in Lagrangian form through that lift:
+the aim is to minimize $f_\lambda(x) = \frac{1}{2}\|Ax - b\|^2 + \lambda\|x\|_1$.
+
+``` matlab
+clear; clf; clc;
+
+% Setup random problem data.
+% Unknown x_true in R^n is sparse.
+% We get m < n linear measurements.
+n = 100;
+m = 42;
+A = randn(m, n);
+support_density = .1;
+x_true = full(sprandn(n, 1, support_density));
+b = A*x_true;
+
+% Describe the quadratic cost function f : R^n -> R.
+downstairs.M = euclideanfactory(n, 1);
+downstairs.cost = @(x) .5*norm(A*x - b)^2;
+downstairs.grad = @(x) A'*(A*x - b);
+downstairs.hess = @(x, xdot) A'*A*xdot;
+
+% Select the lift of R^n whose built-in regularizer is the 1-norm.
+lift = hadamarddifferencelift(n);
+
+% Call manoptlift with regularization parameter lambda > 0.
+lambda = .1;
+upstairs = manoptlift(downstairs, lift, [], lambda);
+
+% Minimize g_lambda upstairs.
+y = trustregions(upstairs);
+
+% Map the answer down to a vector in R^n.
+x = lift.phi(y);
+
+% Display the results.
+stem(1:n, x_true);
+hold all;
+stem(1:n, x, '.');
+legend('True x', 'Computed x');
+```
 
 
 ## The Hessian of $g$
