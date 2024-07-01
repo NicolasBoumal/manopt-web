@@ -101,6 +101,11 @@ There are several ways to call `manoptlift`:
     - If `downstairs.M` is omitted, then it is set to `lift.N`.
     - If automatic differentiation is used.
 
+Some lifts can also be called [with a regularizer: see below](#adding-a-regularizer).
+The regularizer is activated with the `lambda` input to `manoptlift` (a real number, usually positive):
+``` matlab
+[upstairs, downstairs] = manoptlift(downstairs, lift, [], lambda)
+```
 
 ::: {.callout-warning}
 ## No composition of lifts yet.
@@ -162,7 +167,7 @@ For the Hessian, additional computations shown later on this page tell us what e
 | $\Hess h_w(y)$ | `s = lift.hesshw(y, v, w)` | Given $y \in \calM$ and $w \in \T_x\calN$ where $x = \varphi(y)$, choose $q_w \colon \calN \to \reals$ such that $\grad q_w(x) = w$ (for the specified $x$). Let $h_w = q_w \circ \varphi \colon \calM \to \reals$. Then $s = \Hess h_w(y)[v]$. If $\calN$ is Euclidean, a typical choice is $q_w = \inner{\cdot}{w}_\calN$.  |
 | $\Hess q_w(x)$ | `s = lift.hessqw(x, u, w)` | Given $x \in \calN$ and $w \in \T_x\calN$, choose $q_w \colon \calN \to \reals$ such that $\grad q_w(x) = w$ (for the specified $x$). Then $s = \Hess q_w(x)[u]$. If $\calN$ is Euclidean, a typical choice is $q_w = \inner{\cdot}{w}_\calN$, in which case $\Hess q_w(x) = 0$. If the field is omitted, it is assumed to be zero.  |
 | $\varphi$ or $\bar{\varphi}$? | `lift.embedded` | Boolean flag set to `false` (by default) if all of the above indeed pertains to $\varphi$, and set to `true` if the above instead describes $\bar{\varphi} \colon \calE \to \calN$, where $\calE$ is the embedding space for $\calM$ (as specified in the documentation for the corresponding factory), as a smooth extension such that $\bar{\varphi}|_\calM = \varphi$. See @fig-diagramEMN. In that case, the lift enables computation of $\grad \bar{g}$ and $\Hess \bar{g}$, which $\calM$ can then convert to $\grad g$ and $\Hess g$ using `egrad2rgrad` and `ehess2rhess`. |
-: Fields in a `lift` structure. {#tbl-liftfields}
+: Fields in a `lift` structure. See also @tbl-liftfields-regularizer. {#tbl-liftfields}
 
 
 
