@@ -754,7 +754,7 @@ and deduce that $f_\lambda(\bar x) \leq f(x) + \lambda r(x) = f_\lambda(x)$ for 
 ** If $\rho$ does not attain its minimum on $\varphi^{-1}(x)$, choose $y$ within $\varepsilon > 0$ of the infimum and let $\varepsilon$ go to zero.
 :::
 
-This becomes interesting when we look at examples: take a look at @tbl-lift-regularizers.
+This becomes interesting when we consider examples: take a look at @tbl-lift-regularizers.
 
 | lift | $\varphi \colon \calM \to \calN$ | $\rho \colon \calM \to \reals$ | $r \colon \calN \to \reals$ |
 |:--|:---|:---|:---|
@@ -788,8 +788,6 @@ The following example shows how to solve the [Lasso problem](https://en.wikipedi
 the aim is to minimize $f_\lambda(x) = \frac{1}{2}\|Ax - b\|^2 + \lambda\|x\|_1$ in order to recover a sparse $x \in \Rn$ from $m < n$ linear measurements.
 
 ``` matlab
-clear; clf; clc;
-
 % Setup random problem data.
 % Unknown x_true in R^n is sparse.
 % We get m < n linear measurements.
