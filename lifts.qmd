@@ -754,7 +754,7 @@ and deduce that $f_\lambda(\bar x) \leq f(x) + \lambda r(x) = f_\lambda(x)$ for 
 ** If $\rho$ does not attain its minimum on $\varphi^{-1}(x)$, choose $y$ within $\varepsilon > 0$ of the infimum and let $\varepsilon$ go to zero.
 :::
 
-This becomes interesting when we look at particular example: take a look at @tbl-lift-regularizers.
+This becomes interesting when we look at examples: take a look at @tbl-lift-regularizers.
 
 | lift | $\varphi \colon \calM \to \calN$ | $\rho \colon \calM \to \reals$ | $r \colon \calN \to \reals$ |
 |:--|:---|:---|:---|
