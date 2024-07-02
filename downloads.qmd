@@ -62,9 +62,11 @@ We'd love to know about this and get feedback.
     * Added `euclideanlargefactory`.
     * Added `desingularizationfactory` for optimization on bounded-rank matrices.
     * Made `fixedrankembeddedfactory` compatible with `euclideanlargefactory`.
-    * Deep rewrites of `obliquefactory` and `obliquecomplexfactory` for improved efficiency and readability. Backward compatible.
+    * Deep rewrites of `obliquefactory` and `obliquecomplexfactory` for improved efficiency and readability. Backward compatible. Now support GPU.
     * Removed `M.dist` in factories where that was only triggering an error message.
     * Removed `M.exp` in a few factories where that was still only redirecting to `M.retr` with a warning.
+    * Documented and implemented the distinction between: `M.retr` and `M.retr2`; and `M.transp`, `M.isotransp`, `M.paralleltransp`.
+    * Documented the possibility to now add `M.offtangent` and `M.offmanifold` to check points and tangent vectors.
 
 *   Solvers
     * In `trs_tCG`, fixed update of `e_Pd` when `useRand = true`, and now allowing to set nonzero `eta0` as input.
@@ -75,7 +77,8 @@ We'd love to know about this and get feedback.
     * New `manoptlift`, see above.
     * Improved `plotprofile` and `surfprofile`.
     * Improved `checkmanifold` (check `isotransp`).
-    * Improved `powermanifold` (more permissive if fields are missing in base manifolds).
+    * Improved `productmanifold` and `powermanifold` (e.g., cover more manifold fields, and more permissive if some are missing).
+    * Improved `checkgradient` and `checkhessian` to clarify output messages.
     * `hessianspectrum` now returns exactly real results (avoids machine-zero imaginary parts).
     * New `checkinverseretraction`.
     * Allowing to specify `x` for `manoptAD` trace run.
@@ -84,23 +87,23 @@ We'd love to know about this and get feedback.
     * New `setsparseentries` is a C-Mex function to replace the nonzero entries of a sparse matrix.
     * New `replacesparseentries` use `setsparseentries` to create a matrix with specified sparsity, fast.
     * `cdiag` now returns a column, not a row (to match `diag`).
+    * New tools `offmanifold` and `offtangent` to check that a point or tangent vector are valid.
 
 *   Examples
     * Adapted several examples to reflect current best practices with Manopt, e.g., in `maxcut` and `elliptope_SDP`.
     * Rewrote `low_rank_matrix_completion` in full to showcase three ways to solve the same problem, two of them new to this release.
     * New example `packing_in_a_ball` to illustrate Manopt lifts.
 
-*   Performance
-    * Replaced `bsxfun` with more efficient calls in `obliquefactory`, `obliquecomplexfactory`, `qr_unique`, `lyapunov_symmetric_eig`, `hyperbolicfactory`.
-    * GPU support for `obliquefactory` and `obliquecomplexfactory`.
-
 *   Bug fixes
     * Fixed `obliquecomplexfactory.log` in transposed case.
     * Corrected typo in `elliptopefactory.name`.
 
-*   File structure
+*   Miscellaneous
     * Moved files from `/auxiliary` to root, so the file tree is the same between releases and git clones.
     * Renamed `basicexample.m` to `checkinstall.m`.
+    * Removed `M.exp` and `M.dist` where it was not implemented.
+    * Replaced `bsxfun` with more efficient calls in `obliquefactory`, `obliquecomplexfactory`, `qr_unique`, `lyapunov_symmetric_eig`, `hyperbolicfactory`.
+    * `hyperbolicfactory` is now handled fully in `checkgradient`.
 
 
 ### [Manopt 7.1](downloads/Manopt_7.1.zip), packaged Sep. 30, 2022
