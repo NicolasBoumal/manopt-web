@@ -166,6 +166,7 @@ You may also be interested in the following:
 *   [ManifoldOptim](http://dx.doi.org/10.18637/jss.v093.i01) is an R interface to ROPTLIB.
 *   [Geomstats](https://github.com/geomstats) is a Python toolbox with lots of differential geometric tools.
 *   [McTorch](https://github.com/mctorch/mctorch) is a Python library for optimization on manifolds dedicated to deep learning, built on PyTorch.
+*   [GeoTorch](https://github.com/Lezcano/geotorch) is a Python library for constrained optimization (with emphasis on manifolds) built on PyTorch.
 *   [Rieoptax](https://github.com/SaitejaUtpala/rieoptax) is library for Riemannian Optimization in JAX.
 *   [Geoopt](https://github.com/geoopt/geoopt) is also a Python library bringing Riemannian optimization tools to PyTorch.
 *   [GOPT](http://suvrit.de/work/soft/gopt.html) is designed for optimization over positive definite matrices.
