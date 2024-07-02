@@ -322,15 +322,17 @@ function foo()
     problem.ehess = @ehess;
 
     % List the names of counters we want the optimization algorithm to log.
-    % The fields in the structure stats are function handles: one for each
-    % counter. Before passing stats to statsfunhelper, we could add more
-    % fields to stats to log other things as well.
+    % The fields in the structure metrics are function handles: one for each
+    % counter.
+    %
+    % Before passing metrics to statsfunhelper, we could add more fields to
+    % metrics to log other things as well: see the note below the code.
     %
     % Names of the counters (here, Aproducts and some_other_counter) are
     % for us to choose: they only need to be valid structure field names.
     % They need not have been defined in advance.
-    stats = statscounters({'Aproducts', 'some_other_counter'});
-    options.statsfun = statsfunhelper(stats);
+    metrics = statscounters({'Aproducts', 'some_other_counter'});
+    options.statsfun = statsfunhelper(metrics);
 
     [x, fx, info] = trustregions(problem, [], options);
 
@@ -378,6 +380,18 @@ See the [full working example](https://github.com/NicolasBoumal/manopt/blob/mast
 :::{.callout-note}
 Counter names (such as `'Aproducts'` in the example) must be valid names for structure fields.
 Essentially, this means they should be valid variable names (no spaces, do not start with a digit, etc.)
+:::
+
+:::{.callout-note}
+## Using counters together with other things in `statsfun`.
+Counters can be used together with any other tracking function you might have liked to put in [`statsfun`](solvers.qmd#statsfun-option-for-recording-info-at-each-iteration).
+In the example above, we would simply add some fields to `metrics` after calling `statscounters` and before passing it to `statsfunhelper`:
+``` matlab
+metrics = statscounters({'Aproducts', 'some_other_counter'});
+metrics.current_point = @(x) x; % also log the iterate at each iteration
+options.statsfun = statsfunhelper(metrics);
+% After running a solver, the info struct-array has the counters and current_point.
+```
 :::
 
 
