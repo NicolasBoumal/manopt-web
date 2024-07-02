@@ -34,8 +34,8 @@ We'd love to know about this and get feedback.
 ### [Manopt X.Y](download.qmd), packaged xyz, 2024 (release coming this summer, already on github)
 
 *   Core functionalities
-    * Added support and documentation for [lifts](lifts.qmd) through `manoptlift`.
-      This new tool makes it possible to use Manopt for optimization on nonsmooth sets.
+    * Added support and documentation for **[lifts](lifts.qmd)** through `manoptlift`.
+      This new tool makes it possible to use Manopt for optimization on certain **nonsmooth sets** and with some nonsmooth regularizers.
       It also makes it easier to handle a change of variable or reparameterization of a problem.
     * **Octave support is back!**
       Owing to the remarkable work of the [GNU Octave](https://octave.org/) team, it seems that Manopt now runs smoothly in Octave 9.2.0.
@@ -50,7 +50,8 @@ We'd love to know about this and get feedback.
     * New `ballslift` to optimize with constraints $\|x\| \leq 1$.
     * New `hadamardlift` to optimize on the simplex, on stochastic matrices, and on nonnegative orthant, all closed.
     * New `burermonteirolift` to optimize on the semidefinite cone with a rank bound and some constraints (unit trace, unit diagonal).
-    * New `burermonteiroLRlift` to optimize with constraint $\rank(X) \leq r$ (bounded rather than fixed).
+    * New `burermonteiroLRlift` to optimize with constraint $\rank(X) \leq r$ (bounded rather than fixed), optionally with nuclear norm regularizer.
+    * New `hadamarddifferencelift` to optimize over $\Rn$ with a 1-norm regularizer.
 
 *   Documentation
     * Revamped the whole documentation into a new website, now statically generated with Quarto.
