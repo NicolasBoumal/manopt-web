@@ -34,7 +34,7 @@ $$
 Hence, in a log-log plot with $\log(t)$ on the abscissa, the error should behave as $\log(t^2) = 2\log(t)$.
 That is, we should observe a slope of 2.
 Calling `checkdiff(problem, x, u)` produces such a plot and reports the slope of it in a text output.
-Numerical errors prevent the curve to have a slope of 2 everywhere even if directional derivatives are correct, so you should really inspect the plot visually.
+Numerical errors prevent the curve from having a slope of 2 on the whole range even if directional derivatives are correct, so you should really inspect the plot visually.
 If `x` and `u` are omitted, they are picked at random.
 
 The Riemannian gradient is the (only) tangent vector field that satisfies
