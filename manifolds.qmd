@@ -289,6 +289,8 @@ If you find ways to improve the built-in geometries, let us know.
 | Normal representation | `M.mat(x, u_vec)` | The inverse of the `vec` function: returns a tangent vector representation from a column vector such that `M.mat(x, M.vec(x, u)) = u`. |
 | Isometry check for `vec` and `mat` | `M.vecmatareisometries()` | Returns `true` if `M.vec` is a linear isometry, i.e., if for all tangent vectors $u,v$, `M.inner(x, u, v) == M.vec(x, u).'*M.vec(x, v)`. Then, `M.mat` is both the adjoint and the inverse of `M.vec` (on the tangent space). |
 | Lie group identity | `M.lie_identity()` | If the manifold is a Lie group, this function returns the identity element (e.g., for the rotation group in $\mathbb{R}^d$, that would be the identity matrix of size $d$). |
+| Point check | `M.offmanifold(x)` | Outputs a positive double that is machine-precision zero if `x` is a valid point on `M`, further away from zero if `x` lacks accuracy, or `Inf` if it is not even in the right format. See tool [`offmanifold`](https://github.com/NicolasBoumal/manopt/blob/master/manopt/tools/offmanifold.m). |
+| Tangent check | `M.offtangent(x, v)` | Outputs a positive double that is machine-precision zero if `v` is a valid tangent vector to `M` at `x`, further away from zero if `v` lacks accuracy, or `Inf` if `x, v` are not even in the right format. See tool [`offtangent`](https://github.com/NicolasBoumal/manopt/blob/master/manopt/tools/offtangent.m). |
 
 : Manifolds are encoded as structures which contain fields. Most of these fields are function handles we use to interact with the manifold. {.striped}
 

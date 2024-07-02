@@ -102,6 +102,19 @@ A couple of remarks:
   The purpose of this tool is ease the process of creating factories for new manifolds.
   Contributions are welcome to extend it.
 
+* `val = offtangent(M, x, v)` <br>
+  Checks if `v` is a tangent vector at `x` for the manifold `M`.
+  It is a wrapper for `M.offtangent(x, v)` with a fallback if `M` does not offer that functionality.
+  In normal circumstances, the output `val` is a real number which is machine-precision zero if `v` is indeed tangent at `x`.
+  The further away from zero, the less `v` satisfies the numerical requirements to be tangent.
+  The output is `Inf` if `x, v` are not in the proper formats (or if an error occurred).
+  The output is `NaN` if it was not possible to run the test.
+
+* `val = offmanifold(M, x)` <br>
+  Checks if `x` is a point on the manifold `M`.
+  It is a wrapper for `M.offmanifold(x)` where we can implement fallbacks some day.
+  The output is interpreted in the same way as for `offtangent`.
+
 
 ## Hessian eigenvalues and eigenvectors
 
