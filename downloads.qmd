@@ -37,6 +37,13 @@ We'd love to know about this and get feedback.
     * Added support and documentation for [lifts](lifts.qmd) through `manoptlift`.
       This new tool makes it possible to use Manopt for optimization on nonsmooth sets.
       It also makes it easier to handle a change of variable or reparameterization of a problem.
+    * **Octave support is back!**
+      Owing to the remarkable work of the [GNU Octave](https://octave.org/) team, it seems that Manopt now runs smoothly in Octave 9.2.0.
+      A few caveats:
+        * Automatic differentiation is not available.
+        * The tool `getsize` had to be disabled for Octave (it is not important).
+        * Other secondary tools based on C-Mex do not work (just recompile?).
+        * There are extra warnings here and there, and small things to iron out.
 
 *   Lifts
     * New `cubeslift` to optimize with constraints $-1 \leq x \leq 1$.
@@ -57,7 +64,6 @@ We'd love to know about this and get feedback.
     * Deep rewrites of `obliquefactory` and `obliquecomplexfactory` for improved efficiency and readability. Backward compatible.
     * Removed `M.dist` in factories where that was only triggering an error message.
     * Removed `M.exp` in a few factories where that was still only redirecting to `M.retr` with a warning.
-    * **TODO: uniformize and document retr2 + point2ambient, isotransp?**
 
 *   Solvers
     * In `trs_tCG`, fixed update of `e_Pd` when `useRand = true`, and now allowing to set nonzero `eta0` as input.
