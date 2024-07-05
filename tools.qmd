@@ -119,11 +119,11 @@ A couple of remarks:
 ## Hessian eigenvalues and eigenvectors
 
 Given a function $f \colon \calM \to \reals$ and a point $x \in \calM$, we may want to investigate the spectrum of $\Hess f(x)$, that is, the Riemannian Hessian at $x$.
-With a `problem` structure to describe $f$, and `x` to identify the point $x$, we can do so in several ways using the tools
+With a `problem` structure to describe $f$, and `x` to identify the point $x$, we can do so in several ways using the following tools:
 
-* `hessianmatrix` (then `eig`)
-* `hessianspectrum` (internally via `eigs`)
-* `hessianextreme` (via optimization)
+* `hessianmatrix` (then `eig`),
+* `hessianspectrum` (internally via `eigs`),
+* `hessianextreme` (via optimization).
 
 ### Via matrix representation
 
@@ -514,6 +514,11 @@ In particular, certain solvers (including `trustregions`) check stopping criteri
 ## Lifts, parameterizations, change of variable
 
 See the page about [lifts](lifts.qmd) for documentation of the tool `manoptlift`.
+   
+
+## Automatic differentiation
+
+See the page about [how to describe the cost function](costdescription.qmd) for documentation of the tool `manoptAD`.
 
 
 ## Miscellaneous
