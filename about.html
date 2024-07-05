@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.555">
+<meta name="generator" content="quarto-1.5.46">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Manopt - About</title>
+<title>About – Manopt</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -321,6 +321,35 @@ window.MathJax = {
 </script>
 
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="styles.css">
 <meta property="og:title" content="Manopt - About">
@@ -340,7 +369,7 @@ window.MathJax = {
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -350,7 +379,7 @@ window.MathJax = {
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-tutorial" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-tutorial" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Tutorial</span>
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-tutorial">    
@@ -418,7 +447,7 @@ window.MathJax = {
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
-          <div class="quarto-navbar-tools">
+            <div class="quarto-navbar-tools">
   <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
 </div>
       </div> <!-- /container-fluid -->
@@ -501,12 +530,14 @@ window.MathJax = {
 <p><a href="https://scholar.google.com/citations?user=sEMrGicAAAAJ&amp;hl=en">Naman Agarwal</a>, <a href="https://www.cs.princeton.edu/%7Ebbullins/">Brian Bullins</a> and <a href="https://www.maths.ox.ac.uk/people/coralia.cartis">Coralia Cartis</a>, together with Nicolas, contributed an implementation for the new solver <a href="https://github.com/NicolasBoumal/manopt/blob/master/manopt/solvers/arc/arc.m"><code>arc</code></a> (adaptive regularization with cubics), and <a href="https://www.linkedin.com/in/bryanzhu/">Bryan Zhu</a> contributed the nonlinear CG-based <a href="https://github.com/NicolasBoumal/manopt/blob/master/manopt/solvers/arc/arc_conjugate_gradient.m">subproblem solver</a>.</p>
 <p><a href="https://www.genealogy.math.ndsu.nodak.edu/id.php?id=248082">Gennadij Heidel</a> contributed a factory for tensors of fixed multilinear rank in Tucker format: <a href="https://github.com/NicolasBoumal/manopt/blob/master/manopt/manifolds/fixedranktensors/fixedranktensorembeddedfactory.m"><code>fixedranktensorembeddedfactory</code></a>.</p>
 <p><a href="https://scholar.google.be/citations?user=F_xNQ7IAAAAJ">Estelle Massart</a> contributed code to <a href="https://github.com/NicolasBoumal/manopt/blob/master/manopt/manifolds/symfixedrank/symfixedrankYYfactory.m"><code>symfixedrankYYfactory</code></a>.</p>
-<p><a href="https://ronnybergmann.net/">Ronny Bergmann</a> contributed code to <a href="https://github.com/NicolasBoumal/manopt/blob/master/manopt/manifolds/multinomial/multinomialfactory.m"><code>multinomialfactory</code></a>.</p>
-<p><a href="https://www.michaelpsenka.io/">Michael Psenka</a> contributed the code for optimization over tensors with fixed tensor-train rank, accessible through <a href="https://github.com/NicolasBoumal/manopt/tree/master/manopt/manifolds/ttfixedrank"><code>fixedTTrankfactory</code></a>, together with an <a href="https://github.com/NicolasBoumal/manopt/blob/master/examples/low_rank_tensor_completion_TT.m">example script</a>. This geometry heavily relies on <a href="https://www.epfl.ch/labs/anchp/index-html/software/ttemps/">TTeMPS</a> for all core functionalities except second-order optimization (specifically, M.ehess2rhess). TTeMPS is code distributed by <a href="https://scholar.google.com/citations?user=N_15-1MAAAAJ&amp;hl=nl">Michael Steinlechner</a>, <a href="https://www.epfl.ch/labs/anchp/">Daniel Kressner</a> and <a href="https://www.unige.ch/math/vandereycken/">Bart Vandereycken</a>. We thank them for releasing their excellent software under an open source license, which allowed us to build upon it. It is packaged in Manopt with small modifications.</p>
-<p><a href="https://people.epfl.ch/quentin.rebjock?lang=en">Quentin Rebjock</a> contributed <a href="https://github.com/NicolasBoumal/manopt/blob/master/manopt/manifolds/hyperbolic/poincareballfactory.m"><code>poincareballfactory</code></a> and more.</p>
+<p><a href="https://ronnybergmann.net/">Ronny Bergmann</a> contributed code to <a href="https://github.com/NicolasBoumal/manopt/blob/master/manopt/manifolds/multinomial/multinomialfactory.m"><code>multinomialfactory</code></a>, added <code>checkinverseretraction</code>, and more.</p>
+<p><a href="https://www.michaelpsenka.io/">Michael Psenka</a> contributed the code for optimization over tensors with fixed tensor-train rank, accessible through <a href="https://github.com/NicolasBoumal/manopt/tree/master/manopt/manifolds/ttfixedrank"><code>fixedTTrankfactory</code></a>, together with an <a href="https://github.com/NicolasBoumal/manopt/blob/master/examples/low_rank_tensor_completion_TT.m">example script</a>. This geometry heavily relies on <a href="https://www.epfl.ch/labs/anchp/index-html/software/ttemps/">TTeMPS</a> for all core functionalities except second-order optimization (specifically, <code>M.ehess2rhess</code>). TTeMPS is code distributed by <a href="https://scholar.google.com/citations?user=N_15-1MAAAAJ&amp;hl=nl">Michael Steinlechner</a>, <a href="https://www.epfl.ch/labs/anchp/">Daniel Kressner</a> and <a href="https://www.unige.ch/math/vandereycken/">Bart Vandereycken</a>. We thank them for releasing their excellent software under an open source license, which allowed us to build upon it. It is packaged in Manopt with small modifications.</p>
+<p><a href="https://people.epfl.ch/quentin.rebjock?lang=en">Quentin Rebjock</a> contributed <a href="https://github.com/NicolasBoumal/manopt/blob/master/manopt/manifolds/hyperbolic/poincareballfactory.m"><code>poincareballfactory</code></a>, <a href="https://github.com/NicolasBoumal/manopt/blob/master/manopt/manifolds/fixedrank/desingularizationfactory.m"><code>desingularizationfactory</code></a>, and more.</p>
 <p><a href="https://github.com/Xiaowen-Jiang">Xiaowen Jiang</a> worked in the group of Nicolas during the summer of 2021 to add support for <a href="https://github.com/NicolasBoumal/manopt/tree/master/manopt/autodiff">automatic differentiation</a>, based on <a href="https://www.mathworks.com/products/deep-learning.html">Matlab’s Deep Learning Toolbox</a>. This fantastic feature aligns well with Manopt’s overarching goal: to lower the entrance barrier for people who would like to give Riemannian optimization a try. It is available via <code>manoptAD</code>. Thanks a lot, Xiaowen!</p>
 <p><a href="https://scholar.google.com/citations?user=CpQ1YvMAAAAJ&amp;hl=en">Niklas Koep</a> (sinxoverx), <a href="https://scholar.google.com/citations?user=oVFJK2MAAAAJ&amp;hl=en">Nick Vannieuwenhoven</a> (Storey-Liu for CG), <a href="https://mathoverflow.net/users/141449/spencer-kraisler">Spencer Kraisler</a> (Rodrigues formula, Lie identity), <a href="https://github.com/sfrcorne">sfrcorne</a> (rlbfgs invariant to positive scaling) brought welcome improvements after discussions on the github repo page.</p>
-<p><a href="https://victorliao.com/">Victor Liao</a> worked on Manopt in the group of Nicolas during the summer of 2022 and contributed: a long-awaited refactoring of the trustregions solver to allow for various subproblem solvers, a rewrite of the truncated CG (tCG) subproblem solver to improve performance by recycling computations after a step rejection, a new global subproblem solver based on code by <a href="https://scholar.google.com/citations?user=Ao3aPU0AAAAJ&amp;hl=en">Yuji Nakatsukasa</a>, a constant step-size line-search helper for gradient methods, and various improvements (e.g., to <code>tangentorthobasis</code>).</p>
+<p><a href="https://victorliao.com/">Victor Liao</a> worked on Manopt in the group of Nicolas during the summer of 2022 and contributed: a long-awaited refactoring of the <code>trustregions</code> solver to allow for various subproblem solvers, a rewrite of the truncated CG (tCG) subproblem solver to improve performance by recycling computations after a step rejection, a new global subproblem solver based on code by <a href="https://scholar.google.com/citations?user=Ao3aPU0AAAAJ&amp;hl=en">Yuji Nakatsukasa</a>, a constant step-size line-search helper for gradient methods, a Lanczos-based TR subproblem solver, and various improvements (e.g., to <code>tangentorthobasis</code>).</p>
+<p><a href="https://github.com/AndreeaMusat">Andreea Muşat</a> contributed several improvements to solvers and factories.</p>
+<p><a href="https://www.linkedin.com/in/ivan-bioli-059a001a6/">Ivan Bioli</a> added support for <span class="math inline">\(\beta\)</span>-type rules and fixed Liu-Storey rule in <code>conjugategradient</code>.</p>
 <p>Below are some third-party open-source codes that are or were used at some point:</p>
 <ul>
 <li>The <code>multitransp</code> / <code>multiprod</code> pair is code by <a href="http://www.mathworks.com/matlabcentral/fileexchange/8773-multiple-matrix-multiplications-with-array-expansion-enabled">Paolo de Leva</a> (no longer used: <code>multiprod</code> now calls <a href="https://ch.mathworks.com/help/matlab/ref/pagemtimes.html">pagemtimes</a>);</li>
@@ -549,6 +580,7 @@ window.MathJax = {
 <li><a href="http://dx.doi.org/10.18637/jss.v093.i01">ManifoldOptim</a> is an R interface to ROPTLIB.</li>
 <li><a href="https://github.com/geomstats">Geomstats</a> is a Python toolbox with lots of differential geometric tools.</li>
 <li><a href="https://github.com/mctorch/mctorch">McTorch</a> is a Python library for optimization on manifolds dedicated to deep learning, built on PyTorch.</li>
+<li><a href="https://github.com/Lezcano/geotorch">GeoTorch</a> is a Python library for constrained optimization (with emphasis on manifolds) built on PyTorch.</li>
 <li><a href="https://github.com/SaitejaUtpala/rieoptax">Rieoptax</a> is library for Riemannian Optimization in JAX.</li>
 <li><a href="https://github.com/geoopt/geoopt">Geoopt</a> is also a Python library bringing Riemannian optimization tools to PyTorch.</li>
 <li><a href="http://suvrit.de/work/soft/gopt.html">GOPT</a> is designed for optimization over positive definite matrices.</li>
@@ -751,18 +783,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -794,7 +815,29 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp("https:\/\/www\.manopt\.org");
@@ -802,7 +845,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {

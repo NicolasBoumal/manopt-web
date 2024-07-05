@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Resources to learn optimization on manifolds – Manopt</title>
+<title>Rotation matrices: the special orthogonal group – Manopt</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,6 +19,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -287,17 +321,43 @@ window.MathJax = {
 </script>
 
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="styles.css">
-<meta property="og:title" content="Manopt - Resources to learn optimization on manifolds">
-<meta property="og:description" content="">
-<meta property="og:image" content="https://www.manopt.org/images/BoumalIntroSmoothManifoldsCover.png">
+<meta property="og:title" content="Manopt - Rotation matrices: the special orthogonal group">
+<meta property="og:description" content="Comment about the finer points of how to use rotationsfactory in Manopt">
 <meta property="og:site_name" content="Manopt">
-<meta property="og:image:height" content="1163">
-<meta property="og:image:width" content="804">
 </head>
 
-<body class="nav-fixed fullcontent">
+<body class="nav-sidebar docked nav-fixed fullcontent">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -358,7 +418,7 @@ window.MathJax = {
     </ul>
   </li>
   <li class="nav-item">
-    <a class="nav-link active" href="./learning.html" aria-current="page"> 
+    <a class="nav-link" href="./learning.html"> 
 <span class="menu-text">Learning</span></a>
   </li>  
   <li class="nav-item">
@@ -392,10 +452,75 @@ window.MathJax = {
 </div>
       </div> <!-- /container-fluid -->
     </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Rotation matrices: the special orthogonal group</li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
 </header>
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./gettingstarted.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Getting started</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./firstexample.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">A first example</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./manifolds.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Manifolds</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./costdescription.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Cost functions</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./solvers.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Solvers</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tools.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Helpful tools</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./lifts.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lifts</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./core.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Core tools</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     
 <!-- main -->
@@ -403,7 +528,8 @@ window.MathJax = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Resources to learn optimization on manifolds</h1>
+<h1 class="title">Rotation matrices: the special orthogonal group</h1>
+<p class="subtitle lead">Comment about the finer points of how to use <code>rotationsfactory</code> in Manopt</p>
 </div>
 
 
@@ -420,53 +546,118 @@ window.MathJax = {
 </header>
 
 
-<p>The documentation on this website is meant to help users get to grips with Manopt. Underneath the software, there is a fair amount of math. This page provides some pointers to learn that theory.</p>
-<section id="books" class="level3">
-<h3 class="anchored" data-anchor-id="books">Books</h3>
-<p>The following books (both available online for free) can be helpful to learn the relevant mathematics:</p>
-<div>
+<p>The group of rotations in <span class="math inline">\(\Rn\)</span> is the <a href="https://en.wikipedia.org/wiki/Orthogonal_group#Special_orthogonal_group">special orthogonal group</a> <span class="math display">\[
+  \SOn = \{ X \in \Rnn : X\transpose X = I_n \textrm{ and } \det(X) = 1 \}.
+\]</span> This is one of the two connected components of the <a href="https://en.wikipedia.org/wiki/Orthogonal_group">orthogonal group</a> (matrices in the other component satisfy <span class="math inline">\(\det(X) = -1\)</span>).</p>
+<p>Differentiating the constraint <span class="math inline">\(X\transpose X = I_n\)</span> along <span class="math inline">\(\dot X\)</span>, we obtain the defining equation for the tangent space at <span class="math inline">\(X\)</span>. Explicitly, <span class="math display">\[
+    \dot X\transpose X + X\transpose \dot X = 0.
+\]</span> Thus, a tangent vector <span class="math inline">\(\dot X\)</span> is a matrix in <span class="math inline">\(\Rnn\)</span> such that <span class="math inline">\(X\transpose \dot X\)</span> is skew-symmetric. Equivalently, <span class="math inline">\(\dot X\)</span> is of the form <span class="math inline">\(X\Omega\)</span> where <span class="math inline">\(\Omega\)</span> is a skew-symmetric matrix in <span class="math inline">\(\Rnn\)</span>. Accordingly, the tangent space at <span class="math inline">\(X\)</span> is the following subspace of <span class="math inline">\(\Rnn\)</span>: <span class="math display">\[
+  \T_X \SOn = \{ X\Omega : \Omega + \Omega\transpose = 0 \}.
+\]</span> Since <span class="math inline">\(X\)</span> is fixed, we see that in order to identify a tangent vector <span class="math inline">\(\dot X\)</span> it is equivalent to specify either <span class="math inline">\(\dot X\)</span> itself (as a matrix of size <span class="math inline">\(n \times n\)</span>) or <span class="math inline">\(\Omega\)</span> (a skew-symmetric matrix of size <span class="math inline">\(n \times n\)</span>, with the understanding that <span class="math inline">\(\Omega\)</span> <em>represents</em> <span class="math inline">\(\dot X = X\Omega\)</span>).</p>
+<blockquote class="blockquote">
+<p>In practice, it is common that the first thing we need to compute with a tangent vector is the product <span class="math inline">\(X\transpose \dot X\)</span>, which happens to be <span class="math inline">\(\Omega\)</span>. For this reason, in Manopt’s <code>rotationsfactory</code>, tangent vectors are stored as <span class="math inline">\(\Omega\)</span>, not as <span class="math inline">\(\dot X\)</span>.</p>
+</blockquote>
+<p>In constrast, we still see <span class="math inline">\(\SOn\)</span> as an embedded submanifold of <span class="math inline">\(\Rnn\)</span>, and all objects in <span class="math inline">\(\Rnn\)</span> are represented as themselves (matrices of size <span class="math inline">\(n \times n\)</span>).</p>
+<p>This is important to keep in mind whenever we work with a matrix that comes from or that we provide to <code>rotationsfactory</code>. We must ask: is this a tangent vector at <span class="math inline">\(X\)</span> (represented as <span class="math inline">\(\Omega\)</span>), or is this in the embedding space (represented as itself)? Explicitly:</p>
+<ul>
+<li><code>problem.grad(X)</code> is the Riemannian gradient at <span class="math inline">\(X\)</span>; this is a tangent vector at <span class="math inline">\(X\)</span>, so the output is just the skew-symmetric factor.</li>
+<li><code>problem.egrad(X)</code> is the Euclidean gradient at <span class="math inline">\(X\)</span>; this is in the embedding space, so the output is the matrix itself.</li>
+<li><code>problem.hess(X, Omg)</code> is the Riemannian Hessian at <span class="math inline">\(X\)</span> along <span class="math inline">\(\dot X = X\Omega\)</span>; the input <span class="math inline">\(\Omega\)</span> represents the tangent vector <span class="math inline">\(\dot X\)</span>: we only receive the skew-symmetric factor as input; the output is a tangent vector at <span class="math inline">\(X\)</span>, say, <span class="math inline">\(X\Xi\)</span>, and we only output the skew-symmetric factor, so, <span class="math inline">\(\Xi\)</span>.</li>
+<li><code>problem.ehess(X, Omg)</code> is the Euclidean Hessian at <span class="math inline">\(X\)</span> along <span class="math inline">\(\dot X = X\Omega\)</span>; the input <span class="math inline">\(\Omega\)</span> is still just the skew-symmetric representation of the tangent vector <span class="math inline">\(\dot X\)</span>; however, now the output is in the embedding space, so it should be the matrix itself.</li>
+</ul>
+<p>The manifold structure <code>M = rotationsfactory(n)</code> provides convenient tools to work with these representations:</p>
+<ul>
+<li><code>Omg = M.proj(X, Z)</code> takes a full matrix <span class="math inline">\(Z \in \Rnn\)</span> (in the embedding space) and projects it to <span class="math inline">\(\T_X\SOn\)</span>. The output is in the tangent space at <span class="math inline">\(X\)</span>, so it is just the skew-symmetric factor <span class="math inline">\(\Omega\)</span> that represents <span class="math inline">\(\dot X = X\Omega\)</span>. The actual projection of <span class="math inline">\(Z\)</span> to <span class="math inline">\(\T_X\SOn\)</span> is <span class="math inline">\(\dot X\)</span>.</li>
+<li><code>Omg = M.tangent(X, Omg)</code> takes a tangent vector <span class="math inline">\(\dot X\)</span> (represented as a skew-symmetric matrix <span class="math inline">\(\Omega\)</span>) and “tangentializes” it; in effect, it just ensures that the matrix indeed encodes a tangent vector up to machine precision. It does so by extracting the skew-symmetric part of the stored matrix: <span class="math inline">\(\Omega \leftarrow \frac{1}{2}(\Omega - \Omega^\top)\)</span>. If <span class="math inline">\(\Omega\)</span> is already skew-symmetric, this has no effect. The main use of this tool is to make up for numerical errors.</li>
+<li><code>Xdot = M.tangent2ambient(X, Omg)</code> takes the representation <span class="math inline">\(\Omega\)</span> of a tangent vector at <span class="math inline">\(X\)</span> and outputs the matrix <span class="math inline">\(\dot X = X\Omega\)</span>, that is, the matrix in the embedding space that corresponds to (that is represented by) the input <span class="math inline">\((X, \Omega)\)</span>.</li>
+</ul>
+<p>As an example, consider the following optimization problem over rotation matrices. Let <span class="math inline">\(\bar f \colon \Rnn \to \reals\)</span> be defined by <span class="math display">\[
+  \bar f(X) = \frac{1}{2}\sqfrobnorm{AXB - C},
+\]</span> where <span class="math inline">\(A, B, C\)</span> are given matrices in <span class="math inline">\(\Rnn\)</span>. We wish to minimize <span class="math inline">\(f \colon \SOn \to \reals\)</span>, where <span class="math inline">\(f = \bar f|_{\SOn}\)</span> is simply the restriction of <span class="math inline">\(\bar f\)</span> to <span class="math inline">\(\SOn\)</span>. </p>
+<p>The Euclidean gradient and Hessian of <span class="math inline">\(\bar f\)</span> are as follows: <span class="math display">\[
+  \grad \bar f(X) = A\transpose ( AXB - C ) B\transpose
+\]</span> and, for all <span class="math inline">\(Z \in \Rnn\)</span>, <span class="math display">\[
+  \Hess \bar f(X)[Z] = A\transpose ( AZB ) B\transpose.
+\]</span> These can be converted to the Riemannian gradient and Hessian of <span class="math inline">\(f\)</span> in the usual way: see for example Section 7.4 in <a href="https://www.nicolasboumal.net/book">this book</a>. Manopt does it automatically though: we just need to provide <span class="math inline">\(\grad \bar f\)</span> and <span class="math inline">\(\Hess \bar f\)</span> in <code>problem.egrad</code> and <code>problem.ehess</code>.</p>
+<p>Here is how we would implement this in Manopt using <code>rotationsfactory</code> to handle <span class="math inline">\(\SOn\)</span>. The tabs below provide two things:</p>
+<ol type="1">
+<li>The code to define the <code>problem</code> with <code>cost</code>, <code>egrad</code> and two versions of <code>ehess</code>:
+<ul>
+<li>An incorrect one, which we might write if unaware of the subtleties discussed above; then</li>
+<li>A correct one, where we transform <code>Omg</code> from tangent space to embedding space, that is, from <code>Omg</code> (skew symmetric) to <code>X*Omg</code>.</li>
+</ul></li>
+<li>The messages printed by <code>checkhessian</code> for the incorrect Hessian.</li>
+</ol>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">Manopt code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false"><code>checkhessian</code> hints</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<div class="sourceCode" id="cb1"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="va">n</span> <span class="op">=</span> <span class="fl">8</span><span class="op">;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="va">A</span> <span class="op">=</span> <span class="va">randn</span>(<span class="va">n</span><span class="op">,</span> <span class="va">n</span>)<span class="op">;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="va">B</span> <span class="op">=</span> <span class="va">randn</span>(<span class="va">n</span><span class="op">,</span> <span class="va">n</span>)<span class="op">;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="va">C</span> <span class="op">=</span> <span class="va">randn</span>(<span class="va">n</span><span class="op">,</span> <span class="va">n</span>)<span class="op">;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="va">SOn</span> <span class="op">=</span> <span class="va">rotationsfactory</span>(<span class="va">n</span>)<span class="op">;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="va">problem</span>.<span class="va">M</span> <span class="op">=</span> <span class="va">SOn</span><span class="op">;</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="va">problem</span>.<span class="va">cost</span> <span class="op">=</span> <span class="op">@</span>(<span class="va">X</span>) <span class="fl">.5</span><span class="op">*</span><span class="va">norm</span>(<span class="va">A</span><span class="op">*</span><span class="va">X</span><span class="op">*</span><span class="va">B</span> <span class="op">-</span> <span class="va">C</span><span class="op">,</span> <span class="ss">'fro'</span>)<span class="op">^</span><span class="fl">2</span><span class="op">;</span> <span class="co">% f(X)</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="va">problem</span>.<span class="va">egrad</span> <span class="op">=</span> <span class="op">@</span>(<span class="va">X</span>) <span class="va">A</span><span class="op">'*</span>(<span class="va">A</span><span class="op">*</span><span class="va">X</span><span class="op">*</span><span class="va">B</span> <span class="op">-</span> <span class="va">C</span>)<span class="op">*</span><span class="va">B</span><span class="op">';</span>          <span class="co">% grad f(X) in R^(nxn)</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co">% Wrong.</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co">% This code treats the second input of ehess as if it were in</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co">% the embedding space. Optimization algorithms won't be amused.</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="va">problem</span>.<span class="va">ehess</span> <span class="op">=</span> <span class="op">@</span>(<span class="va">X</span><span class="op">,</span> <span class="va">Xdot</span>) <span class="va">A</span><span class="op">'*</span>(<span class="va">A</span><span class="op">*</span><span class="va">Xdot</span><span class="op">*</span><span class="va">B</span>)<span class="op">*</span><span class="va">B</span><span class="op">';</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co">% Correct.</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co">% This code notes that the second input to ehess is a representation of</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co">% a tangent vector. It transforms Omg to X*Omg, which is the direction</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="co">% that is actually encoded by Omg, and which we often call Xdot.</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="co">% Equivalently, we can call SOn.tangent2ambient(X, Omg) instead of X*Omg.</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="va">problem</span>.<span class="va">ehess</span> <span class="op">=</span> <span class="op">@</span>(<span class="va">X</span><span class="op">,</span> <span class="va">Omg</span>) <span class="va">A</span><span class="op">'*</span>(<span class="va">A</span><span class="op">*</span><span class="va">X</span><span class="op">*</span><span class="va">Omg</span><span class="op">*</span><span class="va">B</span>)<span class="op">*</span><span class="va">B</span><span class="op">';</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="va">figure</span>(<span class="fl">1</span>)<span class="op">;</span> <span class="va">clf</span><span class="op">;</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="va">checkgradient</span>(<span class="va">problem</span>)<span class="op">;</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="va">figure</span>(<span class="fl">2</span>)<span class="op">;</span> <span class="va">clf</span><span class="op">;</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="va">checkhessian</span>(<span class="va">problem</span>)<span class="op">;</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="va">X</span> <span class="op">=</span> <span class="va">trustregions</span>(<span class="va">problem</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<p>This is the text output for <code>checkhessian</code> when using the wrong code for <code>problem.ehess</code>. Notice that this wrong <code>ehess</code> fails both the slope test and the symmetry test.</p>
+<pre><code># Hessian check
+The slope should be 3. It appears to be: 2.00001.
+If it is far from 3, then the gradient or the Hessian might be erroneous.
+Hess f(x)[d] must be a tangent vector at x.
+If so, the following number is zero up to machine precision: 0.
+If it is far from 0, the Hessian returns non-tangent vectors.
+The Hessian at x must be linear on the tangent space at x.
+If so, ||a*H[d1] + b*H[d2] - H[a*d1+b*d2]|| is zero up to machine precision.
+    Value: 3.97354e-14 (norm of H[a*d1+b*d2]: 163.589)
+If it is far from 0, then the Hessian is not linear.
+The Hessian at x must be symmetric on the tangent space at x.
+If so, &lt;d1, H[d2]&gt; - &lt;H[d1], d2&gt; is zero up to machine precision.
+    Value: 21.2102 - 10.2558 = 10.9544.
+If it is far from 0, then the Hessian is not symmetric.
 
+
+!! Special message for this manifold
+
+If all above looks good, great. If not, read on.
+
+For this manifold, tangent vectors are represented
+differently from their ambient space representation.
+In practice, this means that when defining
+v = problem.ehess(x, u), one may need to call
+u = problem.M.tangent2ambient(x, u) first, so as to
+transform u into an ambient vector, if this is more
+convenient. The output of ehess should be an ambient
+vector (it will be transformed to a tangent vector
+automatically).</code></pre>
 </div>
-<div class="quarto-layout-panel" data-layout-ncol="2">
-<div class="quarto-layout-row">
-<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
-<p><a href="https://www.nicolasboumal.net/book"><img src="images/BoumalIntroSmoothManifoldsCover.png" class="preview-image img-fluid" alt="An introduction to optimization on smooth manifolds"> An introduction to optimization on smooth manifolds</a> <br> Nicolas Boumal, Cambridge University Press, 2023.</p>
-</div>
-<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
-<p><a href="https://press.princeton.edu/absil"><img src="images/AbsilOptimizationMatrixManifoldsCover.jpg" class="img-fluid" alt="Optimization algorithms on matrix manifolds"> Optimization algorithms on matrix manifolds</a> <br> Pierre-Antoine Absil, Robert Mahony and Rodolphe Sepulchre, Princeton University Press, 2008.</p>
 </div>
 </div>
-</div>
-</section>
-<section id="a-full-course" class="level3">
-<h3 class="anchored" data-anchor-id="a-full-course">A full course</h3>
-<ul>
-<li><a href="https://www.nicolasboumal.net/book/#lectures">MATH-512 at EPFL</a>: this is a full set of <strong>video lectures</strong>, slides and exercises (with hints and solutions).</li>
-<li><a href="https://www.edx.org/learn/math/ecole-polytechnique-federale-de-lausanne-introduction-to-optimization-on-smooth-manifolds-first-order-methods">edX course</a>: this covers the first six weeks of MATH-512, on the edX platform.</li>
-</ul>
-</section>
-<section id="tutorial-videos" class="level3">
-<h3 class="anchored" data-anchor-id="tutorial-videos">Tutorial videos</h3>
-<ul>
-<li>This <a href="https://www.youtube.com/watch?v=UjaoZE0GBpg&amp;ab_channel=SimonsInstitute">one-hour video</a> and this <a href="https://www.youtube.com/watch?v=lK62DwSIjXA&amp;t=6s&amp;ab_channel=FMGDataDrivenControlSummerSchool">two-hour video</a> introduce the basics of differential geometry and Riemannian geometry for optimization on smooth manifolds. They cover more or less the same contents. The <a href="https://www.nicolasboumal.net/SIAMOP2023/">slides</a> have been augmented for a longer in-person tutorial.</li>
-<li>Week 5 of MATH-512 includes a lecture about Manopt: <a href="https://mediaspace.epfl.ch/media/0_g5gfi47b">the basics</a> and <a href="https://mediaspace.epfl.ch/media/0_3a1jnw74">a bit more</a>.</li>
-</ul>
-</section>
-<section id="blogs-and-blog-posts" class="level3">
-<h3 class="anchored" data-anchor-id="blogs-and-blog-posts">Blogs and blog posts</h3>
-<ul>
-<li>The <a href="https://www.racetothebottom.xyz">Race to the bottom</a> blog about nonconvex optimization features some Riemannian optimization.</li>
-<li>This <a href="https://afonsobandeira.wordpress.com/2015/03/16/optimizing-in-smooth-waters-optimization-on-manifolds/">blog post</a> gives an informal overview of optimization on manifolds.</li>
-</ul>
-</section>
-<section id="code-examples" class="level3">
-<h3 class="anchored" data-anchor-id="code-examples">Code examples</h3>
-<ul>
-<li>See the <a href="https://github.com/NicolasBoumal/manopt/tree/master/examples">examples</a> that ship with Manopt.</li>
-</ul>
 
 
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

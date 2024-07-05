@@ -2,58 +2,62 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://www.manopt.org/tools.html</loc>
-    <lastmod>2024-06-02T12:45:41.010Z</lastmod>
+    <lastmod>2024-07-05T09:06:09.589Z</lastmod>
   </url>
   <url>
-    <loc>https://www.manopt.org/manifolds.html</loc>
-    <lastmod>2024-06-02T12:45:41.009Z</lastmod>
-  </url>
-  <url>
-    <loc>https://www.manopt.org/learning.html</loc>
-    <lastmod>2024-06-02T19:15:54.733Z</lastmod>
-  </url>
-  <url>
-    <loc>https://www.manopt.org/gettingstarted.html</loc>
-    <lastmod>2024-06-02T12:45:40.939Z</lastmod>
-  </url>
-  <url>
-    <loc>https://www.manopt.org/firstexample.html</loc>
-    <lastmod>2024-06-02T12:45:40.939Z</lastmod>
-  </url>
-  <url>
-    <loc>https://www.manopt.org/download.html</loc>
-    <lastmod>2024-06-02T12:45:40.938Z</lastmod>
-  </url>
-  <url>
-    <loc>https://www.manopt.org/core.html</loc>
-    <lastmod>2024-06-02T12:45:40.937Z</lastmod>
-  </url>
-  <url>
-    <loc>https://www.manopt.org/about.html</loc>
-    <lastmod>2024-06-02T12:45:40.937Z</lastmod>
-  </url>
-  <url>
-    <loc>https://www.manopt.org/costdescription.html</loc>
-    <lastmod>2024-06-07T04:58:09.168Z</lastmod>
-  </url>
-  <url>
-    <loc>https://www.manopt.org/downloads.html</loc>
-    <lastmod>2024-06-02T12:45:40.938Z</lastmod>
-  </url>
-  <url>
-    <loc>https://www.manopt.org/forum.html</loc>
-    <lastmod>2024-06-02T12:45:40.939Z</lastmod>
-  </url>
-  <url>
-    <loc>https://www.manopt.org/index.html</loc>
-    <lastmod>2024-06-02T12:45:40.956Z</lastmod>
+    <loc>https://www.manopt.org/rotationsfactory.html</loc>
+    <lastmod>2024-07-05T14:11:12.209Z</lastmod>
   </url>
   <url>
     <loc>https://www.manopt.org/lifts.html</loc>
-    <lastmod>2024-06-25T10:29:05.202Z</lastmod>
+    <lastmod>2024-07-01T14:51:49.731Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.manopt.org/index.html</loc>
+    <lastmod>2024-05-31T19:12:06.332Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.manopt.org/forum.html</loc>
+    <lastmod>2024-05-31T19:12:06.317Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.manopt.org/downloads.html</loc>
+    <lastmod>2024-07-05T15:14:49.235Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.manopt.org/costdescription.html</loc>
+    <lastmod>2024-07-05T14:22:00.527Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.manopt.org/about.html</loc>
+    <lastmod>2024-07-03T11:40:57.727Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.manopt.org/core.html</loc>
+    <lastmod>2024-05-31T19:12:06.309Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.manopt.org/download.html</loc>
+    <lastmod>2024-07-05T15:13:30.261Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.manopt.org/firstexample.html</loc>
+    <lastmod>2024-06-01T21:21:01.032Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.manopt.org/gettingstarted.html</loc>
+    <lastmod>2024-07-05T15:11:43.829Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.manopt.org/learning.html</loc>
+    <lastmod>2024-06-02T17:33:49.241Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.manopt.org/manifolds.html</loc>
+    <lastmod>2024-07-05T13:39:36.310Z</lastmod>
   </url>
   <url>
     <loc>https://www.manopt.org/solvers.html</loc>
-    <lastmod>2024-06-04T05:53:08.704Z</lastmod>
+    <lastmod>2024-06-28T07:45:46.850Z</lastmod>
   </url>
 </urlset>

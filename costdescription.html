@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.555">
+<meta name="generator" content="quarto-1.5.46">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Manopt - Describing the cost function</title>
+<title>Describing the cost function – Manopt</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -321,7 +321,7 @@ window.MathJax = {
 </script>
 
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
@@ -369,7 +369,7 @@ window.Quarto = {
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -379,7 +379,7 @@ window.Quarto = {
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-tutorial" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-tutorial" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Tutorial</span>
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-tutorial">    
@@ -447,18 +447,18 @@ window.Quarto = {
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
-          <div class="quarto-navbar-tools">
+            <div class="quarto-navbar-tools">
   <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
 </div>
       </div> <!-- /container-fluid -->
     </nav>
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./costdescription.html">Cost functions</a></li></ol></nav>
-        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
   </nav>
@@ -640,7 +640,7 @@ Check your derivatives
 <li>The input to <code>egrad</code> is a point <span class="math inline">\(x\)</span>. The output is a vector in the <em>embedding space</em>, corresponding to <span class="math inline">\(\nabla f(x)\)</span>.</li>
 <li>The inputs to <code>ehess</code> are a point <span class="math inline">\(x\)</span> and a <em>tangent vector</em> <span class="math inline">\(u\)</span> at <span class="math inline">\(x\)</span>. The output is a vector in the <em>embedding space</em>, corresponding to <span class="math inline">\(\nabla^2 f(x)[u]\)</span>. </li>
 </ul>
-<p>Mind the distinction between tangent vectors and vectors in the embedding space. For many manifolds, these are numerically represented in the same way, so the distinction does not matter (e.g., for <code>spherefactory</code> and <code>stiefelfactory</code>). However, some manifolds use different numerical representations (e.g., <code>rotationsfactory</code>). For those, you may want to call <code>M.tangent2ambient(x, u)</code> to obtain the embedding space equivalent of <code>u</code>. Read the <code>help</code> section of your manifold factory to make sure.</p>
+<p>Mind the distinction between tangent vectors and vectors in the embedding space. For many manifolds, these are numerically represented in the same way, so the distinction does not matter (e.g., for <code>spherefactory</code> and <code>stiefelfactory</code>). However, some manifolds use different numerical representations (e.g., <code>rotationsfactory</code>). For those, you may want to call <code>M.tangent2ambient(x, u)</code> to obtain the equivalent of <code>u</code> in the embedding space. Read the <code>help</code> section of your manifold factory to make sure, and <a href="./rotationsfactory.html">find out more here</a>.</p>
 </section>
 <section id="coding-the-riemannian-derivatives-manually" class="level3">
 <h3 class="anchored" data-anchor-id="coding-the-riemannian-derivatives-manually">Coding the Riemannian derivatives manually</h3>
@@ -674,13 +674,14 @@ Check your derivatives
 <li>Do you have the Deep Learning Toolbox? Type <code>help dlarray</code>.</li>
 <li>Is your Matlab version 2019 or later? Type <code>version</code>.</li>
 <li>Is your Manopt version 7.0 or later? Type <code>manopt_version</code>.</li>
+<li>Does your cost function itself throw an error? Try <code>getCost(problem, problem.M.rand())</code>.</li>
 <li>Was there an error message? AD does not work for all functions. Check out:
 <ul>
 <li>The list of <a href="https://ch.mathworks.com/help/deeplearning/ug/list-of-functions-with-dlarray-support.html">dlarray supported functions</a>, and</li>
 <li>The docs for AD in Manopt, specifically: <code>help manoptAD</code> and <code>help manoptADhelp</code>.</li>
 </ul></li>
 <li>Keep in mind that <code>dlarray</code> support also depends on your versions of Matlab and the DL toolbox (e.g., support for AD with complex numbers was added in Matlab R2021b).</li>
-<li>If a function you need is not supported (e.g., <code>diag</code>), see <code>help manoptADhelp</code> for a possible replacement (e.g., <code>cdiag</code>), or try to replace it with a direct implementation (e.g., <code>mydiag = @(A) A(1:size(A,1)+1:end);'</code>).</li>
+<li>If a function you need is not supported (e.g., <code>diag</code>), see <code>help manoptADhelp</code> for a possible replacement (e.g., <code>cdiag</code> and <code>cdiagmat</code>), or try to replace it with a direct implementation (e.g., <code>cdiag</code> corresponds to <code>mydiag = @(A) A(1:size(A,1)+1:end);'</code>).</li>
 <li>Are you using the caching system (<code>store</code>) in the definition of the cost function? This does not pair well with AD (and AD has its own caching system), so it is better not to mix the two.</li>
 </ul>
 <p><a href="https://scholar.google.com/citations?user=g_MNvxwAAAAJ&amp;hl=en">Xiaowen Jiang</a> implemented <code>manoptAD</code> (and the system behind it) during an internship in 2021.</p>
@@ -1175,18 +1176,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -1218,7 +1208,29 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp("https:\/\/www\.manopt\.org");
@@ -1226,7 +1238,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {

@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.555">
+<meta name="generator" content="quarto-1.5.46">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Manopt - Solvers</title>
+<title>Solvers – Manopt</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -321,7 +321,7 @@ window.MathJax = {
 </script>
 
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
@@ -369,7 +369,7 @@ window.Quarto = {
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -379,7 +379,7 @@ window.Quarto = {
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-tutorial" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-tutorial" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Tutorial</span>
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-tutorial">    
@@ -447,18 +447,18 @@ window.Quarto = {
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
-          <div class="quarto-navbar-tools">
+            <div class="quarto-navbar-tools">
   <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
 </div>
       </div> <!-- /container-fluid -->
     </nav>
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./solvers.html">Solvers</a></li></ol></nav>
-        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
   </nav>
@@ -604,69 +604,89 @@ Min or max?
 <p>The most trust-worthy is the trust-regions algorithm. Originally, it is a modification of the code of <a href="https://www.math.fsu.edu/%7Ecbaker/GenRTR/" title="GenRTR, by Chris Baker, P.-A. Absil and Kyle Gallivan">GenRTR</a>.</p>
 <p>The toolbox was designed to accommodate many more solvers though: we have since then added BFGS-style solvers, stochastic gradient descent and more. In particular, we look forward to proposing algorithms for nonsmooth cost functions (which notably arise when L1 penalties are at play). You can also propose your own solvers.</p>
 <table class="table-striped caption-top table">
-<caption>Table of minimization algorithms available in Manopt.</caption>
+<caption>Table of minimization algorithms available in Manopt. The symbol ★ means the algorithm uses that part of <span class="math inline">\(f\)</span>. If it is not available, Manopt automatically tries its best to make up for it (e.g., by calling a provided approximation, or with finite differences). The symbol ☆ means the algorithm can benefit from that feature if it is available, but it is not required. <span class="math inline">\(P\)</span> means preconditioner. The ★’ for SGD indicates it only needs a partial gradient.</caption>
 <thead>
 <tr class="header">
-<th>Name</th>
-<th>Requires (benefits of)</th>
-<th>Comment</th>
-<th>Call</th>
+<th style="text-align: left;">Name</th>
+<th style="text-align: center;"><span class="math inline">\(f\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(\nabla f\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(\nabla^2 f\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(P\)</span></th>
+<th style="text-align: left;">Comment</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><a href="https://github.com/NicolasBoumal/manopt/blob/master/manopt/solvers/trustregions/trustregions.m">Trust-regions (RTR)</a></td>
-<td>Cost, gradient (Hessian, approximate Hessian, preconditioner)</td>
-<td>#1 choice for smooth optimization; uses finite differences (FD) of the gradient in the absence of Hessian.</td>
-<td><code>trustregions</code></td>
+<td style="text-align: left;"><a href="https://github.com/NicolasBoumal/manopt/blob/master/manopt/solvers/trustregions/trustregions.m">Trust-regions (RTR)</a></td>
+<td style="text-align: center;">★</td>
+<td style="text-align: center;">★</td>
+<td style="text-align: center;">★</td>
+<td style="text-align: center;">☆</td>
+<td style="text-align: left;">#1 choice for smooth optimization. Still good without true Hessian.</td>
 </tr>
 <tr class="even">
-<td><a href="https://github.com/NicolasBoumal/manopt/blob/master/manopt/solvers/arc/arc.m">Adaptive regularization by cubics (ARC)</a></td>
-<td>Cost, gradient (Hessian, approximate Hessian)</td>
-<td>Alternative to RTR; uses FD of the gradient in the absence of Hessian.</td>
-<td><code>arc</code></td>
+<td style="text-align: left;"><a href="https://github.com/NicolasBoumal/manopt/blob/master/manopt/solvers/arc/arc.m">Adaptive regularization by cubics (ARC)</a></td>
+<td style="text-align: center;">★</td>
+<td style="text-align: center;">★</td>
+<td style="text-align: center;">★</td>
+<td style="text-align: center;"></td>
+<td style="text-align: left;">Alternative to RTR. Still good without true Hessian.</td>
 </tr>
 <tr class="odd">
-<td><a href="https://github.com/NicolasBoumal/manopt/blob/master/manopt/solvers/steepestdescent/steepestdescent.m">Steepest descent</a></td>
-<td>Cost, gradient</td>
-<td>Gradient descent (GD) with line-search (default is backtracking-based).</td>
-<td><code>steepestdescent</code></td>
+<td style="text-align: left;"><a href="https://github.com/NicolasBoumal/manopt/blob/master/manopt/solvers/steepestdescent/steepestdescent.m">Steepest descent</a></td>
+<td style="text-align: center;">★</td>
+<td style="text-align: center;">★</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: left;">Gradient descent (GD) with line-search (default is backtracking).</td>
 </tr>
 <tr class="even">
-<td><a href="https://github.com/NicolasBoumal/manopt/blob/master/manopt/solvers/conjugategradient/conjugategradient.m">Conjugate gradient</a></td>
-<td>Cost, gradient (preconditioner)</td>
-<td>Often performs better than steepest descent.</td>
-<td><code>conjugategradient</code></td>
+<td style="text-align: left;"><a href="https://github.com/NicolasBoumal/manopt/blob/master/manopt/solvers/conjugategradient/conjugategradient.m">Conjugate gradient</a></td>
+<td style="text-align: center;">★</td>
+<td style="text-align: center;">★</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">☆</td>
+<td style="text-align: left;">Often better than steepest descent. Requires <code>M.transp</code>.</td>
 </tr>
 <tr class="odd">
-<td><a href="https://github.com/NicolasBoumal/manopt/blob/master/manopt/solvers/barzilaiborwein/barzilaiborwein.m">Barzilai-Borwein</a></td>
-<td>Cost, gradient</td>
-<td>Gradient descent with BB step size heuristic.</td>
-<td><code>barzilaiborwein</code></td>
+<td style="text-align: left;"><a href="https://github.com/NicolasBoumal/manopt/blob/master/manopt/solvers/barzilaiborwein/barzilaiborwein.m">Barzilai-Borwein</a></td>
+<td style="text-align: center;">★</td>
+<td style="text-align: center;">★</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: left;">Gradient descent with BB step-size heuristic. Requires <code>M.transp</code>.</td>
 </tr>
 <tr class="even">
-<td><a href="https://github.com/NicolasBoumal/manopt/blob/master/manopt/solvers/bfgs/rlbfgs.m">BFGS</a></td>
-<td>Cost, gradient</td>
-<td>Limited-memory version of BFGS.</td>
-<td><code>rlbfgs</code></td>
+<td style="text-align: left;"><a href="https://github.com/NicolasBoumal/manopt/blob/master/manopt/solvers/bfgs/rlbfgs.m">BFGS</a></td>
+<td style="text-align: center;">★</td>
+<td style="text-align: center;">★</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: left;">Limited-memory version of BFGS. Requires <code>M.transp</code>.</td>
 </tr>
 <tr class="odd">
-<td><a href="https://github.com/NicolasBoumal/manopt/blob/master/manopt/solvers/stochasticgradient/stochasticgradient.m">SGD</a></td>
-<td>Partial gradient (preconditioner) [Cost not needed]</td>
-<td>Stochastic gradient algorithm for optimization of large sums.</td>
-<td><code>stochasticgradient</code></td>
+<td style="text-align: left;"><a href="https://github.com/NicolasBoumal/manopt/blob/master/manopt/solvers/stochasticgradient/stochasticgradient.m">SGD</a></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">★’</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: left;">Stochastic gradient algorithm for optimization of large sums.</td>
 </tr>
 <tr class="even">
-<td><a href="https://github.com/NicolasBoumal/manopt/blob/master/manopt/solvers/pso/pso.m">Particle swarm (PSO)</a></td>
-<td>Cost</td>
-<td>Derivative-free optimizer (DFO) based on a population of points.</td>
-<td><code>pso</code></td>
+<td style="text-align: left;"><a href="https://github.com/NicolasBoumal/manopt/blob/master/manopt/solvers/pso/pso.m">Particle swarm (PSO)</a></td>
+<td style="text-align: center;">★</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: left;">Derivative-free optimizer (DFO) based on a population of points.</td>
 </tr>
 <tr class="odd">
-<td><a href="https://github.com/NicolasBoumal/manopt/blob/master/manopt/solvers/neldermead/neldermead.m">Nelder-Mead</a></td>
-<td>Cost</td>
-<td>DFO based on a simplex; requires <code>M.pairmean</code>; limited to (very) low-dimensional problems.</td>
-<td><code>neldermead</code></td>
+<td style="text-align: left;"><a href="https://github.com/NicolasBoumal/manopt/blob/master/manopt/solvers/neldermead/neldermead.m">Nelder-Mead</a></td>
+<td style="text-align: center;">★</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: left;">DFO based on a simplex; requires <code>M.pairmean</code>.</td>
 </tr>
 </tbody>
 </table>
@@ -751,21 +771,20 @@ Min or max?
 </tr>
 </tbody>
 </table>
-<p>Some solvers offer additional stopping criteria.</p>
+<p>Some solvers offer additional stopping criteria: type <code>help solvername</code> to learn more.</p>
 <p>Users can also define <strong>custom stopping criteria</strong> with <code>options.stopfun</code>. The general usage pattern is as follows:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">% define your problem structure, then:</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="va">options</span>.<span class="va">stopfun</span> <span class="op">=</span> <span class="op">@</span><span class="va">mystopfun</span><span class="op">;</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="va">x</span> <span class="op">=</span> <span class="va">mysolver</span>(<span class="va">problem</span><span class="op">,</span> []<span class="op">,</span> <span class="va">options</span>)<span class="op">;</span></span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> [<span class="va">stopnow</span><span class="op">,</span> <span class="va">reason</span>] <span class="op">=</span> <span class="va">mystopfun</span>(<span class="va">problem</span><span class="op">,</span> <span class="va">x</span><span class="op">,</span> <span class="va">info</span><span class="op">,</span> <span class="va">last</span>)</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>   <span class="kw">if</span> <span class="va">xyz</span> <span class="co">% decide if should stop based on inputs</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="va">stopnow</span> <span class="op">=</span> <span class="va">true</span><span class="op">;</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="va">reason</span> <span class="op">=</span> <span class="ss">'This optional message explains why we stopped.'</span><span class="op">;</span></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="kw">else</span></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="va">stopnow</span> <span class="op">=</span> <span class="va">false</span><span class="op">;</span></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    <span class="va">reason</span> <span class="op">=</span> <span class="ss">''</span><span class="op">;</span></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  <span class="kw">end</span></span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="va">stopnow</span> <span class="op">=</span> <span class="va">false</span><span class="op">;</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="va">reason</span> <span class="op">=</span> <span class="ss">''</span><span class="op">;</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">if</span> <span class="va">xyz</span> <span class="co">% decide if solver should stop based on inputs</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>        <span class="va">stopnow</span> <span class="op">=</span> <span class="va">true</span><span class="op">;</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>        <span class="va">reason</span> <span class="op">=</span> <span class="ss">'This optional message explains why we stopped.'</span><span class="op">;</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">end</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The function handle <code>options.stopfun</code> is called after each iteration completes. As input, it receives:</p>
 <ul>
 <li>the <code>problem</code> structure,</li>
@@ -1102,18 +1121,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -1145,7 +1153,29 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp("https:\/\/www\.manopt\.org");
@@ -1153,7 +1183,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {

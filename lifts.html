@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.555">
+<meta name="generator" content="quarto-1.5.46">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Manopt - Lifts: parameterizations made easy</title>
+<title>Lifts: parameterizations made easy – Manopt</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -321,7 +321,7 @@ window.MathJax = {
 </script>
 
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
@@ -369,7 +369,7 @@ window.Quarto = {
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -379,7 +379,7 @@ window.Quarto = {
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-tutorial" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-tutorial" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Tutorial</span>
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-tutorial">    
@@ -447,18 +447,18 @@ window.Quarto = {
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
-          <div class="quarto-navbar-tools">
+            <div class="quarto-navbar-tools">
   <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
 </div>
       </div> <!-- /container-fluid -->
     </nav>
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./lifts.html">Lifts</a></li></ol></nav>
-        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
   </nav>
@@ -539,6 +539,7 @@ window.Quarto = {
   <li><a href="#burer-monteiro-for-general-bounded-rank" id="toc-burer-monteiro-for-general-bounded-rank" class="nav-link" data-scroll-target="#burer-monteiro-for-general-bounded-rank">Burer-Monteiro for general bounded rank</a></li>
   <li><a href="#burer-monteiro-for-smooth-sdp" id="toc-burer-monteiro-for-smooth-sdp" class="nav-link" data-scroll-target="#burer-monteiro-for-smooth-sdp">Burer-Monteiro for smooth SDP</a></li>
   </ul></li>
+  <li><a href="#adding-a-regularizer" id="toc-adding-a-regularizer" class="nav-link" data-scroll-target="#adding-a-regularizer">Adding a regularizer</a></li>
   <li><a href="#the-hessian-of-g" id="toc-the-hessian-of-g" class="nav-link" data-scroll-target="#the-hessian-of-g">The Hessian of <span class="math inline">\(g\)</span></a></li>
   </ul>
 </nav>
@@ -588,7 +589,7 @@ Run <code>importmanopt</code>
 <li>a change of variables.</li>
 </ul>
 <p>Consider the following commutative diagram.</p>
-<div id="fig-diagramEMN" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-diagramEMN" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-diagramEMN-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="images/lift_diagram_EMN.png" class="img-fluid figure-img" style="width:25em">
@@ -648,6 +649,21 @@ Figure&nbsp;1: Commutative diagram on which lifts are based.
 <li>If automatic differentiation is used.</li>
 </ul></li>
 </ul>
+<p>Some lifts can also be called <a href="#adding-a-regularizer">with a regularizer: see below</a>. The regularizer is activated with the <code>lambda</code> input to <code>manoptlift</code> (a real number, usually positive):</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>[<span class="va">upstairs</span><span class="op">,</span> <span class="va">downstairs</span>] <span class="op">=</span> <span class="va">manoptlift</span>(<span class="va">downstairs</span><span class="op">,</span> <span class="va">lift</span><span class="op">,</span> []<span class="op">,</span> <span class="va">lambda</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout-style-simple callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+No composition of lifts yet.
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Because of how caching is currently handled, it is not safe to lift a lifted problem, that is, to compose lifts. If you need this feature, let us know on the forum.</p>
+</div>
+</div>
 </section>
 <section id="landscape-relations" class="level2">
 <h2 class="anchored" data-anchor-id="landscape-relations">Landscape relations</h2>
@@ -674,10 +690,10 @@ Figure&nbsp;1: Commutative diagram on which lifts are based.
 \]</span> This holds for all <span class="math inline">\(v\)</span>. Thus, <span class="math display">\[
     \grad g(y) = \D\varphi(y)^*[\grad f(x)].
 \]</span> This illustrates how we can get the gradient of <span class="math inline">\(g\)</span> from that of <span class="math inline">\(f\)</span> provided the lift gives us access to <span class="math inline">\(\D\varphi(y)^*\)</span>. For the Hessian, additional computations shown later on this page tell us what else needs to be included: see <a href="#eq-hessgtotal" class="quarto-xref">Eq.&nbsp;2</a>.</p>
-<div id="tbl-liftfields" class="quarto-float anchored">
+<div id="tbl-liftfields" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-liftfields-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;1: Fields in a <code>lift</code> structure.
+Table&nbsp;1: Fields in a <code>lift</code> structure. See also <a href="#tbl-liftfields-regularizer" class="quarto-xref">Table&nbsp;4</a>.
 </figcaption>
 <div aria-describedby="tbl-liftfields-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
@@ -743,7 +759,7 @@ Table&nbsp;1: Fields in a <code>lift</code> structure.
 <section id="available-lifts" class="level2">
 <h2 class="anchored" data-anchor-id="available-lifts">Available lifts</h2>
 <p>A number of lifts are readily available in Manopt, making it possible to optimize over various nonsmooth sets <span class="math inline">\(\calX = \varphi(\calM)\)</span>. We list them in a table now, and detail the corresponding lifts below with some examples.</p>
-<div id="tbl-lifts" class="quarto-float anchored">
+<div id="tbl-lifts" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-lifts-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Table&nbsp;2: Examples of nonsmooth sets on which we can optimize with Manopt using a lift.
@@ -823,6 +839,11 @@ Table&nbsp;2: Examples of nonsmooth sets on which we can optimize with Manopt us
 <td style="text-align: left;"><span class="math inline">\(\{ X \in S_n^p : \diag(X) = \One \}\)</span></td>
 <td style="text-align: left;"><code>burermonteirolift('unitdiag', n, p)</code></td>
 </tr>
+<tr class="odd">
+<td style="text-align: left;">Hadamard difference</td>
+<td style="text-align: left;"><span class="math inline">\(\Rn\)</span></td>
+<td style="text-align: left;"><code>hadamarddifferencelift(n)</code></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -830,8 +851,8 @@ Table&nbsp;2: Examples of nonsmooth sets on which we can optimize with Manopt us
 </div>
 <section id="cubes-and-squares" class="level3">
 <h3 class="anchored" data-anchor-id="cubes-and-squares">Cubes and squares</h3>
-<div class="sourceCode" id="cb2"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="va">lift</span> <span class="op">=</span> <span class="va">cubeslift</span>(<span class="va">n</span>)<span class="op">;</span>     <span class="co">% m = 1 by default</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="va">lift</span> <span class="op">=</span> <span class="va">cubeslift</span>(<span class="va">n</span><span class="op">,</span> <span class="va">m</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="va">lift</span> <span class="op">=</span> <span class="va">cubeslift</span>(<span class="va">n</span>)<span class="op">;</span>     <span class="co">% m = 1 by default</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="va">lift</span> <span class="op">=</span> <span class="va">cubeslift</span>(<span class="va">n</span><span class="op">,</span> <span class="va">m</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The target set <span class="math inline">\(\calX\)</span> consists of vectors or matrices whose entries are in the closed interval <span class="math inline">\([-1, 1]\)</span>: <span class="math display">\[
     \calX = \{ X \in \Rnm : -1 \leq X_{ij} \leq 1 \ \forall i, j \}.
 \]</span> One way to think about it is as <span class="math inline">\(m\)</span> points in the cube <span class="math inline">\([-1, 1]^n\)</span> (the columns of <span class="math inline">\(X\)</span>), or <span class="math inline">\(n\)</span> points in the cube <span class="math inline">\([-1, 1]^m\)</span> (the rows of <span class="math inline">\(X\)</span>). This is a subset of <span class="math inline">\(\calN = \Rnm\)</span>, realized as the image of the lift <span class="math inline">\(\varphi \colon \calM \to \calN\)</span> with <span class="math inline">\(\calM = \Rnm\)</span> and <span class="math display">\[
@@ -843,37 +864,37 @@ Table&nbsp;2: Examples of nonsmooth sets on which we can optimize with Manopt us
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">Without automatic differentiation</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">With AD</a></li></ul>
 <div class="tab-content">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div class="sourceCode" id="cb3"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="va">n</span> <span class="op">=</span> <span class="fl">5</span><span class="op">;</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="va">A</span> <span class="op">=</span> <span class="va">randsym</span>(<span class="va">n</span>)<span class="op">;</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="va">b</span> <span class="op">=</span> <span class="va">randn</span>(<span class="va">n</span><span class="op">,</span> <span class="fl">1</span>)<span class="op">;</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="va">downstairs</span>.<span class="va">M</span> <span class="op">=</span> <span class="va">euclideanfactory</span>(<span class="va">n</span>)<span class="op">;</span> <span class="co">% optional</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="va">downstairs</span>.<span class="va">cost</span> <span class="op">=</span> <span class="op">@</span>(<span class="va">x</span>) <span class="fl">.5</span><span class="op">*</span>(<span class="va">x</span><span class="op">'*</span><span class="va">A</span><span class="op">*</span><span class="va">x</span>) <span class="op">+</span> <span class="va">b</span><span class="op">'*</span><span class="va">x</span><span class="op">;</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="va">downstairs</span>.<span class="va">grad</span> <span class="op">=</span> <span class="op">@</span>(<span class="va">x</span>) <span class="va">A</span><span class="op">*</span><span class="va">x</span> <span class="op">+</span> <span class="va">b</span><span class="op">;</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="va">downstairs</span>.<span class="va">hess</span> <span class="op">=</span> <span class="op">@</span>(<span class="va">x</span><span class="op">,</span> <span class="va">xdot</span>) <span class="va">A</span><span class="op">*</span><span class="va">xdot</span><span class="op">;</span></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="va">lift</span> <span class="op">=</span> <span class="va">cubeslift</span>(<span class="va">n</span>)<span class="op">;</span></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="va">upstairs</span> <span class="op">=</span> <span class="va">manoptlift</span>(<span class="va">downstairs</span><span class="op">,</span> <span class="va">lift</span>)<span class="op">;</span></span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="va">y</span> <span class="op">=</span> <span class="va">trustregions</span>(<span class="va">upstairs</span>)<span class="op">;</span></span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="va">x</span> <span class="op">=</span> <span class="va">lift</span>.<span class="va">phi</span>(<span class="va">y</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
 <div class="sourceCode" id="cb4"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="va">n</span> <span class="op">=</span> <span class="fl">5</span><span class="op">;</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="va">A</span> <span class="op">=</span> <span class="va">randsym</span>(<span class="va">n</span>)<span class="op">;</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="va">b</span> <span class="op">=</span> <span class="va">randn</span>(<span class="va">n</span><span class="op">,</span> <span class="fl">1</span>)<span class="op">;</span></span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="va">downstairs</span>.<span class="va">cost</span> <span class="op">=</span> <span class="op">@</span>(<span class="va">x</span>) <span class="fl">.5</span><span class="op">*</span>(<span class="va">x</span><span class="op">'*</span><span class="va">A</span><span class="op">*</span><span class="va">x</span>) <span class="op">+</span> <span class="va">b</span><span class="op">'*</span><span class="va">x</span><span class="op">;</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="va">lift</span> <span class="op">=</span> <span class="va">cubeslift</span>(<span class="va">n</span>)<span class="op">;</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>[<span class="va">upstairs</span><span class="op">,</span> <span class="va">downstairs</span>] <span class="op">=</span> <span class="va">manoptlift</span>(<span class="va">downstairs</span><span class="op">,</span> <span class="va">lift</span><span class="op">,</span> <span class="ss">'AD'</span>)<span class="op">;</span></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="va">y</span> <span class="op">=</span> <span class="va">trustregions</span>(<span class="va">upstairs</span>)<span class="op">;</span></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="va">x</span> <span class="op">=</span> <span class="va">lift</span>.<span class="va">phi</span>(<span class="va">y</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="va">downstairs</span>.<span class="va">M</span> <span class="op">=</span> <span class="va">euclideanfactory</span>(<span class="va">n</span>)<span class="op">;</span> <span class="co">% optional</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="va">downstairs</span>.<span class="va">cost</span> <span class="op">=</span> <span class="op">@</span>(<span class="va">x</span>) <span class="fl">.5</span><span class="op">*</span>(<span class="va">x</span><span class="op">'*</span><span class="va">A</span><span class="op">*</span><span class="va">x</span>) <span class="op">+</span> <span class="va">b</span><span class="op">'*</span><span class="va">x</span><span class="op">;</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="va">downstairs</span>.<span class="va">grad</span> <span class="op">=</span> <span class="op">@</span>(<span class="va">x</span>) <span class="va">A</span><span class="op">*</span><span class="va">x</span> <span class="op">+</span> <span class="va">b</span><span class="op">;</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="va">downstairs</span>.<span class="va">hess</span> <span class="op">=</span> <span class="op">@</span>(<span class="va">x</span><span class="op">,</span> <span class="va">xdot</span>) <span class="va">A</span><span class="op">*</span><span class="va">xdot</span><span class="op">;</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="va">lift</span> <span class="op">=</span> <span class="va">cubeslift</span>(<span class="va">n</span>)<span class="op">;</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="va">upstairs</span> <span class="op">=</span> <span class="va">manoptlift</span>(<span class="va">downstairs</span><span class="op">,</span> <span class="va">lift</span>)<span class="op">;</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="va">y</span> <span class="op">=</span> <span class="va">trustregions</span>(<span class="va">upstairs</span>)<span class="op">;</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="va">x</span> <span class="op">=</span> <span class="va">lift</span>.<span class="va">phi</span>(<span class="va">y</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<div class="sourceCode" id="cb5"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="va">n</span> <span class="op">=</span> <span class="fl">5</span><span class="op">;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="va">A</span> <span class="op">=</span> <span class="va">randsym</span>(<span class="va">n</span>)<span class="op">;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="va">b</span> <span class="op">=</span> <span class="va">randn</span>(<span class="va">n</span><span class="op">,</span> <span class="fl">1</span>)<span class="op">;</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="va">downstairs</span>.<span class="va">cost</span> <span class="op">=</span> <span class="op">@</span>(<span class="va">x</span>) <span class="fl">.5</span><span class="op">*</span>(<span class="va">x</span><span class="op">'*</span><span class="va">A</span><span class="op">*</span><span class="va">x</span>) <span class="op">+</span> <span class="va">b</span><span class="op">'*</span><span class="va">x</span><span class="op">;</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="va">lift</span> <span class="op">=</span> <span class="va">cubeslift</span>(<span class="va">n</span>)<span class="op">;</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>[<span class="va">upstairs</span><span class="op">,</span> <span class="va">downstairs</span>] <span class="op">=</span> <span class="va">manoptlift</span>(<span class="va">downstairs</span><span class="op">,</span> <span class="va">lift</span><span class="op">,</span> <span class="ss">'AD'</span>)<span class="op">;</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="va">y</span> <span class="op">=</span> <span class="va">trustregions</span>(<span class="va">upstairs</span>)<span class="op">;</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="va">x</span> <span class="op">=</span> <span class="va">lift</span>.<span class="va">phi</span>(<span class="va">y</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -881,8 +902,8 @@ Table&nbsp;2: Examples of nonsmooth sets on which we can optimize with Manopt us
 </section>
 <section id="balls-and-disks" class="level3">
 <h3 class="anchored" data-anchor-id="balls-and-disks">Balls and disks</h3>
-<div class="sourceCode" id="cb5"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="va">lift</span> <span class="op">=</span> <span class="va">ballslift</span>(<span class="va">n</span>)     <span class="co">% m = 1 by default</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="va">lift</span> <span class="op">=</span> <span class="va">ballslift</span>(<span class="va">n</span><span class="op">,</span> <span class="va">m</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="va">lift</span> <span class="op">=</span> <span class="va">ballslift</span>(<span class="va">n</span>)     <span class="co">% m = 1 by default</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="va">lift</span> <span class="op">=</span> <span class="va">ballslift</span>(<span class="va">n</span><span class="op">,</span> <span class="va">m</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The target set <span class="math inline">\(\calX\)</span> consists of matrices whose columns have norm at most one: <span class="math display">\[
     \calX = \{ X \in \Rnm : X_{1i}^2 + \cdots + X_{ni}^2 \leq 1 \textrm{ for } i = 1, \ldots, m \}.
 \]</span> We can think of <span class="math inline">\(X\)</span> as <span class="math inline">\(m\)</span> points (the columns of <span class="math inline">\(X\)</span>) in the ball <span class="math inline">\(B_n = \{ x \in \Rn : \|x\| \leq 1 \}\)</span>. This is a subset of <span class="math inline">\(\calN = \Rnm\)</span>, realized as the image of the lift <span class="math inline">\(\varphi \colon \calM \to \calN\)</span> with <span class="math display">\[
@@ -896,36 +917,36 @@ Table&nbsp;2: Examples of nonsmooth sets on which we can optimize with Manopt us
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true">Packing in a ball</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false">Display the results</a></li></ul>
 <div class="tab-content">
 <div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
-<div class="sourceCode" id="cb6"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">% Try to pack m points in a ball in R^n</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="va">n</span> <span class="op">=</span> <span class="fl">2</span><span class="op">;</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="va">m</span> <span class="op">=</span> <span class="fl">64</span><span class="op">;</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="va">lift</span> <span class="op">=</span> <span class="va">ballslift</span>(<span class="va">n</span><span class="op">,</span> <span class="va">m</span>)<span class="op">;</span> <span class="co">% replace with cubeslift to pack in a cube</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co">% Transforms a Gram matrix G to a squared Euclidean distance matrix.</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co">% Uses cdiag instead of diag to be compatible with AD.</span></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="va">gram2edm</span> <span class="op">=</span> <span class="op">@</span>(<span class="va">G</span>) <span class="va">cdiag</span>(<span class="va">G</span>)<span class="op">*</span><span class="va">ones</span>(<span class="fl">1</span><span class="op">,</span> <span class="va">m</span>) <span class="op">+</span> <span class="va">ones</span>(<span class="va">m</span><span class="op">,</span> <span class="fl">1</span>)<span class="op">*</span><span class="va">cdiag</span>(<span class="va">G</span>)<span class="op">.'</span> <span class="op">-</span> <span class="fl">2</span><span class="op">*</span><span class="va">G</span><span class="op">;</span></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="va">sigma</span> <span class="op">=</span> <span class="fl">.05</span><span class="op">;</span></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="va">downstairs</span>.<span class="va">cost</span> <span class="op">=</span> <span class="op">@</span>(<span class="va">X</span>) <span class="va">log</span>(<span class="va">sum</span>(<span class="va">exp</span>(<span class="op">-</span><span class="va">gram2edm</span>(<span class="va">X</span><span class="op">.'*</span><span class="va">X</span>)<span class="op">/</span>(<span class="fl">2</span><span class="op">*</span><span class="va">sigma</span><span class="op">^</span><span class="fl">2</span>))<span class="op">,</span> <span class="ss">'all'</span>))<span class="op">;</span></span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="va">upstairs</span> <span class="op">=</span> <span class="va">manoptlift</span>(<span class="va">downstairs</span><span class="op">,</span> <span class="va">lift</span><span class="op">,</span> <span class="ss">'AD'</span>)<span class="op">;</span></span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="va">Y</span> <span class="op">=</span> <span class="va">trustregions</span>(<span class="va">upstairs</span>)<span class="op">;</span></span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="va">X</span> <span class="op">=</span> <span class="va">lift</span>.<span class="va">phi</span>(<span class="va">Y</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">% Try to pack m points in a ball in R^n</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="va">n</span> <span class="op">=</span> <span class="fl">2</span><span class="op">;</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="va">m</span> <span class="op">=</span> <span class="fl">64</span><span class="op">;</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="va">lift</span> <span class="op">=</span> <span class="va">ballslift</span>(<span class="va">n</span><span class="op">,</span> <span class="va">m</span>)<span class="op">;</span> <span class="co">% replace with cubeslift to pack in a cube</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co">% Transforms a Gram matrix G to a squared Euclidean distance matrix.</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co">% Uses cdiag instead of diag to be compatible with AD.</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="va">gram2edm</span> <span class="op">=</span> <span class="op">@</span>(<span class="va">G</span>) <span class="va">cdiag</span>(<span class="va">G</span>)<span class="op">*</span><span class="va">ones</span>(<span class="fl">1</span><span class="op">,</span> <span class="va">m</span>) <span class="op">+</span> <span class="va">ones</span>(<span class="va">m</span><span class="op">,</span> <span class="fl">1</span>)<span class="op">*</span><span class="va">cdiag</span>(<span class="va">G</span>)<span class="op">.'</span> <span class="op">-</span> <span class="fl">2</span><span class="op">*</span><span class="va">G</span><span class="op">;</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="va">sigma</span> <span class="op">=</span> <span class="fl">.05</span><span class="op">;</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="va">downstairs</span>.<span class="va">cost</span> <span class="op">=</span> <span class="op">@</span>(<span class="va">X</span>) <span class="va">log</span>(<span class="va">sum</span>(<span class="va">exp</span>(<span class="op">-</span><span class="va">gram2edm</span>(<span class="va">X</span><span class="op">.'*</span><span class="va">X</span>)<span class="op">/</span>(<span class="fl">2</span><span class="op">*</span><span class="va">sigma</span><span class="op">^</span><span class="fl">2</span>))<span class="op">,</span> <span class="ss">'all'</span>))<span class="op">;</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="va">upstairs</span> <span class="op">=</span> <span class="va">manoptlift</span>(<span class="va">downstairs</span><span class="op">,</span> <span class="va">lift</span><span class="op">,</span> <span class="ss">'AD'</span>)<span class="op">;</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="va">Y</span> <span class="op">=</span> <span class="va">trustregions</span>(<span class="va">upstairs</span>)<span class="op">;</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="va">X</span> <span class="op">=</span> <span class="va">lift</span>.<span class="va">phi</span>(<span class="va">Y</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
-<div class="sourceCode" id="cb7"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">% Some code to display the results</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="kw">if</span> <span class="va">n</span> <span class="op">==</span> <span class="fl">2</span>  <span class="co">% if we are working in a disk</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="va">plot</span>(<span class="va">X</span>(<span class="fl">1</span><span class="op">,</span> <span class="op">:</span>)<span class="op">,</span> <span class="va">X</span>(<span class="fl">2</span><span class="op">,</span> <span class="op">:</span>)<span class="op">,</span> <span class="ss">'.'</span><span class="op">,</span> <span class="ss">'MarkerSize'</span><span class="op">,</span> <span class="fl">20</span>)<span class="op">;</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="va">hold</span> <span class="va">all</span><span class="op">;</span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="va">t</span> <span class="op">=</span> <span class="va">linspace</span>(<span class="fl">0</span><span class="op">,</span> <span class="fl">2</span><span class="op">*</span><span class="va">pi</span><span class="op">,</span> <span class="fl">251</span>)<span class="op">;</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="va">plot</span>(<span class="va">cos</span>(<span class="va">t</span>)<span class="op">,</span> <span class="va">sin</span>(<span class="va">t</span>)<span class="op">,</span> <span class="ss">'k-'</span><span class="op">,</span> <span class="ss">'LineWidth'</span><span class="op">,</span> <span class="fl">2</span>)<span class="op">;</span></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="va">plot</span>(<span class="fl">0</span><span class="op">,</span> <span class="fl">0</span><span class="op">,</span> <span class="ss">'k.'</span><span class="op">,</span> <span class="ss">'MarkerSize'</span><span class="op">,</span> <span class="fl">10</span>)<span class="op">;</span></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="va">axis</span> <span class="va">equal</span> <span class="va">off</span><span class="op">;</span></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    <span class="va">set</span>(<span class="va">gcf</span><span class="op">,</span> <span class="ss">'Color'</span><span class="op">,</span> <span class="ss">'w'</span>)<span class="op">;</span></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">% Some code to display the results</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="kw">if</span> <span class="va">n</span> <span class="op">==</span> <span class="fl">2</span>  <span class="co">% if we are working in a disk</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="va">plot</span>(<span class="va">X</span>(<span class="fl">1</span><span class="op">,</span> <span class="op">:</span>)<span class="op">,</span> <span class="va">X</span>(<span class="fl">2</span><span class="op">,</span> <span class="op">:</span>)<span class="op">,</span> <span class="ss">'.'</span><span class="op">,</span> <span class="ss">'MarkerSize'</span><span class="op">,</span> <span class="fl">20</span>)<span class="op">;</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="va">hold</span> <span class="va">all</span><span class="op">;</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="va">t</span> <span class="op">=</span> <span class="va">linspace</span>(<span class="fl">0</span><span class="op">,</span> <span class="fl">2</span><span class="op">*</span><span class="va">pi</span><span class="op">,</span> <span class="fl">251</span>)<span class="op">;</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="va">plot</span>(<span class="va">cos</span>(<span class="va">t</span>)<span class="op">,</span> <span class="va">sin</span>(<span class="va">t</span>)<span class="op">,</span> <span class="ss">'k-'</span><span class="op">,</span> <span class="ss">'LineWidth'</span><span class="op">,</span> <span class="fl">2</span>)<span class="op">;</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    <span class="va">plot</span>(<span class="fl">0</span><span class="op">,</span> <span class="fl">0</span><span class="op">,</span> <span class="ss">'k.'</span><span class="op">,</span> <span class="ss">'MarkerSize'</span><span class="op">,</span> <span class="fl">10</span>)<span class="op">;</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="va">axis</span> <span class="va">equal</span> <span class="va">off</span><span class="op">;</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    <span class="va">set</span>(<span class="va">gcf</span><span class="op">,</span> <span class="ss">'Color'</span><span class="op">,</span> <span class="ss">'w'</span>)<span class="op">;</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="images/lifts-ball-packing.png" class="img-fluid figure-img" style="width:20em"></p>
@@ -938,12 +959,12 @@ Table&nbsp;2: Examples of nonsmooth sets on which we can optimize with Manopt us
 </section>
 <section id="hadamard-entrywise-product" class="level3">
 <h3 class="anchored" data-anchor-id="hadamard-entrywise-product">Hadamard (entrywise product)</h3>
-<div class="sourceCode" id="cb8"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="va">lift</span> <span class="op">=</span> <span class="va">hadamardlift</span>(<span class="ss">'simplex'</span><span class="op">,</span> <span class="va">n</span>)           <span class="co">% m = 1 by default</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="va">lift</span> <span class="op">=</span> <span class="va">hadamardlift</span>(<span class="ss">'simplex'</span><span class="op">,</span> <span class="va">n</span><span class="op">,</span> <span class="va">m</span>)</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="va">lift</span> <span class="op">=</span> <span class="va">hadamardlift</span>(<span class="ss">'colstochastic'</span><span class="op">,</span> <span class="va">n</span><span class="op">,</span> <span class="va">m</span>)</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="va">lift</span> <span class="op">=</span> <span class="va">hadamardlift</span>(<span class="ss">'rowstochastic'</span><span class="op">,</span> <span class="va">n</span><span class="op">,</span> <span class="va">m</span>)</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="va">lift</span> <span class="op">=</span> <span class="va">hadamardlift</span>(<span class="ss">'nonnegative'</span><span class="op">,</span> <span class="va">n</span>)       <span class="co">% m = 1 by default</span></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="va">lift</span> <span class="op">=</span> <span class="va">hadamardlift</span>(<span class="ss">'nonnegative'</span><span class="op">,</span> <span class="va">n</span><span class="op">,</span> <span class="va">m</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="va">lift</span> <span class="op">=</span> <span class="va">hadamardlift</span>(<span class="ss">'simplex'</span><span class="op">,</span> <span class="va">n</span>)           <span class="co">% m = 1 by default</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="va">lift</span> <span class="op">=</span> <span class="va">hadamardlift</span>(<span class="ss">'simplex'</span><span class="op">,</span> <span class="va">n</span><span class="op">,</span> <span class="va">m</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="va">lift</span> <span class="op">=</span> <span class="va">hadamardlift</span>(<span class="ss">'colstochastic'</span><span class="op">,</span> <span class="va">n</span><span class="op">,</span> <span class="va">m</span>)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="va">lift</span> <span class="op">=</span> <span class="va">hadamardlift</span>(<span class="ss">'rowstochastic'</span><span class="op">,</span> <span class="va">n</span><span class="op">,</span> <span class="va">m</span>)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="va">lift</span> <span class="op">=</span> <span class="va">hadamardlift</span>(<span class="ss">'nonnegative'</span><span class="op">,</span> <span class="va">n</span>)       <span class="co">% m = 1 by default</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="va">lift</span> <span class="op">=</span> <span class="va">hadamardlift</span>(<span class="ss">'nonnegative'</span><span class="op">,</span> <span class="va">n</span><span class="op">,</span> <span class="va">m</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Recall <a href="#fig-diagramEMN" class="quarto-xref">Figure&nbsp;1</a>, including the parts in pink. The manifold upstairs, <span class="math inline">\(\calM\)</span>, is embedded in <span class="math inline">\(\calE = \Rnm\)</span>. The manifold downstairs is <span class="math inline">\(\calN = \Rnm\)</span>. The lift <span class="math inline">\(\varphi \colon \calM \to \calN\)</span> is the restriction to <span class="math inline">\(\calM\)</span> of the map <span class="math inline">\(\bar{\varphi} \colon \calE \to \calN\)</span>, as follows: <span class="math display">\[\begin{align*}
     \varphi = \bar{\varphi}|_{\calM} &amp;&amp; \textrm{ and } &amp;&amp; \bar{\varphi}(Y) = Y \odot Y,
 \end{align*}\]</span> where <span class="math inline">\(\odot\)</span> denotes entrywise multiplication (the Hadamard product), that is, <code>.*</code> in Matlab.</p>
@@ -958,35 +979,84 @@ Table&nbsp;2: Examples of nonsmooth sets on which we can optimize with Manopt us
 <li><code>('nonnegative', n, m)</code> does the same with <span class="math inline">\(\Rn\)</span> replaced by <span class="math inline">\(\Rnm\)</span>.</li>
 </ul>
 <p>This lift satisfies <strong>local <span class="math inline">\(\Rightarrow\)</span> local</strong> and <strong>2 <span class="math inline">\(\Rightarrow\)</span> 1</strong> everywhere. It also satisifies 1 <span class="math inline">\(\Rightarrow\)</span> 1 at all <span class="math inline">\(Y \in \calM\)</span> such that <span class="math inline">\(X_{ij} &gt; 0\)</span> for all <span class="math inline">\(i, j\)</span>: see Sections 2.1 and 4 in <a href="https://link.springer.com/article/10.1007/s10107-024-02058-3">the lifts paper</a>.</p>
-<p>Here is a naive example aiming to compute a <a href="https://www.sciencedirect.com/science/article/pii/S0024379510001849">column-stochastic square root</a> of a column stochastic matrix:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="va">n</span> <span class="op">=</span> <span class="fl">5</span><span class="op">;</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="va">m</span> <span class="op">=</span> <span class="va">n</span><span class="op">;</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="va">lift</span> <span class="op">=</span> <span class="va">hadamardlift</span>(<span class="ss">'colstochastic'</span><span class="op">,</span> <span class="va">n</span><span class="op">,</span> <span class="va">m</span>)<span class="op">;</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co">% random stochastic matrix</span></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="va">A</span> <span class="op">=</span> <span class="va">lift</span>.<span class="va">phi</span>(<span class="va">lift</span>.<span class="va">M</span>.<span class="va">rand</span>())<span class="op">;</span></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="va">sqfrobnorm</span> <span class="op">=</span> <span class="op">@</span>(<span class="va">U</span>) <span class="va">sum</span>(<span class="va">U</span>(<span class="op">:</span>)<span class="op">.^</span><span class="fl">2</span>)<span class="op">;</span></span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="va">downstairs</span>.<span class="va">cost</span> <span class="op">=</span> <span class="op">@</span>(<span class="va">X</span>) <span class="va">sqfrobnorm</span>(<span class="va">X</span><span class="op">*</span><span class="va">X</span><span class="op">-</span><span class="va">A</span>)<span class="op">;</span></span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="va">upstairs</span> <span class="op">=</span> <span class="va">manoptlift</span>(<span class="va">downstairs</span><span class="op">,</span> <span class="va">lift</span><span class="op">,</span> <span class="ss">'AD'</span>)<span class="op">;</span></span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="va">Y</span> <span class="op">=</span> <span class="va">trustregions</span>(<span class="va">upstairs</span>)<span class="op">;</span></span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="va">X</span> <span class="op">=</span> <span class="va">lift</span>.<span class="va">phi</span>(<span class="va">Y</span>)<span class="op">;</span></span>
-<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="co">% X is a column stochastic matrix such that X*X is (we hope) close to A.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Here are two example:</p>
+<ul>
+<li>One attempts to compute a <a href="https://www.sciencedirect.com/science/article/pii/S0024379510001849">column-stochastic square root</a> of a column stochastic matrix. This can have bad local minima.</li>
+<li>The other minimizes a convex quadratic in the nonnegative orthant, <span class="math inline">\(\min_{x \geq 0} \frac{1}{2} x^\top Ax + b^\top x\)</span>. This has benign non-convexity since the problem downstairs is convex and the lift enjoys 2 <span class="math inline">\(\Rightarrow\)</span> 1. See also Section 5.1 in <a href="https://arxiv.org/abs/2310.01784">this paper</a>.</li>
+</ul>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true">Stochastic square root</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-2" role="tab" aria-controls="tabset-3-2" aria-selected="false">Quadratic in orthant</a></li></ul>
+<div class="tab-content">
+<div id="tabset-3-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-3-1-tab">
+<div class="sourceCode" id="cb10"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="va">n</span> <span class="op">=</span> <span class="fl">5</span><span class="op">;</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="va">m</span> <span class="op">=</span> <span class="va">n</span><span class="op">;</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="va">lift</span> <span class="op">=</span> <span class="va">hadamardlift</span>(<span class="ss">'colstochastic'</span><span class="op">,</span> <span class="va">n</span><span class="op">,</span> <span class="va">m</span>)<span class="op">;</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co">% random stochastic matrix</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="va">A</span> <span class="op">=</span> <span class="va">lift</span>.<span class="va">phi</span>(<span class="va">lift</span>.<span class="va">M</span>.<span class="va">rand</span>())<span class="op">;</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="va">sqfrobnorm</span> <span class="op">=</span> <span class="op">@</span>(<span class="va">U</span>) <span class="va">sum</span>(<span class="va">U</span>(<span class="op">:</span>)<span class="op">.^</span><span class="fl">2</span>)<span class="op">;</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="va">downstairs</span>.<span class="va">cost</span> <span class="op">=</span> <span class="op">@</span>(<span class="va">X</span>) <span class="va">sqfrobnorm</span>(<span class="va">X</span><span class="op">*</span><span class="va">X</span><span class="op">-</span><span class="va">A</span>)<span class="op">;</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="va">upstairs</span> <span class="op">=</span> <span class="va">manoptlift</span>(<span class="va">downstairs</span><span class="op">,</span> <span class="va">lift</span><span class="op">,</span> <span class="ss">'AD'</span>)<span class="op">;</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="va">Y</span> <span class="op">=</span> <span class="va">trustregions</span>(<span class="va">upstairs</span>)<span class="op">;</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="va">X</span> <span class="op">=</span> <span class="va">lift</span>.<span class="va">phi</span>(<span class="va">Y</span>)<span class="op">;</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a><span class="co">% X is a column stochastic matrix such that X*X is (we hope) close to A.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="tabset-3-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-3-2-tab">
+<div class="sourceCode" id="cb11"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">% For large n, say, 5'000+, lifts beat quadprog.</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="va">n</span> <span class="op">=</span> <span class="fl">5000</span><span class="op">;</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="va">lift</span> <span class="op">=</span> <span class="va">hadamardlift</span>(<span class="ss">'nonnegative'</span><span class="op">,</span> <span class="va">n</span>)<span class="op">;</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="co">% Random convex quadratic f(x) = .5*x'*A*x + b'*x</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="va">A</span> <span class="op">=</span> <span class="va">randsym</span>(<span class="va">n</span>) <span class="op">+</span> <span class="va">n</span><span class="op">*</span><span class="va">eye</span>(<span class="va">n</span>)<span class="op">;</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="va">b</span> <span class="op">=</span> <span class="va">randn</span>(<span class="va">n</span><span class="op">,</span> <span class="fl">1</span>)<span class="op">;</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="co">% If A were sparse, the lifts approach would be even better.</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="co">% For example, try this:</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="co">% A = sprandsym(n, .01) + n*speye(n);</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a><span class="va">downstairs</span>.<span class="va">costgrad</span> <span class="op">=</span> <span class="op">@</span>(<span class="va">x</span>) <span class="va">costgrad</span>(<span class="va">A</span><span class="op">,</span> <span class="va">b</span><span class="op">,</span> <span class="va">x</span>)<span class="op">;</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> [<span class="va">f</span><span class="op">,</span> <span class="va">g</span>] <span class="op">=</span> <span class="va">costgrad</span>(<span class="va">A</span><span class="op">,</span> <span class="va">b</span><span class="op">,</span> <span class="va">x</span>)</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>    <span class="va">Ax</span> <span class="op">=</span> <span class="va">A</span><span class="op">*</span><span class="va">x</span><span class="op">;</span></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>    <span class="va">f</span> <span class="op">=</span> <span class="va">x</span><span class="op">'*</span>(<span class="fl">.5</span><span class="op">*</span><span class="va">Ax</span> <span class="op">+</span> <span class="va">b</span>)<span class="op">;</span></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>    <span class="kw">if</span> <span class="va">nargout</span> <span class="op">==</span> <span class="fl">2</span></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>        <span class="va">g</span> <span class="op">=</span> <span class="va">Ax</span> <span class="op">+</span> <span class="va">b</span><span class="op">;</span></span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>    <span class="kw">end</span></span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a><span class="va">downstairs</span>.<span class="va">hess</span> <span class="op">=</span> <span class="op">@</span>(<span class="va">x</span><span class="op">,</span> <span class="va">xdot</span>) <span class="va">A</span><span class="op">*</span><span class="va">xdot</span><span class="op">;</span></span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a><span class="va">upstairs</span> <span class="op">=</span> <span class="va">manoptlift</span>(<span class="va">downstairs</span><span class="op">,</span> <span class="va">lift</span>)<span class="op">;</span></span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a><span class="va">t_manopt</span> <span class="op">=</span> <span class="va">tic</span>()<span class="op">;</span></span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a><span class="va">y</span> <span class="op">=</span> <span class="va">trustregions</span>(<span class="va">upstairs</span>)<span class="op">;</span></span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a><span class="va">x_manopt</span> <span class="op">=</span> <span class="va">lift</span>.<span class="va">phi</span>(<span class="va">y</span>)<span class="op">;</span></span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a><span class="va">t_manopt</span> <span class="op">=</span> <span class="va">toc</span>(<span class="va">t_manopt</span>)<span class="op">;</span></span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a><span class="va">t_quadprog</span> <span class="op">=</span> <span class="va">tic</span>()<span class="op">;</span></span>
+<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a><span class="va">x_quadprog</span> <span class="op">=</span> <span class="va">quadprog</span>(<span class="va">A</span><span class="op">,</span> <span class="va">b</span><span class="op">,</span> []<span class="op">,</span> []<span class="op">,</span> []<span class="op">,</span> []<span class="op">,</span> <span class="va">zeros</span>(<span class="va">n</span><span class="op">,</span> <span class="fl">1</span>)<span class="op">,</span> [])<span class="op">;</span></span>
+<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a><span class="va">t_quadprog</span> <span class="op">=</span> <span class="va">toc</span>(<span class="va">t_quadprog</span>)<span class="op">;</span></span>
+<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a><span class="va">fprintf</span>(<span class="ss">'Manopt:  \n  Time: %.3e,  min(x): %.3e,  f(x): %.10e\n'</span><span class="op">,</span> <span class="op">...</span></span>
+<span id="cb11-34"><a href="#cb11-34" aria-hidden="true" tabindex="-1"></a>            <span class="va">t_manopt</span><span class="op">,</span> <span class="va">min</span>(<span class="va">x_manopt</span>)<span class="op">,</span> <span class="va">getCost</span>(<span class="va">downstairs</span><span class="op">,</span> <span class="va">x_manopt</span>))<span class="op">;</span></span>
+<span id="cb11-35"><a href="#cb11-35" aria-hidden="true" tabindex="-1"></a><span class="va">fprintf</span>(<span class="ss">'Quadprog:\n  Time: %.3e,  min(x): %.3e,  f(x): %.10e\n'</span><span class="op">,</span> <span class="op">...</span></span>
+<span id="cb11-36"><a href="#cb11-36" aria-hidden="true" tabindex="-1"></a>            <span class="va">t_quadprog</span><span class="op">,</span> <span class="va">min</span>(<span class="va">x_quadprog</span>)<span class="op">,</span> <span class="va">getCost</span>(<span class="va">downstairs</span><span class="op">,</span> <span class="va">x_quadprog</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
 <p>The implementation of <code>hadamardlift</code> is simple: it is instructive to <a href="https://github.com/NicolasBoumal/manopt/blob/master/manopt/lifts/hadamardlift.m">look inside</a>.</p>
 <p>The key is to describe <span class="math inline">\(\bar{\varphi} \colon \Rnm \to \Rnm\)</span> rather than <span class="math inline">\(\varphi\)</span> itself. The former is a simple quadratic between linear spaces, and it is independent of <span class="math inline">\(\calM\)</span>: we only need to do the work once. Then, by setting <code>lift.embedded = true</code>, Manopt knows that the composition <span class="math inline">\(f \circ \bar{\varphi}\)</span> is <span class="math inline">\(\bar{g}\)</span>. That is a smooth extension of <span class="math inline">\(g\)</span> from <span class="math inline">\(\calM\)</span> to <span class="math inline">\(\calE\)</span>.</p>
 <p>Thus, <code>manoptlift</code> sets the fields <code>upstairs.egrad</code> and <code>upstairs.ehess</code> which indeed correspond to <span class="math inline">\(\bar{g}\)</span> (rather than setting <code>upstairs.grad</code> and <code>upstairs.hess</code>, which correspond to <span class="math inline">\(g\)</span>). In turn, Manopt knows to use <code>upstairs.M.egrad2rgrad</code> and <code>upstairs.M.ehess2rhess</code> to convert the gradient and Hessian of <span class="math inline">\(\bar{g}\)</span> to those of <span class="math inline">\(g\)</span>. All of this is automatic, keeping the code for <code>hadamardlift</code> concise.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="va">lift</span>.<span class="va">embedded</span> <span class="op">=</span> <span class="va">true</span><span class="op">;</span>  <span class="co">% below describes \bar\varphi rather than \varphi</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="va">lift</span>.<span class="va">phi</span> <span class="op">=</span> <span class="op">@</span>(<span class="va">Y</span>) <span class="va">Y</span><span class="op">.*</span><span class="va">Y</span><span class="op">;</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="va">lift</span>.<span class="va">Dphi</span> <span class="op">=</span> <span class="op">@</span>(<span class="va">Y</span><span class="op">,</span> <span class="va">V</span>) <span class="fl">2</span><span class="op">*</span><span class="va">Y</span><span class="op">.*</span><span class="va">V</span><span class="op">;</span></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="va">lift</span>.<span class="va">Dphit</span> <span class="op">=</span> <span class="op">@</span>(<span class="va">Y</span><span class="op">,</span> <span class="va">U</span>) <span class="fl">2</span><span class="op">*</span><span class="va">Y</span><span class="op">.*</span><span class="va">U</span><span class="op">;</span></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="va">lift</span>.<span class="va">hesshw</span> <span class="op">=</span> <span class="op">@</span>(<span class="va">Y</span><span class="op">,</span> <span class="va">V</span><span class="op">,</span> <span class="va">W</span>) <span class="fl">2</span><span class="op">*</span><span class="va">V</span><span class="op">.*</span><span class="va">W</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="va">lift</span>.<span class="va">embedded</span> <span class="op">=</span> <span class="va">true</span><span class="op">;</span>  <span class="co">% below describes \bar\varphi rather than \varphi</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="va">lift</span>.<span class="va">phi</span> <span class="op">=</span> <span class="op">@</span>(<span class="va">Y</span>) <span class="va">Y</span><span class="op">.*</span><span class="va">Y</span><span class="op">;</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="va">lift</span>.<span class="va">Dphi</span> <span class="op">=</span> <span class="op">@</span>(<span class="va">Y</span><span class="op">,</span> <span class="va">V</span>) <span class="fl">2</span><span class="op">*</span><span class="va">Y</span><span class="op">.*</span><span class="va">V</span><span class="op">;</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="va">lift</span>.<span class="va">Dphit</span> <span class="op">=</span> <span class="op">@</span>(<span class="va">Y</span><span class="op">,</span> <span class="va">U</span>) <span class="fl">2</span><span class="op">*</span><span class="va">Y</span><span class="op">.*</span><span class="va">U</span><span class="op">;</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="va">lift</span>.<span class="va">hesshw</span> <span class="op">=</span> <span class="op">@</span>(<span class="va">Y</span><span class="op">,</span> <span class="va">V</span><span class="op">,</span> <span class="va">W</span>) <span class="fl">2</span><span class="op">*</span><span class="va">V</span><span class="op">.*</span><span class="va">W</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="burer-monteiro-for-general-bounded-rank" class="level3">
 <h3 class="anchored" data-anchor-id="burer-monteiro-for-general-bounded-rank">Burer-Monteiro for general bounded rank</h3>
-<div class="sourceCode" id="cb11"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="va">lift</span> <span class="op">=</span> <span class="va">burermonteiroLRlift</span>(<span class="va">m</span><span class="op">,</span> <span class="va">n</span><span class="op">,</span> <span class="va">r</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="va">lift</span> <span class="op">=</span> <span class="va">burermonteiroLRlift</span>(<span class="va">m</span><span class="op">,</span> <span class="va">n</span><span class="op">,</span> <span class="va">r</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The manifold upstairs is <span class="math inline">\(\calM = \Rmr \times \Rnr\)</span>. The manifold downstairs is <span class="math inline">\(\calN = \Rmn\)</span>. The lift <span class="math inline">\(\varphi \colon \calM \to \calN\)</span> is the map <span class="math display">\[
     \varphi(L, R) = LR\transpose.
 \]</span> The image of the lift is the set of bounded-rank matrices: <span class="math display">\[
@@ -1004,74 +1074,9 @@ Table&nbsp;2: Examples of nonsmooth sets on which we can optimize with Manopt us
 <p>This also means that the code we write for <span class="math inline">\(f\)</span> and its derivatives in the <code>downstairs</code> problem must accept all of the above. Look inside the code of <a href="https://github.com/NicolasBoumal/manopt/blob/master/manopt/manifolds/euclidean/euclideanlargefactory.m"><code>euclideanlargefactory</code></a> for a list of available functions to ease this process.</p>
 <p>Here is example code to solve <span class="math inline">\(\min_{\rank(X) \leq r} \sqfrobnorm{X - A}\)</span> where <span class="math inline">\(A\)</span> is a given sparse matrix. For the same problem, alternative versions of the code also show how to use <code>fixedrankembeddedfactory</code> and <code>desingularizationfactory</code> (see the note below).</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true"><span class="math inline">\(LR^\top\)</span> lift</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-2" role="tab" aria-controls="tabset-3-2" aria-selected="false">Fixed-rank</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-3" role="tab" aria-controls="tabset-3-3" aria-selected="false">Desingularization</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-4-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-1" role="tab" aria-controls="tabset-4-1" aria-selected="true"><span class="math inline">\(LR^\top\)</span> lift</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-4-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-2" role="tab" aria-controls="tabset-4-2" aria-selected="false">Fixed-rank</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-4-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-3" role="tab" aria-controls="tabset-4-3" aria-selected="false">Desingularization</a></li></ul>
 <div class="tab-content">
-<div id="tabset-3-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-3-1-tab">
-<div class="sourceCode" id="cb12"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="va">m</span> <span class="op">=</span> <span class="fl">1000</span><span class="op">;</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="va">n</span> <span class="op">=</span> <span class="fl">1500</span><span class="op">;</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="va">r</span> <span class="op">=</span> <span class="fl">5</span><span class="op">;</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="va">A</span> <span class="op">=</span> <span class="va">sprand</span>(<span class="va">m</span><span class="op">,</span> <span class="va">n</span><span class="op">,</span> <span class="fl">.01</span>)<span class="op">;</span> <span class="co">% random sparse matrix</span></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="va">Rmn</span> <span class="op">=</span> <span class="va">euclideanlargefactory</span>(<span class="va">m</span><span class="op">,</span> <span class="va">n</span>)<span class="op">;</span> <span class="co">% mind the 'large'</span></span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="va">dwnstrs</span>.<span class="va">M</span> <span class="op">=</span> <span class="va">Rmn</span><span class="op">;</span></span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="va">dwnstrs</span>.<span class="va">cost</span>  <span class="op">=</span> <span class="op">@</span>(<span class="va">X</span>) <span class="fl">.5</span><span class="op">*</span><span class="va">Rmn</span>.<span class="va">dist</span>(<span class="va">X</span><span class="op">,</span> <span class="va">A</span>)<span class="op">^</span><span class="fl">2</span><span class="op">;</span></span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="va">dwnstrs</span>.<span class="va">grad</span>  <span class="op">=</span> <span class="op">@</span>(<span class="va">X</span>) <span class="va">Rmn</span>.<span class="va">diff</span>(<span class="va">X</span><span class="op">,</span> <span class="va">A</span>)<span class="op">;</span></span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a><span class="va">dwnstrs</span>.<span class="va">hess</span>  <span class="op">=</span> <span class="op">@</span>(<span class="va">X</span><span class="op">,</span> <span class="va">Xdot</span>) <span class="va">Xdot</span><span class="op">;</span></span>
-<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="va">lift</span> <span class="op">=</span> <span class="va">burermonteiroLRlift</span>(<span class="va">m</span><span class="op">,</span> <span class="va">n</span><span class="op">,</span> <span class="va">r</span>)<span class="op">;</span></span>
-<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a><span class="va">upstairs</span> <span class="op">=</span> <span class="va">manoptlift</span>(<span class="va">dwnstrs</span><span class="op">,</span> <span class="va">lift</span>)<span class="op">;</span></span>
-<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a><span class="co">% initialization close to zero</span></span>
-<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a><span class="va">LR0</span>.<span class="va">L</span> <span class="op">=</span> <span class="va">randn</span>(<span class="va">m</span><span class="op">,</span> <span class="va">r</span>)<span class="op">/</span><span class="va">sqrt</span>(<span class="va">m</span><span class="op">*</span><span class="va">r</span>)<span class="op">/</span><span class="fl">1000</span><span class="op">;</span></span>
-<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a><span class="va">LR0</span>.<span class="va">R</span> <span class="op">=</span> <span class="va">randn</span>(<span class="va">n</span><span class="op">,</span> <span class="va">r</span>)<span class="op">/</span><span class="va">sqrt</span>(<span class="va">n</span><span class="op">*</span><span class="va">r</span>)<span class="op">/</span><span class="fl">1000</span><span class="op">;</span></span>
-<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a><span class="va">LR</span> <span class="op">=</span> <span class="va">trustregions</span>(<span class="va">upstairs</span><span class="op">,</span> <span class="va">LR0</span>)<span class="op">;</span></span>
-<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a><span class="co">% Confirm that the positive singular values of L*R'</span></span>
-<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a><span class="co">% match the r top singular values of A.</span></span>
-<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a><span class="co">% For efficiency, we do not form X = LR.L * LR.R'.</span></span>
-<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a><span class="co">% Instead, we apply a QR to both L and R, and</span></span>
-<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a><span class="co">% deduce the singular values of X from there.</span></span>
-<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>[<span class="va">Ql</span><span class="op">,</span> <span class="va">Rl</span>] <span class="op">=</span> <span class="va">qr</span>(<span class="va">LR</span>.<span class="va">L</span><span class="op">,</span> <span class="fl">0</span>)<span class="op">;</span></span>
-<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a>[<span class="va">Qr</span><span class="op">,</span> <span class="va">Rr</span>] <span class="op">=</span> <span class="va">qr</span>(<span class="va">LR</span>.<span class="va">R</span><span class="op">,</span> <span class="fl">0</span>)<span class="op">;</span></span>
-<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a><span class="va">svd</span>(<span class="va">Rl</span><span class="op">*</span><span class="va">Rr</span><span class="op">'</span>)<span class="op">'</span></span>
-<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a><span class="va">svds</span>(<span class="va">A</span><span class="op">,</span> <span class="va">r</span><span class="op">+</span><span class="fl">1</span>)<span class="op">'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="tabset-3-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-3-2-tab">
-<div class="sourceCode" id="cb13"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="va">m</span> <span class="op">=</span> <span class="fl">1000</span><span class="op">;</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="va">n</span> <span class="op">=</span> <span class="fl">1500</span><span class="op">;</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="va">r</span> <span class="op">=</span> <span class="fl">5</span><span class="op">;</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="va">A</span> <span class="op">=</span> <span class="va">sprand</span>(<span class="va">m</span><span class="op">,</span> <span class="va">n</span><span class="op">,</span> <span class="fl">.01</span>)<span class="op">;</span> <span class="co">% random sparse matrix</span></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="va">Rmn</span> <span class="op">=</span> <span class="va">euclideanlargefactory</span>(<span class="va">m</span><span class="op">,</span> <span class="va">n</span>)<span class="op">;</span> <span class="co">% mind the 'large'</span></span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="va">fixdrk</span> <span class="op">=</span> <span class="va">fixedrankembeddedfactory</span>(<span class="va">m</span><span class="op">,</span> <span class="va">n</span><span class="op">,</span> <span class="va">r</span>)<span class="op">;</span> <span class="co">% submanifold</span></span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="va">problem</span>.<span class="va">M</span> <span class="op">=</span> <span class="va">fixdrk</span><span class="op">;</span></span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="va">problem</span>.<span class="va">cost</span>  <span class="op">=</span> <span class="op">@</span>(<span class="va">X</span>) <span class="fl">.5</span><span class="op">*</span><span class="va">Rmn</span>.<span class="va">dist</span>(<span class="va">X</span><span class="op">,</span> <span class="va">A</span>)<span class="op">^</span><span class="fl">2</span><span class="op">;</span></span>
-<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a><span class="va">problem</span>.<span class="va">egrad</span> <span class="op">=</span> <span class="op">@</span>(<span class="va">X</span>) <span class="va">Rmn</span>.<span class="va">diff</span>(<span class="va">X</span><span class="op">,</span> <span class="va">A</span>)<span class="op">;</span>      <span class="co">% mind the 'e'</span></span>
-<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="va">problem</span>.<span class="va">ehess</span> <span class="op">=</span> <span class="op">@</span>(<span class="va">X</span><span class="op">,</span> <span class="va">Xdot</span>) <span class="va">fixdrk</span>.<span class="va">tangent2ambient</span>(<span class="va">X</span><span class="op">,</span> <span class="va">Xdot</span>)<span class="op">;</span> <span class="co">% !</span></span>
-<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a><span class="co">% initialization close to zero</span></span>
-<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a><span class="va">X0</span> <span class="op">=</span> <span class="va">fixdrk</span>.<span class="va">rand</span>()<span class="op">;</span></span>
-<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a><span class="va">X0</span>.<span class="va">S</span> <span class="op">=</span> <span class="va">diag</span>(<span class="va">rand</span>(<span class="va">r</span><span class="op">,</span> <span class="fl">1</span>)<span class="op">/</span><span class="fl">1000</span>)<span class="op">;</span></span>
-<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a><span class="va">X</span> <span class="op">=</span> <span class="va">trustregions</span>(<span class="va">problem</span><span class="op">,</span> <span class="va">X0</span>)<span class="op">;</span></span>
-<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a><span class="co">% Confirm that the positive singular values of X</span></span>
-<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a><span class="co">% in the fixedrankembeddedfactory format (U, S, V)</span></span>
-<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a><span class="co">% match the top singular values of A.</span></span>
-<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a><span class="co">% For efficiency, we do not form X.</span></span>
-<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a><span class="va">svd</span>(<span class="va">X</span>.<span class="va">S</span>)<span class="op">'</span></span>
-<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a><span class="va">svds</span>(<span class="va">A</span><span class="op">,</span> <span class="va">r</span><span class="op">+</span><span class="fl">1</span>)<span class="op">'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="tabset-3-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-3-3-tab">
+<div id="tabset-4-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-4-1-tab">
 <div class="sourceCode" id="cb14"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="va">m</span> <span class="op">=</span> <span class="fl">1000</span><span class="op">;</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="va">n</span> <span class="op">=</span> <span class="fl">1500</span><span class="op">;</span></span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="va">r</span> <span class="op">=</span> <span class="fl">5</span><span class="op">;</span></span>
@@ -1079,28 +1084,93 @@ Table&nbsp;2: Examples of nonsmooth sets on which we can optimize with Manopt us
 <span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="va">A</span> <span class="op">=</span> <span class="va">sprand</span>(<span class="va">m</span><span class="op">,</span> <span class="va">n</span><span class="op">,</span> <span class="fl">.01</span>)<span class="op">;</span> <span class="co">% random sparse matrix</span></span>
 <span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="va">Rmn</span> <span class="op">=</span> <span class="va">euclideanlargefactory</span>(<span class="va">m</span><span class="op">,</span> <span class="va">n</span>)<span class="op">;</span> <span class="co">% mind the 'large'</span></span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="va">desing</span> <span class="op">=</span> <span class="va">desingularizationfactory</span>(<span class="va">m</span><span class="op">,</span> <span class="va">n</span><span class="op">,</span> <span class="va">r</span>)<span class="op">;</span> <span class="co">% (X, P) lift</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="va">problem</span>.<span class="va">M</span> <span class="op">=</span> <span class="va">desing</span><span class="op">;</span></span>
-<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="va">problem</span>.<span class="va">cost</span>  <span class="op">=</span> <span class="op">@</span>(<span class="va">X</span>) <span class="fl">.5</span><span class="op">*</span><span class="va">Rmn</span>.<span class="va">dist</span>(<span class="va">X</span><span class="op">,</span> <span class="va">A</span>)<span class="op">^</span><span class="fl">2</span><span class="op">;</span></span>
-<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="va">problem</span>.<span class="va">egrad</span> <span class="op">=</span> <span class="op">@</span>(<span class="va">X</span>) <span class="va">Rmn</span>.<span class="va">diff</span>(<span class="va">X</span><span class="op">,</span> <span class="va">A</span>)<span class="op">;</span>      <span class="co">% mind the 'e'</span></span>
-<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a><span class="va">problem</span>.<span class="va">ehess</span> <span class="op">=</span> <span class="op">@</span>(<span class="va">X</span><span class="op">,</span> <span class="va">Xdot</span>) <span class="va">desing</span>.<span class="va">tangent2ambient</span>(<span class="va">X</span><span class="op">,</span> <span class="va">Xdot</span>).<span class="va">X</span><span class="op">;</span> <span class="co">% !!</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="va">dwnstrs</span>.<span class="va">M</span> <span class="op">=</span> <span class="va">Rmn</span><span class="op">;</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="va">dwnstrs</span>.<span class="va">cost</span>  <span class="op">=</span> <span class="op">@</span>(<span class="va">X</span>) <span class="fl">.5</span><span class="op">*</span><span class="va">Rmn</span>.<span class="va">dist</span>(<span class="va">X</span><span class="op">,</span> <span class="va">A</span>)<span class="op">^</span><span class="fl">2</span><span class="op">;</span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="va">dwnstrs</span>.<span class="va">grad</span>  <span class="op">=</span> <span class="op">@</span>(<span class="va">X</span>) <span class="va">Rmn</span>.<span class="va">diff</span>(<span class="va">X</span><span class="op">,</span> <span class="va">A</span>)<span class="op">;</span></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a><span class="va">dwnstrs</span>.<span class="va">hess</span>  <span class="op">=</span> <span class="op">@</span>(<span class="va">X</span><span class="op">,</span> <span class="va">Xdot</span>) <span class="va">Xdot</span><span class="op">;</span></span>
 <span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a><span class="va">lift</span> <span class="op">=</span> <span class="va">burermonteiroLRlift</span>(<span class="va">m</span><span class="op">,</span> <span class="va">n</span><span class="op">,</span> <span class="va">r</span>)<span class="op">;</span></span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a><span class="va">upstairs</span> <span class="op">=</span> <span class="va">manoptlift</span>(<span class="va">dwnstrs</span><span class="op">,</span> <span class="va">lift</span>)<span class="op">;</span></span>
 <span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a><span class="co">% initialization close to zero</span></span>
-<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a><span class="va">X0</span> <span class="op">=</span> <span class="va">desing</span>.<span class="va">rand</span>()<span class="op">;</span></span>
-<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a><span class="va">X0</span>.<span class="va">S</span> <span class="op">=</span> <span class="va">diag</span>(<span class="va">rand</span>(<span class="va">r</span><span class="op">,</span> <span class="fl">1</span>)<span class="op">/</span><span class="fl">1000</span>)<span class="op">;</span></span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a><span class="va">LR0</span>.<span class="va">L</span> <span class="op">=</span> <span class="va">randn</span>(<span class="va">m</span><span class="op">,</span> <span class="va">r</span>)<span class="op">/</span><span class="va">sqrt</span>(<span class="va">m</span><span class="op">*</span><span class="va">r</span>)<span class="op">/</span><span class="fl">1000</span><span class="op">;</span></span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a><span class="va">LR0</span>.<span class="va">R</span> <span class="op">=</span> <span class="va">randn</span>(<span class="va">n</span><span class="op">,</span> <span class="va">r</span>)<span class="op">/</span><span class="va">sqrt</span>(<span class="va">n</span><span class="op">*</span><span class="va">r</span>)<span class="op">/</span><span class="fl">1000</span><span class="op">;</span></span>
 <span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a><span class="va">X</span> <span class="op">=</span> <span class="va">trustregions</span>(<span class="va">problem</span><span class="op">,</span> <span class="va">X0</span>)<span class="op">;</span></span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a><span class="va">LR</span> <span class="op">=</span> <span class="va">trustregions</span>(<span class="va">upstairs</span><span class="op">,</span> <span class="va">LR0</span>)<span class="op">;</span></span>
 <span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a><span class="co">% Confirm that the positive singular values of X</span></span>
-<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a><span class="co">% in the desingularizationfactory format (U, S, V)</span></span>
-<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a><span class="co">% match the top singular values of A.</span></span>
-<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a><span class="co">% For efficiency, we do not form X.</span></span>
-<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a><span class="va">svd</span>(<span class="va">X</span>.<span class="va">S</span>)<span class="op">'</span></span>
-<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a><span class="va">svds</span>(<span class="va">A</span><span class="op">,</span> <span class="va">r</span><span class="op">+</span><span class="fl">1</span>)<span class="op">'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a><span class="co">% Confirm that the positive singular values of L*R'</span></span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a><span class="co">% match the r top singular values of A.</span></span>
+<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a><span class="co">% For efficiency, we do not form X = LR.L * LR.R'.</span></span>
+<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a><span class="co">% Instead, we apply a QR to both L and R, and</span></span>
+<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a><span class="co">% deduce the singular values of X from there.</span></span>
+<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a>[<span class="va">Ql</span><span class="op">,</span> <span class="va">Rl</span>] <span class="op">=</span> <span class="va">qr</span>(<span class="va">LR</span>.<span class="va">L</span><span class="op">,</span> <span class="fl">0</span>)<span class="op">;</span></span>
+<span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a>[<span class="va">Qr</span><span class="op">,</span> <span class="va">Rr</span>] <span class="op">=</span> <span class="va">qr</span>(<span class="va">LR</span>.<span class="va">R</span><span class="op">,</span> <span class="fl">0</span>)<span class="op">;</span></span>
+<span id="cb14-31"><a href="#cb14-31" aria-hidden="true" tabindex="-1"></a><span class="va">svd</span>(<span class="va">Rl</span><span class="op">*</span><span class="va">Rr</span><span class="op">'</span>)<span class="op">'</span></span>
+<span id="cb14-32"><a href="#cb14-32" aria-hidden="true" tabindex="-1"></a><span class="va">svds</span>(<span class="va">A</span><span class="op">,</span> <span class="va">r</span><span class="op">+</span><span class="fl">1</span>)<span class="op">'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="tabset-4-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-4-2-tab">
+<div class="sourceCode" id="cb15"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="va">m</span> <span class="op">=</span> <span class="fl">1000</span><span class="op">;</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="va">n</span> <span class="op">=</span> <span class="fl">1500</span><span class="op">;</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="va">r</span> <span class="op">=</span> <span class="fl">5</span><span class="op">;</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="va">A</span> <span class="op">=</span> <span class="va">sprand</span>(<span class="va">m</span><span class="op">,</span> <span class="va">n</span><span class="op">,</span> <span class="fl">.01</span>)<span class="op">;</span> <span class="co">% random sparse matrix</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="va">Rmn</span> <span class="op">=</span> <span class="va">euclideanlargefactory</span>(<span class="va">m</span><span class="op">,</span> <span class="va">n</span>)<span class="op">;</span> <span class="co">% mind the 'large'</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="va">fixdrk</span> <span class="op">=</span> <span class="va">fixedrankembeddedfactory</span>(<span class="va">m</span><span class="op">,</span> <span class="va">n</span><span class="op">,</span> <span class="va">r</span>)<span class="op">;</span> <span class="co">% submanifold</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="va">problem</span>.<span class="va">M</span> <span class="op">=</span> <span class="va">fixdrk</span><span class="op">;</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="va">problem</span>.<span class="va">cost</span>  <span class="op">=</span> <span class="op">@</span>(<span class="va">X</span>) <span class="fl">.5</span><span class="op">*</span><span class="va">Rmn</span>.<span class="va">dist</span>(<span class="va">X</span><span class="op">,</span> <span class="va">A</span>)<span class="op">^</span><span class="fl">2</span><span class="op">;</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a><span class="va">problem</span>.<span class="va">egrad</span> <span class="op">=</span> <span class="op">@</span>(<span class="va">X</span>) <span class="va">Rmn</span>.<span class="va">diff</span>(<span class="va">X</span><span class="op">,</span> <span class="va">A</span>)<span class="op">;</span>      <span class="co">% mind the 'e'</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a><span class="va">problem</span>.<span class="va">ehess</span> <span class="op">=</span> <span class="op">@</span>(<span class="va">X</span><span class="op">,</span> <span class="va">Xdot</span>) <span class="va">fixdrk</span>.<span class="va">tangent2ambient</span>(<span class="va">X</span><span class="op">,</span> <span class="va">Xdot</span>)<span class="op">;</span> <span class="co">% !</span></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a><span class="co">% initialization close to zero</span></span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a><span class="va">X0</span> <span class="op">=</span> <span class="va">fixdrk</span>.<span class="va">rand</span>()<span class="op">;</span></span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a><span class="va">X0</span>.<span class="va">S</span> <span class="op">=</span> <span class="va">diag</span>(<span class="va">rand</span>(<span class="va">r</span><span class="op">,</span> <span class="fl">1</span>)<span class="op">/</span><span class="fl">1000</span>)<span class="op">;</span></span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a><span class="va">X</span> <span class="op">=</span> <span class="va">trustregions</span>(<span class="va">problem</span><span class="op">,</span> <span class="va">X0</span>)<span class="op">;</span></span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a><span class="co">% Confirm that the positive singular values of X</span></span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a><span class="co">% in the fixedrankembeddedfactory format (U, S, V)</span></span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a><span class="co">% match the top singular values of A.</span></span>
+<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a><span class="co">% For efficiency, we do not form X.</span></span>
+<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a><span class="va">svd</span>(<span class="va">X</span>.<span class="va">S</span>)<span class="op">'</span></span>
+<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a><span class="va">svds</span>(<span class="va">A</span><span class="op">,</span> <span class="va">r</span><span class="op">+</span><span class="fl">1</span>)<span class="op">'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="tabset-4-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-4-3-tab">
+<div class="sourceCode" id="cb16"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="va">m</span> <span class="op">=</span> <span class="fl">1000</span><span class="op">;</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="va">n</span> <span class="op">=</span> <span class="fl">1500</span><span class="op">;</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="va">r</span> <span class="op">=</span> <span class="fl">5</span><span class="op">;</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="va">A</span> <span class="op">=</span> <span class="va">sprand</span>(<span class="va">m</span><span class="op">,</span> <span class="va">n</span><span class="op">,</span> <span class="fl">.01</span>)<span class="op">;</span> <span class="co">% random sparse matrix</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="va">Rmn</span> <span class="op">=</span> <span class="va">euclideanlargefactory</span>(<span class="va">m</span><span class="op">,</span> <span class="va">n</span>)<span class="op">;</span> <span class="co">% mind the 'large'</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="va">desing</span> <span class="op">=</span> <span class="va">desingularizationfactory</span>(<span class="va">m</span><span class="op">,</span> <span class="va">n</span><span class="op">,</span> <span class="va">r</span>)<span class="op">;</span> <span class="co">% (X, P) lift</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="va">problem</span>.<span class="va">M</span> <span class="op">=</span> <span class="va">desing</span><span class="op">;</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a><span class="va">problem</span>.<span class="va">cost</span>  <span class="op">=</span> <span class="op">@</span>(<span class="va">X</span>) <span class="fl">.5</span><span class="op">*</span><span class="va">Rmn</span>.<span class="va">dist</span>(<span class="va">X</span><span class="op">,</span> <span class="va">A</span>)<span class="op">^</span><span class="fl">2</span><span class="op">;</span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a><span class="va">problem</span>.<span class="va">egrad</span> <span class="op">=</span> <span class="op">@</span>(<span class="va">X</span>) <span class="va">Rmn</span>.<span class="va">diff</span>(<span class="va">X</span><span class="op">,</span> <span class="va">A</span>)<span class="op">;</span>      <span class="co">% mind the 'e'</span></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a><span class="va">problem</span>.<span class="va">ehess</span> <span class="op">=</span> <span class="op">@</span>(<span class="va">X</span><span class="op">,</span> <span class="va">Xdot</span>) <span class="va">desing</span>.<span class="va">tangent2ambient</span>(<span class="va">X</span><span class="op">,</span> <span class="va">Xdot</span>).<span class="va">X</span><span class="op">;</span> <span class="co">% !!</span></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a><span class="co">% initialization close to zero</span></span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a><span class="va">X0</span> <span class="op">=</span> <span class="va">desing</span>.<span class="va">rand</span>()<span class="op">;</span></span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a><span class="va">X0</span>.<span class="va">S</span> <span class="op">=</span> <span class="va">diag</span>(<span class="va">rand</span>(<span class="va">r</span><span class="op">,</span> <span class="fl">1</span>)<span class="op">/</span><span class="fl">1000</span>)<span class="op">;</span></span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a><span class="va">X</span> <span class="op">=</span> <span class="va">trustregions</span>(<span class="va">problem</span><span class="op">,</span> <span class="va">X0</span>)<span class="op">;</span></span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a><span class="co">% Confirm that the positive singular values of X</span></span>
+<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a><span class="co">% in the desingularizationfactory format (U, S, V)</span></span>
+<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a><span class="co">% match the top singular values of A.</span></span>
+<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a><span class="co">% For efficiency, we do not form X.</span></span>
+<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a><span class="va">svd</span>(<span class="va">X</span>.<span class="va">S</span>)<span class="op">'</span></span>
+<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a><span class="va">svds</span>(<span class="va">A</span><span class="op">,</span> <span class="va">r</span><span class="op">+</span><span class="fl">1</span>)<span class="op">'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -1120,9 +1190,9 @@ Desingularization lift of bounded rank matrices.
 </section>
 <section id="burer-monteiro-for-smooth-sdp" class="level3">
 <h3 class="anchored" data-anchor-id="burer-monteiro-for-smooth-sdp">Burer-Monteiro for smooth SDP</h3>
-<div class="sourceCode" id="cb15"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="va">lift</span> <span class="op">=</span> <span class="va">burermonteirolift</span>(<span class="ss">'free'</span><span class="op">,</span> <span class="va">n</span><span class="op">,</span> <span class="va">p</span>)</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="va">lift</span> <span class="op">=</span> <span class="va">burermonteirolift</span>(<span class="ss">'unittrace'</span><span class="op">,</span> <span class="va">n</span><span class="op">,</span> <span class="va">p</span>)</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="va">lift</span> <span class="op">=</span> <span class="va">burermonteirolift</span>(<span class="ss">'unitdiag'</span><span class="op">,</span> <span class="va">n</span><span class="op">,</span> <span class="va">p</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="va">lift</span> <span class="op">=</span> <span class="va">burermonteirolift</span>(<span class="ss">'free'</span><span class="op">,</span> <span class="va">n</span><span class="op">,</span> <span class="va">p</span>)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="va">lift</span> <span class="op">=</span> <span class="va">burermonteirolift</span>(<span class="ss">'unittrace'</span><span class="op">,</span> <span class="va">n</span><span class="op">,</span> <span class="va">p</span>)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="va">lift</span> <span class="op">=</span> <span class="va">burermonteirolift</span>(<span class="ss">'unitdiag'</span><span class="op">,</span> <span class="va">n</span><span class="op">,</span> <span class="va">p</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Recall <a href="#fig-diagramEMN" class="quarto-xref">Figure&nbsp;1</a>, including the parts in pink. The manifold upstairs, <span class="math inline">\(\calM\)</span>, is embedded in <span class="math inline">\(\calE = \Rnp\)</span>. The manifold downstairs is <span class="math inline">\(\calN = \Rnn\)</span>. The lift <span class="math inline">\(\varphi \colon \calM \to \calN\)</span> is the restriction to <span class="math inline">\(\calM\)</span> of the map <span class="math inline">\(\bar{\varphi} \colon \calE \to \calN\)</span>, as follows: <span class="math display">\[\begin{align*}
     \varphi = \bar{\varphi}|_{\calM} &amp;&amp; \textrm{ and } &amp;&amp; \bar{\varphi}(Y) = YY\transpose.
 \end{align*}\]</span> Notice that <span class="math inline">\(\bar{\varphi}(\calE)\)</span> is the set of positive semidefinite matrices of size <span class="math inline">\(n\)</span> and rank at most <span class="math inline">\(p\)</span>. <a href="https://link.springer.com/article/10.1007/s10107-002-0352-8">Burer and Monteiro</a> popularized this parameterization as a means to solve <a href="https://en.wikipedia.org/wiki/Semidefinite_programming">semidefinite programs</a> (SDP).</p>
@@ -1141,45 +1211,203 @@ Desingularization lift of bounded rank matrices.
 </ul>
 <p>The code below shows the rank-constrained SDP approach to <a href="https://en.wikipedia.org/wiki/Maximum_cut">Max-Cut</a> for a random sparse graph with adjacency matrix <span class="math inline">\(C\)</span>: <span class="math inline">\(\min_{X \succeq 0} f(X) = \trace(CX) = \inner{C}{X}\)</span> subject to <span class="math inline">\(\diag(X) = \One\)</span> and <span class="math inline">\(\rank(X) \leq p\)</span>. For this simple task, we could have easily implemented the function <span class="math inline">\(g(Y) = \inner{C}{YY^\top} = \inner{CY}{Y}\)</span> directly. That is equivalent but more efficient: both codes are provided.</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-4-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-1" role="tab" aria-controls="tabset-4-1" aria-selected="true">Via <code>manoptlift</code></a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-4-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-2" role="tab" aria-controls="tabset-4-2" aria-selected="false">Direct implementation</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-5-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-1" role="tab" aria-controls="tabset-5-1" aria-selected="true">Via <code>manoptlift</code></a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-5-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-2" role="tab" aria-controls="tabset-5-2" aria-selected="false">Direct implementation</a></li></ul>
 <div class="tab-content">
-<div id="tabset-4-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-4-1-tab">
-<div class="sourceCode" id="cb16"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="va">n</span> <span class="op">=</span> <span class="fl">1000</span><span class="op">;</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="va">p</span> <span class="op">=</span> <span class="fl">15</span><span class="op">;</span></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="va">C</span> <span class="op">=</span> <span class="va">abs</span>(<span class="va">sprandsym</span>(<span class="va">n</span><span class="op">,</span> <span class="fl">.001</span>))<span class="op">;</span> <span class="co">% random adjacency matrix</span></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="va">Rnn</span> <span class="op">=</span> <span class="va">euclideanlargefactory</span>(<span class="va">n</span><span class="op">,</span> <span class="va">n</span>)<span class="op">;</span>  <span class="co">% mind the 'large'</span></span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="va">downstairs</span>.<span class="va">M</span> <span class="op">=</span> <span class="va">Rnn</span><span class="op">;</span></span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="va">downstairs</span>.<span class="va">cost</span> <span class="op">=</span> <span class="op">@</span>(<span class="va">X</span>) <span class="va">Rnn</span>.<span class="va">inner</span>(<span class="va">C</span><span class="op">,</span> <span class="va">X</span>)<span class="op">;</span></span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a><span class="va">downstairs</span>.<span class="va">grad</span> <span class="op">=</span> <span class="op">@</span>(<span class="va">X</span>) <span class="va">C</span><span class="op">;</span></span>
-<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="va">downstairs</span>.<span class="va">hess</span> <span class="op">=</span> <span class="op">@</span>(<span class="va">X</span><span class="op">,</span> <span class="va">Xdot</span>) <span class="va">Rnn</span>.<span class="va">zero</span>()<span class="op">;</span></span>
-<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a><span class="co">% Our gradient and Hessian downstairs are symmetric,</span></span>
-<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a><span class="co">% so we add the flag 'symmetric' to enable some savings.</span></span>
-<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a><span class="va">lift</span> <span class="op">=</span> <span class="va">burermonteirolift</span>(<span class="ss">'unitdiag'</span><span class="op">,</span> <span class="va">n</span><span class="op">,</span> <span class="va">p</span><span class="op">,</span> <span class="ss">'symmetric'</span>)<span class="op">;</span></span>
-<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a><span class="va">upstairs</span> <span class="op">=</span> <span class="va">manoptlift</span>(<span class="va">downstairs</span><span class="op">,</span> <span class="va">lift</span>)<span class="op">;</span></span>
-<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a><span class="va">Y</span> <span class="op">=</span> <span class="va">trustregions</span>(<span class="va">upstairs</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="tabset-5-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-5-1-tab">
+<div class="sourceCode" id="cb18"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="va">n</span> <span class="op">=</span> <span class="fl">1000</span><span class="op">;</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="va">p</span> <span class="op">=</span> <span class="fl">15</span><span class="op">;</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="va">C</span> <span class="op">=</span> <span class="va">abs</span>(<span class="va">sprandsym</span>(<span class="va">n</span><span class="op">,</span> <span class="fl">.001</span>))<span class="op">;</span> <span class="co">% random adjacency matrix</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="va">Rnn</span> <span class="op">=</span> <span class="va">euclideanlargefactory</span>(<span class="va">n</span><span class="op">,</span> <span class="va">n</span>)<span class="op">;</span>  <span class="co">% mind the 'large'</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="va">downstairs</span>.<span class="va">M</span> <span class="op">=</span> <span class="va">Rnn</span><span class="op">;</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="va">downstairs</span>.<span class="va">cost</span> <span class="op">=</span> <span class="op">@</span>(<span class="va">X</span>) <span class="va">Rnn</span>.<span class="va">inner</span>(<span class="va">C</span><span class="op">,</span> <span class="va">X</span>)<span class="op">;</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="va">downstairs</span>.<span class="va">grad</span> <span class="op">=</span> <span class="op">@</span>(<span class="va">X</span>) <span class="va">C</span><span class="op">;</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="va">downstairs</span>.<span class="va">hess</span> <span class="op">=</span> <span class="op">@</span>(<span class="va">X</span><span class="op">,</span> <span class="va">Xdot</span>) <span class="va">Rnn</span>.<span class="va">zero</span>()<span class="op">;</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a><span class="co">% Our gradient and Hessian downstairs are symmetric,</span></span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a><span class="co">% so we add the flag 'symmetric' to enable some savings.</span></span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a><span class="va">lift</span> <span class="op">=</span> <span class="va">burermonteirolift</span>(<span class="ss">'unitdiag'</span><span class="op">,</span> <span class="va">n</span><span class="op">,</span> <span class="va">p</span><span class="op">,</span> <span class="ss">'symmetric'</span>)<span class="op">;</span></span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a><span class="va">upstairs</span> <span class="op">=</span> <span class="va">manoptlift</span>(<span class="va">downstairs</span><span class="op">,</span> <span class="va">lift</span>)<span class="op">;</span></span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a><span class="va">Y</span> <span class="op">=</span> <span class="va">trustregions</span>(<span class="va">upstairs</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="tabset-4-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-4-2-tab">
-<div class="sourceCode" id="cb17"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="va">n</span> <span class="op">=</span> <span class="fl">1000</span><span class="op">;</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="va">p</span> <span class="op">=</span> <span class="fl">15</span><span class="op">;</span></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="va">C</span> <span class="op">=</span> <span class="va">abs</span>(<span class="va">sprandsym</span>(<span class="va">n</span><span class="op">,</span> <span class="fl">.001</span>))<span class="op">;</span> <span class="co">% random adjacency matrix</span></span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="va">problem</span>.<span class="va">M</span> <span class="op">=</span> <span class="va">obliquefactory</span>(<span class="va">p</span><span class="op">,</span> <span class="va">n</span><span class="op">,</span> <span class="va">true</span>)<span class="op">;</span> <span class="co">% nxp, unit rows</span></span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="va">inner</span> <span class="op">=</span> <span class="op">@</span>(<span class="va">U</span><span class="op">,</span> <span class="va">V</span>) <span class="va">U</span>(<span class="op">:</span>)<span class="op">.'*</span><span class="va">V</span>(<span class="op">:</span>)<span class="op">;</span></span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="va">problem</span>.<span class="va">cost</span> <span class="op">=</span> <span class="op">@</span>(<span class="va">Y</span>) <span class="va">inner</span>(<span class="va">C</span><span class="op">*</span><span class="va">Y</span><span class="op">,</span> <span class="va">Y</span>)<span class="op">;</span></span>
-<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a><span class="va">problem</span>.<span class="va">egrad</span> <span class="op">=</span> <span class="op">@</span>(<span class="va">Y</span>) <span class="fl">2</span><span class="op">*</span><span class="va">C</span><span class="op">*</span><span class="va">Y</span><span class="op">;</span></span>
-<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a><span class="va">problem</span>.<span class="va">ehess</span> <span class="op">=</span> <span class="op">@</span>(<span class="va">Y</span><span class="op">,</span> <span class="va">Ydot</span>) <span class="fl">2</span><span class="op">*</span><span class="va">C</span><span class="op">*</span><span class="va">Ydot</span><span class="op">;</span></span>
-<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a><span class="va">Y</span> <span class="op">=</span> <span class="va">trustregions</span>(<span class="va">problem</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="tabset-5-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-5-2-tab">
+<div class="sourceCode" id="cb19"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="va">n</span> <span class="op">=</span> <span class="fl">1000</span><span class="op">;</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="va">p</span> <span class="op">=</span> <span class="fl">15</span><span class="op">;</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="va">C</span> <span class="op">=</span> <span class="va">abs</span>(<span class="va">sprandsym</span>(<span class="va">n</span><span class="op">,</span> <span class="fl">.001</span>))<span class="op">;</span> <span class="co">% random adjacency matrix</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="va">problem</span>.<span class="va">M</span> <span class="op">=</span> <span class="va">obliquefactory</span>(<span class="va">n</span><span class="op">,</span> <span class="va">p</span><span class="op">,</span> <span class="ss">'rows'</span>)<span class="op">;</span> <span class="co">% nxp, unit rows</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="va">inner</span> <span class="op">=</span> <span class="op">@</span>(<span class="va">U</span><span class="op">,</span> <span class="va">V</span>) <span class="va">U</span>(<span class="op">:</span>)<span class="op">.'*</span><span class="va">V</span>(<span class="op">:</span>)<span class="op">;</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="va">problem</span>.<span class="va">cost</span> <span class="op">=</span> <span class="op">@</span>(<span class="va">Y</span>) <span class="va">inner</span>(<span class="va">C</span><span class="op">*</span><span class="va">Y</span><span class="op">,</span> <span class="va">Y</span>)<span class="op">;</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="va">problem</span>.<span class="va">egrad</span> <span class="op">=</span> <span class="op">@</span>(<span class="va">Y</span>) <span class="fl">2</span><span class="op">*</span><span class="va">C</span><span class="op">*</span><span class="va">Y</span><span class="op">;</span></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a><span class="va">problem</span>.<span class="va">ehess</span> <span class="op">=</span> <span class="op">@</span>(<span class="va">Y</span><span class="op">,</span> <span class="va">Ydot</span>) <span class="fl">2</span><span class="op">*</span><span class="va">C</span><span class="op">*</span><span class="va">Ydot</span><span class="op">;</span></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a><span class="va">Y</span> <span class="op">=</span> <span class="va">trustregions</span>(<span class="va">problem</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
 </section>
+</section>
+<section id="adding-a-regularizer" class="level2">
+<h2 class="anchored" data-anchor-id="adding-a-regularizer">Adding a regularizer</h2>
+<p>Given a lift <span class="math inline">\(\varphi \colon \calM \to \calN\)</span>, the lifted cost function <span class="math inline">\(g = f \circ \varphi\)</span> can be augmented with a function <span class="math inline">\(\rho \colon \calM \to \reals\)</span> and a parameter <span class="math inline">\(\lambda \in \reals\)</span> (usually positive), as follows: <span class="math display">\[
+    g_\lambda(y) = f(\varphi(y)) + \lambda \rho(y).
+\]</span> This <span class="math inline">\(g_\lambda\)</span> is not necessarily the lift of a function on <span class="math inline">\(\calN\)</span>, because <span class="math inline">\(\rho\)</span> may not factor through <span class="math inline">\(\varphi\)</span>. Still, for <span class="math inline">\(\lambda \geq 0\)</span>, it is easy to see that minimizing <span class="math inline">\(g_\lambda\)</span> is equivalent to minimizing <span class="math display">\[
+    f_\lambda(x) = f(x) + \lambda r(x)
+\]</span> on <span class="math inline">\(\calX = \varphi(\calM)\)</span>, where <span class="math inline">\(r \colon \calN \to \reals\)</span> is defined by <span class="math display">\[
+    r(x) = \min_{y \in \calM} \rho(y) \textrm{ subject to } \varphi(y) = x.
+\]</span> </p>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Click to detail why <span class="math inline">\(\min g_\lambda\)</span> and <span class="math inline">\(\min f_\lambda\)</span> are equal.
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Assume <span class="math inline">\(\bar y\)</span> minimizes <span class="math inline">\(g_\lambda\)</span> and let <span class="math inline">\(\bar x = \varphi(\bar y)\)</span>. Then, <span class="math display">\[\begin{align*}
+    f_\lambda(\bar x) &amp; = f(\bar x) + \lambda r(\bar x) \\
+                      &amp; \leq f(\varphi(\bar y)) + \lambda \rho(\bar y) \\
+                      &amp; = g_\lambda(\bar y) \\
+                      &amp; \leq g_\lambda(y)  \quad \textrm{ for all } y \in \calM.
+\end{align*}\]</span> The latter holds for all <span class="math inline">\(y\)</span>. In particular, for each <span class="math inline">\(x \in \calX = \varphi(\calM)\)</span> we can** choose <span class="math inline">\(y\)</span> such that <span class="math inline">\(\varphi(y) = x\)</span> and <span class="math inline">\(\rho(y) = r(x)\)</span>, and deduce that <span class="math inline">\(f_\lambda(\bar x) \leq f(x) + \lambda r(x) = f_\lambda(x)\)</span> for all <span class="math inline">\(x\)</span>, that is, <span class="math inline">\(\bar x\)</span> minimizes <span class="math inline">\(f_\lambda\)</span> over <span class="math inline">\(\calX\)</span>.</p>
+<p>** If <span class="math inline">\(\rho\)</span> does not attain its minimum on <span class="math inline">\(\varphi^{-1}(x)\)</span>, choose <span class="math inline">\(y\)</span> within <span class="math inline">\(\varepsilon &gt; 0\)</span> of the infimum and let <span class="math inline">\(\varepsilon\)</span> go to zero.</p>
+</div>
+</div>
+</div>
+<p>This becomes interesting when we consider examples: take a look at <a href="#tbl-lift-regularizers" class="quarto-xref">Table&nbsp;3</a>.</p>
+<div id="tbl-lift-regularizers" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-lift-regularizers-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;3: Regularizers availabe in Manopt lifts, activated with the optional input <code>lambda</code> passed to <code>manoptlift</code>.
+</figcaption>
+<div aria-describedby="tbl-lift-regularizers-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 26%">
+<col style="width: 26%">
+<col style="width: 26%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">lift</th>
+<th style="text-align: left;"><span class="math inline">\(\varphi \colon \calM \to \calN\)</span></th>
+<th style="text-align: left;"><span class="math inline">\(\rho \colon \calM \to \reals\)</span></th>
+<th style="text-align: left;"><span class="math inline">\(r \colon \calN \to \reals\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>burermonteiroLRlift</code></td>
+<td style="text-align: left;"><span class="math inline">\(\varphi(L, R) = LR^\top\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(\rho(L, R) = \frac{1}{2}(\sqfrobnorm{U} + \sqfrobnorm{V})\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(r(X) = \|X\|_{\mathrm{nuclear}}\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>burermonteirolift</code></td>
+<td style="text-align: left;"><span class="math inline">\(\varphi(Y) = YY^\top\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(\rho(Y) = \sqfrobnorm{Y}\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(r(X) = \trace(X) = \|X\|_{\mathrm{nuclear}}\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>hadamarddifferencelift</code></td>
+<td style="text-align: left;"><span class="math inline">\(\varphi(u, v) = u \odot u - v \odot v\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(\rho(u, v) = \|u\|^2 + \|v\|^2\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(r(x) = \|x\|_1\)</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>To use a regularizer, the <code>lift</code> structure should provide certain fields to compute <span class="math inline">\(\rho\)</span>, its gradient and (ideally) its Hessian: see <a href="#tbl-liftfields-regularizer" class="quarto-xref">Table&nbsp;4</a>.</p>
+<div id="tbl-liftfields-regularizer" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-liftfields-regularizer-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;4: Fields to define a regularizer in a <code>lift</code> structure.
+</figcaption>
+<div aria-describedby="tbl-liftfields-regularizer-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 30%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Name</th>
+<th style="text-align: left;">Field usage</th>
+<th style="text-align: left;">Functionality</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\(\rho\)</span></td>
+<td style="text-align: left;"><code>lift.rho(y)</code></td>
+<td style="text-align: left;">Value fo the regularizer upstairs, <span class="math inline">\(\rho(y)\)</span>.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\(\grad \rho\)</span></td>
+<td style="text-align: left;"><code>lift.gradrho(y)</code></td>
+<td style="text-align: left;">Gradient of the regularizer upstairs, <span class="math inline">\(\grad \rho(y)\)</span>. If <code>lift.embedded = false</code>, this is the Riemannian gradient of <span class="math inline">\(\rho\)</span> on <span class="math inline">\(\calM\)</span>. If <code>lift.embedded = true</code>, this is the gradient of <span class="math inline">\(\rho\)</span> extended to the embedding space of <span class="math inline">\(\calM\)</span>, as one would do to define its <code>egrad</code>.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\(\Hess \rho\)</span></td>
+<td style="text-align: left;"><code>lift.hessrho(y, v)</code></td>
+<td style="text-align: left;">Hessian of the regularizer upstairs, <span class="math inline">\(\Hess \rho(y)[v]\)</span>. Same comment about <code>lift.embedded</code>.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>Such a lift can be passed to <code>manoptlift</code> with a positive <code>lambda</code> to activate the regularizer.</p>
+<p>For example, <span class="math inline">\(\varphi \colon \Rn \times \Rn \to \Rn\)</span> defined by <span class="math inline">\(\varphi(u, v) = u \odot u - v \odot v\)</span> is a lift of <span class="math inline">\(\calX = \Rn\)</span>, known as the <em>Hadamard difference parameterization</em> (<code>hadamarddifferencelift</code>). It is known that the regularizer <span class="math inline">\(\rho(u, v) = \|u\|^2 + \|v\|^2\)</span> has the remarkable property that <span class="math display">\[
+    r(x) = \min_{u, v : \varphi(u, v) = x} \rho(u, v) = \|x\|_1.
+\]</span> Thus, if <span class="math inline">\(f\)</span> is smooth, then <span class="math inline">\(g_\lambda\)</span> is smooth, yet minimizing <span class="math inline">\(g_\lambda\)</span> offers a way to minimize <span class="math inline">\(f_\lambda(x) = f(x) + \lambda \|x\|_1\)</span>, which is <em>not</em> smooth. This is all the more relevant considering that the 1-norm regularizer promotes sparsity in <span class="math inline">\(x\)</span>. See this <a href="https://arxiv.org/abs/2307.03571">2023 paper</a> for a discussion of that lift and associated regularizer, together with bibliographic references and a broad extension to group-sparsity regularizers and more. </p>
+<p>The following example shows how to solve the <a href="https://en.wikipedia.org/wiki/Lasso_(statistics)#Least_squares">Lasso problem</a> in Lagrangian form through that lift: the aim is to minimize <span class="math inline">\(f_\lambda(x) = \frac{1}{2}\|Ax - b\|^2 + \lambda\|x\|_1\)</span> in order to recover a sparse <span class="math inline">\(x \in \Rn\)</span> from <span class="math inline">\(m &lt; n\)</span> linear measurements.</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co">% Setup random problem data.</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="co">% Unknown x_true in R^n is sparse.</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="co">% We get m &lt; n linear measurements.</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="va">n</span> <span class="op">=</span> <span class="fl">100</span><span class="op">;</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="va">m</span> <span class="op">=</span> <span class="fl">42</span><span class="op">;</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="va">A</span> <span class="op">=</span> <span class="va">randn</span>(<span class="va">m</span><span class="op">,</span> <span class="va">n</span>)<span class="op">;</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="va">support_density</span> <span class="op">=</span> <span class="fl">.1</span><span class="op">;</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="va">x_true</span> <span class="op">=</span> <span class="va">full</span>(<span class="va">sprandn</span>(<span class="va">n</span><span class="op">,</span> <span class="fl">1</span><span class="op">,</span> <span class="va">support_density</span>))<span class="op">;</span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a><span class="va">b</span> <span class="op">=</span> <span class="va">A</span><span class="op">*</span><span class="va">x_true</span><span class="op">;</span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a><span class="co">% Describe the quadratic cost function f : R^n -&gt; R.</span></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a><span class="va">downstairs</span>.<span class="va">M</span> <span class="op">=</span> <span class="va">euclideanfactory</span>(<span class="va">n</span><span class="op">,</span> <span class="fl">1</span>)<span class="op">;</span></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a><span class="va">downstairs</span>.<span class="va">cost</span> <span class="op">=</span> <span class="op">@</span>(<span class="va">x</span>) <span class="fl">.5</span><span class="op">*</span><span class="va">norm</span>(<span class="va">A</span><span class="op">*</span><span class="va">x</span> <span class="op">-</span> <span class="va">b</span>)<span class="op">^</span><span class="fl">2</span><span class="op">;</span></span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a><span class="va">downstairs</span>.<span class="va">grad</span> <span class="op">=</span> <span class="op">@</span>(<span class="va">x</span>) <span class="va">A</span><span class="op">'*</span>(<span class="va">A</span><span class="op">*</span><span class="va">x</span> <span class="op">-</span> <span class="va">b</span>)<span class="op">;</span></span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a><span class="va">downstairs</span>.<span class="va">hess</span> <span class="op">=</span> <span class="op">@</span>(<span class="va">x</span><span class="op">,</span> <span class="va">xdot</span>) <span class="va">A</span><span class="op">'*</span><span class="va">A</span><span class="op">*</span><span class="va">xdot</span><span class="op">;</span></span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a><span class="co">% Select the lift of R^n whose built-in regularizer is the 1-norm.</span></span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a><span class="va">lift</span> <span class="op">=</span> <span class="va">hadamarddifferencelift</span>(<span class="va">n</span>)<span class="op">;</span></span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a><span class="co">% Call manoptlift with regularization parameter lambda &gt; 0.</span></span>
+<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a><span class="va">lambda</span> <span class="op">=</span> <span class="fl">.1</span><span class="op">;</span></span>
+<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a><span class="va">upstairs</span> <span class="op">=</span> <span class="va">manoptlift</span>(<span class="va">downstairs</span><span class="op">,</span> <span class="va">lift</span><span class="op">,</span> []<span class="op">,</span> <span class="va">lambda</span>)<span class="op">;</span></span>
+<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a><span class="co">% Minimize g_lambda upstairs.</span></span>
+<span id="cb20-25"><a href="#cb20-25" aria-hidden="true" tabindex="-1"></a><span class="va">y</span> <span class="op">=</span> <span class="va">trustregions</span>(<span class="va">upstairs</span>)<span class="op">;</span></span>
+<span id="cb20-26"><a href="#cb20-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-27"><a href="#cb20-27" aria-hidden="true" tabindex="-1"></a><span class="co">% Map the answer down to a vector in R^n.</span></span>
+<span id="cb20-28"><a href="#cb20-28" aria-hidden="true" tabindex="-1"></a><span class="va">x</span> <span class="op">=</span> <span class="va">lift</span>.<span class="va">phi</span>(<span class="va">y</span>)<span class="op">;</span></span>
+<span id="cb20-29"><a href="#cb20-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-30"><a href="#cb20-30" aria-hidden="true" tabindex="-1"></a><span class="co">% Display the results.</span></span>
+<span id="cb20-31"><a href="#cb20-31" aria-hidden="true" tabindex="-1"></a><span class="va">stem</span>(<span class="fl">1</span><span class="op">:</span><span class="va">n</span><span class="op">,</span> <span class="va">x_true</span>)<span class="op">;</span></span>
+<span id="cb20-32"><a href="#cb20-32" aria-hidden="true" tabindex="-1"></a><span class="va">hold</span> <span class="va">all</span><span class="op">;</span></span>
+<span id="cb20-33"><a href="#cb20-33" aria-hidden="true" tabindex="-1"></a><span class="va">stem</span>(<span class="fl">1</span><span class="op">:</span><span class="va">n</span><span class="op">,</span> <span class="va">x</span><span class="op">,</span> <span class="ss">'.'</span>)<span class="op">;</span></span>
+<span id="cb20-34"><a href="#cb20-34" aria-hidden="true" tabindex="-1"></a><span class="va">legend</span>(<span class="ss">'True x'</span><span class="op">,</span> <span class="ss">'Computed x'</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="the-hessian-of-g" class="level2">
 <h2 class="anchored" data-anchor-id="the-hessian-of-g">The Hessian of <span class="math inline">\(g\)</span></h2>
@@ -1406,18 +1634,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -1449,7 +1666,29 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp("https:\/\/www\.manopt\.org");
@@ -1457,7 +1696,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {

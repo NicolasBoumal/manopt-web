@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.555">
+<meta name="generator" content="quarto-1.5.46">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Manopt - Helpful tools</title>
+<title>Helpful tools – Manopt</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -321,7 +321,7 @@ window.MathJax = {
 </script>
 
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
@@ -369,7 +369,7 @@ window.Quarto = {
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -379,7 +379,7 @@ window.Quarto = {
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-tutorial" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-tutorial" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Tutorial</span>
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-tutorial">    
@@ -447,18 +447,18 @@ window.Quarto = {
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
-          <div class="quarto-navbar-tools">
+            <div class="quarto-navbar-tools">
   <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
 </div>
       </div> <!-- /container-fluid -->
     </nav>
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./tools.html">Helpful tools</a></li></ol></nav>
-        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
   </nav>
@@ -546,6 +546,8 @@ window.Quarto = {
   <li><a href="#interactive-stopping-criteria" id="toc-interactive-stopping-criteria" class="nav-link" data-scroll-target="#interactive-stopping-criteria">Interactive stopping criteria</a></li>
   <li><a href="#utilities-for-solvers" id="toc-utilities-for-solvers" class="nav-link" data-scroll-target="#utilities-for-solvers">Utilities for solvers</a></li>
   <li><a href="#creating-manifolds" id="toc-creating-manifolds" class="nav-link" data-scroll-target="#creating-manifolds">Creating manifolds</a></li>
+  <li><a href="#lifts-parameterizations-change-of-variable" id="toc-lifts-parameterizations-change-of-variable" class="nav-link" data-scroll-target="#lifts-parameterizations-change-of-variable">Lifts, parameterizations, change of variable</a></li>
+  <li><a href="#automatic-differentiation" id="toc-automatic-differentiation" class="nav-link" data-scroll-target="#automatic-differentiation">Automatic differentiation</a></li>
   <li><a href="#miscellaneous" id="toc-miscellaneous" class="nav-link" data-scroll-target="#miscellaneous">Miscellaneous</a></li>
   </ul>
 </nav>
@@ -586,7 +588,7 @@ window.Quarto = {
 <h3 class="anchored" data-anchor-id="gradient-check">Gradient check</h3>
 <p>Pick a point <span class="math inline">\(x\)</span> on the manifold and a tangent vector <span class="math inline">\(u\)</span> at <span class="math inline">\(x\)</span>. From a truncated Taylor expansion, we know that the following holds with any retraction <span class="math inline">\(\Retr\)</span>: <span class="math display">\[
   E(t) = \Big| f(\Retr_x(tu)) - \big[ f(x) + t\cdot\D f(x)[u] \big] \Big| = \mathcal{O}(t^2).
-\]</span> Hence, in a log-log plot with <span class="math inline">\(\log(t)\)</span> on the abscissa, the error should behave as <span class="math inline">\(\log(t^2) = 2\log(t)\)</span>. That is, we should observe a slope of 2. Calling <code>checkdiff(problem, x, u)</code> produces such a plot and reports the slope of it in a text output. Numerical errors prevent the curve to have a slope of 2 everywhere even if directional derivatives are correct, so you should really inspect the plot visually. If <code>x</code> and <code>u</code> are omitted, they are picked at random.</p>
+\]</span> Hence, in a log-log plot with <span class="math inline">\(\log(t)\)</span> on the abscissa, the error should behave as <span class="math inline">\(\log(t^2) = 2\log(t)\)</span>. That is, we should observe a slope of 2. Calling <code>checkdiff(problem, x, u)</code> produces such a plot and reports the slope of it in a text output. Numerical errors prevent the curve from having a slope of 2 on the whole range even if directional derivatives are correct, so you should really inspect the plot visually. If <code>x</code> and <code>u</code> are omitted, they are picked at random.</p>
 <p>The Riemannian gradient is the (only) tangent vector field that satisfies <span class="math display">\[
   \inner{\grad f(x)}{u}_x = \D f(x)[u]
 \]</span> for all <span class="math inline">\(x, u\)</span>. Calling <code>checkgradient(problem, x, u)</code> computes <span class="math inline">\(\grad f(x)\)</span> then does two things:</p>
@@ -626,15 +628,17 @@ window.Quarto = {
 <ul>
 <li><p><code>checkretraction(M, x, v)</code> <br> For manifolds <code>M</code> which have a correct exponential map <code>M.exp</code> implemented, this tool produces a slopt-test plot to check the order of agreement of the retraction <code>M.retr</code> with the exponential. A slope of 2 indicates the retraction is a first-order approximation of the exponential (which is necessary for most (all?) convergence theorems to hold.) A slope of 3 indicates the retraction is second-order, which is convenient in some cases. The check is conducted at point <code>x</code> along direction <code>v</code>; they are generated at random if omitted.</p></li>
 <li><p><code>checkmanifold(M)</code> <br> Runs a collection of tests on a manifold structure produced by a factory. The purpose of this tool is ease the process of creating factories for new manifolds. Contributions are welcome to extend it.</p></li>
+<li><p><code>val = offtangent(M, x, v)</code> <br> Checks if <code>v</code> is a tangent vector at <code>x</code> for the manifold <code>M</code>. It is a wrapper for <code>M.offtangent(x, v)</code> with a fallback if <code>M</code> does not offer that functionality. In normal circumstances, the output <code>val</code> is a real number which is machine-precision zero if <code>v</code> is indeed tangent at <code>x</code>. The further away from zero, the less <code>v</code> satisfies the numerical requirements to be tangent. The output is <code>Inf</code> if <code>x, v</code> are not in the proper formats (or if an error occurred). The output is <code>NaN</code> if it was not possible to run the test.</p></li>
+<li><p><code>val = offmanifold(M, x)</code> <br> Checks if <code>x</code> is a point on the manifold <code>M</code>. It is a wrapper for <code>M.offmanifold(x)</code> where we can implement fallbacks some day. The output is interpreted in the same way as for <code>offtangent</code>.</p></li>
 </ul>
 </section>
 <section id="hessian-eigenvalues-and-eigenvectors" class="level2">
 <h2 class="anchored" data-anchor-id="hessian-eigenvalues-and-eigenvectors">Hessian eigenvalues and eigenvectors</h2>
-<p>Given a function <span class="math inline">\(f \colon \calM \to \reals\)</span> and a point <span class="math inline">\(x \in \calM\)</span>, we may want to investigate the spectrum of <span class="math inline">\(\Hess f(x)\)</span>, that is, the Riemannian Hessian at <span class="math inline">\(x\)</span>. With a <code>problem</code> structure to describe <span class="math inline">\(f\)</span>, and <code>x</code> to identify the point <span class="math inline">\(x\)</span>, we can do so in several ways using the tools</p>
+<p>Given a function <span class="math inline">\(f \colon \calM \to \reals\)</span> and a point <span class="math inline">\(x \in \calM\)</span>, we may want to investigate the spectrum of <span class="math inline">\(\Hess f(x)\)</span>, that is, the Riemannian Hessian at <span class="math inline">\(x\)</span>. With a <code>problem</code> structure to describe <span class="math inline">\(f\)</span>, and <code>x</code> to identify the point <span class="math inline">\(x\)</span>, we can do so in several ways using the following tools:</p>
 <ul>
-<li><code>hessianmatrix</code> (then <code>eig</code>)</li>
-<li><code>hessianspectrum</code> (internally via <code>eigs</code>)</li>
-<li><code>hessianextreme</code> (via optimization)</li>
+<li><code>hessianmatrix</code> (then <code>eig</code>),</li>
+<li><code>hessianspectrum</code> (internally via <code>eigs</code>),</li>
+<li><code>hessianextreme</code> (via optimization).</li>
 </ul>
 <section id="via-matrix-representation" class="level3">
 <h3 class="anchored" data-anchor-id="via-matrix-representation">Via matrix representation</h3>
@@ -841,48 +845,50 @@ The matrix-way does not scale well
 <span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>    <span class="va">problem</span>.<span class="va">ehess</span> <span class="op">=</span> <span class="op">@</span><span class="va">ehess</span><span class="op">;</span></span>
 <span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    <span class="co">% List the names of counters we want the optimization algorithm to log.</span></span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    <span class="co">% The fields in the structure stats are function handles: one for each</span></span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>    <span class="co">% counter. Before passing stats to statsfunhelper, we could add more</span></span>
-<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>    <span class="co">% fields to stats to log other things as well.</span></span>
-<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>    <span class="co">%</span></span>
-<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>    <span class="co">% Names of the counters (here, Aproducts and some_other_counter) are</span></span>
-<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>    <span class="co">% for us to choose: they only need to be valid structure field names.</span></span>
-<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>    <span class="co">% They need not have been defined in advance.</span></span>
-<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>    <span class="va">stats</span> <span class="op">=</span> <span class="va">statscounters</span>({<span class="ss">'Aproducts'</span><span class="op">,</span> <span class="ss">'some_other_counter'</span>})<span class="op">;</span></span>
-<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>    <span class="va">options</span>.<span class="va">statsfun</span> <span class="op">=</span> <span class="va">statsfunhelper</span>(<span class="va">stats</span>)<span class="op">;</span></span>
-<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>    [<span class="va">x</span><span class="op">,</span> <span class="va">fx</span><span class="op">,</span> <span class="va">info</span>] <span class="op">=</span> <span class="va">trustregions</span>(<span class="va">problem</span><span class="op">,</span> []<span class="op">,</span> <span class="va">options</span>)<span class="op">;</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    <span class="co">% The fields in the structure metrics are function handles: one for each</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>    <span class="co">% counter.</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>    <span class="co">%</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>    <span class="co">% Before passing metrics to statsfunhelper, we could add more fields to</span></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>    <span class="co">% metrics to log other things as well: see the note below the code.</span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>    <span class="co">%</span></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>    <span class="co">% Names of the counters (here, Aproducts and some_other_counter) are</span></span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>    <span class="co">% for us to choose: they only need to be valid structure field names.</span></span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>    <span class="co">% They need not have been defined in advance.</span></span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>    <span class="va">metrics</span> <span class="op">=</span> <span class="va">statscounters</span>({<span class="ss">'Aproducts'</span><span class="op">,</span> <span class="ss">'some_other_counter'</span>})<span class="op">;</span></span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>    <span class="va">options</span>.<span class="va">statsfun</span> <span class="op">=</span> <span class="va">statsfunhelper</span>(<span class="va">metrics</span>)<span class="op">;</span></span>
 <span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>    <span class="va">semilogy</span>([<span class="va">info</span>.<span class="va">Aproducts</span>]<span class="op">,</span> [<span class="va">info</span>.<span class="va">gradnorm</span>]<span class="op">,</span> <span class="ss">'.-'</span>)<span class="op">;</span></span>
-<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>    <span class="va">xlabel</span>(<span class="ss">'Number of matrix-vector products with A'</span>)<span class="op">;</span></span>
-<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>    <span class="va">ylabel</span>(<span class="ss">'Riemannian gradient norm'</span>)<span class="op">;</span></span>
-<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>    <span class="co">% Below, we have the code for the cost function and its derivatives.</span></span>
-<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>    <span class="co">% Everytime we use a matrix-vector product with A, we increment the</span></span>
-<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>    <span class="co">% counter.</span></span>
-<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a>    <span class="kw">function</span> <span class="va">store</span> <span class="op">=</span> <span class="va">prepare</span>(<span class="va">x</span><span class="op">,</span> <span class="va">store</span>)</span>
-<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a>        <span class="kw">if</span> <span class="op">~</span><span class="va">isfield</span>(<span class="va">store</span><span class="op">,</span> <span class="ss">'Ax'</span>)</span>
-<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a>            <span class="va">store</span>.<span class="va">Ax</span> <span class="op">=</span> <span class="va">A</span><span class="op">*</span><span class="va">x</span><span class="op">;</span></span>
-<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a>            <span class="va">store</span> <span class="op">=</span> <span class="va">incrementcounter</span>(<span class="va">store</span><span class="op">,</span> <span class="ss">'Aproducts'</span>)<span class="op">;</span></span>
-<span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a>        <span class="kw">end</span></span>
-<span id="cb10-39"><a href="#cb10-39" aria-hidden="true" tabindex="-1"></a>    <span class="kw">end</span></span>
-<span id="cb10-40"><a href="#cb10-40" aria-hidden="true" tabindex="-1"></a>    <span class="kw">function</span> [<span class="va">f</span><span class="op">,</span> <span class="va">store</span>] <span class="op">=</span> <span class="va">cost</span>(<span class="va">x</span><span class="op">,</span> <span class="va">store</span>)</span>
-<span id="cb10-41"><a href="#cb10-41" aria-hidden="true" tabindex="-1"></a>        <span class="va">store</span> <span class="op">=</span> <span class="va">prepare</span>(<span class="va">x</span><span class="op">,</span> <span class="va">store</span>)<span class="op">;</span></span>
-<span id="cb10-42"><a href="#cb10-42" aria-hidden="true" tabindex="-1"></a>        <span class="va">Ax</span> <span class="op">=</span> <span class="va">store</span>.<span class="va">Ax</span><span class="op">;</span></span>
-<span id="cb10-43"><a href="#cb10-43" aria-hidden="true" tabindex="-1"></a>        <span class="va">f</span> <span class="op">=</span> <span class="fl">.5</span><span class="op">*</span><span class="va">x</span><span class="op">'*</span><span class="va">Ax</span><span class="op">;</span></span>
-<span id="cb10-44"><a href="#cb10-44" aria-hidden="true" tabindex="-1"></a>    <span class="kw">end</span></span>
-<span id="cb10-45"><a href="#cb10-45" aria-hidden="true" tabindex="-1"></a>    <span class="kw">function</span> [<span class="va">g</span><span class="op">,</span> <span class="va">store</span>] <span class="op">=</span> <span class="va">egrad</span>(<span class="va">x</span><span class="op">,</span> <span class="va">store</span>)</span>
-<span id="cb10-46"><a href="#cb10-46" aria-hidden="true" tabindex="-1"></a>        <span class="va">store</span> <span class="op">=</span> <span class="va">prepare</span>(<span class="va">x</span><span class="op">,</span> <span class="va">store</span>)<span class="op">;</span></span>
-<span id="cb10-47"><a href="#cb10-47" aria-hidden="true" tabindex="-1"></a>        <span class="va">g</span> <span class="op">=</span> <span class="va">store</span>.<span class="va">Ax</span><span class="op">;</span></span>
-<span id="cb10-48"><a href="#cb10-48" aria-hidden="true" tabindex="-1"></a>    <span class="kw">end</span></span>
-<span id="cb10-49"><a href="#cb10-49" aria-hidden="true" tabindex="-1"></a>    <span class="kw">function</span> [<span class="va">h</span><span class="op">,</span> <span class="va">store</span>] <span class="op">=</span> <span class="va">ehess</span>(<span class="va">x</span><span class="op">,</span> <span class="va">u</span><span class="op">,</span> <span class="va">store</span>)</span>
-<span id="cb10-50"><a href="#cb10-50" aria-hidden="true" tabindex="-1"></a>        <span class="va">h</span> <span class="op">=</span> <span class="va">A</span><span class="op">*</span><span class="va">u</span><span class="op">;</span></span>
-<span id="cb10-51"><a href="#cb10-51" aria-hidden="true" tabindex="-1"></a>        <span class="va">store</span> <span class="op">=</span> <span class="va">incrementcounter</span>(<span class="va">store</span><span class="op">,</span> <span class="ss">'Aproducts'</span>)<span class="op">;</span></span>
-<span id="cb10-52"><a href="#cb10-52" aria-hidden="true" tabindex="-1"></a>    <span class="kw">end</span></span>
-<span id="cb10-53"><a href="#cb10-53" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-54"><a href="#cb10-54" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>    [<span class="va">x</span><span class="op">,</span> <span class="va">fx</span><span class="op">,</span> <span class="va">info</span>] <span class="op">=</span> <span class="va">trustregions</span>(<span class="va">problem</span><span class="op">,</span> []<span class="op">,</span> <span class="va">options</span>)<span class="op">;</span></span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>    <span class="va">semilogy</span>([<span class="va">info</span>.<span class="va">Aproducts</span>]<span class="op">,</span> [<span class="va">info</span>.<span class="va">gradnorm</span>]<span class="op">,</span> <span class="ss">'.-'</span>)<span class="op">;</span></span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>    <span class="va">xlabel</span>(<span class="ss">'Number of matrix-vector products with A'</span>)<span class="op">;</span></span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>    <span class="va">ylabel</span>(<span class="ss">'Riemannian gradient norm'</span>)<span class="op">;</span></span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>    <span class="co">% Below, we have the code for the cost function and its derivatives.</span></span>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a>    <span class="co">% Everytime we use a matrix-vector product with A, we increment the</span></span>
+<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a>    <span class="co">% counter.</span></span>
+<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a>    <span class="kw">function</span> <span class="va">store</span> <span class="op">=</span> <span class="va">prepare</span>(<span class="va">x</span><span class="op">,</span> <span class="va">store</span>)</span>
+<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a>        <span class="kw">if</span> <span class="op">~</span><span class="va">isfield</span>(<span class="va">store</span><span class="op">,</span> <span class="ss">'Ax'</span>)</span>
+<span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a>            <span class="va">store</span>.<span class="va">Ax</span> <span class="op">=</span> <span class="va">A</span><span class="op">*</span><span class="va">x</span><span class="op">;</span></span>
+<span id="cb10-39"><a href="#cb10-39" aria-hidden="true" tabindex="-1"></a>            <span class="va">store</span> <span class="op">=</span> <span class="va">incrementcounter</span>(<span class="va">store</span><span class="op">,</span> <span class="ss">'Aproducts'</span>)<span class="op">;</span></span>
+<span id="cb10-40"><a href="#cb10-40" aria-hidden="true" tabindex="-1"></a>        <span class="kw">end</span></span>
+<span id="cb10-41"><a href="#cb10-41" aria-hidden="true" tabindex="-1"></a>    <span class="kw">end</span></span>
+<span id="cb10-42"><a href="#cb10-42" aria-hidden="true" tabindex="-1"></a>    <span class="kw">function</span> [<span class="va">f</span><span class="op">,</span> <span class="va">store</span>] <span class="op">=</span> <span class="va">cost</span>(<span class="va">x</span><span class="op">,</span> <span class="va">store</span>)</span>
+<span id="cb10-43"><a href="#cb10-43" aria-hidden="true" tabindex="-1"></a>        <span class="va">store</span> <span class="op">=</span> <span class="va">prepare</span>(<span class="va">x</span><span class="op">,</span> <span class="va">store</span>)<span class="op">;</span></span>
+<span id="cb10-44"><a href="#cb10-44" aria-hidden="true" tabindex="-1"></a>        <span class="va">Ax</span> <span class="op">=</span> <span class="va">store</span>.<span class="va">Ax</span><span class="op">;</span></span>
+<span id="cb10-45"><a href="#cb10-45" aria-hidden="true" tabindex="-1"></a>        <span class="va">f</span> <span class="op">=</span> <span class="fl">.5</span><span class="op">*</span><span class="va">x</span><span class="op">'*</span><span class="va">Ax</span><span class="op">;</span></span>
+<span id="cb10-46"><a href="#cb10-46" aria-hidden="true" tabindex="-1"></a>    <span class="kw">end</span></span>
+<span id="cb10-47"><a href="#cb10-47" aria-hidden="true" tabindex="-1"></a>    <span class="kw">function</span> [<span class="va">g</span><span class="op">,</span> <span class="va">store</span>] <span class="op">=</span> <span class="va">egrad</span>(<span class="va">x</span><span class="op">,</span> <span class="va">store</span>)</span>
+<span id="cb10-48"><a href="#cb10-48" aria-hidden="true" tabindex="-1"></a>        <span class="va">store</span> <span class="op">=</span> <span class="va">prepare</span>(<span class="va">x</span><span class="op">,</span> <span class="va">store</span>)<span class="op">;</span></span>
+<span id="cb10-49"><a href="#cb10-49" aria-hidden="true" tabindex="-1"></a>        <span class="va">g</span> <span class="op">=</span> <span class="va">store</span>.<span class="va">Ax</span><span class="op">;</span></span>
+<span id="cb10-50"><a href="#cb10-50" aria-hidden="true" tabindex="-1"></a>    <span class="kw">end</span></span>
+<span id="cb10-51"><a href="#cb10-51" aria-hidden="true" tabindex="-1"></a>    <span class="kw">function</span> [<span class="va">h</span><span class="op">,</span> <span class="va">store</span>] <span class="op">=</span> <span class="va">ehess</span>(<span class="va">x</span><span class="op">,</span> <span class="va">u</span><span class="op">,</span> <span class="va">store</span>)</span>
+<span id="cb10-52"><a href="#cb10-52" aria-hidden="true" tabindex="-1"></a>        <span class="va">h</span> <span class="op">=</span> <span class="va">A</span><span class="op">*</span><span class="va">u</span><span class="op">;</span></span>
+<span id="cb10-53"><a href="#cb10-53" aria-hidden="true" tabindex="-1"></a>        <span class="va">store</span> <span class="op">=</span> <span class="va">incrementcounter</span>(<span class="va">store</span><span class="op">,</span> <span class="ss">'Aproducts'</span>)<span class="op">;</span></span>
+<span id="cb10-54"><a href="#cb10-54" aria-hidden="true" tabindex="-1"></a>    <span class="kw">end</span></span>
+<span id="cb10-55"><a href="#cb10-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-56"><a href="#cb10-56" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>By default, <code>incrementcounter</code> increments by 1. You may also specify the increment as the last input (it can be any <code>double</code> value, not necessarily integer or positive).</p>
 <p>See the <a href="https://github.com/NicolasBoumal/manopt/blob/master/examples/using_counters.m">full working example</a> in the <a href="https://github.com/NicolasBoumal/manopt/blob/master/examples">/examples</a> folder to see how to:</p>
 <ul>
@@ -898,6 +904,23 @@ The matrix-way does not scale well
 <div class="callout-body-container">
 <p>Counter names (such as <code>'Aproducts'</code> in the example) must be valid names for structure fields. Essentially, this means they should be valid variable names (no spaces, do not start with a digit, etc.)</p>
 </div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Using counters together with other things in <code>statsfun</code>.
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Counters can be used together with any other tracking function you might have liked to put in <a href="./solvers.html#statsfun-option-for-recording-info-at-each-iteration"><code>statsfun</code></a>. In the example above, we would simply add some fields to <code>metrics</code> after calling <code>statscounters</code> and before passing it to <code>statsfunhelper</code>:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="va">metrics</span> <span class="op">=</span> <span class="va">statscounters</span>({<span class="ss">'Aproducts'</span><span class="op">,</span> <span class="ss">'some_other_counter'</span>})<span class="op">;</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="va">metrics</span>.<span class="va">current_point</span> <span class="op">=</span> <span class="op">@</span>(<span class="va">x</span>) <span class="va">x</span><span class="op">;</span> <span class="co">% also log the iterate at each iteration</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="va">options</span>.<span class="va">statsfun</span> <span class="op">=</span> <span class="va">statsfunhelper</span>(<span class="va">metrics</span>)<span class="op">;</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co">% After running a solver, the info struct-array has the counters and current_point.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </section>
@@ -919,11 +942,11 @@ The matrix-way does not scale well
 <h2 class="anchored" data-anchor-id="interactive-stopping-criteria">Interactive stopping criteria</h2>
 <p>An interactive stopping criterion allows the user to stop the execution of a Manopt solver in real time. When it is triggered, the solver gracefully terminates and outputs the best iterate it produced so far. Matlab then proceeds to keep running the code that follows the call to the solver, so that the work done until that point is not lost.</p>
 <p>One such tool open a special figure once the solver starts running. The solver terminates if the figure is closed.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="va">options</span>.<span class="va">stopfun</span> <span class="op">=</span> <span class="op">@</span><span class="va">stopifclosedfigure</span><span class="op">;</span> <span class="co">% add this option</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="va">trustregions</span>(<span class="va">problem</span><span class="op">,</span> <span class="va">x0</span><span class="op">,</span> <span class="va">options</span>)<span class="op">;</span>    <span class="co">% run this or any other solver</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Another such tool (better suited if you are running Matlab without graphical user interface, e.g., over SSH) creates a special file. The solver terminates if that file is deleted.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="va">options</span>.<span class="va">stopfun</span> <span class="op">=</span> <span class="va">stopifdeletedfile</span>()<span class="op">;</span> <span class="co">% add this option</span></span>
+<div class="sourceCode" id="cb12"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="va">options</span>.<span class="va">stopfun</span> <span class="op">=</span> <span class="op">@</span><span class="va">stopifclosedfigure</span><span class="op">;</span> <span class="co">% add this option</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="va">trustregions</span>(<span class="va">problem</span><span class="op">,</span> <span class="va">x0</span><span class="op">,</span> <span class="va">options</span>)<span class="op">;</span>    <span class="co">% run this or any other solver</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Another such tool (better suited if you are running Matlab without graphical user interface, e.g., over SSH) creates a special file. The solver terminates if that file is deleted.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="va">options</span>.<span class="va">stopfun</span> <span class="op">=</span> <span class="va">stopifdeletedfile</span>()<span class="op">;</span> <span class="co">% add this option</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="va">trustregions</span>(<span class="va">problem</span><span class="op">,</span> <span class="va">x0</span><span class="op">,</span> <span class="va">options</span>)<span class="op">;</span>    <span class="co">% run this or any other solver</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>By default, the file is called <code>MANOPT_DELETE_ME_TO_STOP_SOLVER</code>. You may also specify another file name as optional input to <code>stopifdeletedfile</code>.</p>
 <p>Note that termination may not be immediate as the solver has to finish the current iteration first. In particular, certain solvers (including <code>trustregions</code>) check stopping criteria only at outer iterations, not during inner iterations, further increasing the delay.</p>
 </section>
@@ -932,9 +955,9 @@ The matrix-way does not scale well
 <ul>
 <li><p><code>statsfunhelper</code> <br> Helper function to place a function handle in the field <code>options.statsfun</code>, with the purpose of recording or displaying information about individual iterations. See <a href="./solvers.html#statsfun-option-for-recording-info-at-each-iteration">this page</a> for documentation. Also consider using <code>statscounters</code> and <code>incrementcounter</code> as documented <a href="#counters-to-track-computations">on this page</a>.</p></li>
 <li><p><code>manoptsolve</code> <br> This tool presents itself as a solver, with their usual calling pattern:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>[<span class="va">x</span><span class="op">,</span> <span class="va">cost</span><span class="op">,</span> <span class="va">info</span><span class="op">,</span> <span class="va">options</span>] <span class="op">=</span> <span class="va">manoptsolve</span>(<span class="va">problem</span><span class="op">,</span> <span class="va">x0</span><span class="op">,</span> <span class="va">options</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>[<span class="va">x</span><span class="op">,</span> <span class="va">cost</span><span class="op">,</span> <span class="va">info</span><span class="op">,</span> <span class="va">options</span>] <span class="op">=</span> <span class="va">manoptsolve</span>(<span class="va">problem</span><span class="op">,</span> <span class="va">x0</span><span class="op">,</span> <span class="va">options</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>It is a gateway function to call an actual Manopt solver. You may specify which one to call by setting <code>options.solver</code> to a function handle corresponding to <a href="https://github.com/NicolasBoumal/manopt/tree/master/manopt/solvers">a solver</a>. For example,</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="va">options</span>.<span class="va">solver</span> <span class="op">=</span> <span class="op">@</span><span class="va">trustregions</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="va">options</span>.<span class="va">solver</span> <span class="op">=</span> <span class="op">@</span><span class="va">trustregions</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>If not, a solver is picked automatically. This is mainly useful when programming meta algorithms which need to solve a Manopt problem, but one wants to leave the decision of which solver to use up to the final user (therefore making it an option).</p></li>
 </ul>
 </section>
@@ -945,6 +968,14 @@ The matrix-way does not scale well
 <li><p><code>N = tangentspacefactory(M, x)</code> <br> Given a manifold structure <code>M</code> and a point <code>x</code> on that manifold, outputs a manifold structure <code>N</code> representing the tangent space to <code>M</code> at <code>x</code>. This is used in <a href="https://github.com/NicolasBoumal/manopt/blob/master/manopt/solvers/preconditioners/preconhessiansolve.m">preconhessiansolve</a>.</p></li>
 <li><p><code>N = tangentspherefactory(M, x)</code> <br> Given a manifold structure <code>M</code> and a point <code>x</code> on that manifold, outputs a manifold structure <code>N</code> representing the unit sphere on the tangent space to <code>M</code> at <code>x</code>. This is used by the <a href="https://github.com/NicolasBoumal/manopt/blob/master/manopt/tools/hessianextreme.m">hessianextreme</a> tool.</p></li>
 </ul>
+</section>
+<section id="lifts-parameterizations-change-of-variable" class="level2">
+<h2 class="anchored" data-anchor-id="lifts-parameterizations-change-of-variable">Lifts, parameterizations, change of variable</h2>
+<p>See the page about <a href="./lifts.html">lifts</a> for documentation of the tool <code>manoptlift</code>.</p>
+</section>
+<section id="automatic-differentiation" class="level2">
+<h2 class="anchored" data-anchor-id="automatic-differentiation">Automatic differentiation</h2>
+<p>See the page about <a href="./costdescription.html">how to describe the cost function</a> for documentation of the tool <code>manoptAD</code>.</p>
 </section>
 <section id="miscellaneous" class="level2">
 <h2 class="anchored" data-anchor-id="miscellaneous">Miscellaneous</h2>
@@ -1136,18 +1167,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -1179,7 +1199,29 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp("https:\/\/www\.manopt\.org");
@@ -1187,7 +1229,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {

@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.555">
+<meta name="generator" content="quarto-1.5.46">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Manopt - Downloads</title>
+<title>Downloads – Manopt</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -287,7 +287,7 @@ window.MathJax = {
 </script>
 
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
@@ -335,7 +335,7 @@ window.Quarto = {
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -345,7 +345,7 @@ window.Quarto = {
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-tutorial" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-tutorial" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Tutorial</span>
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-tutorial">    
@@ -413,7 +413,7 @@ window.Quarto = {
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
-          <div class="quarto-navbar-tools">
+            <div class="quarto-navbar-tools">
   <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
 </div>
       </div> <!-- /container-fluid -->
@@ -448,15 +448,103 @@ window.Quarto = {
 
 
 <p><a href="./download.html" class="btn btn-primary">Download</a> <a href="https://github.com/NicolasBoumal/manopt" class="btn btn-secondary"><i class="bi bi-github"></i> GitHub</a> <a href="https://docs.google.com/forms/d/1U9Ntex_rWI8NfCLPP_b8uE5xDnKXgXG-HVvpHdq1PFo/viewform?usp=send_form" class="btn btn-info">Mailing list</a></p>
-<p>The current version is 7.1 and was packaged on Sep.&nbsp;30, 2022. The file is about 750 Kb.</p>
+<p>The current version is 8.0 and was packaged on July 5, 2024. The file is about 830 Kb.</p>
 <p>The latest code is available on GitHub at all times, accepting pull requests.</p>
 <p>Go to the <a href="./gettingstarted.html">Getting Started</a> page for installation instructions.</p>
 <p><strong>It helps us to know our users.</strong> Please consider registering to our <a href="https://docs.google.com/forms/d/1U9Ntex_rWI8NfCLPP_b8uE5xDnKXgXG-HVvpHdq1PFo/viewform?usp=send_form">mailing list to hear about updates</a>. (Roughly one e-mail per year.) Thanks!</p>
 <p><strong>Do you use Manopt for teaching?</strong> Please <a href="mailto:nicolas.boumal@epfl.ch">get in touch</a>! We’d love to know about this and get feedback.</p>
 <section id="previous-releases-and-change-logs" class="level2">
 <h2 class="anchored" data-anchor-id="previous-releases-and-change-logs">Previous releases and change logs</h2>
+<section id="manopt-8.0-packaged-july-5-2024" class="level3">
+<h3 class="anchored" data-anchor-id="manopt-8.0-packaged-july-5-2024"><a href="./download.html">Manopt 8.0</a>, packaged July 5, 2024</h3>
+<ul>
+<li>Core functionalities
+<ul>
+<li>Added support and documentation for <strong><a href="./lifts.html">lifts</a></strong> through <code>manoptlift</code>. This new tool makes it possible to use Manopt for optimization on certain <strong>nonsmooth sets</strong> and with some nonsmooth regularizers. It also makes it easier to handle a change of variable or reparameterization of a problem.</li>
+<li><strong>Octave support is back!</strong> Owing to the remarkable work of the <a href="https://octave.org/">GNU Octave</a> team, it seems that Manopt now runs smoothly in Octave 9.2.0. A few caveats:
+<ul>
+<li>Automatic differentiation is not available.</li>
+<li>The tool <code>getsize</code> had to be disabled for Octave (it is not important).</li>
+<li>Other secondary tools based on C-Mex do not work (just recompile?).</li>
+<li>There are extra warnings here and there, and small things to iron out.</li>
+</ul></li>
+</ul></li>
+<li>Lifts
+<ul>
+<li>New <code>cubeslift</code> to optimize with constraints <span class="math inline">\(-1 \leq x \leq 1\)</span>.</li>
+<li>New <code>ballslift</code> to optimize with constraints <span class="math inline">\(\|x\| \leq 1\)</span>.</li>
+<li>New <code>hadamardlift</code> to optimize on the simplex, on stochastic matrices, and on nonnegative orthant, all closed.</li>
+<li>New <code>burermonteirolift</code> to optimize on the semidefinite cone with a rank bound and some constraints (unit trace, unit diagonal).</li>
+<li>New <code>burermonteiroLRlift</code> to optimize with constraint <span class="math inline">\(\rank(X) \leq r\)</span> (bounded rather than fixed), optionally with nuclear norm regularizer.</li>
+<li>New <code>hadamarddifferencelift</code> to optimize over <span class="math inline">\(\Rn\)</span> with a 1-norm regularizer.</li>
+</ul></li>
+<li>Documentation
+<ul>
+<li>Revamped the whole documentation into a new website, now statically generated with Quarto.</li>
+<li>In code, improved error and diagnostics messages, help sections, and cross references.</li>
+<li>Discontinued the reference webpages generated by m2html, since code can be browsed on github.</li>
+</ul></li>
+<li>Manifolds
+<ul>
+<li>Added <code>euclideanlargefactory</code>.</li>
+<li>Added <code>desingularizationfactory</code> for optimization on bounded-rank matrices.</li>
+<li>Made <code>fixedrankembeddedfactory</code> compatible with <code>euclideanlargefactory</code>.</li>
+<li>Deep rewrites of <code>obliquefactory</code> and <code>obliquecomplexfactory</code> for improved efficiency and readability. Backward compatible. Now support GPU.</li>
+<li>Removed <code>M.dist</code> in factories where that was only triggering an error message.</li>
+<li>Removed <code>M.exp</code> in a few factories where that was still only redirecting to <code>M.retr</code> with a warning.</li>
+<li>Documented and implemented the distinction between: <code>M.retr</code> and <code>M.retr2</code>; and <code>M.transp</code>, <code>M.isotransp</code>, <code>M.paralleltransp</code>.</li>
+<li>Documented the possibility to now add <code>M.offtangent</code> and <code>M.offmanifold</code> to check points and tangent vectors.</li>
+</ul></li>
+<li>Solvers
+<ul>
+<li>In <code>trs_tCG</code>, fixed update of <code>e_Pd</code> when <code>useRand = true</code>, and now allowing to set nonzero <code>eta0</code> as input.</li>
+<li>Added support for <span class="math inline">\(\beta\)</span>-type rules and fixed Liu-Storey rule in <code>conjugategradient</code>.</li>
+<li>New trust-regions subproblem solver <code>trs_lanczos</code>.</li>
+</ul></li>
+<li>Tools
+<ul>
+<li>New <code>manoptlift</code>, see above.</li>
+<li>Improved <code>plotprofile</code> and <code>surfprofile</code>.</li>
+<li>Improved <code>checkmanifold</code> (check <code>isotransp</code>).</li>
+<li>Improved <code>productmanifold</code> and <code>powermanifold</code> (e.g., cover more manifold fields, and more permissive if some are missing).</li>
+<li>Improved <code>checkgradient</code> and <code>checkhessian</code> to clarify output messages.</li>
+<li><code>hessianspectrum</code> now returns exactly real results (avoids machine-zero imaginary parts).</li>
+<li>New <code>checkinverseretraction</code>.</li>
+<li>New <code>spmaskmult</code> is a C-Mex function to sample entries of a (large) product <span class="math inline">\(LR^\top\)</span>.</li>
+<li>New <code>sparseentries</code> and <code>sparseentrywisemult</code> tools use <code>spmaskmult</code> for fast operations that mix sparsity and low rank.</li>
+<li>New <code>setsparseentries</code> is a C-Mex function to replace the nonzero entries of a sparse matrix.</li>
+<li>New <code>replacesparseentries</code> use <code>setsparseentries</code> to create a matrix with specified sparsity, fast.</li>
+<li>New tools <code>offmanifold</code> and <code>offtangent</code> to check that a point or tangent vector are valid.</li>
+</ul></li>
+<li>Automatic differentation
+<ul>
+<li>Entry-point tool <code>manoptAD</code> now allows to specify the point <code>x</code> where the execute the trace run.</li>
+<li>The code in <code>ehesscompute</code> now uses flag <code>M.tangent2ambient_is_identity</code> (no longer singles out special manifolds).</li>
+<li>Better support for <code>diag</code> through the new <code>cdiagmat</code>, and the fix to <code>cdiag</code> which now returns a column, not a row (to match <code>diag</code>).</li>
+</ul></li>
+<li>Examples
+<ul>
+<li>Adapted several examples to reflect current best practices with Manopt, e.g., in <code>maxcut</code> and <code>elliptope_SDP</code>.</li>
+<li>Rewrote <code>low_rank_matrix_completion</code> in full to showcase three ways to solve the same problem, two of them new to this release.</li>
+<li>New example <code>packing_in_a_ball</code> to illustrate Manopt lifts.</li>
+</ul></li>
+<li>Bug fixes
+<ul>
+<li>Fixed <code>obliquecomplexfactory.log</code> in transposed case.</li>
+<li>Corrected typo in <code>elliptopefactory.name</code>.</li>
+</ul></li>
+<li>Miscellaneous
+<ul>
+<li>Moved files from <code>/auxiliary</code> to root, so the file tree is the same between releases and git clones.</li>
+<li>Renamed <code>basicexample.m</code> to <code>checkinstall.m</code>.</li>
+<li>Removed <code>M.exp</code> and <code>M.dist</code> where it was not implemented.</li>
+<li>Replaced <code>bsxfun</code> with more efficient calls in <code>obliquefactory</code>, <code>obliquecomplexfactory</code>, <code>qr_unique</code>, <code>lyapunov_symmetric_eig</code>, <code>hyperbolicfactory</code>.</li>
+<li>Manifold <code>hyperbolicfactory</code> is now handled fully by <code>checkgradient</code>.</li>
+</ul></li>
+</ul>
+</section>
 <section id="manopt-7.1-packaged-sep.-30-2022" class="level3">
-<h3 class="anchored" data-anchor-id="manopt-7.1-packaged-sep.-30-2022"><a href="./download.html">Manopt 7.1</a>, packaged Sep.&nbsp;30, 2022</h3>
+<h3 class="anchored" data-anchor-id="manopt-7.1-packaged-sep.-30-2022"><a href="downloads/Manopt_7.1.zip">Manopt 7.1</a>, packaged Sep.&nbsp;30, 2022</h3>
 <ul>
 <li>Solvers
 <ul>
@@ -781,12 +869,12 @@ window.Quarto = {
 <h3 class="anchored" data-anchor-id="manopt-1.0.7-packaged-august-12-2014."><a href="downloads/Manopt_1.0.7.zip">Manopt 1.0.7</a>, packaged August 12, 2014.</h3>
 <ul>
 <li>Added the <code>ehess2rhess</code> function to <code>complexcirclefactory</code>.</li>
-<li>Major revision of <code>fixedrankembeddedfactory</code> for support of optimization over fixed-rank matrices. It is now better documented, comes with an example called <code>low_rank_matrix_completion</code>, and also has support for <code>ehess2rhess</code> and <code>tangent2ambient</code>, a proper vector transport, works with the <code>hessianspectrum</code> tool, … This revision was executed with the precious and frequent help of Bart Vandereycken, who first described this geometry in a <a href="https://epubs.siam.org/doi/abs/10.1137/110845768">paper</a>.</li>
+<li>Major revision of <code>fixedrankembeddedfactory</code> for support of optimization over fixed-rank matrices. It is now better documented, comes with an example called <code>low_rank_matrix_completion</code>, and also has support for <code>ehess2rhess</code> and <code>tangent2ambient</code>, a proper transporter, works with the <code>hessianspectrum</code> tool, … This revision was executed with the precious and frequent help of Bart Vandereycken, who first described this geometry in a <a href="https://epubs.siam.org/doi/abs/10.1137/110845768">paper</a>.</li>
 <li>All solvers now also return the <code>options</code> structure, to make it easier to investigate what options a solver uses and what their default values are.</li>
 <li>It is now possible to specify a line-search hint function in the <code>problem</code> structure; the result of that function will be used as a first guess in an Armijo backtracking line-search procedure, <code>linesearch_hint</code>. This is very useful if, for a given problem, you are able to make a good guess at how far along the search line one should look. It is much easier this way than with the previous way, which required implementing a whole new line-search algorithm.</li>
 <li>Generally improved textual outputs (warnings, iteration information, stopping reasons…).</li>
 <li>The documentation (tutorial, reference) was updated to reflect all of these changes.</li>
-<li>The <code>sympositivedefinitefactory</code> now has the correct <code>dim()</code> function and implements a new vector transport as explained in the <a href="https://github.com/NicolasBoumal/manopt/blob/master/examples/positive_definite_intrinsic_mean.m">example</a>.</li>
+<li>The <code>sympositivedefinitefactory</code> now has the correct <code>dim()</code> function and implements a new transporter as explained in the <a href="https://github.com/NicolasBoumal/manopt/blob/master/examples/positive_definite_intrinsic_mean.m">example</a>.</li>
 </ul>
 </section>
 <section id="manopt-1.0.6-packaged-june-25-2014." class="level3">
@@ -797,7 +885,7 @@ window.Quarto = {
 <li>Small bug fix in <code>packing_on_the_sphere</code> example, along an improvement of how the smoothing term is computed numerically.</li>
 <li>Added a Riemannian Hessian conversion tool for the Stiefel manifold, <code>ehess2rhess</code>.</li>
 <li>Added a new (Euclidean) manifold, <code>symmetricfactory</code>, to deal with symmetric matrices.</li>
-<li>Multiple enhancements and bug fixes for the embedded geometry of fixed rank matrices <code>fixedrankembeddedfactory</code>: now works with <code>checkgradient</code>, changed hash and typical dist, and the vector transport is now correct (it was wrong before, leading to failure of CG and RTR-FD). Thanks to Bart Vandereycken for the correct code.</li>
+<li>Multiple enhancements and bug fixes for the embedded geometry of fixed rank matrices <code>fixedrankembeddedfactory</code>: now works with <code>checkgradient</code>, changed hash and typical dist, and the transporter is now correct (it was wrong before, leading to failure of CG and RTR-FD). Thanks to Bart Vandereycken for the correct code.</li>
 <li>Random vector generation in Stiefel and Grassmann now make more sense.</li>
 <li><code>PSO</code> (Particle Swarm Optimization) solver debugged to work with product and power manifolds too.</li>
 <li>Bug fix in <code>grassmannfactory</code> retraction for <span class="math inline">\(k &gt; 1\)</span>, and added final re-orthonormalization at the end of exponential map following forum discussions.</li>
@@ -1036,18 +1124,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -1079,7 +1156,29 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp("https:\/\/www\.manopt\.org");
@@ -1087,7 +1186,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {
