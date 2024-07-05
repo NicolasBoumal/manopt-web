@@ -9,39 +9,42 @@ aliases: # https://quarto.org/docs/websites/website-navigation.html#redirects
   - manifold_documentation_rotations.html
 ---
 
-The group of rotations in $\Rn$ is the special orthogonal group
+The group of rotations in $\Rn$ is the [special orthogonal group](https://en.wikipedia.org/wiki/Orthogonal_group#Special_orthogonal_group)
 $$
   \SOn = \{ X \in \Rnn : X\transpose X = I_n \textrm{ and } \det(X) = 1 \}.
 $$
-This is one of the two connected components of the orthogonal group (matrices in the other component satisfy $\det(X) = -1$).
+This is one of the two connected components of the [orthogonal group](https://en.wikipedia.org/wiki/Orthogonal_group) (matrices in the other component satisfy $\det(X) = -1$).
 
 Differentiating the constraint $X\transpose X = I_n$ along $\dot X$, we obtain the defining equation for the tangent space at $X$.
-Explicitly, $\dot X\transpose X + X\dot X\transpose = 0$.
-Thus, a tangent vector $\dot X$ is a matrix in $\Rnn$ such that $X\dot X\transpose$ is skew-symmetric.
-Equivalently, $\dot X$ is of the from $X\Omega$ where $\Omega$ is a skew-symmetric matrix in $\Rnn$.
+Explicitly,
+$$
+    \dot X\transpose X + X\transpose \dot X = 0.
+$$
+Thus, a tangent vector $\dot X$ is a matrix in $\Rnn$ such that $X\transpose \dot X$ is skew-symmetric.
+Equivalently, $\dot X$ is of the form $X\Omega$ where $\Omega$ is a skew-symmetric matrix in $\Rnn$.
 Accordingly, the tangent space at $X$ is the following subspace of $\Rnn$:
 $$
   \T_X \SOn = \{ X\Omega : \Omega + \Omega\transpose = 0 \}.
 $$
 Since $X$ is fixed, we see that in order to identify a tangent vector $\dot X$ it is equivalent to specify either $\dot X$ itself (as a matrix of size $n \times n$) or $\Omega$ (a skew-symmetric matrix of size $n \times n$, with the understanding that $\Omega$ *represents* $\dot X = X\Omega$).
-In practice, it is common that the first thing we need to compute with a tangent vector is the product $X\transpose \dot X$, which happens to be $\Omega$.
 
+> In practice, it is common that the first thing we need to compute with a tangent vector is the product $X\transpose \dot X$, which happens to be $\Omega$.
 > For this reason, in Manopt's `rotationsfactory`, tangent vectors are stored as $\Omega$, not as $\dot X$.
 
 In constrast, we still see $\SOn$ as an embedded submanifold of $\Rnn$, and all objects in $\Rnn$ are represented as themselves (matrices of size $n \times n$).
 
 This is important to keep in mind whenever we work with a matrix that comes from or that we provide to `rotationsfactory`.
-We must as: is this a tangent vector at $X$ (represented as $\Omega$), or is this in the embedding space (represented as itself)?
+We must ask: is this a tangent vector at $X$ (represented as $\Omega$), or is this in the embedding space (represented as itself)?
 Explicitly:
 
 * `problem.grad(X)` is the Riemannian gradient at $X$; this is a tangent vector at $X$, so the output is just the skew-symmetric factor.
 * `problem.egrad(X)` is the Euclidean gradient at $X$; this is in the embedding space, so the output is the matrix itself.
-* `problem.hess(X, Omg)` is the Riemannian Hessian at $X$ along $\dot X = X\Omega$; the input $\Omega$ represents the tangent vector $\dot X$: we only receive the skew-symmetric factor as input; the output is a tangent vector at $X$, say, $X\Zeta$, and we only output the skew-symmetric factor, so, $\Zeta$.
+* `problem.hess(X, Omg)` is the Riemannian Hessian at $X$ along $\dot X = X\Omega$; the input $\Omega$ represents the tangent vector $\dot X$: we only receive the skew-symmetric factor as input; the output is a tangent vector at $X$, say, $X\Xi$, and we only output the skew-symmetric factor, so, $\Xi$.
 * `problem.ehess(X, Omg)` is the Euclidean Hessian at $X$ along $\dot X = X\Omega$; the input $\Omega$ is still just the skew-symmetric representation of the tangent vector $\dot X$; however, now the output is in the embedding space, so it should be the matrix itself.
 
 The manifold structure `M = rotationsfactory(n)` provides convenient tools to work with these representations:
 
-* `Omg = M.proj(X, Z)` takes a full matrix $Z \in \Rnn$ (in the embedding space) and projects it to $\T_X\SOn$. The output is in the tangent space at $X$, so it is just the skew-symmetric factor $\Omega$ that represents $\dot X = X\Omega$: the actual projection of $Z$ to $\T_X\SOn$.
+* `Omg = M.proj(X, Z)` takes a full matrix $Z \in \Rnn$ (in the embedding space) and projects it to $\T_X\SOn$. The output is in the tangent space at $X$, so it is just the skew-symmetric factor $\Omega$ that represents $\dot X = X\Omega$. The actual projection of $Z$ to $\T_X\SOn$ is $\dot X$.
 * `Omg = M.tangent(X, Omg)` takes a tangent vector $\dot X$ (represented as a skew-symmetric matrix $\Omega$) and "tangentializes" it; in effect, it just ensures that the matrix indeed encodes a tangent vector up to machine precision. It does so by extracting the skew-symmetric part of the stored matrix: $\Omega \leftarrow \frac{1}{2}(\Omega - \Omega^\top)$. If $\Omega$ is already skew-symmetric, this has no effect. The main use of this tool is to make up for numerical errors.
 * `Xdot = M.tangent2ambient(X, Omg)` takes the representation $\Omega$ of a tangent vector at $X$ and outputs the matrix $\dot X = X\Omega$, that is, the matrix in the embedding space that corresponds to (that is represented by) the input $(X, \Omega)$.
 
@@ -52,7 +55,7 @@ $$
 $$
 where $A, B, C$ are given matrices in $\Rnn$.
 We wish to minimize $f \colon \SOn \to \reals$, where $f = \bar f|_{\SOn}$ is simply the restriction of $\bar f$ to $\SOn$.
-Some call this the *Penrose regression problem*, though [Penrose's 1956 paper](https://www.cambridge.org/core/journals/mathematical-proceedings-of-the-cambridge-philosophical-society/article/on-best-approximate-solutions-of-linear-matrix-equations/FDB8762BB13CB93E9E70080B2CFD986A) does not discuss restrictions to $\SOn$.
+<!--Some call this the *Penrose regression problem*, though [Penrose's 1956 paper](https://www.cambridge.org/core/journals/mathematical-proceedings-of-the-cambridge-philosophical-society/article/on-best-approximate-solutions-of-linear-matrix-equations/FDB8762BB13CB93E9E70080B2CFD986A) does not discuss restrictions to $\SOn$.-->
 
 The Euclidean gradient and Hessian of $\bar f$ are as follows:
 $$
@@ -63,13 +66,14 @@ $$
   \Hess \bar f(X)[Z] = A\transpose ( AZB ) B\transpose.
 $$
 These can be converted to the Riemannian gradient and Hessian of $f$ in the usual way: see for example Section 7.4 in [this book](https://www.nicolasboumal.net/book).
+Manopt does it automatically though: we just need to provide $\grad \bar f$ and $\Hess \bar f$ in `problem.egrad` and `problem.ehess`.
 
 Here is how we would implement this in Manopt using `rotationsfactory` to handle $\SOn$.
-The tabs provide two things:
+The tabs below provide two things:
 
-1. The code to define the `problem` with `cost`, `egrad`, and two versions of `ehess`:
+1. The code to define the `problem` with `cost`, `egrad` and two versions of `ehess`:
     * An incorrect one, which we might write if unaware of the subtleties discussed above; then
-    * A correct one, where we transform `Xdot` from tangent space to embedding space, that is, from `Xdot` (skew symmetric) to `X*Xdot`.
+    * A correct one, where we transform `Omg` from tangent space to embedding space, that is, from `Omg` (skew symmetric) to `X*Omg`.
 2. The messages printed by `checkhessian` for the incorrect Hessian.
 
 ::: {.panel-tabset}
@@ -88,12 +92,14 @@ problem.cost = @(X) .5*norm(A*X*B - C, 'fro')^2; % f(X)
 problem.egrad = @(X) A'*(A*X*B - C)*B';          % grad f(X) in R^(nxn)
 
 % Wrong.
-% This code treats Xdot as if it were in the embedding space.
+% This code treats the second input of ehess as if it were in
+% the embedding space. Optimization algorithms won't be amused.
 problem.ehess = @(X, Xdot) A'*(A*Xdot*B)*B';
 
 % Correct.
-% This code transforms Omg to X*Omg, which is the direction that is actually
-% encoded by Omg, and which we call Xdot.
+% This code notes that the second input to ehess is a representation of
+% a tangent vector. It transforms Omg to X*Omg, which is the direction
+% that is actually encoded by Omg, and which we often call Xdot.
 % Equivalently, we can call SOn.tangent2ambient(X, Omg) instead of X*Omg.
 problem.ehess = @(X, Omg) A'*(A*X*Omg*B)*B';
 
