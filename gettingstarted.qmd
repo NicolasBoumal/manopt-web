@@ -27,7 +27,7 @@ Consider registering as a user to hear about updates.
 There are two ways to get Manopt:
 
 [Download](download.qmd){.btn .btn-primary}
-Download the latest packaged version (v7.1, Sep. 30, 2022).
+Download the latest packaged version (v8.0, July 5, 2024).
 
 [<i class="bi bi-github"></i> GitHub](https://github.com/NicolasBoumal/manopt){.btn .btn-secondary}
 Clone the GitHub repository to use the latest updates as they roll out.
@@ -35,7 +35,7 @@ Clone the GitHub repository to use the latest updates as they roll out.
 
 ## Install
 
-1.  Either clone or unzip the whole `manopt` directory you just downloaded in a location of your choice, say, in `/my/directory/`.
+1.  Either git-clone or unzip the whole `manopt` directory you just downloaded in a location of your choice, say, in `/my/directory/`.
 2.  Go to `/my/directory/manopt/` at the Matlab prompt and execute `importmanopt`.
 3.  You will be asked whether you want to save this path for your next Matlab sessions. If you reply `Y` (yes) and you have the rights to run `savepath`, then you won't need to go through these steps next time you open Matlab.
 

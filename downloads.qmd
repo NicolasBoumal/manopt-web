@@ -13,8 +13,8 @@ sidebar: false
 [<i class="bi bi-github"></i> GitHub](https://github.com/NicolasBoumal/manopt){.btn .btn-secondary}
 [Mailing list](https://docs.google.com/forms/d/1U9Ntex_rWI8NfCLPP_b8uE5xDnKXgXG-HVvpHdq1PFo/viewform?usp=send_form){.btn .btn-info}
 
-The current version is 7.1 and was packaged on Sep. 30, 2022.
-The file is about 750 Kb.  
+The current version is 8.0 and was packaged on July 5, 2024.
+The file is about 830 Kb.
 
 The latest code is available on GitHub at all times, accepting pull requests.
   
@@ -31,7 +31,7 @@ We'd love to know about this and get feedback.
 
 ## Previous releases and change logs
 
-### [Manopt X.Y](download.qmd), packaged xyz, 2024 (release coming this summer, already on github)
+### [Manopt 8.0](download.qmd), packaged July 5, 2024
 
 *   Core functionalities
     * Added support and documentation for **[lifts](lifts.qmd)** through `manoptlift`.
