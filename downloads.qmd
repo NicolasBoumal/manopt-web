@@ -88,7 +88,7 @@ We'd love to know about this and get feedback.
     * New tools `offmanifold` and `offtangent` to check that a point or tangent vector are valid.
 
 *   Automatic differentation
-    * Entry-point tool `manoptAD` now allows to specify the point `x` where the execute the trace run.
+    * Entry-point tool `manoptAD` now allows to specify the point `x` where to execute the trace run.
     * The code in `ehesscompute` now uses flag `M.tangent2ambient_is_identity` (no longer singles out special manifolds).
     * Better support for `diag` through the new `cdiagmat`, and the fix to `cdiag` which now returns a column, not a row (to match `diag`).
 
