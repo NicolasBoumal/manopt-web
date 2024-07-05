@@ -101,7 +101,7 @@ Mind the distinction between tangent vectors and vectors in the embedding space.
 For many manifolds, these are numerically represented in the same way, so the distinction does not matter (e.g., for `spherefactory` and `stiefelfactory`).
 However, some manifolds use different numerical representations (e.g., `rotationsfactory`).
 For those, you may want to call `M.tangent2ambient(x, u)` to obtain the embedding space equivalent of `u`.
-Read the `help` section of your manifold factory to make sure.
+Read the `help` section of your manifold factory to make sure, and [find out more here](manifolds.qmd#rotation-matrices-rotationsfactory).
 
 ### Coding the Riemannian derivatives manually
 
