@@ -298,7 +298,7 @@ If you find ways to improve the built-in geometries, let us know.
 | Euclidean to Riemannian gradient | `M.egrad2rgrad(x, egrad)` | For manifolds embedded in a Euclidean space, converts the gradient of $f$ at $x$ seen as a function in that Euclidean space to the Riemannian gradient of $f$ on the manifold. Allowed to take `(storedb, key)` as input for caching, but must also allow to be called without it. |
 | Euclidean to Riemannian Hessian | `M.ehess2rhess(x, egrad, ehess, u)`  | Similarly to `egrad2rgrad`, converts the Euclidean gradient and Hessian of $f$ at $x$ along a tangent vector $u$ to the Riemannian Hessian of $f$ at $x$ along $u$ on the manifold. Allowed to take `(storedb, key)` as input for caching, but must also allow to be called without it. Mind the warning below. |
 | Tangentialize | `M.tangent(x, u)` | Re-tangentializes a vector. The input is a vector in the tangent vector representation, which possibly (for example because of error accumulations) is no longer tangent. The output is the "closest" tangent vector to the input. If tangent vectors are represented in the ambient space, this is equivalent to `proj`. |
-| Tangent to ambient representation | `M.tangent2ambient(x, u)` | Tangent vectors are sometimes represented differently from their counterpart in the ambient space. This function returns the ambient space representation of a tangent vector $u$. Useful when defining the Euclidean Hessian `ehess` for example. If missing, assumed to be identity. Set `M.tangent2ambient_is_identity = false` if it is not, to enable diagnostics.  |
+| Tangent to ambient representation | `M.tangent2ambient(x, u)` | Tangent vectors are sometimes represented differently from their counterpart in the ambient space. This function returns the ambient space representation of a tangent vector $u$. Useful when defining the Euclidean Hessian `ehess` for example. If missing, assumed to be identity. Set `M.tangent2ambient_is_identity = false` if it is not, to enable diagnostics and proper AD.  |
 | Exponential map  | `M.exp(x, u, t)`  | Computes $\operatorname{Exp}_x(tu)$, the point you reach by following the geodesic with initial velocity $u$ scaled by $t$ starting at $x$. This field should only exist if the manifold provides a genuine exponential map. If missing, manually fall back to `M.retr2` or `M.retr`. |
 | Retraction  | `M.retr(x, u, t)`  | Computes $\Retr_x(tu)$, where $\Retr$ is a retraction: a cheaper proxy for the exponential map. |
 | &rdca; second order  | `M.retr2(x, u, t)`  | A second-order retraction. May be the same as `M.retr`. |
@@ -342,9 +342,148 @@ Since `stiefelfactory(n, p)` uses the same representation for tangent vectors an
 :::
 
 
-<!--
 
 ## A closer look at
+
+### Rotation matrices, `rotationsfactory`
+
+The group of rotations in $\Rn$ is the special orthogonal group
+$$
+  \SOn = \{ X \in \Rnn : X\transpose X = I_n \textrm{ and } \det(X) = 1 \}.
+$$
+This is one of the two connected components of the orthogonal group (matrices in the other component satisfy $\det(X) = -1$).
+
+Differentiating the constraint $X\transpose X = I_n$ along $\dot X$, we obtain the defining equation for the tangent space at $X$.
+Explicitly, $\dot X\transpose X + X\dot X\transpose = 0$.
+Thus, a tangent vector $\dot X$ is a matrix in $\Rnn$ such that $X\dot X\transpose$ is skew-symmetric.
+Equivalently, $\dot X$ is of the from $X\Omega$ where $\Omega$ is a skew-symmetric matrix in $\Rnn$.
+Accordingly, the tangent space at $X$ is the following subspace of $\Rnn$:
+$$
+  \T_X \SOn = \{ X\Omega : \Omega + \Omega\transpose = 0 \}.
+$$
+Since $X$ is fixed, we see that in order to identify a tangent vector $\dot X$ it is equivalent to specify either $\dot X$ itself (as a matrix of size $n \times n$) or $\Omega$ (a skew-symmetric matrix of size $n \times n$, with the understanding that $\Omega$ *represents* $\dot X = X\Omega$).
+In practice, it is common that the first thing we need to compute with a tangent vector is the product $X\transpose \dot X$, which happens to be $\Omega$.
+
+> For this reason, in Manopt's `rotationsfactory`, tangent vectors are stored as $\Omega$, not as $\dot X$.
+
+In constrast, we still see $\SOn$ as an embedded submanifold of $\Rnn$, and all objects in $\Rnn$ are represented as themselves (matrices of size $n \times n$).
+
+This is important to keep in mind whenever we work with a matrix that comes from or that we provide to `rotationsfactory`.
+We must as: is this a tangent vector at $X$ (represented as $\Omega$), or is this in the embedding space (represented as itself)?
+Explicitly:
+
+* `problem.grad(X)` is the Riemannian gradient at $X$; this is a tangent vector at $X$, so the output is just the skew-symmetric factor.
+* `problem.egrad(X)` is the Euclidean gradient at $X$; this is in the embedding space, so the output is the matrix itself.
+* `problem.hess(X, Xdot)` is the Riemannian Hessian at $X$ along $\dot X$; the input $\dot X$ is a tangent vector, so truly we only receive the skew-symmetric factor as input; the output is a tangent vector at $X$, so is should just be the skew-symmetric factor.
+* `problem.ehess(X, Xdot)` is the Euclidean Hessian at $X$ along $\dot X$; the input $\dot X$ is still a tangent vector at $X$, so we still only receive the skew-symmetric factor as input; however, now the output is in the embedding space, so it should be the matrix itself.
+
+The manifold structure `M = rotationsfactory(n)` provides convenient tools to work with these representations:
+
+* `Xdot = M.proj(X, Z)` takes a full matrix $Z \in \Rnn$ (in the embedding space) and projects it to $\T_X\SOn$. The output is in the tangent space at $X$, so it is just the skew-symmetric factor.
+* `Xdot = M.tangent(X, Xdot)` takes a tangent vector $\dot X$ (stored as a skew-symmetric matrix) and "tangentializes" it; in effect, it just ensures that the matrix indeed encodes a tangent vector up to machine precision. It does so by extracting the skew-symmetric part of the stored matrix. If $\dot X$ is already tangent, this has no effect.
+* `Z = M.tangent2ambient(X, Xdot)` takes a tangent vector $\dot X$ (stored as a skew-symmetric matrix $\Omega$) at $X$ and outputs the matrix $Z = X\Omega$, that is, the matrix in the embedding space that corresponds to (that is represented by) the input `(X, Xdot)`.
+
+As an example, consider the following optimization problem over rotation matrices.
+Let $\bar f \colon \Rnn \to \reals$ be defined by
+$$
+  \bar f(X) = \frac{1}{2}\sqfrobnorm{AXB - C},
+$$
+where $A, B, C$ are given matrices in $\Rnn$.
+We wish to minimize $f \colon \SOn \to \reals$, where $f = \bar f|_{\SOn}$ is simply the restriction of $\bar f$ to $\SOn$.
+Some call this the *Penrose regression problem*, though [Penrose's 1956 paper](https://www.cambridge.org/core/journals/mathematical-proceedings-of-the-cambridge-philosophical-society/article/on-best-approximate-solutions-of-linear-matrix-equations/FDB8762BB13CB93E9E70080B2CFD986A) does not discuss restrictions to $\SOn$.
+
+The Euclidean gradient and Hessian of $\bar f$ are as follows:
+$$
+  \grad \bar f(X) = A\transpose ( AXB - C ) B\transpose
+$$
+and, for all $Z \in \Rnn$,
+$$
+  \Hess \bar f(X)[Z] = A\transpose ( AZB ) B\transpose.
+$$
+These can be converted to the Riemannian gradient and Hessian of $f$ in the usual way: see for example Section 7.4 in [this book](https://www.nicolasboumal.net/book).
+
+Here is how we would implement this in Manopt using `rotationsfactory` to handle $\SOn$.
+The tabs provide two things:
+
+1. The code to define the `problem` with `cost`, `egrad`, and two versions of `ehess`:
+    * An incorrect one, which we might write if unaware of the subtleties discussed above; then
+    * A correct one, where we transform `Xdot` from tangent space to embedding space, that is, from `Xdot` (skew symmetric) to `X*Xdot`.
+2. The messages printed by `checkhessian` for the incorrect Hessian.
+
+::: {.panel-tabset}
+
+## Manopt code
+
+``` matlab
+n = 8;
+A = randn(n, n);
+B = randn(n, n);
+C = randn(n, n);
+
+SOn = rotationsfactory(n);
+problem.M = SOn;
+problem.cost = @(X) .5*norm(A*X*B - C, 'fro')^2; % f(X)
+problem.egrad = @(X) A'*(A*X*B - C)*B';          % grad f(X) in R^(nxn)
+
+% Wrong.
+% This code treats Xdot as if it were in the embedding space.
+problem.ehess = @(X, Xdot) A'*(A*Xdot*B)*B';
+
+% Correct.
+% This code transforms X to X*Xdot, which is the direction that is actually
+% encoded by the tangent vector Xdot.
+% Equivalently, we can call SOn.tangent2ambient(X, Xdot) instead of X*Xdot.
+problem.ehess = @(X, Xdot) A'*(A*X*Xdot*B)*B';
+
+figure(1); clf;
+checkgradient(problem);
+
+figure(2); clf;
+checkhessian(problem);
+
+X = trustregions(problem);
+```
+
+## `checkhessian` hints
+
+This is the text output for `checkhessian` when using the wrong code for `problem.ehess`.
+Notice that this wrong `ehess` fails both the slope test and the symmetry test.
+
+```
+# Hessian check
+The slope should be 3. It appears to be: 2.00001.
+If it is far from 3, then the gradient or the Hessian might be erroneous.
+Hess f(x)[d] must be a tangent vector at x.
+If so, the following number is zero up to machine precision: 0.
+If it is far from 0, the Hessian returns non-tangent vectors.
+The Hessian at x must be linear on the tangent space at x.
+If so, ||a*H[d1] + b*H[d2] - H[a*d1+b*d2]|| is zero up to machine precision.
+	Value: 3.97354e-14 (norm of H[a*d1+b*d2]: 163.589)
+If it is far from 0, then the Hessian is not linear.
+The Hessian at x must be symmetric on the tangent space at x.
+If so, <d1, H[d2]> - <H[d1], d2> is zero up to machine precision.
+	Value: 21.2102 - 10.2558 = 10.9544.
+If it is far from 0, then the Hessian is not symmetric.
+
+
+!! Special message for this manifold
+
+If all above looks good, great. If not, read on.
+
+For this manifold, tangent vectors are represented
+differently from their ambient space representation.
+In practice, this means that when defining
+v = problem.ehess(x, u), one may need to call
+u = problem.M.tangent2ambient(x, u) first, so as to
+transform u into an ambient vector, if this is more
+convenient. The output of ehess should be an ambient
+vector (it will be transformed to a tangent vector
+automatically).
+```
+
+:::
+
+<!--
 
 ### Submanifolds of linear spaces
 
