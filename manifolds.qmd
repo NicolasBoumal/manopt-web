@@ -92,7 +92,7 @@ Which metric is best for a specific application may vary: experiments will tell.
   * $\{z\in\mathbb{C}^n : |z_k| = 1, z_{1+\operatorname{mod}(k, n)} = \bar{z}_{1+\operatorname{mod}(n-k, n)} \ \forall k\}$ <br>
     `realphasefactory(n)`
 
-### Stiefel, Grassmann and orthonormality
+### Stiefel, Grassmann and rotations
 
 * Stiefel manifold
   * $\{X \in \mathbb{R}^{n \times p} : X^\top X = I_p\}^k$ <br>
@@ -107,7 +107,8 @@ Which metric is best for a specific application may vary: experiments will tell.
     `stiefelstackedfactory(m, d, k)`
 * Rotation group
   * $\{R \in \mathbb{R}^{n \times n} : R^\top R = I_n, \det(R) = 1\}^k$ <br>
-    `rotationsfactory(n, k)`
+    `rotationsfactory(n, k)` <br>
+    See the [dedicated documentation below](#rotation-matrices-rotationsfactory).
 * Special Euclidean group (rigid motion)
   * $\{ (R, t) \in \mathbb{R}^{n \times n} \times \mathbb{R}^n : R^\top R = I_n, \det(R) = 1 \}^k$ <br>
     `specialeuclideanfactory(n, k)`
@@ -298,7 +299,7 @@ If you find ways to improve the built-in geometries, let us know.
 | Euclidean to Riemannian gradient | `M.egrad2rgrad(x, egrad)` | For manifolds embedded in a Euclidean space, converts the gradient of $f$ at $x$ seen as a function in that Euclidean space to the Riemannian gradient of $f$ on the manifold. Allowed to take `(storedb, key)` as input for caching, but must also allow to be called without it. |
 | Euclidean to Riemannian Hessian | `M.ehess2rhess(x, egrad, ehess, u)`  | Similarly to `egrad2rgrad`, converts the Euclidean gradient and Hessian of $f$ at $x$ along a tangent vector $u$ to the Riemannian Hessian of $f$ at $x$ along $u$ on the manifold. Allowed to take `(storedb, key)` as input for caching, but must also allow to be called without it. Mind the warning below. |
 | Tangentialize | `M.tangent(x, u)` | Re-tangentializes a vector. The input is a vector in the tangent vector representation, which possibly (for example because of error accumulations) is no longer tangent. The output is the "closest" tangent vector to the input. If tangent vectors are represented in the ambient space, this is equivalent to `proj`. |
-| Tangent to ambient representation | `M.tangent2ambient(x, u)` | Tangent vectors are sometimes represented differently from their counterpart in the ambient space. This function returns the ambient space representation of a tangent vector $u$. Useful when defining the Euclidean Hessian `ehess` for example. If missing, assumed to be identity. Set `M.tangent2ambient_is_identity = false` if it is not, to enable diagnostics and proper AD.  |
+| Tangent to ambient representation | `M.tangent2ambient(x, u)` | Tangent vectors are sometimes represented differently from their counterpart in the ambient space. This function returns the ambient space representation of a tangent vector $u$. Useful when defining the Euclidean Hessian `ehess` for example. If missing, assumed to be identity. Should have `M.tangent2ambient_is_identity = false` if it is not, to enable diagnostics and proper AD. See [discussion below](#rotation-matrices-rotationsfactory). |
 | Exponential map  | `M.exp(x, u, t)`  | Computes $\operatorname{Exp}_x(tu)$, the point you reach by following the geodesic with initial velocity $u$ scaled by $t$ starting at $x$. This field should only exist if the manifold provides a genuine exponential map. If missing, manually fall back to `M.retr2` or `M.retr`. |
 | Retraction  | `M.retr(x, u, t)`  | Computes $\Retr_x(tu)$, where $\Retr$ is a retraction: a cheaper proxy for the exponential map. |
 | &rdca; second order  | `M.retr2(x, u, t)`  | A second-order retraction. May be the same as `M.retr`. |
@@ -333,8 +334,8 @@ the vectors `egrad` and `ehess` are vectors in the embedding space `E`, whereas 
 It is important to use the corresponding numerical representations, as documented by the manifold's factory.
 
 For factories which use the same numerical representation for tangent vectors and vectors in the embedding space (e.g., `spherefactory`), this causes no difficulties.
-However, for factories such as `rotationsfactory`, the distinction matters.
-The functions `M.proj` (from embedding space to tangent space) and `M.tangent2ambient` (from tangent space to embedding space) may help.
+However, for factories such as `rotationsfactory`, the distinction matters: [see below](#rotation-matrices-rotationsfactory).
+The functions `M.proj` (from embedding space to tangent space) and `M.tangent2ambient` (from tangent space to embedding space) help convert between representations.
 
 If `M` is a quotient manifold of a manifold `N` (called the total space) embedded in `E`, then `egrad` and `ehess` are still vectors in the embedding space `E` but `u` and `rhess` are horizontal vectors at `x`.
 For example, `grassmannfactory(n, p)` is a quotient of `stiefelfactory(n, p)` which is embedded in $\mathbb{R}^{n \times p}$.
