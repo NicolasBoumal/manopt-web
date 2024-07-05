@@ -81,13 +81,16 @@ We'd love to know about this and get feedback.
     * Improved `checkgradient` and `checkhessian` to clarify output messages.
     * `hessianspectrum` now returns exactly real results (avoids machine-zero imaginary parts).
     * New `checkinverseretraction`.
-    * Allowing to specify `x` for `manoptAD` trace run.
     * New `spmaskmult` is a C-Mex function to sample entries of a (large) product $LR^\top$.
     * New `sparseentries` and `sparseentrywisemult` tools use `spmaskmult` for fast operations that mix sparsity and low rank.
     * New `setsparseentries` is a C-Mex function to replace the nonzero entries of a sparse matrix.
     * New `replacesparseentries` use `setsparseentries` to create a matrix with specified sparsity, fast.
-    * `cdiag` now returns a column, not a row (to match `diag`).
     * New tools `offmanifold` and `offtangent` to check that a point or tangent vector are valid.
+
+*   Automatic differentation
+    * Entry-point tool `manoptAD` now allows to specify the point `x` where the execute the trace run.
+    * The code in `ehesscompute` now uses flag `M.tangent2ambient_is_identity` (no longer singles out special manifolds).
+    * Better support for `diag` through the new `cdiagmat`, and the fix to `cdiag` which now returns a column, not a row (to match `diag`).
 
 *   Examples
     * Adapted several examples to reflect current best practices with Manopt, e.g., in `maxcut` and `elliptope_SDP`.
@@ -103,7 +106,7 @@ We'd love to know about this and get feedback.
     * Renamed `basicexample.m` to `checkinstall.m`.
     * Removed `M.exp` and `M.dist` where it was not implemented.
     * Replaced `bsxfun` with more efficient calls in `obliquefactory`, `obliquecomplexfactory`, `qr_unique`, `lyapunov_symmetric_eig`, `hyperbolicfactory`.
-    * `hyperbolicfactory` is now handled fully in `checkgradient`.
+    * Manifold `hyperbolicfactory` is now handled fully by `checkgradient`.
 
 
 ### [Manopt 7.1](downloads/Manopt_7.1.zip), packaged Sep. 30, 2022
