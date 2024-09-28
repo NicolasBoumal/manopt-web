@@ -96,7 +96,7 @@ format:
     anchor-sections: true
     smooth-scroll: true
     strip-comments: true  # HTML comments in qmd files won't appear in HTML files produced by Quarto
-    callout-appearance: simple
+    callout-appearance: simple # default style for callout blocks
 
 crossref:
   eq-prefix: "Eq."
