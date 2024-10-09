@@ -179,6 +179,7 @@ You may also be interested in the following:
 *   [LORM](http://homepage.univie.ac.at/manuel.graef/quadrature.php) is a C++ toolbox for global optimization of polynomials on the sphere and the special orthogonal group.
 *   [Optim.jl](https://julianlsolvers.github.io/Optim.jl/stable/#algo/manifolds/) in Julia now supports certain embedded manifolds, though it appears that this is not technically Riemannian optimization.
 *   [Manifolds.jl](https://github.com/JuliaManifolds/Manifolds.jl) is a Julia toolbox to work with manifolds: Manopt.jl is tightly connected to that project.
+*   [David M. Rosen's C++ code repo](https://github.com/david-m-rosen/Optimization/tree/master) provides lightweight templates for Riemannian and convex optimization.
 
 
 Should we list your code? Let us know!
