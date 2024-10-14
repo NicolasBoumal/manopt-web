@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.46">
+<meta name="generator" content="quarto-1.4.557">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Lifts: parameterizations made easy – Manopt</title>
+<title>Manopt - Lifts: parameterizations made easy</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -369,7 +369,7 @@ window.Quarto = {
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -379,7 +379,7 @@ window.Quarto = {
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-tutorial" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-tutorial" role="button" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Tutorial</span>
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-tutorial">    
@@ -447,18 +447,18 @@ window.Quarto = {
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
-            <div class="quarto-navbar-tools">
+          <div class="quarto-navbar-tools">
   <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
 </div>
       </div> <!-- /container-fluid -->
     </nav>
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./lifts.html">Lifts</a></li></ol></nav>
-        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
   </nav>
@@ -589,7 +589,7 @@ Run <code>importmanopt</code>
 <li>a change of variables.</li>
 </ul>
 <p>Consider the following commutative diagram.</p>
-<div id="fig-diagramEMN" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="fig-diagramEMN" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-diagramEMN-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="images/lift_diagram_EMN.png" class="img-fluid figure-img" style="width:25em">
@@ -690,7 +690,7 @@ No composition of lifts yet.
 \]</span> This holds for all <span class="math inline">\(v\)</span>. Thus, <span class="math display">\[
     \grad g(y) = \D\varphi(y)^*[\grad f(x)].
 \]</span> This illustrates how we can get the gradient of <span class="math inline">\(g\)</span> from that of <span class="math inline">\(f\)</span> provided the lift gives us access to <span class="math inline">\(\D\varphi(y)^*\)</span>. For the Hessian, additional computations shown later on this page tell us what else needs to be included: see <a href="#eq-hessgtotal" class="quarto-xref">Eq.&nbsp;2</a>.</p>
-<div id="tbl-liftfields" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="tbl-liftfields" class="quarto-float anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-liftfields-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Table&nbsp;1: Fields in a <code>lift</code> structure. See also <a href="#tbl-liftfields-regularizer" class="quarto-xref">Table&nbsp;4</a>.
@@ -759,7 +759,7 @@ Table&nbsp;1: Fields in a <code>lift</code> structure. See also <a href="#tbl-li
 <section id="available-lifts" class="level2">
 <h2 class="anchored" data-anchor-id="available-lifts">Available lifts</h2>
 <p>A number of lifts are readily available in Manopt, making it possible to optimize over various nonsmooth sets <span class="math inline">\(\calX = \varphi(\calM)\)</span>. We list them in a table now, and detail the corresponding lifts below with some examples.</p>
-<div id="tbl-lifts" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="tbl-lifts" class="quarto-float anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-lifts-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Table&nbsp;2: Examples of nonsmooth sets on which we can optimize with Manopt using a lift.
@@ -1283,7 +1283,7 @@ Click to detail why <span class="math inline">\(\min g_\lambda\)</span> and <spa
 </div>
 </div>
 <p>This becomes interesting when we consider examples: take a look at <a href="#tbl-lift-regularizers" class="quarto-xref">Table&nbsp;3</a>.</p>
-<div id="tbl-lift-regularizers" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="tbl-lift-regularizers" class="quarto-float anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-lift-regularizers-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Table&nbsp;3: Regularizers availabe in Manopt lifts, activated with the optional input <code>lambda</code> passed to <code>manoptlift</code>.
@@ -1329,7 +1329,7 @@ Table&nbsp;3: Regularizers availabe in Manopt lifts, activated with the optional
 </figure>
 </div>
 <p>To use a regularizer, the <code>lift</code> structure should provide certain fields to compute <span class="math inline">\(\rho\)</span>, its gradient and (ideally) its Hessian: see <a href="#tbl-liftfields-regularizer" class="quarto-xref">Table&nbsp;4</a>.</p>
-<div id="tbl-liftfields-regularizer" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="tbl-liftfields-regularizer" class="quarto-float anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-liftfields-regularizer-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Table&nbsp;4: Fields to define a regularizer in a <code>lift</code> structure.
@@ -1634,7 +1634,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const onCopySuccess = function(e) {
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -1666,29 +1677,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
-  }
-  const getTextToCopy = function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-  }
-  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-    text: getTextToCopy
   });
-  clipboard.on('success', onCopySuccess);
-  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
-    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-      text: getTextToCopy,
-      container: window.document.getElementById('quarto-embedded-source-code-modal')
-    });
-    clipboardModal.on('success', onCopySuccess);
-  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp("https:\/\/www\.manopt\.org");
@@ -1696,7 +1685,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {
