@@ -43,6 +43,8 @@ Thank you.
 
 Manopt won the [ORBEL Wolsey Award 2014](https://www.orbel.be/activities-wolsey.php) for best operational research software developed as part of a PhD thesis.
 
+This work is supported during 2022--2027 by the Swiss State Secretariat for Education, Research and Innovation ([SERI](https://www.sbfi.admin.ch/sbfi/en/home/research-and-innovation/international-cooperation-r-and-i/eu-framework-programmes-for-research/horizon-europe/transitional-measures.html)) under contract number MB22.00027.
+
 ![The RANSO group organized a [one-day workshop on Riemannian and nonsmooth optimization](https://sites.uclouvain.be/absil/RANSO-2015-09-25/) in Louvain-la-Neuve on Sept. 25, 2015.
 Most people involved with Manopt at the time were present for this delightful day.](images/ranso_2015.jpg)
 
