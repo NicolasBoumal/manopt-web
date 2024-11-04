@@ -788,6 +788,8 @@ Thus, if $f$ is smooth, then $g_\lambda$ is smooth, yet minimizing $g_\lambda$ o
 This is all the more relevant considering that the 1-norm regularizer promotes sparsity in $x$.
 See this [2023 paper](https://arxiv.org/abs/2307.03571) for a discussion of that lift and associated regularizer, together with bibliographic references and a broad extension to group-sparsity regularizers and more.
 <!--this [2019 paper](https://proceedings.neurips.cc/paper/2019/hash/5cf21ce30208cfffaa832c6e44bb567d-Abstract.html) for its use in the context of diagonal linear neural networks, another one [in 2020](https://proceedings.mlr.press/v125/woodworth20a.html), and  --- there's many, let's not litigate here who came up with this first. -->
+Also see [this blog post](https://www.racetothebottom.xyz/posts/lift-regularizer-1norm/) for a guarantee that if $f$ is convex then $g_\lambda$ (even though it is not convex) has a benign landscape.
+And see [this other blog post](https://www.racetothebottom.xyz/posts/lift-regularizer-nuclear/) for the analogous result regarding the nuclear norm regularizer.
 
 The following example shows how to solve the [Lasso problem](https://en.wikipedia.org/wiki/Lasso_(statistics)#Least_squares) in Lagrangian form through that lift:
 the aim is to minimize $f_\lambda(x) = \frac{1}{2}\|Ax - b\|^2 + \lambda\|x\|_1$ in order to recover a sparse $x \in \Rn$ from $m < n$ linear measurements.
