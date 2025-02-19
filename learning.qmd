@@ -6,7 +6,7 @@ toc: false
 
 The documentation on this website is meant to help users get to grips with Manopt.
 Underneath the software, there is a fair amount of math.
-This page provides some pointers to learn that theory.
+This page provides some pointers to learn that math.
 
 <!--
 On a *different page* have an FAQ of sorts, maybe a "How to" page: include a section about computing gradients / Hessians, etc. Point to it from other places in the docs.
@@ -31,9 +31,17 @@ Optimization algorithms on matrix manifolds](https://press.princeton.edu/absil) 
 
 ### Tutorial videos
 
-* This [one-hour video](https://www.youtube.com/watch?v=UjaoZE0GBpg&ab_channel=SimonsInstitute) and this [two-hour video](https://www.youtube.com/watch?v=lK62DwSIjXA&t=6s&ab_channel=FMGDataDrivenControlSummerSchool) introduce the basics of differential geometry and Riemannian geometry for optimization on smooth manifolds.
-  They cover more or less the same contents.
-  The [slides](https://www.nicolasboumal.net/SIAMOP2023/) have been augmented for a longer in-person tutorial.
+* One of the [SIAM Optimization 2023 minitutorials](https://www.nicolasboumal.net/SIAMOP2023/) was about Riemannian optimization.
+
+  - It introduce the basics of differential geometry and Riemannian geometry for optimization on smooth manifolds.
+  - The two lectures of 90 minutes each are available as [video 1](https://www.pathlms.com/siam/courses/54629/sections/62408/video_presentations/262676) and [video 2](https://www.pathlms.com/siam/courses/54629/sections/62410/video_presentations/262678).
+  - Here are the [slides](https://www.nicolasboumal.net/SIAMOP2023/Tutorial%20SIAM%20Optimization%202023.pdf) and also the [Max-Cut example code](https://www.nicolasboumal.net/SIAMOP2023/manopt_maxcut_example.zip).
+
+* Earlier (and more condensed) versions of that tutorial are available as:
+
+  - A [one-hour video](https://www.youtube.com/watch?v=UjaoZE0GBpg&ab_channel=SimonsInstitute) (Simons Institute) and
+  - A [two-hour video](https://www.youtube.com/watch?v=lK62DwSIjXA&t=6s&ab_channel=FMGDataDrivenControlSummerSchool) (ETHZ/EPFL summer school).
+  
 * Week 5 of MATH-512 includes a lecture about Manopt: [the basics](https://mediaspace.epfl.ch/media/0_g5gfi47b) and [a bit more](https://mediaspace.epfl.ch/media/0_3a1jnw74).
 
 ### Blogs and blog posts
