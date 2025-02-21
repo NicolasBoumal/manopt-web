@@ -33,7 +33,7 @@ Optimization algorithms on matrix manifolds](https://press.princeton.edu/absil) 
 
 * One of the [SIAM Optimization 2023 minitutorials](https://www.nicolasboumal.net/SIAMOP2023/) was about Riemannian optimization.
 
-  - It introduce the basics of differential geometry and Riemannian geometry for optimization on smooth manifolds.
+  - It introduces the basics of differential geometry and Riemannian geometry for optimization on smooth manifolds.
   - The two lectures of 90 minutes each are available as [video 1](https://www.pathlms.com/siam/courses/54629/sections/62408/video_presentations/262676) and [video 2](https://www.pathlms.com/siam/courses/54629/sections/62410/video_presentations/262678).
   - Here are the [slides](https://www.nicolasboumal.net/SIAMOP2023/Tutorial%20SIAM%20Optimization%202023.pdf) and also the [Max-Cut example code](https://www.nicolasboumal.net/SIAMOP2023/manopt_maxcut_example.zip).
 
