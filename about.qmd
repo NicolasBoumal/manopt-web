@@ -182,6 +182,7 @@ You may also be interested in the following:
 *   [Optim.jl](https://julianlsolvers.github.io/Optim.jl/stable/#algo/manifolds/) in Julia now supports certain embedded manifolds, though it appears that this is not technically Riemannian optimization.
 *   [Manifolds.jl](https://github.com/JuliaManifolds/Manifolds.jl) is a Julia toolbox to work with manifolds: Manopt.jl is tightly connected to that project.
 *   [David M. Rosen's C++ code repo](https://github.com/david-m-rosen/Optimization/tree/master) provides lightweight templates for Riemannian and convex optimization.
+*   [RIMOpt](https://github.com/Yuan-Jinghui/Riemannian-Optimization-on-Relaxed-Indicator-Matrix-Manifold): A Manopt-compatible package for optimization on the relaxed indicator matrix manifold for clustering.
 
 
 Should we list your code? Let us know!
