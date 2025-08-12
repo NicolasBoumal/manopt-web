@@ -92,7 +92,7 @@ A couple of remarks:
 ## Checks for manifolds
 
 * `checkretraction(M, x, v)` <br>
-  For manifolds `M` which have a correct exponential map `M.exp` implemented, this tool produces a slopt-test plot to check the order of agreement of the retraction `M.retr` with the exponential.
+  For manifolds `M` which have a correct exponential map `M.exp` implemented, this tool produces a slope-test plot to check the order of agreement of the retraction `M.retr` with the exponential.
   A slope of 2 indicates the retraction is a first-order approximation of the exponential (which is necessary for most (all?) convergence theorems to hold.)
   A slope of 3 indicates the retraction is second-order, which is convenient in some cases.
   The check is conducted at point `x` along direction `v`; they are generated at random if omitted.
