@@ -170,7 +170,7 @@ See also [lifts](lifts.qmd) for nonnegativity constraints ($x \geq 0$).
   * $\{X \in \mathbb{R}^{n \times n} : X = X^\top \succeq 0, \operatorname{rank}(X) = k, \operatorname{trace}(X) = 1\}$ <br>
     `spectrahedronfactory(n, k)`
 * Multinomial manifold (strict simplex elements)
-  * $\{ X \in \mathbb{R}^{n\times m} : X_{ij} > 0 \ \forall i,j \textrm{ and } X^\top \mathbf{1}_m = \mathbf{1}_n \}$ <br>
+  * $\{ X \in \mathbb{R}^{n\times m} : X_{ij} > 0 \ \forall i,j \textrm{ and } X^\top \mathbf{1}_n = \mathbf{1}_m \}$ <br>
     `multinomialfactory(n, m)`
 * Multinomial doubly stochastic manifold
   * $\{ X \in \mathbb{R}^{n\times n} : X_{ij} > 0 \ \forall i,j \textrm{ and } X \mathbf{1}_n = \mathbf{1}_n, X^\top \mathbf{1}_n = \mathbf{1}_n \}$ <br>
